@@ -1,4 +1,5 @@
 from django.db import models
+# from utils import Address, Country
 
 
 class Country(models.Model):
@@ -63,8 +64,62 @@ class Applicant(models.Model):
 
 
 class Experience(models.Model):
-    company = models.OneToOneField(Company)
+    company = models.ForeignKey(Company)
     city = models.CharField(max_length=100)
     start = models.DateField(blank=False, null=False)
     end = models.DateField(blank=True, null=True)
     details = models.TextField(blank=True, null=True)
+
+
+class Education(models.Model):
+    school = models.ForeignKey(School)
+    start = models.DateField(blank=True, null=False)
+    end = models.DateField(blank=True, null=True)
+    title = models.CharField(max_length=100)
+    description = models.TextField(max_length=500)
+
+
+class Skills(models.Model):
+    name = models.CharField(max_length=150)
+    slug = models.SlugField(max_length=150)
+
+
+class CategoryOffer(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100)
+    parent = models.ForeignKey('self', blank=True, null=True, related_name='child')
+    description = models.TextField(blank=True, help_text="Optional")
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=30)
+    slug = models.CharField(max_length=30)
+
+
+class Offer(models.Model):
+    OFFER_TYPE = (
+        ('INTERN', "Stage"),
+        ('APPRENTICE', "Apprentissage"),
+        ('CDD', "CDD"),
+        ('CDI', "CDI"),
+    )
+
+    title = models.CharField(max_length=150, blank=False, null=False)
+    slug = models.SlugField(max_length=150)
+    company = models.ForeignKey(Company)
+    location = models.CharField(max_length=100, blank=False, null=False)
+    contract = models.CharField(max_length=2, choices=OFFER_TYPE, default='CDI')
+    salary = models.IntegerField(blank=True, null=True)
+    publish_date = models.DateField(auto_now=True, auto_now_add=True)
+    content = models.TextField()
+    tags = models.ManyToManyField(Tag)
+    reference = models.CharField(max_length=30, blank=True, null=True)
+    category = models.ManyToManyField(CategoryOffer)
+
+
+# class Project(models.Model):
+#     title = models.CharField(max_length=100)
+#     slug = models.SlugField(max_length=100)
+#     publish_date = models.DateField(auto_now=True, auto_now_add=True)
+#     content = models.TextField()
+
