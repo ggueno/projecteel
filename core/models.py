@@ -157,8 +157,6 @@ class Equipment(models.Model):
         return "%s %s" % (self.title, self.description)
 
 
-
-
 class Media(models.Model):
     title = models.CharField(max_length=500)
     slug = models.CharField(max_length=500)
@@ -178,6 +176,7 @@ class Project(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
+    published = models.BooleanField(default=True)
     content = models.TextField()
     period = models.IntegerField(blank=True, null=True)
     state = models.CharField(max_length=2, choices=PROJECT_STATE, default='FINISHED')
@@ -186,5 +185,3 @@ class Project(models.Model):
     skills = models.ManyToManyField(Skills, null=True)
     equipments = models.ManyToManyField(Equipment, null=True)
     contents = models.ManyToManyField(Media, null=True)
-
-

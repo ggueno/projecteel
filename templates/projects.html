@@ -1,0 +1,16 @@
+<html>
+<head>
+	<title>Projets</title>
+</head>
+<body>
+	<h1>Projects</h1>
+	
+		{{ theme}}
+		{% if projects %}
+			{% for project in projects %}
+				{{ project.title }}
+			{% endfor %}
+		{% endif %}
+	
+</body>
+</html>
