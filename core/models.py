@@ -146,9 +146,45 @@ class Offer(models.Model):
     def __unicode__(self):
         return "%s %s %s" % (self.title, self.company, self.location)
 
-# class Project(models.Model):
-#     title = models.CharField(max_length=100)
-#     slug = models.SlugField(max_length=100)
-#     publish_date = models.DateField(auto_now=True, auto_now_add=True)
-#     content = models.TextField()
+
+
+class Equipment(models.Model):
+    title = models.CharField(max_length=500)
+    slug = models.CharField(max_length=500)
+    description = models.CharField(max_length=500)
+
+    def __unicode__(self):
+        return "%s %s" % (self.title, self.description)
+
+
+
+
+class Media(models.Model):
+    title = models.CharField(max_length=500)
+    slug = models.CharField(max_length=500)
+    description = models.TextField()
+
+    def __unicode__(self):
+        return "%s %s" % (self.title, self.description)
+
+
+
+class Project(models.Model):
+    PROJECT_STATE = (
+        ('INPROGRESS', "En Cours"),
+        ('FINISHED', "Termine"),    
+    )
+
+    title = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100)
+    publish_date = models.DateField(auto_now=True, auto_now_add=True)
+    content = models.TextField()
+    period = models.IntegerField(blank=True, null=True)
+    state = models.CharField(max_length=2, choices=PROJECT_STATE, default='FINISHED')
+    cadre = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
+    skills = models.ManyToManyField(Skills, null=True)
+    equipments = models.ManyToManyField(Equipment, null=True)
+    contents = models.ManyToManyField(Media, null=True)
+
 
