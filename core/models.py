@@ -38,6 +38,9 @@ class SocialNetwork(models.Model):
     name = models.CharField(max_length=100, blank=False)
     url = models.URLField(blank=False)
 
+    def __unicode__(self):
+        return "%s" % (self.name) 
+
 
 class Company(models.Model):
     name = models.CharField(max_length=100)
@@ -49,10 +52,16 @@ class Company(models.Model):
     address = models.ManyToManyField(Address)
     social_network = models.ManyToManyField(SocialNetwork)
 
+    def __unicode__(self):
+        return "%s" % (self.name)
+
 
 class School(models.Model):
     name = models.CharField(max_length=150)
     slug = models.SlugField(max_length=150)
+
+    def __unicode__(self):
+        return "%s" % (self.name)
 
 
 class Applicant(models.Model):
@@ -62,13 +71,20 @@ class Applicant(models.Model):
     search_location = models.CharField(max_length=100)
     social_network = models.ManyToManyField(SocialNetwork)
 
+    def __unicode__(self):
+        return "%s %s, %s" % (self.first_name, self.last_name, profession)
+
 
 class Experience(models.Model):
     company = models.ForeignKey(Company)
+    title = models.CharField(max_length=150)
     city = models.CharField(max_length=100)
     start = models.DateField(blank=False, null=False)
     end = models.DateField(blank=True, null=True)
     details = models.TextField(blank=True, null=True)
+
+    def __unicode__(self):
+        return "%s %s %s" % (self.title, self.company, self.start)
 
 
 class Education(models.Model):
@@ -78,10 +94,16 @@ class Education(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
 
+    def __unicode__(self):
+        return "%s %s %s" % (self.title, str(self.school), str(self.start))
+
 
 class Skills(models.Model):
     name = models.CharField(max_length=150)
     slug = models.SlugField(max_length=150)
+
+    def __unicode__(self):
+        return "%s" % (self.name)
 
 
 class CategoryOffer(models.Model):
@@ -90,11 +112,16 @@ class CategoryOffer(models.Model):
     parent = models.ForeignKey('self', blank=True, null=True, related_name='child')
     description = models.TextField(blank=True, help_text="Optional")
 
+    def __unicode__(self):
+        return "%s" % (self.name)
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=30)
     slug = models.CharField(max_length=30)
 
+    def __unicode__(self):
+        return "%s" % (self.name)
 
 class Offer(models.Model):
     OFFER_TYPE = (
@@ -116,6 +143,8 @@ class Offer(models.Model):
     reference = models.CharField(max_length=30, blank=True, null=True)
     category = models.ManyToManyField(CategoryOffer)
 
+    def __unicode__(self):
+        return "%s %s %s" % (self.title, self.company, self.location)
 
 # class Project(models.Model):
 #     title = models.CharField(max_length=100)
