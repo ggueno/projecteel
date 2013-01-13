@@ -1,10 +1,13 @@
 from django.conf import settings
 from django.contrib.sites.models import RequestSite
 from django.contrib.sites.models import Site
+from django.contrib.auth import get_user_model
 
 from registration import signals
 from registration.forms import RegistrationForm
 from registration.models import RegistrationProfile
+
+user_model = get_user_model()
 
 
 class DefaultBackend(object):
@@ -70,16 +73,19 @@ class DefaultBackend(object):
         class of this backend as the sender.
 
         """
-        username, email, password = kwargs['username'], kwargs['email'], kwargs['password1']
+        form_kwargs = {'password': kwargs['password1'],}
+        for field in set([user_model.USERNAME_FIELD,] + list(user_model.REQUIRED_FIELDS)):
+            if field in kwargs:
+                form_kwargs[field] = kwargs[field]
+
         if Site._meta.installed:
             site = Site.objects.get_current()
         else:
             site = RequestSite(request)
-        new_user = RegistrationProfile.objects.create_inactive_user(username, email,
-                                                                    password, site)
+        new_user = RegistrationProfile.objects.create_inactive_user(form_kwargs, site)
         signals.user_registered.send(sender=self.__class__,
-                                     user=new_user,
-                                     request=request)
+            user=new_user,
+            request=request)
         return new_user
 
     def activate(self, request, activation_key):
@@ -96,8 +102,8 @@ class DefaultBackend(object):
         activated = RegistrationProfile.objects.activate_user(activation_key)
         if activated:
             signals.user_activated.send(sender=self.__class__,
-                                        user=activated,
-                                        request=request)
+                user=activated,
+                request=request)
         return activated
 
     def registration_allowed(self, request):

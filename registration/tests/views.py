@@ -1,7 +1,12 @@
 import datetime
 
 from django.conf import settings
-from django.contrib.auth.models import User
+try:
+    from django.contrib.auth import get_user_model
+except ImportError: # django < 1.5
+    from django.contrib.auth.models import User
+else:
+    User = get_user_model()
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -25,7 +30,7 @@ class RegistrationViewTests(TestCase):
         """
         self.old_activation = getattr(settings, 'ACCOUNT_ACTIVATION_DAYS', None)
         if self.old_activation is None:
-            settings.ACCOUNT_ACTIVATION_DAYS = 7
+            settings.ACCOUNT_ACTIVATION_DAYS = 7 # pragma: no cover
 
     def tearDown(self):
         """
@@ -34,7 +39,7 @@ class RegistrationViewTests(TestCase):
 
         """
         if self.old_activation is None:
-            settings.ACCOUNT_ACTIVATION_DAYS = self.old_activation
+            settings.ACCOUNT_ACTIVATION_DAYS = self.old_activation # pragma: no cover
 
     def test_registration_view_initial(self):
         """

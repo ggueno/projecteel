@@ -1,7 +1,8 @@
 # Django settings for projecteel project.
 import os.path
-import user_settings
+from user_settings import *
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -50,6 +51,8 @@ USE_TZ = True
 
 # TODO : creer un fichier user_settings.py avec les variables en commentaires
 
+
+
 # # Absolute filesystem path to the directory that will hold user-uploaded files.
 # # Example: "/var/www/example.com/media/"
 # MEDIA_ROOT = '/home/ggueno/django/media'
@@ -61,15 +64,7 @@ USE_TZ = True
 
 # ADMIN_MEDIA_PREFIX = '/admin_media/'
 
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
 
-# URL prefix for static files.
-# Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -128,9 +123,9 @@ INSTALLED_APPS = (
     'registration',
     'core',
     # Uncomment the next line to enable the admin:
-    #'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    #'django.contrib.admindocs',
+    'django.contrib.admindocs',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -161,3 +156,11 @@ LOGGING = {
         },
     }
 }
+
+ACCOUNT_ACTIVATION_DAYS = 7
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1023
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'testing@example.com'

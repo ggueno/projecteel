@@ -23,15 +23,23 @@ consult a specific backend's documentation for details.
 
 """
 
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm, PasswordChangeForm
+
+from registration.forms import RegistrationFormsMixin
+
+AuthenticationForm = type('AuthenticationForm', (RegistrationFormsMixin, AuthenticationForm), {})
+PasswordResetForm = type('PasswordResetForm', (RegistrationFormsMixin, PasswordResetForm), {})
+SetPasswordForm = type('SetPasswordForm', (RegistrationFormsMixin, SetPasswordForm), {})
+PasswordChangeForm = type('PasswordChangeForm', (RegistrationFormsMixin, PasswordChangeForm), {})
 
 
 urlpatterns = patterns('',
                        url(r'^login/$',
                            auth_views.login,
-                           {'template_name': 'registration/login.html'},
+                           {'template_name': 'registration/login.html', 'authentication_form': AuthenticationForm},
                            name='auth_login'),
                        url(r'^logout/$',
                            auth_views.logout,
@@ -39,15 +47,18 @@ urlpatterns = patterns('',
                            name='auth_logout'),
                        url(r'^password/change/$',
                            auth_views.password_change,
+                           {'password_change_form': PasswordChangeForm},
                            name='auth_password_change'),
                        url(r'^password/change/done/$',
                            auth_views.password_change_done,
                            name='auth_password_change_done'),
                        url(r'^password/reset/$',
                            auth_views.password_reset,
+                           {'password_reset_form': PasswordResetForm},
                            name='auth_password_reset'),
                        url(r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
                            auth_views.password_reset_confirm,
+                           {'set_password_form': SetPasswordForm},
                            name='auth_password_reset_confirm'),
                        url(r'^password/reset/complete/$',
                            auth_views.password_reset_complete,
