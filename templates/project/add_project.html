@@ -1,0 +1,21 @@
+<html>
+<head>
+    <title>Projet</title>
+</head>
+<body>
+    <h1>Add Project </h1>
+    {% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+
+    <form action="" method="post">
+        <table>
+            {{ form.as_p }}
+        </table>
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+</html>
