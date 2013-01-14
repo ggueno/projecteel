@@ -1,0 +1,14 @@
+<html>
+<head>
+    <title>Projet</title>
+</head>
+<body>
+    <h1>Project {{ slug }}</h1>
+
+        {% if project %}
+            {{ project.title }}
+            {{ project.content }}
+        {% endif %}
+
+</body>
+</html>
