@@ -99,6 +99,45 @@ body {
   box-shadow: 0 0 4px rgba(0,0,0,.3);
   color: 0 0 4px rgba(0,0,0,.3);
 }
+.messageBox {
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+  padding: 10px;
+  background: #f5f5f5;
+  -webkit-box-shadow: 0 0 4px rgba(0,0,0,.3);
+  -moz-box-shadow: 0 0 4px rgba(0,0,0,.3);
+  box-shadow: 0 0 4px rgba(0,0,0,.3);
+  color: 0 0 4px rgba(0,0,0,.3);
+  position: relative;
+}
+.messageBox h4 {
+  margin-bottom: 15px;
+  font-size: 1.05em;
+}
+.messageBox .closeBtn {
+  width: 15px;
+  height: 15px;
+  padding: 1px;
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  text-align: center;
+  border-radius: 3px;
+  border: 1px solid #BBB;
+  font-weight: 800;
+  color: #AAA;
+  font-size: .8em;
+  line-height: 15px;
+  background: #dddddd;
+}
+.messageBox .closeBtn:hover {
+  color: #666;
+}
 .wrapper {
   padding: 5px;
   width: 1135px;
