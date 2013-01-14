@@ -180,6 +180,7 @@ class Project(models.Model):
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     published = models.BooleanField(default=True)
     content = models.TextField()
+    #TO DO : Multiple list
     period = models.IntegerField(blank=True, null=True)
     state = models.CharField(blank=True, max_length=2, choices=PROJECT_STATE, default='FINISHED')
     cadre = models.CharField(blank=True, max_length=100)
