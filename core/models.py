@@ -39,7 +39,7 @@ class SocialNetwork(models.Model):
     url = models.URLField(blank=False)
 
     def __unicode__(self):
-        return "%s" % (self.name) 
+        return "%s" % (self.name)
 
 
 class Company(models.Model):
@@ -123,6 +123,7 @@ class Tag(models.Model):
     def __unicode__(self):
         return "%s" % (self.name)
 
+
 class Offer(models.Model):
     OFFER_TYPE = (
         ('INTERN', "Stage"),
@@ -147,7 +148,6 @@ class Offer(models.Model):
         return "%s %s %s" % (self.title, self.company, self.location)
 
 
-
 class Equipment(models.Model):
     title = models.CharField(max_length=500)
     slug = models.CharField(max_length=500)
@@ -166,11 +166,10 @@ class Media(models.Model):
         return "%s %s" % (self.title, self.description)
 
 
-
 class Project(models.Model):
     PROJECT_STATE = (
-        ('INPROGRESS', "En Cours"),
-        ('FINISHED', "Termine"),    
+        ('IP', "En Cours"),
+        ('FN', "Termine"),
     )
 
     title = models.CharField(max_length=100)
@@ -179,9 +178,9 @@ class Project(models.Model):
     published = models.BooleanField(default=True)
     content = models.TextField()
     period = models.IntegerField(blank=True, null=True)
-    state = models.CharField(max_length=2, choices=PROJECT_STATE, default='FINISHED')
-    cadre = models.CharField(max_length=100)
-    location = models.CharField(max_length=100)
+    state = models.CharField(blank=True, max_length=2, choices=PROJECT_STATE, default='FINISHED')
+    cadre = models.CharField(blank=True, max_length=100)
+    location = models.CharField(blank=True, max_length=100)
     skills = models.ManyToManyField(Skills, null=True)
-    equipments = models.ManyToManyField(Equipment, null=True)
-    contents = models.ManyToManyField(Media, null=True)
+    equipments = models.ManyToManyField(Equipment, blank=True, null=True)
+    contents = models.ManyToManyField(Media, blank=True, null=True)

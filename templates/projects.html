@@ -4,13 +4,15 @@
 </head>
 <body>
 	<h1>Projects</h1>
-	
+
 		{{ theme}}
 		{% if projects %}
 			{% for project in projects %}
 				{{ project.title }}
+
+                {{ Content }}
 			{% endfor %}
 		{% endif %}
-	
+
 </body>
 </html>
