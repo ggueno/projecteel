@@ -1,12 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
-try:
-    from django.contrib.auth import get_user_model
-except ImportError: # django < 1.5
-    from django.contrib.auth.models import User
-else:
-    User = get_user_model()
+from django.contrib.auth.models import User
 
 from registration import signals
 from registration.forms import RegistrationForm

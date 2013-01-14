@@ -2,18 +2,9 @@ from django.conf import settings
 from django.contrib.sites.models import RequestSite
 from django.contrib.sites.models import Site
 
-try:
-    from django.contrib.auth import get_user_model
-except ImportError : # django < 1.5
-    from django.contrib.auth.models import User
-else:
-    User = get_user_model()
-
 from registration import signals
 from registration.forms import RegistrationForm
 from registration.models import RegistrationProfile
-
-user_model = get_user_model()
 
 
 class DefaultBackend(object):
@@ -53,7 +44,7 @@ class DefaultBackend(object):
     an instance of ``registration.models.RegistrationProfile``. See
     that model and its custom manager for full documentation of its
     fields and supported operations.
-
+    
     """
     def register(self, request, **kwargs):
         """
@@ -79,19 +70,16 @@ class DefaultBackend(object):
         class of this backend as the sender.
 
         """
-        form_kwargs = {'password': kwargs['password1'],}
-        for field in set([user_model.USERNAME_FIELD,] + list(user_model.REQUIRED_FIELDS)):
-            if field in kwargs:
-                form_kwargs[field] = kwargs[field]
-
+        username, email, password = kwargs['username'], kwargs['email'], kwargs['password1']
         if Site._meta.installed:
             site = Site.objects.get_current()
         else:
             site = RequestSite(request)
-        new_user = RegistrationProfile.objects.create_inactive_user(form_kwargs, site)
+        new_user = RegistrationProfile.objects.create_inactive_user(username, email,
+                                                                    password, site)
         signals.user_registered.send(sender=self.__class__,
-            user=new_user,
-            request=request)
+                                     user=new_user,
+                                     request=request)
         return new_user
 
     def activate(self, request, activation_key):
@@ -103,13 +91,13 @@ class DefaultBackend(object):
         ``registration.signals.user_activated`` will be sent, with the
         newly activated ``User`` as the keyword argument ``user`` and
         the class of this backend as the sender.
-
+        
         """
         activated = RegistrationProfile.objects.activate_user(activation_key)
         if activated:
             signals.user_activated.send(sender=self.__class__,
-                user=activated,
-                request=request)
+                                        user=activated,
+                                        request=request)
         return activated
 
     def registration_allowed(self, request):
@@ -123,14 +111,14 @@ class DefaultBackend(object):
 
         * If ``REGISTRATION_OPEN`` is both specified and set to
           ``False``, registration is not permitted.
-
+        
         """
         return getattr(settings, 'REGISTRATION_OPEN', True)
 
     def get_form_class(self, request):
         """
         Return the default form class used for user registration.
-
+        
         """
         return RegistrationForm
 
@@ -138,7 +126,7 @@ class DefaultBackend(object):
         """
         Return the name of the URL to redirect to after successful
         user registration.
-
+        
         """
         return ('registration_complete', (), {})
 
@@ -146,6 +134,6 @@ class DefaultBackend(object):
         """
         Return the name of the URL to redirect to after successful
         account activation.
-
+        
         """
         return ('registration_activation_complete', (), {})
