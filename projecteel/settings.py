@@ -122,6 +122,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'registration',
     'grappelli',
+    'autoslug',
     'core',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',

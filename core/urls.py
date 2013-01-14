@@ -3,6 +3,6 @@ from core import views
 
 urlpatterns = patterns('',
     url(r'^projects/$', views.projects),
-    url(r'^project/(?P<slug>\w+)/$', views.get_project),
+    url(r'^project/(?P<slug>[^\.]+)/$', views.get_project),
     url(r'^$', views.home),
 )

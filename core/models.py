@@ -1,4 +1,5 @@
 from django.db import models
+from autoslug import AutoSlugField
 # from utils import Address, Country
 
 
@@ -44,7 +45,7 @@ class SocialNetwork(models.Model):
 
 class Company(models.Model):
     name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100)
+    slug = AutoSlugField(populate_from='name')
     about = models.TextField(blank=True, null=True)
     url = models.URLField(blank=True, null=True)
     #django enum : TODO
@@ -58,21 +59,23 @@ class Company(models.Model):
 
 class School(models.Model):
     name = models.CharField(max_length=150)
-    slug = models.SlugField(max_length=150)
+    slug = AutoSlugField(populate_from='name')
 
     def __unicode__(self):
         return "%s" % (self.name)
 
 
 class Applicant(models.Model):
+    pseudo = models.CharField(max_length=50, blank=True, null=True, unique=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from=lambda instance: u'%s-%s' % (instance.first_name, instance.last_name))
     profession = models.CharField(max_length=100, blank=False)
     search_location = models.CharField(max_length=100)
     social_network = models.ManyToManyField(SocialNetwork)
 
     def __unicode__(self):
-        return "%s %s, %s" % (self.first_name, self.last_name, profession)
+        return "%s %s, %s" % (self.first_name, self.last_name, self.profession)
 
 
 class Experience(models.Model):
@@ -100,7 +103,7 @@ class Education(models.Model):
 
 class Skills(models.Model):
     name = models.CharField(max_length=150)
-    slug = models.SlugField(max_length=150)
+    slug = AutoSlugField(populate_from='name', unique=True)
 
     def __unicode__(self):
         return "%s" % (self.name)
@@ -108,7 +111,7 @@ class Skills(models.Model):
 
 class CategoryOffer(models.Model):
     name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100)
+    slug = AutoSlugField(populate_from='name', unique=True)
     parent = models.ForeignKey('self', blank=True, null=True, related_name='child')
     description = models.TextField(blank=True, help_text="Optional")
 
@@ -118,7 +121,7 @@ class CategoryOffer(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=30)
-    slug = models.CharField(max_length=30)
+    slug = AutoSlugField(populate_from='name', unique=True)
 
     def __unicode__(self):
         return "%s" % (self.name)
@@ -133,7 +136,7 @@ class Offer(models.Model):
     )
 
     title = models.CharField(max_length=150, blank=False, null=False)
-    slug = models.SlugField(max_length=150)
+    slug = AutoSlugField(populate_from='title', unique=True)
     company = models.ForeignKey(Company)
     location = models.CharField(max_length=100, blank=False, null=False)
     contract = models.CharField(max_length=2, choices=OFFER_TYPE, default='CDI')
@@ -150,7 +153,7 @@ class Offer(models.Model):
 
 class Equipment(models.Model):
     title = models.CharField(max_length=500)
-    slug = models.CharField(max_length=500)
+    slug = AutoSlugField(populate_from='title', unique=True)
     description = models.CharField(max_length=500)
 
     def __unicode__(self):
@@ -159,7 +162,7 @@ class Equipment(models.Model):
 
 class Media(models.Model):
     title = models.CharField(max_length=500)
-    slug = models.CharField(max_length=500)
+    slug = AutoSlugField(populate_from='title', unique=True)
     description = models.TextField()
 
     def __unicode__(self):
@@ -173,7 +176,7 @@ class Project(models.Model):
     )
 
     title = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100)
+    slug = AutoSlugField(populate_from='title', unique=True)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     published = models.BooleanField(default=True)
     content = models.TextField()
