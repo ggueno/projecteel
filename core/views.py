@@ -56,3 +56,8 @@ def add_offer(request):
     else:
         form = OfferForm()
     return render_to_response('offer/add_offer.html', {'form': form})
+
+
+def get_profile(request, slug):
+    profile = Applicant.objects.get(slug=slug)
+    return render_to_response('profile/profile.html', {'profile': profile, 'slug': slug})
