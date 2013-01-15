@@ -180,7 +180,7 @@ class SkillsTag(TagBase):
 
 
 class SkillsTaggedItem(GenericTaggedItemBase):
-    tag = models.ForeignKey(SkillsTag)
+    tag = models.ForeignKey(SkillsTag, related_name="ee")
 
 
 class Project(models.Model):
