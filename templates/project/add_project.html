@@ -1,8 +1,8 @@
-<html>
-<head>
-    <title>Projet</title>
-</head>
-<body>
+{% extends "layout/base.html" %}
+
+{% block title %} Project {{ slug }} {% endblock %}
+
+{% block content %}
     <h1>Add Project </h1>
     {% if form.errors %}
         <p style="color: red;">
@@ -16,6 +16,6 @@
         </table>
         <input type="submit" value="Submit">
     </form>
+{% endblock %}
 
-</body>
-</html>
+

@@ -49,7 +49,7 @@ USE_TZ = True
 
 
 
-# TODO : creer un fichier user_settings.py avec les variables en commentaires
+#  : creer un fichier user_settings.py avec les variables en commentaires
 
 
 
@@ -64,13 +64,12 @@ USE_TZ = True
 
 # ADMIN_MEDIA_PREFIX = '/admin_media/'
 
-
-
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    "/home/ggueno/django/django_projects/projecteel/media/static",
 )
 
 # List of finder classes that know how to find static files in
@@ -78,7 +77,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -101,6 +100,7 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+
 ROOT_URLCONF = 'projecteel.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -109,9 +109,17 @@ WSGI_APPLICATION = 'projecteel.wsgi.application'
 # TEMPLATE_DIRS = (
 #     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
 #     # Always use forward slashes, even on Windows.
-#     # Don't forget to use absolute paths, not relative paths.
-#     '/home/ggueno/django/django_projects/projecteel/templates'
+#     # Don't forget to use absolute paths, not relative paths.     '/home/ggueno/django/django_projects/projecteel/templates'
 # )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
+)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -121,7 +129,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'registration',
-    'grappelli',
     'autoslug',
     'core',
     # Uncomment the next line to enable the admin:

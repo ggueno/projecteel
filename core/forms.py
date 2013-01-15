@@ -7,12 +7,12 @@ class ProjectForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        exclude = ('slug', 'publish_date')
+        exclude = ('slug', 'publish_date', 'like', 'view')
         widgets = {
             'skills': forms.TextInput(attrs={'size': '40'}),
         }
 
-class OfferForm(forms.ModelForm):
 
-	class Meta:
-		model = Offer
+class OfferForm(forms.ModelForm):
+    class Meta:
+        model = Offer
