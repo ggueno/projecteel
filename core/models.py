@@ -1,5 +1,8 @@
 from django.db import models
 from autoslug import AutoSlugField
+from taggit.managers import TaggableManager
+from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
+    TagBase, Tag)
 # from utils import Address, Country
 
 
@@ -101,12 +104,7 @@ class Education(models.Model):
         return "%s %s %s" % (self.title, str(self.school), str(self.start))
 
 
-class Skills(models.Model):
-    name = models.CharField(max_length=150)
-    slug = AutoSlugField(populate_from='name', unique=True)
 
-    def __unicode__(self):
-        return "%s" % (self.name)
 
 
 class CategoryOffer(models.Model):
@@ -119,7 +117,7 @@ class CategoryOffer(models.Model):
         return "%s" % (self.name)
 
 
-class Tag(models.Model):
+class Tagg(models.Model):
     name = models.CharField(max_length=30)
     slug = AutoSlugField(populate_from='name', unique=True)
 
@@ -143,7 +141,7 @@ class Offer(models.Model):
     salary = models.IntegerField(blank=True, null=True)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     content = models.TextField()
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tagg)
     reference = models.CharField(max_length=30, blank=True, null=True)
     category = models.ManyToManyField(CategoryOffer)
 
@@ -177,6 +175,14 @@ class VideoLink(Media):
     content = models.TextField()
 
 
+class SkillsTag(TagBase):
+    pass
+
+
+class SkillsTaggedItem(GenericTaggedItemBase):
+    tag = models.ForeignKey(SkillsTag)
+
+
 class Project(models.Model):
     PROJECT_STATE = (
         ('IP', "En Cours"),
@@ -193,8 +199,11 @@ class Project(models.Model):
     state = models.CharField(blank=True, max_length=2, choices=PROJECT_STATE, default='FINISHED')
     cadre = models.CharField(blank=True, max_length=100)
     location = models.CharField(blank=True, max_length=100)
-    skills = models.ManyToManyField(Skills, null=True)
+    skills = TaggableManager(verbose_name="SkillsTag", through=SkillsTaggedItem, blank=True)
     equipments = models.ManyToManyField(Equipment, blank=True, null=True)
     contents = models.ManyToManyField(Media, blank=True, null=True)
     like = models.IntegerField(blank=False, null=False, default=0)
     view = models.IntegerField(blank=False, null=False, default=0)
+
+    def get_tag_names(self):
+        return [skills.name for skills in Tag.objects.get_for_object(self)]

@@ -16,7 +16,12 @@ def projects(request):
 
 def get_project(request, slug):
     project = Project.objects.get(slug=slug)
-    return render_to_response('project/show_project.html', {'project': project, 'slug': slug})
+
+    tagsList = []
+    #tagg = project.skills
+    # for tag in project.skills:
+        # tagsList.append(tag.name)
+    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList})
 
 
 #@login_required
