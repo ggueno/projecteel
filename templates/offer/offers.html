@@ -1,0 +1,15 @@
+<html>
+<head>
+	<title>Offers</title>
+</head>
+<body>
+	<h1>Offers</h1>
+
+		{% if offers %}
+			{% for offer in offers %}
+				{{ offer.title }}
+			{% endfor %}
+		{% endif %}
+
+</body>
+</html>

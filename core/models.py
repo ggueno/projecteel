@@ -169,6 +169,14 @@ class Media(models.Model):
         return "%s %s" % (self.title, self.description)
 
 
+class Image(Media):
+    image = models.ImageField(upload_to='/media/upload/images/project')
+
+
+class VideoLink(Media):
+    content = models.TextField()
+
+
 class Project(models.Model):
     PROJECT_STATE = (
         ('IP', "En Cours"),
@@ -188,3 +196,5 @@ class Project(models.Model):
     skills = models.ManyToManyField(Skills, null=True)
     equipments = models.ManyToManyField(Equipment, blank=True, null=True)
     contents = models.ManyToManyField(Media, blank=True, null=True)
+    like = models.IntegerField(blank=False, null=False, default=0)
+    view = models.IntegerField(blank=False, null=False, default=0)

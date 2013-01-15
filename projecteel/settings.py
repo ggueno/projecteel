@@ -1,7 +1,6 @@
 # Django settings for projecteel project.
 import os.path
-from user_settings import *
-PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
+PROJECT_PATH = os.path.join(os.path.dirname(__file__), '..')
 
 
 DEBUG = True
@@ -47,39 +46,34 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+#  : creer un fichier user_settings.py avec les variables en commentaires
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+# Example: "/var/www/example.com/media/"
+MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media/')
 
-# ***********************************************************************************
-# .___________. __    __  .___________.  ______        _______  __    __   _______ .__   __.   ______   
-# |           ||  |  |  | |           | /  __  \      /  _____||  |  |  | |   ____||  \ |  |  /  __  \  
-# `---|  |----`|  |  |  | `---|  |----`|  |  |  |    |  |  __  |  |  |  | |  |__   |   \|  | |  |  |  | 
-#     |  |     |  |  |  |     |  |     |  |  |  |    |  | |_ | |  |  |  | |   __|  |  . `  | |  |  |  | 
-#     |  |     |  `--'  |     |  |     |  `--'  |    |  |__| | |  `--'  | |  |____ |  |\   | |  `--'  | 
-#     |__|      \______/      |__|      \______/      \______|  \______/  |_______||__| \__|  \______/  
-                                                                                                      
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash.
+# Examples: "http://example.com/media/", "http://media.example.com/"
+MEDIA_URL = '/media/'
 
-                                                                                                      
-# TODO : creer un fichier user_settings.py avec les variables en commentaires
+# Absolute path to the directory static files should be collected to.
+# Don't put anything in this directory yourself; store your static files
+# in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# Example: "/var/www/example.com/static/"
+STATIC_ROOT = os.path.join(PROJECT_PATH, 'static/')
 
+# URL prefix for static files.
+# Example: "http://example.com/static/", "http://static.example.com/"
+STATIC_URL = '/static/'
 
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
-# # Absolute filesystem path to the directory that will hold user-uploaded files.
-# # Example: "/var/www/example.com/media/"
-# MEDIA_ROOT = '/home/ggueno/django/media'
-
-# # URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# # trailing slash.
-# # Examples: "http://example.com/media/", "http://media.example.com/"
-# MEDIA_URL = 'http://localhost/media/'
-
-# ADMIN_MEDIA_PREFIX = '/admin_media/'
-
-# TEMPLATE_DIRS = (
-#     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-#     # Always use forward slashes, even on Windows.
-#     # Don't forget to use absolute paths, not relative paths.
-#     '/home/ggueno/django/django_projects/projecteel/templates'
-# )
-# ***********************************************************************************
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_PATH, 'templates/')
+)
 
 
 # Additional locations of static files
@@ -87,6 +81,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_PATH, 'media/static/'),
 )
 
 # List of finder classes that know how to find static files in
@@ -94,7 +89,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -117,12 +112,20 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+
 ROOT_URLCONF = 'projecteel.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'projecteel.wsgi.application'
 
-
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
+)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -132,7 +135,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'registration',
-    'grappelli',
     'autoslug',
     'core',
     # Uncomment the next line to enable the admin:

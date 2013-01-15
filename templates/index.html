@@ -1,8 +1,159 @@
-<html>
-<head>
-	<title>Test</title>
-</head>
-<body>
-	<h1> Test </h1>
-</body>
+{% load staticfiles %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- 1140px Grid styles for IE -->
+        <!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" /><![endif]-->
+        <link rel="stylesheet" href="{% static "css/style.css" %}">
+        <script src="{% static "js/vendor/modernizr-2.6.2.min.js" %}"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <header>
+            <div class="row">
+                <a href="#" id="logo" class=""></a>
+                <ul id="menu" class="fivecol">
+                    <li><a href="#" class="active">Profil</a></li>
+                    <li><a href="#">Projet</a></li>
+                    <li><a href="#">Offres</a></li>
+                </ul>
+            </div>
+        </header>   
+
+        <div class="row wrapper">
+            <div class="whitediv">
+                <h1>WHITEBOX</h1>
+                <p>LOLOL SAWG YOLO</p>
+            </div>
+        </div>
+
+        <div class="row wrapper">
+            <div class="messageBox sixcol">
+                <a href="#" class="closeBtn">X</a>
+                <h4>Vous êtes étudiant ou jeune diplômé</h4>
+                <div class="row">
+                    <p class="ninecol">Ajoutez vous des projets, approchez les recruteurs et faites vous un nom</p>
+                    <button type="button" class="threecol last blueButton">S'inscrire</button>    
+                </div>
+            </div>
+        </div>
+
+        <div class="row wrapper">
+            <div class="whitediv threecol">
+                <h4>Filtres</h4>
+                <ul class="filters">
+                    <li><input type="text" name="" value="" placeholder="tags"></li>
+                    <li><select name="">
+                        <option value=""><5</option>
+                        <option value="">5 et 15</option>
+                    </select></li>
+                    <li><input type="text" name="" value="" placeholder="zone géographique"></li>
+                    <li>
+                        <input type="text" name="" value="" placeholder="Themes">
+                        <div class="clearfix"></div>
+                        <ul class="tags">
+                            <li>photoshop <a href="#" class="delete" title="Delete tag">X</a></li>
+                            <li>motion design <a href="#" class="delete" title="Delete tag">X</a></li>
+                            <li>photoshop <a href="#" class="delete" title="Delete tag">X</a></li>
+                            <li>motion design <a href="#" class="delete" title="Delete tag">X</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row wrapper">
+            <div class="thumb threecol">
+                <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <h3>The megastore</h3>
+            </div>
+
+            <div class="thumb threecol">
+                <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <h3>The megastore</h3>
+            </div>
+
+            <div class="thumb threecol">
+                <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <h3>The megastore</h3>
+            </div>
+
+            <div class="thumb threecol last">
+                <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <h3>The megastore</h3>
+            </div>
+
+        </div>
+        <div class="row wrapper" >
+
+            <div class="thumb threecol">
+                <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <h3>The megastore</h3>
+            </div>
+
+            <div class="thumb threecol">
+                <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <h3>The megastore</h3>
+            </div>
+
+            <div class="thumb threecol">
+                <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <h3>The megastore</h3>
+            </div>
+
+            <div class="thumb threecol last">
+                <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <h3>The megastore</h3>
+            </div>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.8.3.min.js" %}"><\/script>')</script>
+        <script src="{% static "js/plugins.js" %}"></script>
+        <script src="{% static "js/main.js" %}"></script>
+    </body>
 </html>
