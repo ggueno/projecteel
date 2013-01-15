@@ -1,5 +1,6 @@
 from django import forms
 from core.models import Project
+from core.models import Offer
 
 
 class ProjectForm(forms.ModelForm):
@@ -10,3 +11,8 @@ class ProjectForm(forms.ModelForm):
         widgets = {
             'skills': forms.TextInput(attrs={'size': '40'}),
         }
+
+class OfferForm(forms.ModelForm):
+
+	class Meta:
+		model = Offer
