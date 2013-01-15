@@ -1,8 +1,9 @@
 from django.shortcuts import render_to_response, render
 from core.models import Project
-from core.models import Offer
+from core.models import *
 from forms import ProjectForm
 from forms import OfferForm
+from taggit.models import Tag
 
 
 def home(request):
@@ -17,10 +18,8 @@ def projects(request):
 def get_project(request, slug):
     project = Project.objects.get(slug=slug)
 
-    tagsList = []
-    #tagg = project.skills
-    # for tag in project.skills:
-        # tagsList.append(tag.name)
+    #outagg = project.skills
+    tagsList = project.skills.get_query_set()
     return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList})
 
 
@@ -46,7 +45,6 @@ def get_offer(request, slug):
     offer = Offer.objects.get(slug=slug)
     return render_to_response('offer/show_offer.html', {'offer': offer, 'slug': slug})
 
-
 def add_offer(request):
     form = {}
     if request.method == 'POST':
@@ -57,3 +55,8 @@ def add_offer(request):
     else:
         form = OfferForm()
     return render_to_response('offer/add_offer.html', {'form': form})
+
+
+def get_profile(request, slug):
+    profile = Applicant.objects.get(slug=slug)
+    return render_to_response('profile/profile.html', {'profile': profile, 'slug': slug})
