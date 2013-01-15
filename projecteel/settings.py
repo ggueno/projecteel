@@ -48,7 +48,16 @@ USE_L10N = True
 USE_TZ = True
 
 
+# ***********************************************************************************
+# .___________. __    __  .___________.  ______        _______  __    __   _______ .__   __.   ______   
+# |           ||  |  |  | |           | /  __  \      /  _____||  |  |  | |   ____||  \ |  |  /  __  \  
+# `---|  |----`|  |  |  | `---|  |----`|  |  |  |    |  |  __  |  |  |  | |  |__   |   \|  | |  |  |  | 
+#     |  |     |  |  |  |     |  |     |  |  |  |    |  | |_ | |  |  |  | |   __|  |  . `  | |  |  |  | 
+#     |  |     |  `--'  |     |  |     |  `--'  |    |  |__| | |  `--'  | |  |____ |  |\   | |  `--'  | 
+#     |__|      \______/      |__|      \______/      \______|  \______/  |_______||__| \__|  \______/  
+                                                                                                      
 
+                                                                                                      
 # TODO : creer un fichier user_settings.py avec les variables en commentaires
 
 
@@ -64,6 +73,13 @@ USE_TZ = True
 
 # ADMIN_MEDIA_PREFIX = '/admin_media/'
 
+# TEMPLATE_DIRS = (
+#     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+#     # Always use forward slashes, even on Windows.
+#     # Don't forget to use absolute paths, not relative paths.
+#     '/home/ggueno/django/django_projects/projecteel/templates'
+# )
+# ***********************************************************************************
 
 
 # Additional locations of static files
@@ -106,12 +122,7 @@ ROOT_URLCONF = 'projecteel.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'projecteel.wsgi.application'
 
-# TEMPLATE_DIRS = (
-#     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-#     # Always use forward slashes, even on Windows.
-#     # Don't forget to use absolute paths, not relative paths.
-#     '/home/ggueno/django/django_projects/projecteel/templates'
-# )
+
 
 INSTALLED_APPS = (
     'django.contrib.auth',
