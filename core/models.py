@@ -1,8 +1,9 @@
 from django.db import models
 from autoslug import AutoSlugField
-from taggit.managers import TaggableManager
+#from taggit.managers import TaggableManager
 from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
     TagBase, Tag)
+from taggit_autosuggest.managers import TaggableManager
 # from utils import Address, Country
 
 

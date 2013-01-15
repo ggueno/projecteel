@@ -138,6 +138,7 @@ INSTALLED_APPS = (
     'grappelli',
     'autoslug',
     'taggit',
+    'taggit_autosuggest',
     'core',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',

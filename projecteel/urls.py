@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     # url(r'^projecteel/', include('projecteel.foo.urls')),
     (r'^accounts/', include('registration.urls')),
     (r'^grappelli/', include('grappelli.urls')), url(r'^admin/', include(admin.site.urls)),
+    (r'^taggit_autosuggest/', include('taggit_autosuggest.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

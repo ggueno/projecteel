@@ -38,12 +38,12 @@ def add_project(request):
 
 def offers(request):
     list_offers = Offer.objects.all()
-    return render_to_response('offers.html', {'offers': list_offers})
+    return render_to_response('offers/offers.html', {'offers': list_offers})
 
 
 def get_offer(request, slug):
     offer = Offer.objects.get(slug=slug)
-    return render_to_response('offer.html', {'offer': offer, 'slug': slug})
+    return render_to_response('offers/offer.html', {'offer': offer, 'slug': slug})
 
 
 def add_offer(request):
