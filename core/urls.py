@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     url(r'^offers/$', views.offers),
     url(r'^offer/add/$', views.add_offer),
     url(r'^offer/(?P<slug>[^\.]+)/$', views.get_offer),
+    url(r'^profile/(?P<slug>[^\.]+)/$', views.get_profile),
     url(r'^$', views.home),
 )
