@@ -182,3 +182,7 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = 'testing@example.com'
+
+FIXTURE_DIRS = (
+    os.path.join(PROJECT_PATH, 'fixtures/'),
+)
