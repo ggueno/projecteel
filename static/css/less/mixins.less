@@ -25,10 +25,17 @@
     color:#FFF;
     text-shadow:0 0 2px #000;
     margin:5px 0;
+    text-align:center;
     .box-shadow(~"0 0 1px rgba(0,0,0,.8), inset 0 0 9px rgba(255,255,255,.5)");
     .transition(~"box-shadow .3s ease"); 
 
     &:hover{
         .box-shadow(~"0 0 1px rgba(0,0,0,.8), inset 0 0 10px rgba(255,255,255,.9)");
     }
+}
+
+.imageBorder(@padding:5px){
+	border:@padding solid white;
+	border-radius:3px;
+	.box-shadow(~"0 0 3px rgba(0,0,0,.2)");
 }
