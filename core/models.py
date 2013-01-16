@@ -1,10 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from autoslug import AutoSlugField
-#from taggit.managers import TaggableManager
 from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
     TagBase, Tag)
 from taggit_autosuggest.managers import TaggableManager
+from sorl.thumbnail import get_thumbnail
+from django.core.files.base import ContentFile
 # from utils import Address, Country
 
 
@@ -49,7 +50,16 @@ class SocialNetwork(models.Model):
 
 
 class Profile(models.Model):
-    user = models.ForeignKey(User, editable=False)
+    user = models.ForeignKey(User)
+    date_signin = models.DateField(auto_now=True, auto_now_add=True)
+    avatar = models.ImageField(upload_to="upload/images/avatar")
+
+    def save(self, *args, **kwargs):
+        if not self.id:  
+            super(Profile, self).save(*args, **kwargs)  
+            resized = get_thumbnail(self.avatar, "200x200")
+            self.avatar.save(resized.name, ContentFile(resized.read()), True)
+        super(Profile, self).save(*args, **kwargs)
 
 class Company(Profile):
     name = models.CharField(max_length=100)
@@ -110,7 +120,7 @@ class Education(models.Model):
         return "%s %s %s" % (self.title, str(self.school), str(self.start))
 
 
-class CommonTag(models.Model):
+class CommonTag(TagBase):
     pass
 
 
@@ -165,7 +175,7 @@ class Media(models.Model):
 
 
 class Image(Media):
-    image = models.ImageField(upload_to='/media/upload/images/project')
+    image = models.ImageField(upload_to='upload/images/project')
 
 
 class VideoLink(Media):
@@ -204,9 +214,10 @@ class Project(models.Model):
     cadre = models.CharField(blank=True, max_length=100)
     location = models.CharField(blank=True, max_length=100)
     skills = TaggableManager(verbose_name="SkillsTag", through=SkillsTaggedItem, blank=True)
-    # tags = TaggableManager(verbose_name="CommonTag", through=CommonTaggedItem, blank=True)
-    # equipments = TaggableManager(verbose_name="EquipmentTag", through=EquipmentTaggedItem, blank=True)
-    contents = models.ManyToManyField(Media, blank=True, null=True)
+    tags = TaggableManager(verbose_name="CommonTag", through=CommonTaggedItem, blank=True)
+    equipments = TaggableManager(verbose_name="EquipmentTag", through=EquipmentTaggedItem, blank=True)
+    images = models.ManyToManyField(Image, blank=True, null=True)
+    videos = models.ManyToManyField(VideoLink, blank=True, null=True)
     view = models.IntegerField(blank=False, null=False, default=0)
 
 

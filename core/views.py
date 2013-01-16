@@ -19,8 +19,9 @@ def get_project(request, slug):
     project = Project.objects.get(slug=slug)
 
     #outagg = project.skills
-    tagsList = project.skills.get_query_set()
-    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList})
+    skillsList = project.skills.get_query_set()
+    tagsList = project.tags.get_query_set()
+    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'skills': skillsList})
 
 
 #@login_required
