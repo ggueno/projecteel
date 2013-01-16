@@ -27,8 +27,9 @@ except NameError:
 
 
 class TaggableRel(ManyToManyRel):
-    def __init__(self):
-        self.related_name = None
+    def __init__(self, related_name=None):
+        super(TaggableRel, self).__init__(None, related_name)
+        self.related_name = related_name
         self.limit_choices_to = {}
         self.symmetrical = True
         self.multiple = True
@@ -37,9 +38,9 @@ class TaggableRel(ManyToManyRel):
 
 class TaggableManager(RelatedField):
     def __init__(self, verbose_name=_("Tags"),
-        help_text=_("A comma-separated list of tags."), through=None, blank=False):
+        help_text=_("A comma-separated list of tags."), through=None, blank=False, related_name=None):
         self.through = through or TaggedItem
-        self.rel = TaggableRel()
+        self.rel = TaggableRel(related_name)
         self.verbose_name = verbose_name
         self.help_text = help_text
         self.blank = blank
@@ -51,6 +52,7 @@ class TaggableManager(RelatedField):
         self.serialize = False
         self.null = True
         self.creation_counter = models.Field.creation_counter
+        self.related_name = related_name
         models.Field.creation_counter += 1
 
     def __get__(self, instance, model):
@@ -84,7 +86,7 @@ class TaggableManager(RelatedField):
         )
         self.rel.to = self.through._meta.get_field("tag").rel.to
         if self.use_gfk:
-            tagged_items = GenericRelation(self.through)
+            tagged_items = GenericRelation(self.through, related_name=self.related_name)
             tagged_items.contribute_to_class(cls, "tagged_items")
 
     def save_form_data(self, instance, value):
