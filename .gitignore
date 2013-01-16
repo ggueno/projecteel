@@ -1,3 +1,5 @@
 *.pyc
 db.sql
 projecteel/user_settings.py
+media/cache/*
+upload/*
