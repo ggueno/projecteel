@@ -55,8 +55,8 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to="upload/images/avatar")
 
     def save(self, *args, **kwargs):
-        if not self.id:  
-            super(Profile, self).save(*args, **kwargs)  
+        if not self.id:
+            super(Profile, self).save(*args, **kwargs)
             resized = get_thumbnail(self.avatar, "200x200")
             self.avatar.save(resized.name, ContentFile(resized.read()), True)
         super(Profile, self).save(*args, **kwargs)
@@ -193,6 +193,7 @@ class SkillsTaggedItem(GenericTaggedItemBase):
 class EquipmentTag(TagBase):
     pass
 
+
 class EquipmentTaggedItem(GenericTaggedItemBase):
     tag = models.ForeignKey(EquipmentTag, related_name="equipment")
 
@@ -218,6 +219,7 @@ class Project(models.Model):
     equipments = TaggableManager(verbose_name="EquipmentTag", through=EquipmentTaggedItem, blank=True)
     images = models.ManyToManyField(Image, blank=True, null=True)
     videos = models.ManyToManyField(VideoLink, blank=True, null=True)
+
     view = models.IntegerField(blank=False, null=False, default=0)
 
 
