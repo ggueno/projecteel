@@ -4,25 +4,58 @@
 
 {% block title %} Project {{ slug }} {% endblock %}
 {% block content %}
-    <h1>Projects</h1>
+
+<div class="row">
 
     {% if project %}
-        {{ project.title }}
-        {{ project.content }}
+
+    <div class="threecol whitediv">
+        <h2>{{ project.title }}</h2>
+        <span>{{ project.publish_date }}</span>
+
+        <div class="applicant_mini">
+            <h3>{{project.owner.first_name}} {{project.owner.last_name}}</h3>
+            <span>{{project.owner.profession}}</span>
+        </div>
+
+        {% if project.participant %}
+        <ul>
+        {% for applicant in project.participant.all %}
+            <li> {{applicant.first_name}} {{applicant.last_name}} </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if project.skills %}
+            <h4>Compétences</h4>
+            {% for tag in skills %}
+                <li> {{ tag.name }} </li>
+            {% endfor %}
+        {% endif %}
+
+        {% if project.equipments %}
+            <h4>Equipements</h4>
+            {% for tag in equipments %}
+                <li> {{ tag.name }} </li>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+
+    <div class="eightcol last whitediv">
 
         {% for tag in tags %}
             <li> {{ tag.name }} </li>
         {% endfor %}
 
-        {% for tag in skills %}
-            <li> {{ tag.name }} </li>
-        {% endfor %}
+        {{ project.content }}
 
         {% for img in project.images.all %}
             {% thumbnail img.image "200x100" crop="left" colorspace="GRAY" as im %}
                 <img src="{{MEDIA_URL}}{{ img.image.url }}">
-                <img src="{{MEDIA_URL}}{{ im.url }}" style="margin:{{ im|margin:"100x100" }}">
             {% endthumbnail %}
         {% endfor %}
+    </div>
     {% endif %}
+</div>
 {% endblock %}

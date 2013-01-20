@@ -222,6 +222,9 @@ class Project(models.Model):
 
     view = models.IntegerField(blank=False, null=False, default=0)
 
+    owner = models.ForeignKey(Applicant, related_name="Owner")
+    participant = models.ManyToManyField(Applicant, blank=True, null=True)
+
 
 class ApplicantOffer(models.Model):
     applicant = models.ForeignKey(Applicant)
