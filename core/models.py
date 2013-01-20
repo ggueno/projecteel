@@ -1,9 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 from autoslug import AutoSlugField
-#from taggit.managers import TaggableManager
 from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
     TagBase, Tag)
 from taggit_autosuggest.managers import TaggableManager
+from sorl.thumbnail import get_thumbnail
+from django.core.files.base import ContentFile
 # from utils import Address, Country
 
 
@@ -47,7 +49,19 @@ class SocialNetwork(models.Model):
         return "%s" % (self.name)
 
 
-class Company(models.Model):
+class Profile(models.Model):
+    user = models.ForeignKey(User)
+    date_signin = models.DateField(auto_now=True, auto_now_add=True)
+    avatar = models.ImageField(upload_to="upload/images/avatar")
+
+    def save(self, *args, **kwargs):
+        if not self.id:  
+            super(Profile, self).save(*args, **kwargs)  
+            resized = get_thumbnail(self.avatar, "200x200")
+            self.avatar.save(resized.name, ContentFile(resized.read()), True)
+        super(Profile, self).save(*args, **kwargs)
+
+class Company(Profile):
     name = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='name')
     about = models.TextField(blank=True, null=True)
@@ -61,7 +75,7 @@ class Company(models.Model):
         return "%s" % (self.name)
 
 
-class School(models.Model):
+class School(Profile):
     name = models.CharField(max_length=150)
     slug = AutoSlugField(populate_from='name')
 
@@ -69,7 +83,8 @@ class School(models.Model):
         return "%s" % (self.name)
 
 
-class Applicant(models.Model):
+
+class Applicant(Profile):
     pseudo = models.CharField(max_length=50, blank=True, null=True, unique=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -105,6 +120,12 @@ class Education(models.Model):
         return "%s %s %s" % (self.title, str(self.school), str(self.start))
 
 
+class CommonTag(TagBase):
+    pass
+
+
+class CommonTaggedItem(GenericTaggedItemBase):
+    tag = models.ForeignKey(CommonTag, related_name="common")
 
 
 
@@ -118,12 +139,6 @@ class CategoryOffer(models.Model):
         return "%s" % (self.name)
 
 
-class Tagg(models.Model):
-    name = models.CharField(max_length=30)
-    slug = AutoSlugField(populate_from='name', unique=True)
-
-    def __unicode__(self):
-        return "%s" % (self.name)
 
 
 class Offer(models.Model):
@@ -142,21 +157,12 @@ class Offer(models.Model):
     salary = models.IntegerField(blank=True, null=True)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     content = models.TextField()
-    tags = models.ManyToManyField(Tagg)
+    tags = TaggableManager(verbose_name="CommonTag", through=CommonTaggedItem, blank=True)
     reference = models.CharField(max_length=30, blank=True, null=True)
     category = models.ManyToManyField(CategoryOffer)
 
     def __unicode__(self):
         return "%s %s %s" % (self.title, self.company, self.location)
-
-
-class Equipment(models.Model):
-    title = models.CharField(max_length=500)
-    slug = AutoSlugField(populate_from='title', unique=True)
-    description = models.CharField(max_length=500)
-
-    def __unicode__(self):
-        return "%s %s" % (self.title, self.description)
 
 
 class Media(models.Model):
@@ -181,7 +187,14 @@ class SkillsTag(TagBase):
 
 
 class SkillsTaggedItem(GenericTaggedItemBase):
-    tag = models.ForeignKey(SkillsTag, related_name="ee")
+    tag = models.ForeignKey(SkillsTag, related_name="skills")
+
+
+class EquipmentTag(TagBase):
+    pass
+
+class EquipmentTaggedItem(GenericTaggedItemBase):
+    tag = models.ForeignKey(EquipmentTag, related_name="equipment")
 
 
 class Project(models.Model):
@@ -201,11 +214,34 @@ class Project(models.Model):
     cadre = models.CharField(blank=True, max_length=100)
     location = models.CharField(blank=True, max_length=100)
     skills = TaggableManager(verbose_name="SkillsTag", through=SkillsTaggedItem, blank=True)
+<<<<<<< HEAD
     equipments = models.ManyToManyField(Equipment, blank=True, null=True)
     images = models.ManyToManyField(Image, blank=True, null=True)
     videos = models.ManyToManyField(VideoLink, blank=True, null=True)
     like = models.IntegerField(blank=False, null=False, default=0)
+=======
+    tags = TaggableManager(verbose_name="CommonTag", through=CommonTaggedItem, blank=True)
+    equipments = TaggableManager(verbose_name="EquipmentTag", through=EquipmentTaggedItem, blank=True)
+    images = models.ManyToManyField(Image, blank=True, null=True)
+    videos = models.ManyToManyField(VideoLink, blank=True, null=True)
+>>>>>>> 40fa773b79d55b248e5285b82151dbd47238c48c
     view = models.IntegerField(blank=False, null=False, default=0)
 
-    def get_tag_names(self):
-        return [skills.name for skills in Tag.objects.get_for_object(self)]
+
+class ApplicantOffer(models.Model):
+    applicant = models.ForeignKey(Applicant)
+    publish_date = models.DateField(auto_now=True, auto_now_add=True)
+    content = models.TextField(max_length=500)
+    offer = models.ForeignKey(Offer)
+
+
+class Like(models.Model):
+    profile = models.ForeignKey(Profile)
+    publish_date = models.DateField(auto_now=True, auto_now_add=True)
+    project = models.ForeignKey(Project)
+
+
+class Follow(models.Model):
+    company = models.ForeignKey(Company)
+    publish_date = models.DateField(auto_now=True, auto_now_add=True)
+    applicant = models.ForeignKey(Applicant)
