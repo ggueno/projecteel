@@ -55,8 +55,8 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to="upload/images/avatar")
 
     def save(self, *args, **kwargs):
-        if not self.id:  
-            super(Profile, self).save(*args, **kwargs)  
+        if not self.id:
+            super(Profile, self).save(*args, **kwargs)
             resized = get_thumbnail(self.avatar, "200x200")
             self.avatar.save(resized.name, ContentFile(resized.read()), True)
         super(Profile, self).save(*args, **kwargs)
@@ -193,6 +193,7 @@ class SkillsTaggedItem(GenericTaggedItemBase):
 class EquipmentTag(TagBase):
     pass
 
+
 class EquipmentTaggedItem(GenericTaggedItemBase):
     tag = models.ForeignKey(EquipmentTag, related_name="equipment")
 
@@ -214,17 +215,11 @@ class Project(models.Model):
     cadre = models.CharField(blank=True, max_length=100)
     location = models.CharField(blank=True, max_length=100)
     skills = TaggableManager(verbose_name="SkillsTag", through=SkillsTaggedItem, blank=True)
-<<<<<<< HEAD
-    equipments = models.ManyToManyField(Equipment, blank=True, null=True)
-    images = models.ManyToManyField(Image, blank=True, null=True)
-    videos = models.ManyToManyField(VideoLink, blank=True, null=True)
-    like = models.IntegerField(blank=False, null=False, default=0)
-=======
     tags = TaggableManager(verbose_name="CommonTag", through=CommonTaggedItem, blank=True)
     equipments = TaggableManager(verbose_name="EquipmentTag", through=EquipmentTaggedItem, blank=True)
     images = models.ManyToManyField(Image, blank=True, null=True)
     videos = models.ManyToManyField(VideoLink, blank=True, null=True)
->>>>>>> 40fa773b79d55b248e5285b82151dbd47238c48c
+
     view = models.IntegerField(blank=False, null=False, default=0)
 
 

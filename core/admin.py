@@ -16,13 +16,8 @@ admin.site.register(EquipmentTag)
 admin.site.register(CategoryOffer)
 admin.site.register(Offer)
 admin.site.register(Media)
-<<<<<<< HEAD
-admin.site.register(VideoLink)
-admin.site.register(Image)
-=======
 admin.site.register(Image)
 admin.site.register(VideoLink)
->>>>>>> 40fa773b79d55b248e5285b82151dbd47238c48c
 admin.site.register(Project)
 admin.site.register(ApplicantOffer)
 admin.site.register(Like)

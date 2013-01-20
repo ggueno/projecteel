@@ -14,14 +14,6 @@
             <li> {{ tag.name }} </li>
         {% endfor %}
 
-<<<<<<< HEAD
-        {% for img in project.images.all %}
-            <img src="{{ img.image.url }}" />
-        {% endfor %}
-
-        {% for video in project.videos.all %}
-            {{ video.content }}
-=======
         {% for tag in skills %}
             <li> {{ tag.name }} </li>
         {% endfor %}
@@ -31,7 +23,6 @@
                 <img src="{{MEDIA_URL}}{{ img.image.url }}">
                 <img src="{{MEDIA_URL}}{{ im.url }}" style="margin:{{ im|margin:"100x100" }}">
             {% endthumbnail %}
->>>>>>> 40fa773b79d55b248e5285b82151dbd47238c48c
         {% endfor %}
     {% endif %}
 {% endblock %}
