@@ -169,7 +169,7 @@ class Media(models.Model):
 
 
 class Image(Media):
-    image = models.ImageField(upload_to='/media/upload/images/project')
+    image = models.ImageField(upload_to='upload/images/project')
 
 
 class VideoLink(Media):
@@ -202,7 +202,8 @@ class Project(models.Model):
     location = models.CharField(blank=True, max_length=100)
     skills = TaggableManager(verbose_name="SkillsTag", through=SkillsTaggedItem, blank=True)
     equipments = models.ManyToManyField(Equipment, blank=True, null=True)
-    contents = models.ManyToManyField(Media, blank=True, null=True)
+    images = models.ManyToManyField(Image, blank=True, null=True)
+    videos = models.ManyToManyField(VideoLink, blank=True, null=True)
     like = models.IntegerField(blank=False, null=False, default=0)
     view = models.IntegerField(blank=False, null=False, default=0)
 

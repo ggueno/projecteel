@@ -49,12 +49,14 @@ USE_TZ = True
 #  : creer un fichier user_settings.py avec les variables en commentaires
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
+
+MEDIA_SERVER_URL = os.path.join(PROJECT_PATH, 'media/')
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media/')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = '/media/'
+MEDIA_URL = 'http://localhost:8000/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -182,3 +184,6 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = 'testing@example.com'
+
+
+#TAGGIT_AUTOSUGGEST_STATIC_BASE_URL = 'media/static/'
