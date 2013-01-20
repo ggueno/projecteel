@@ -3,3 +3,4 @@
 projecteel/user_settings.py
 media/cache/*
 upload/*
+.DS_Store
