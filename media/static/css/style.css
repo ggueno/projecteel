@@ -748,11 +748,11 @@ body {
   color: 0 0 4px rgba(0,0,0,.3);
 }
 .whitediv.header {
-  -webkit-border-radius: 0 0 3px 3px;
+  -webkit-border-radius: 0px 0px 3px 3px;
   -webkit-background-clip: padding-box;
-  -moz-border-radius: 0 0 3px 3px;
+  -moz-border-radius: 0px 0px 3px 3px;
   -moz-background-clip: padding;
-  border-radius: 0 0 3px 3px;
+  border-radius: 0px 0px 3px 3px;
   background-clip: padding-box;
 }
 .blackTitle {
@@ -1288,7 +1288,7 @@ a.buttonAqua {
   width: 100%;
   height: 20px;
 }
-/* 
+/*
    H O M E
    ========================================================================== */
 header {
@@ -1491,4 +1491,12 @@ header #menu a:hover {
   h3 {
     page-break-after: avoid;
   }
+}
+.project-header {
+  background-color: #000;
+  color: white;
+}
+.project-header .project-title {
+  color: white;
+  float: left;
 }
