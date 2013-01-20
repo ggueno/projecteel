@@ -145,12 +145,13 @@ body{
     }
 }
 
+.alignRight{
+    margin:0 0 0 auto;
+}
+
 a.buttonAqua{
     line-height:1.8em;
     display:block;
-    &.alignRight{
-        margin:0 0 0 auto;
-    }
 }
 .messageBox{
     .whiteBox;
@@ -421,6 +422,72 @@ a.buttonAqua{
         }
     }
 }
+
+.offer{
+    .titleU{
+        margin-bottom:10px;
+    }
+    overflow:auto;
+    img{
+        float:left;
+        .imageBorder;
+        margin:0 0 1px 1px;
+    }
+    ul{
+        float:left;
+        width:35%;
+        list-style-type:none;
+    }
+    .offerInfo{
+        li{
+            padding:2px 0 0 10px;
+        }
+
+    }    
+    .tags.inline{
+        padding:0;
+        margin:0;
+    }
+}
+
+.form{
+    div{
+        margin:10px 0 20px 0;
+        overflow:hidden;
+    }
+    label.head{
+        display:block;
+        font-weight:500;
+        margin-bottom:5px;
+        &.radio{
+            display:block;
+            float:left;
+            margin:3px 20px 0 0;
+            font-weight:400;
+        }
+    }
+    input{
+        &[type=text],&[type=password]{
+            height:20px;
+            .border-radius(3px);
+            .greyInput();
+            width:97%;
+        }
+        &[type=radio]{
+            width:auto;
+            display:inline;
+            margin:1px 3px;
+        }
+        &[type=file]{
+
+        }
+    }
+    select{
+        width:100%;
+        height:20px;
+    }
+}
+
 
 /* 
    H O M E

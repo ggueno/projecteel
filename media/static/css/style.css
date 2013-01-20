@@ -685,6 +685,9 @@ hr {
   margin: 1em 0;
   padding: 0;
 }
+a {
+  outline: none;
+}
 /*
  * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
  */
@@ -769,9 +772,11 @@ body {
   -moz-background-clip: padding;
   border-radius: 3px 3px 0 0;
   background-clip: padding-box;
-  padding: 5px 15px;
-  font-size: 1.3em;
-  font-weight: 500;
+  padding: 12px 15px 10px 15Px;
+  font-size: 1em;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 1.1em;
 }
 .buttonAqua {
   display: block;
@@ -1230,6 +1235,9 @@ a.buttonAqua {
   margin: 3px 20px 0 0;
   font-weight: 400;
 }
+.form input:focus {
+  outline: none;
+}
 .form input[type=text],
 .form input[type=password] {
   height: 20px;
@@ -1254,6 +1262,22 @@ a.buttonAqua {
   box-shadow: inset 0 0 3px rgba(0,0,0,.2);
   color: inset 0 0 3px rgba(0,0,0,.2);
   width: 97%;
+}
+.form input[type=text].error,
+.form input[type=password].error {
+  -webkit-box-shadow: inset 0 0 3px #F00;
+  -moz-box-shadow: inset 0 0 3px #F00;
+  box-shadow: inset 0 0 3px #F00;
+  color: inset 0 0 3px #F00;
+  border-color: #c17575;
+}
+.form input[type=text].success,
+.form input[type=password].success {
+  -webkit-box-shadow: inset 0 0 41pxpx #7db975;
+  -moz-box-shadow: inset 0 0 41pxpx #7db975;
+  box-shadow: inset 0 0 41pxpx #7db975;
+  color: inset 0 0 41pxpx #7db975;
+  border-color: #7db975;
 }
 .form input[type=radio] {
   width: auto;
