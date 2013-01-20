@@ -1,5 +1,5 @@
 *.pyc
-db.sql
+*.sql
 projecteel/user_settings.py
 media/cache/*
 upload/*
