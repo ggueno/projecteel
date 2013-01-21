@@ -62,6 +62,12 @@ class Profile(models.Model):
             self.avatar.save(resized.name, ContentFile(resized.read()), True)
         super(Profile, self).save(*args, **kwargs)
 
+
+# class ProfileManager(models.Manager):
+#     def for_user(self, user):
+#         return self.get_query_set().filter(profile__user=user)
+
+
 class Company(Profile):
     name = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='name')

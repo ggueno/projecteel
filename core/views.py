@@ -1,10 +1,10 @@
 from django.shortcuts import render_to_response, render
-from core.models import Project
+from core.models import Project, Applicant, Profile
 from core.models import *
 from forms import ProjectForm
 from forms import OfferForm
 from taggit.models import Tag
-
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render_to_response('index.html')
@@ -26,17 +26,26 @@ def get_project(request, slug):
     return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList})
 
 
-#@login_required
+@login_required
 def add_project(request):
+
     form = {}
+
+    # user = User.objects.get(id=request.user.id)
+    applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+
     if request.method == 'POST':
+
         form = ProjectForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            get_project(request, cd.slug)
+            project = form.save(commit=False)
+            project.owner = applicant
+            project.save()
+            get_project(request, project.slug)
     else:
         form = ProjectForm()
-    return render(request, 'project/add_project.html', {'form': form})
+    return render(request, 'project/add_project.html', {'form': form, 'user_id': applicant})
 
 
 def offers(request):

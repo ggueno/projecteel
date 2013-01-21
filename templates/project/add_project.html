@@ -3,6 +3,7 @@
 {% block title %} Project {{ slug }} {% endblock %}
 
 {% block content %}
+<h1>{{user_id}}</h1>
     <h1>Add Project </h1>
     {% if form.errors %}
         <p style="color: red;">
@@ -11,22 +12,28 @@
     {% endif %}
 
     <form action="" method="post">
+        {% csrf_token %}
         <h2>Partie 1</h2>
         {{form.title.label}}{{ form.title }}
         {{form.categories.label}} {{ form.categories }}
         {{form.content.label}} {{ form.content }}
 
+        <h3>Content</h3>
+        <!-- Vidéo & Image -->
 
         <h2> Partie 2</h2>
         {{form.participant.label}}{{ form.participant }}
         {{form.cadre.label}} {{ form.cadre }}
         {{form.state.label}} {{ form.state }}
+        {{form.period.label}} {{ form.period }}
+        {{form.location.label}} {{ form.location }}
 
         <h2> Partie 3 - Liste des Tags</h2>
+        {{form.categories.label}} {{ form.categories }}
+        {{form.tags.label}} {{ form.tags }}
+        {{form.equipments.label}} {{ form.equipments }}
 
-
-
-
+        <input type="hidden" name="answerId" value="{{profile.id}}"></input>
         <input type="submit" value="Submit">
     </form>
 {% endblock %}
