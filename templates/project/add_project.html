@@ -11,9 +11,22 @@
     {% endif %}
 
     <form action="" method="post">
-        <table>
-            {{ form.as_p }}
-        </table>
+        <h2>Partie 1</h2>
+        {{form.title.label}}{{ form.title }}
+        {{form.categories.label}} {{ form.categories }}
+        {{form.content.label}} {{ form.content }}
+
+
+        <h2> Partie 2</h2>
+        {{form.participant.label}}{{ form.participant }}
+        {{form.cadre.label}} {{ form.cadre }}
+        {{form.state.label}} {{ form.state }}
+
+        <h2> Partie 3 - Liste des Tags</h2>
+
+
+
+
         <input type="submit" value="Submit">
     </form>
 {% endblock %}
