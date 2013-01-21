@@ -5,57 +5,94 @@
 {% block title %} Project {{ slug }} {% endblock %}
 {% block content %}
 
-<div class="row">
+
 
     {% if project %}
 
+<div class="row project-header">
+    <h2 class="project-title">{{ project.title }}</h2>
+    <ul class="tags inline">
+        {% for tag in tags %}
+            <li>{{ tag.name }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="row">
     <div class="threecol whitediv">
-        <h2>{{ project.title }}</h2>
         <span>{{ project.publish_date }}</span>
 
-        <div class="applicant_mini">
+        <div class="applicant-mini">
+            {% thumbnail project.owner.avatar "50x50" crop="left" as im %}
+            <img src="{{im.url}}" alt="{{project.owner.pseudo}}" />
+            {% endthumbnail %}
+
             <h3>{{project.owner.first_name}} {{project.owner.last_name}}</h3>
+
             <span>{{project.owner.profession}}</span>
         </div>
 
         {% if project.participant %}
-        <ul>
-        {% for applicant in project.participant.all %}
-            <li> {{applicant.first_name}} {{applicant.last_name}} </li>
+            <h4>Participant</h4>
+
+            {% for profile in project.participant.all %}
+            {% thumbnail profile.avatar "50x50" as im %}
+            <img alt="{{project.participant.first_name}} {{project.owner.last_name}}" src="{{im.url}}" />
+            {% endthumbnail %}
+            {% endfor %}
+        {% endif %}
+
+        {% if project.view %}
+        <h4>Vues</h4>
+        <p> {{ project.view }} mois</p>
+        {% endif %}
+
+        {% if project.period %}
+        <h4>Temps</h4>
+        <p> {{ project.period }} mois</p>
+        {% endif %}
+
+        {% if project.period %}
+        <h4>Réalisé dans le cadre</h4>
+        <p> {{ project.cadre }} mois</p>
+        {% endif %}
+
+        {% if project.state %}
+        <h4>Etat</h4>
+        <p> {{ project.state }}</p>
+        {% endif %}
+
+        {% if project.skills %}
+        <h4>Compétences</h4>
+        <ul class="tags inline">
+        {% for tag in skills %}
+            <li> {{ tag.name }} </li>
         {% endfor %}
         </ul>
         {% endif %}
 
-        {% if project.skills %}
-            <h4>Compétences</h4>
-            {% for tag in skills %}
-                <li> {{ tag.name }} </li>
-            {% endfor %}
-        {% endif %}
+
+
+
 
         {% if project.equipments %}
-            <h4>Equipements</h4>
-            {% for tag in equipments %}
-                <li> {{ tag.name }} </li>
-            {% endfor %}
+        <h4>Equipements</h4>
+        <ul class="tags inline">
+        {% for tag in equipments %}
+            <li> {{ tag.name }} </li>
+        {% endfor %}
+        </ul>
         {% endif %}
 
     </div>
 
     <div class="eightcol last whitediv">
-
-        {% for tag in tags %}
-            <li> {{ tag.name }} </li>
-        {% endfor %}
-
-        {{ project.content }}
+        <p class="project-content">{{ project.content }}<p>
 
         {% for img in project.images.all %}
-            {% thumbnail img.image "200x100" crop="left" colorspace="GRAY" as im %}
-                <img src="{{MEDIA_URL}}{{ img.image.url }}">
-            {% endthumbnail %}
+            <img class="project-content" src="{{ img.image.url }}">
         {% endfor %}
     </div>
-    {% endif %}
 </div>
+    {% endif %}
 {% endblock %}

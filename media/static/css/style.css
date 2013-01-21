@@ -1951,11 +1951,11 @@ textarea {
   color: 0 0 4px 1px rgba(0,0,0,.2);
 }
 .whitediv.header {
-  -webkit-border-radius: 0 0 3px 3px;
+  -webkit-border-radius: 0px 0px 3px 3px;
   -webkit-background-clip: padding-box;
-  -moz-border-radius: 0 0 3px 3px;
+  -moz-border-radius: 0px 0px 3px 3px;
   -moz-background-clip: padding;
-  border-radius: 0 0 3px 3px;
+  border-radius: 0px 0px 3px 3px;
   background-clip: padding-box;
 }
 .blackTitle {
@@ -2492,7 +2492,7 @@ a.buttonAqua {
   width: 100%;
   height: 20px;
 }
-/* 
+/*
    H O M E
    ========================================================================== */
 header {
@@ -2695,4 +2695,42 @@ header #menu a:hover {
   h3 {
     page-break-after: avoid;
   }
+}
+.project-header {
+  color: white;
+}
+.project-header .project-title {
+  color: black;
+  float: left;
+  margin: 20px 2%;
+  font-size: 3em;
+}
+.project-header .tags {
+  width: 30%;
+  float: right;
+}
+.project-content {
+  margin: 25px 0;
+}
+.applicant-mini {
+  background-color: gray;
+  overflow: hidden;
+  height: 70px;
+  width: 93%;
+  margin: 20px 0;
+  padding: 10px 4%;
+}
+.applicant-mini img {
+  float: left;
+  width: 30%;
+}
+.applicant-mini h3,
+.applicant-mini span {
+  float: left;
+  width: 66%;
+  margin-left: 4%;
+}
+.applicant-mini h3 {
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
