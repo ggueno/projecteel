@@ -234,7 +234,7 @@
                 <h1 class="blackTitle">Inscription</h1>
                 <div class="whitediv header">
                     <div class="row">
-                        <form action="" class="form fourcol">
+                        <!--<form action="" class="form fourcol">
                             <div>
                                 <label class="head" for="">Email*</label>
                                 <input type="text" />
@@ -281,8 +281,75 @@
                             <div>
                                 <input type="submit" class="buttonAqua alignRight" value="S'inscrire">
                             </div>
-                        </form>
-                        <div class="sixcol last">YIOAO</div>
+                        </form>-->
+                        <div class="sixcol last">
+                            <form id="my-form">
+                              <!-- TAB -->
+                              <section name="Première étape">
+
+                                <!-- Heading -->
+                                <div>
+                                  <h1>Vos infos de base</h1>
+                                  <p>Faisons connaissance, renseignez ces quelques champs.</p>
+                                </div>
+
+                                <!-- Text -->
+                                <div><label>Pseudo:</label><input type="text" name="username"/></div>
+                                <div><label>Date:</label><input type="text" name="date" class="datepicker" placeholder="JJ/MM/AA"/></div>
+                                <div><label>Commentaires:</label><textarea name="comments"></textarea></div>
+
+                                <!-- File -->
+                                <div><label>Fichier:</label><input type="file" multiple name="file"/></div>
+
+                                <!-- Select -->
+                                <div>
+                                  <label>Couleurs:</label>
+                                  <select name="colors">
+                                      <option value="default">Choose a color</option>
+                                      <option value="Red">Red</option>
+                                      <option value="Blue">Blue</option>
+                                      <option value="Green">Green</option>
+                                  </select>
+                                </div>
+
+                              </section> <!-- END TAB -->
+
+                              <!-- TAB -->
+                              <section name="Deuxième étape">
+
+                                <div>
+                                  <h1>Second tag</h1>
+                                  <p>Nigga</p>
+                                </div>
+
+                                <!-- Checkbox -->
+                                <div>
+                                  <label>Languages:</label>
+                                  <label><input type="checkbox" name="langs[]" value="English"/>English</label>
+                                  <label><input type="checkbox" name="langs[]" value="Chinese"/>Chinese</label>
+                                  <label><input type="checkbox" name="langs[]" value="Spanish"/>Spanish</label>
+                                </div>
+
+                                <!-- Radio -->
+                                <div>
+                                  <label>Options:</label>
+                                  <label><input type="radio" name="options" value="One"/>One</label>
+                                  <label><input type="radio" name="options" value="Two"/>Two</label>
+                                  <label><input type="radio" name="options" value="Three"/>Three</label>
+                                </div>
+
+                              </section> <!-- END TAB -->
+
+                              <!-- Separator -->
+                              <div><hr/></div>
+
+                              <!-- Buttons -->
+                              <div class="alignRight">
+                                <button class="buttonAqua" type="submit">Envoyer</button>
+                              </div>
+
+                            </form>
+                        </div>
                      </div>
                 </div>
             </div>
