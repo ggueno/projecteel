@@ -52,7 +52,8 @@ class SocialNetwork(models.Model):
 class Profile(models.Model):
     user = models.ForeignKey(User)
     date_signin = models.DateField(auto_now=True, auto_now_add=True)
-    avatar = models.ImageField(upload_to="upload/images/avatar")
+    avatar = models.ImageField(upload_to="upload/images/avatar", blank=False, null=False)
+    description = models.TextField(blank=False, null=False)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -64,12 +65,11 @@ class Profile(models.Model):
 class Company(Profile):
     name = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='name')
-    about = models.TextField(blank=True, null=True)
     url = models.URLField(blank=True, null=True)
     #django enum : TODO
     #status = models
-    address = models.ManyToManyField(Address)
-    social_network = models.ManyToManyField(SocialNetwork)
+    address = models.ManyToManyField(Address, blank=False, null=False)
+    social_network = models.ManyToManyField(SocialNetwork, blank=False, null=False)
 
     def __unicode__(self):
         return "%s" % (self.name)
@@ -86,12 +86,12 @@ class School(Profile):
 
 class Applicant(Profile):
     pseudo = models.CharField(max_length=50, blank=True, null=True, unique=True)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100, blank=False, null=False)
+    last_name = models.CharField(max_length=100, blank=False, null=False)
     slug = AutoSlugField(populate_from=lambda instance: u'%s-%s' % (instance.first_name, instance.last_name))
-    profession = models.CharField(max_length=100, blank=False)
-    search_location = models.CharField(max_length=100)
-    social_network = models.ManyToManyField(SocialNetwork)
+    profession = models.CharField(max_length=100, blank=False, null=False)
+    search_location = models.CharField(max_length=100, blank=False, null=False)
+    social_network = models.ManyToManyField(SocialNetwork, blank=False, null=False)
 
     def __unicode__(self):
         return "%s %s, %s" % (self.first_name, self.last_name, self.profession)
@@ -114,7 +114,7 @@ class Education(models.Model):
     start = models.DateField(blank=True, null=False)
     end = models.DateField(blank=True, null=True)
     title = models.CharField(max_length=100)
-    description = models.TextField(max_length=500)
+    description = models.TextField(max_length=500, blank=False, null=False)
 
     def __unicode__(self):
         return "%s %s %s" % (self.title, str(self.school), str(self.start))
@@ -190,6 +190,14 @@ class SkillsTaggedItem(GenericTaggedItemBase):
     tag = models.ForeignKey(SkillsTag, related_name="skills")
 
 
+class CategoryTag(TagBase):
+    parent = models.ForeignKey('self', null=True, blank=True)
+
+
+class CategoryTaggedItem(GenericTaggedItemBase):
+    tag = models.ForeignKey(CategoryTag, related_name="categories")
+
+
 class EquipmentTag(TagBase):
     pass
 
@@ -214,6 +222,7 @@ class Project(models.Model):
     state = models.CharField(blank=True, max_length=2, choices=PROJECT_STATE, default='FINISHED')
     cadre = models.CharField(blank=True, max_length=100)
     location = models.CharField(blank=True, max_length=100)
+    categories = TaggableManager(verbose_name="CategoryTag", through=CategoryTaggedItem, blank=True)
     skills = TaggableManager(verbose_name="SkillsTag", through=SkillsTaggedItem, blank=True)
     tags = TaggableManager(verbose_name="CommonTag", through=CommonTaggedItem, blank=True)
     equipments = TaggableManager(verbose_name="EquipmentTag", through=EquipmentTaggedItem, blank=True)

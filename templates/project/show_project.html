@@ -20,20 +20,46 @@
 
 <div class="row">
     <div class="threecol whitediv">
-        <h2>{{ project.title }}</h2>
         <span>{{ project.publish_date }}</span>
 
-        <div class="applicant_mini">
+        <div class="applicant-mini">
+            {% thumbnail project.owner.avatar "50x50" crop="left" as im %}
+            <img src="{{im.url}}" alt="{{project.owner.pseudo}}" />
+            {% endthumbnail %}
+
             <h3>{{project.owner.first_name}} {{project.owner.last_name}}</h3>
+
             <span>{{project.owner.profession}}</span>
         </div>
 
         {% if project.participant %}
-        <ul>
-        {% for applicant in project.participant.all %}
-            <li> {{applicant.first_name}} {{applicant.last_name}} </li>
-        {% endfor %}
-        </ul>
+            <h4>Participant</h4>
+
+            {% for profile in project.participant.all %}
+            {% thumbnail profile.avatar "50x50" as im %}
+            <img alt="{{project.participant.first_name}} {{project.owner.last_name}}" src="{{im.url}}" />
+            {% endthumbnail %}
+            {% endfor %}
+        {% endif %}
+
+        {% if project.view %}
+        <h4>Vues</h4>
+        <p> {{ project.view }} mois</p>
+        {% endif %}
+
+        {% if project.period %}
+        <h4>Temps</h4>
+        <p> {{ project.period }} mois</p>
+        {% endif %}
+
+        {% if project.period %}
+        <h4>Réalisé dans le cadre</h4>
+        <p> {{ project.cadre }} mois</p>
+        {% endif %}
+
+        {% if project.state %}
+        <h4>Etat</h4>
+        <p> {{ project.state }}</p>
         {% endif %}
 
         {% if project.skills %}
@@ -44,6 +70,8 @@
         {% endfor %}
         </ul>
         {% endif %}
+
+
 
 
 
@@ -59,12 +87,10 @@
     </div>
 
     <div class="eightcol last whitediv">
-        {{ project.content }}
+        <p class="project-content">{{ project.content }}<p>
 
         {% for img in project.images.all %}
-            {% thumbnail img.image "200x100" crop="left" colorspace="GRAY" as im %}
-                <img src="{{MEDIA_URL}}{{ img.image.url }}">
-            {% endthumbnail %}
+            <img class="project-content" src="{{ img.image.url }}">
         {% endfor %}
     </div>
 </div>
