@@ -9,17 +9,30 @@
 
     {% if project %}
 
+
+
 <div class="row project-header">
     <h2 class="project-title">{{ project.title }}</h2>
     <ul class="tags inline">
-        {% for tag in tags %}
-            <li>{{ tag.name }}</li>
+        {% for tag in categories %}
+            <li>{{ tag.name }} </li>
         {% endfor %}
     </ul>
 </div>
 
 <div class="row">
-    <div class="threecol whitediv">
+
+    <div class="eightcol  whitediv">
+        <p class="project-content">{{ project.content }}<p>
+
+        {% for img in project.images.all %}
+            <img class="project-content" src="{{ img.image.url }}" alt="{{ img.slug }}">
+            <h4>{{img.title}}</h4>
+            <p>{{img.description}}</p>
+        {% endfor %}
+    </div>
+
+    <div class="threecol whitediv last">
         <span>{{ project.publish_date }}</span>
 
         <div class="applicant-mini">
@@ -72,7 +85,13 @@
         {% endif %}
 
 
-
+        {% if project.tags %}
+        <ul class="tags inline">
+        {% for tag in tags %}
+            <li> {{ tag.name }} </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
 
 
         {% if project.equipments %}
@@ -86,13 +105,6 @@
 
     </div>
 
-    <div class="eightcol last whitediv">
-        <p class="project-content">{{ project.content }}<p>
-
-        {% for img in project.images.all %}
-            <img class="project-content" src="{{ img.image.url }}">
-        {% endfor %}
-    </div>
 </div>
     {% endif %}
 {% endblock %}
