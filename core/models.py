@@ -153,13 +153,13 @@ class Offer(models.Model):
     slug = AutoSlugField(populate_from='title', unique=True)
     company = models.ForeignKey(Company)
     location = models.CharField(max_length=100, blank=False, null=False)
-    contract = models.CharField(max_length=2, choices=OFFER_TYPE, default='CDI')
+    contract = models.CharField(max_length=2, choices=OFFER_TYPE, default='CDI', blank=True)
     salary = models.IntegerField(blank=True, null=True)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     content = models.TextField()
     tags = TaggableManager(verbose_name="CommonTag", through=CommonTaggedItem, blank=True)
     reference = models.CharField(max_length=30, blank=True, null=True)
-    category = models.ManyToManyField(CategoryOffer)
+    category = models.ManyToManyField(CategoryOffer, blank=True, null=True)
 
     def __unicode__(self):
         return "%s %s %s" % (self.title, self.company, self.location)
