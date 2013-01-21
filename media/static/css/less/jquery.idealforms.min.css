@@ -228,7 +228,7 @@ textarea {
   right: -24px;
   height: 16px;
   width: 16px;
-  background: url("../less/themes/basic/validation.png");
+  background: url("../img/form-themes/basic/validation.png");
 }
 .ideal-form textarea ~ .ideal-icon-valid,
 .ideal-form textarea ~ .ideal-icon-invalid,
@@ -247,7 +247,7 @@ textarea {
   cursor: pointer;
 }
 .ideal-form .ajax .ideal-icon-invalid {
-  background: url(../less/themes/basic/loading.gif);
+  background: url(../img/form-themes/basic/loading.gif);
 }
 .ideal-form .invalid input[type="text"],
 .ideal-form .invalid input[type="password"],
@@ -807,7 +807,7 @@ textarea {
   user-select: none;
   position: absolute;
   margin-left: -30px;
-  background: url("../less/themes/basic/radiocheck.png") left top no-repeat;
+  background: url("../img/form-themes/basic/radiocheck.png") left top no-repeat;
   width: 20px;
   height: 20px;
 }
@@ -1003,7 +1003,7 @@ button.ideal-file-upload:active {
   cursor: pointer;
   width: 16px;
   height: 16px;
-  background: url("../less/themes/basic/datepicker.png") left no-repeat;
+  background: url("../img/form-themes/basic/datepicker.png") left no-repeat;
 }
 .ui-datepicker .ui-datepicker-prev span,
 .ui-datepicker .ui-datepicker-next span {
