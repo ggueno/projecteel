@@ -1,5 +1,5 @@
 {% extends "layout/base.html" %}
-
+{% load staticfiles %}
 
 
 {% block title %} {{ profile.slug }}'s profile. {% endblock %}
@@ -9,6 +9,7 @@
         <h2> {{ profile.first_name }} {{ profile.last_name }} </h1>
         <h3> {{ profile.profession }}</h3>
         <h4> {{ profile.search_location }}</h4>
+        <h4> {{ profile.url }}</h4>
         <p> {{ profile.description }} </p>
         <img src="{{ profile.avatar.url }}" alt="">
         <br/>
@@ -20,6 +21,24 @@
 
             {% endfor %}
         </p>
+
+
+        <!-- TODO : Template Project -->
+        {% if projects %}
+            {% for project in projects %}
+            <div class="thumb threecol">
+                <a href="/project/{{ project.slug }}/">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                    <div class="project_infos">
+                        <div class="project_views"><span class="label_views"></span>{{ project.view }}</div>
+                        <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                    </div>
+                    <h3>{{ project.title }}</h3>
+                </a>
+            </div>
+            {% endfor %}
+        {% endif %}
+
     {% else %}
         <h1> Profile unfound. <h1>
     {% endif %}

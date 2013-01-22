@@ -5,6 +5,7 @@ from forms import ProjectForm
 from forms import OfferForm
 from taggit.models import Tag
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 def home(request):
     return render_to_response('index.html')
@@ -81,8 +82,11 @@ def add_offer(request):
 #TODO : generic view for all profile
 def get_applicant(request, slug):
     profile = Applicant.objects.get(slug=slug)
+
+    projects = Project.objects.filter(Q(owner=profile.user) | Q(participant__in=[profile]))
+
     #TODO : delete slug from view and template
-    return render_to_response('profile/profile_applicant.html', {'profile': profile, 'slug': slug})
+    return render_to_response('profile/profile_applicant.html', {'profile': profile, 'slug': slug, 'projects': projects})
 
 
 def get_company(request, slug):

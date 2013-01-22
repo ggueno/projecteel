@@ -54,6 +54,7 @@ class Profile(models.Model):
     date_signin = models.DateField(auto_now=True, auto_now_add=True)
     avatar = models.ImageField(upload_to="upload/images/avatar", blank=False, null=False)
     description = models.TextField(blank=False, null=False)
+    url = models.URLField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -71,7 +72,6 @@ class Profile(models.Model):
 class Company(Profile):
     name = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='name')
-    url = models.URLField(blank=True, null=True)
     #django enum : TODO
     #status = models
     address = models.ManyToManyField(Address, blank=False, null=False)
