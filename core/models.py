@@ -52,7 +52,7 @@ class SocialNetwork(models.Model):
 class Profile(models.Model):
     user = models.ForeignKey(User)
     date_signin = models.DateField(auto_now=True, auto_now_add=True)
-    avatar = models.ImageField(upload_to="upload/images/avatar", blank=False, null=False)
+    avatar = models.ImageField(upload_to="upload/images/avatar", blank=True, null=True)
     description = models.TextField(blank=False, null=False)
     url = models.URLField(blank=True, null=True)
 
@@ -89,15 +89,17 @@ class School(Profile):
         return "%s" % (self.name)
 
 
-
 class Applicant(Profile):
     pseudo = models.CharField(max_length=50, blank=True, null=True, unique=True)
     first_name = models.CharField(max_length=100, blank=False, null=False)
     last_name = models.CharField(max_length=100, blank=False, null=False)
     slug = AutoSlugField(populate_from=lambda instance: u'%s-%s' % (instance.first_name, instance.last_name))
     profession = models.CharField(max_length=100, blank=False, null=False)
-    search_location = models.CharField(max_length=100, blank=False, null=False)
-    social_network = models.ManyToManyField(SocialNetwork, blank=False, null=False)
+    search_location = models.CharField(max_length=100, blank=True, null=True)
+    social_network = models.ManyToManyField(SocialNetwork, blank=True, null=True)
+    #situation =
+    educations = models.ManyToManyField('Education', blank=True, null=True)
+    experiences = models.ManyToManyField('Experience', blank=True, null=True)
 
     def __unicode__(self):
         return "%s %s, %s" % (self.first_name, self.last_name, self.profession)
@@ -134,7 +136,6 @@ class CommonTaggedItem(GenericTaggedItemBase):
     tag = models.ForeignKey(CommonTag, related_name="common")
 
 
-
 class CategoryOffer(models.Model):
     name = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='name', unique=True)
@@ -143,8 +144,6 @@ class CategoryOffer(models.Model):
 
     def __unicode__(self):
         return "%s" % (self.name)
-
-
 
 
 class Offer(models.Model):

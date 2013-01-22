@@ -12,14 +12,14 @@
                 	<h1>{{ offer.title }}</h1>
 		        	<p>Postée le {{ offer.publish_date }}</p>
 		        	<h3>{{ offer.contract }}</h3>
-		        	<p>{{ offer.location }}</p>
+                    <p>{{ offer.location }}</p>
+		        	<p>{{ offer.reference }}</p>
 
 		            {% if offer.salary %}
 		                <p>Salaire : {{  offer.salary }} €</p>
 		            {% endif %}
 
 		        	{% if offer.tags.all %}
-
 			        	<h3>Compétences</h3>
 			        	<ul class="tags inline">
 	                        {% for tag in offer.tags.all %}
@@ -28,7 +28,6 @@
 	                    </ul>
 		        	{% endif %}
 		        	<div class="share-social-network"></div>
-
 	            </div>
 	        </div>
 	    	<div class="ninecol last">
