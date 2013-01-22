@@ -1,0 +1,26 @@
+{% extends "layout/base.html" %}
+
+
+
+{% block title %} {{ profile.slug }}'s profile. {% endblock %}
+
+{% block content %}
+    {% if profile %}
+        <h2> {{ profile.first_name }} {{ profile.last_name }} </h1>
+        <h3> {{ profile.profession }}</h3>
+        <h4> {{ profile.search_location }}</h4>
+        <p> {{ profile.description }} </p>
+        <img src="{{ profile.avatar.url }}" alt="">
+        <br/>
+        <p>
+            {% for social_network in profile.social_network.all %}
+                <a href="{{ social_network.url }}" title="{{ profile.first_name }} {{ profile.last_name }} on {{ social_network.name }}"> {{ social_network.name }} </a>
+            {% empty %}
+                <p> {{ profile.first_name }} {{ profile.last_name }} n'aime pas vraiment les reseaux sociaux </p>
+
+            {% endfor %}
+        </p>
+    {% else %}
+        <h1> Profile unfound. <h1>
+    {% endif %}
+{% endblock %}
