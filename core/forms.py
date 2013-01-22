@@ -18,3 +18,4 @@ class ProjectForm(forms.ModelForm):
 class OfferForm(forms.ModelForm):
     class Meta:
         model = Offer
+        exclude = ('slug', 'company')

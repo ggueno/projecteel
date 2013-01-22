@@ -11,9 +11,8 @@
     {% endif %}
 
     <form action="" method="post">
-        <table>
-            {{ form.as_p }}
-        </table>
+        {% csrf_token %}
+        {{ form.as_p }}
         <input type="submit" value="Submit">
     </form>
 {% endblock %}

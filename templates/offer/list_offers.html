@@ -21,9 +21,8 @@
 
 		{% if offers %}
 			{% for offer in offers %}
-
 			<div class="whitediv row eightcol">
-				<h2>{{ offer.title }}</h2>
+				<h2><a href="/offer/{{ offer.slug }}/">{{ offer.title }}</a></h2>
 				<h4>{{ offer.company }}</h4>
 				<p>{{ offer.location }}</p>
 				<div class="tags">

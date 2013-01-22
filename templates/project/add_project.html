@@ -3,7 +3,6 @@
 {% block title %} Project {{ slug }} {% endblock %}
 
 {% block content %}
-<h1>{{user_id}}</h1>
     <h1>Add Project </h1>
     {% if form.errors %}
         <p style="color: red;">
@@ -33,7 +32,6 @@
         {{form.tags.label}} {{ form.tags }}
         {{form.equipments.label}} {{ form.equipments }}
 
-        <input type="hidden" name="answerId" value="{{profile.id}}"></input>
         <input type="submit" value="Submit">
     </form>
 {% endblock %}

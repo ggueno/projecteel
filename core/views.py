@@ -23,6 +23,7 @@ def get_project(request, slug):
     skillsList = project.skills.get_query_set()
     tagsList = project.tags.get_query_set()
     equipementsList = project.equipments.get_query_set()
+    #TODO : delete slug from view and template
     return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList})
 
 
@@ -55,20 +56,41 @@ def offers(request):
 
 def get_offer(request, slug):
     offer = Offer.objects.get(slug=slug)
+    #TODO : delete slug from view and template
     return render_to_response('offer/show_offer.html', {'offer': offer, 'slug': slug})
 
+
+@login_required
 def add_offer(request):
     form = {}
+
+    company = Company.objects.filter(user_id=request.user.id)[0]
     if request.method == 'POST':
         form = OfferForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            get_offer(request, cd.slug)
+            offer = form.save(commit=False)
+            offer.company = company
+            offer.save()
+            return render(request, 'offer/show_offer.html', {'offer': offer, 'slug': offer.slug})
     else:
         form = OfferForm()
-    return render_to_response('offer/add_offer.html', {'form': form})
+    return render(request, 'offer/add_offer.html', {'form': form})
 
 
-def get_profile(request, slug):
+#TODO : generic view for all profile
+def get_applicant(request, slug):
     profile = Applicant.objects.get(slug=slug)
-    return render_to_response('profile/profile.html', {'profile': profile, 'slug': slug})
+    #TODO : delete slug from view and template
+    return render_to_response('profile/profile_applicant.html', {'profile': profile, 'slug': slug})
+
+
+def get_company(request, slug):
+    company = Company.objects.get(slug=slug)
+    #TODO : delete slug from view and template
+    return render_to_response('profile/profile_company.html', {'profile': company, 'slug': slug})
+
+
+def get_school(request, slug):
+    school = School.objects.get(slug=slug)
+    return render_to_response('profile/profile_school.html', {'profile': school, 'slug': slug})
