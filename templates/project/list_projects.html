@@ -3,34 +3,37 @@
 
 {% block title %} Projects {% endblock %}
 {% block content %}
-    <h1>Projects</h1>
+    
+    <div class="row wrapper">
+        <h1 class="heading">Projects</h1>
 
-    <div class="sorting whitediv threecol">
-        <h4>Affiner ma recherche</h4>
-        <p>Mots-clés</p>
-        <input type="text" name="keywords-sorting">
-        <p>Localisation</p>
-        <input type="text" name="location">
-        <p>Secteur d'activité</p>
-        <p>Type de contrat</p>
-        <p>Durée</p>
-    </div>
-
-
-    <div class="list-offers eightcol">
-	{% if projects %}
-        {% for project in projects %}
-        <div class="thumb fourcol">
-            <a href="/project/{{ project.slug }}/">
-                <img src="{% static "img/thumb1.jpg" %}" alt="" />
-                <div class="project_infos">
-                    <div class="project_views"><span class="label_views"></span>{{ project.view }}</div>
-                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
-                </div>
-                <h3>{{ project.title }}</h3>
-            </a>
+        <div class="sorting whitediv threecol">
+            <h4>Affiner ma recherche</h4>
+            <p>Mots-clés</p>
+            <input type="text" name="keywords-sorting">
+            <p>Localisation</p>
+            <input type="text" name="location">
+            <p>Secteur d'activité</p>
+            <p>Type de contrat</p>
+            <p>Durée</p>
         </div>
-		{% endfor %}
-	{% endif %}
+
+
+        <div class="list-offers eightcol">
+    	{% if projects %}
+            {% for project in projects %}
+            <div class="thumb fourcol {% if forloop.counter|divisibleby:"3"%}last{%endif%}">
+                <a href="/project/{{ project.slug }}/">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                    <div class="project_infos">
+                        <div class="project_views"><span class="label_views"></span>{{ project.view }}</div>
+                        <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                    </div>
+                    <h3>{{ project.title }}</h3>
+                </a>
+            </div>
+    		{% endfor %}
+    	{% endif %}
+        </div>
     </div>
 {% endblock %}
