@@ -851,7 +851,6 @@ textarea {
   width: 469px;
 }
 .ideal-form {
-  font-size: 15px;
   line-height: 22.5px;
   background: #ffffff;
 }
@@ -1712,7 +1711,7 @@ button.ideal-file-upload {
   margin-bottom: 1em;
   cursor: pointer;
   position: absolute;
-  top: 0;
+  top: -1px;
   right: 0;
   margin: 0;
   height: 33px;
@@ -1984,6 +1983,16 @@ textarea {
 }
 .row {
   margin: 10px auto;
+}
+::-moz-selection {
+  background: #fe57a1;
+  color: #fff;
+  text-shadow: none;
+}
+::selection {
+  background: #fe57a1;
+  color: #fff;
+  text-shadow: none;
 }
 .whitediv {
   -webkit-border-radius: 3px;
@@ -2481,7 +2490,7 @@ a.buttonAqua {
   margin: 0;
 }
 .ideal-form {
-  padding: 10px;
+  padding: 10px 20px;
   background: transparent;
 }
 .ideal-form .ideal-label {
@@ -2497,6 +2506,132 @@ a.buttonAqua {
 }
 .PTform.inline input[type=text] {
   height: 33px;
+}
+.sleekbox {
+  width: 100%;
+  background: #FFFFFF;
+  display: block;
+  padding: 0;
+  margin: 0;
+  -webkit-box-shadow: 0 1px 1px 1px rgba(0,0,0,.1);
+  -moz-box-shadow: 0 1px 1px 1px rgba(0,0,0,.1);
+  box-shadow: 0 1px 1px 1px rgba(0,0,0,.1);
+  color: 0 1px 1px 1px rgba(0,0,0,.1);
+}
+.sleekbox h4 {
+  padding: 15px 20px;
+  display: block;
+  font-size: 1.5em;
+  font-weight: 400;
+}
+.sleekbox ul {
+  border-top: 1px solid #e6e6e6;
+}
+.sleekbox ul li {
+  display: block;
+  padding: 0;
+  border-bottom: 1px solid #e6e6e6;
+}
+.sleekbox ul li:focus ::-webkit-input-placeholder,
+.sleekbox ul li:hover ::-webkit-input-placeholder {
+  color: #FFF;
+}
+.sleekbox ul li:focus :-moz-placeholder,
+.sleekbox ul li:hover :-moz-placeholder {
+  /* Firefox 18- */
+
+  color: #FFF;
+}
+.sleekbox ul li:focus ::-moz-placeholder,
+.sleekbox ul li:hover ::-moz-placeholder {
+  /* Firefox 19+ */
+
+  color: #FFF;
+}
+.sleekbox ul li:focus :-ms-input-placeholder,
+.sleekbox ul li:hover :-ms-input-placeholder {
+  color: #FFF;
+}
+.sleekbox ul li:last-child {
+  border-bottom: 0;
+}
+.sleekbox ul li input::-moz-selection {
+  background: #777;
+}
+.sleekbox ul li input::selection {
+  background: #777;
+}
+.sleekbox ul li input {
+  width: 84%;
+  margin: 0;
+  padding: 5% 8%;
+  border: 0;
+  display: block;
+  background: transparent;
+}
+.sleekbox ul li input:hover,
+.sleekbox ul li input:focus {
+  background-color: #4fbaea;
+  color: #FFF;
+}
+.sleekbox p {
+  padding: 20px;
+}
+.sleekbox ul.tags {
+  padding: 20px;
+  border-top: none;
+}
+.sleekbox ul.tags li {
+  padding: 3px 9px;
+  position: relative;
+  background: #F1F1F7;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+  border: 0;
+  height: 21px;
+  line-height: 21px;
+  -webkit-box-shadow: 0 1px 0 #CECED8;
+  -moz-box-shadow: 0 1px 0 #ceced8;
+  box-shadow: 0 1px 0 #CECED8;
+  margin-right: 4px;
+  display: -moz-inline-box;
+  -moz-box-orient: vertical;
+  display: inline-block;
+  vertical-align: middle;
+  color: #4E4E4E;
+}
+.sleekbox ul.tags .delete {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  color: none;
+  padding: 2px;
+}
+.sleekbox ul.tags .delete:hover {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  color: none;
+  color: #4fbaea;
+}
+.sleekbox ::-webkit-input-placeholder {
+  color: #777;
+}
+.sleekbox :-moz-placeholder {
+  /* Firefox 18- */
+
+  color: #777;
+}
+.sleekbox ::-moz-placeholder {
+  /* Firefox 19+ */
+
+  color: #777;
+}
+.sleekbox :-ms-input-placeholder {
+  color: #777;
 }
 /*
    H O M E

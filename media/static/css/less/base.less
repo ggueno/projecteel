@@ -128,6 +128,9 @@ textarea {
     margin:10px auto;
 }
 
+::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
+::selection { background: #fe57a1; color: #fff; text-shadow: none; }
+
 .whitediv{
     .whiteBox;
     &.header{
@@ -477,7 +480,7 @@ a.buttonAqua{
 }
 
 .ideal-form{
-    padding: 10px;
+    padding: 10px 20px;
     background:transparent;
     .ideal-label{
         width: 100px;
@@ -500,6 +503,118 @@ a.buttonAqua{
         .ideal-field{
             
         }
+    }
+}
+
+.sleekbox{
+    width: 100%;
+    background: #FFFFFF;
+    display: block;
+    padding: 0;
+    margin: 0;
+    .box-shadow(~"0 1px 1px 1px rgba(0,0,0,.1)");
+    h4{
+        padding: 15px 20px;
+        display: block; 
+        font-size: 1.5em;
+        font-weight: 400;
+    }
+    ul{
+        border-top: 1px solid #e6e6e6;
+        li{
+            display: block;
+            padding: 0;
+            border-bottom: 1px solid #e6e6e6;
+            &:focus,&:hover{
+                ::-webkit-input-placeholder {
+                   color: #FFF;
+                }
+
+                :-moz-placeholder { /* Firefox 18- */
+                   color: #FFF;
+                }
+
+                ::-moz-placeholder {  /* Firefox 19+ */
+                   color: #FFF;
+                }
+
+                :-ms-input-placeholder {  
+                   color: #FFF;
+                }
+            }    
+            &:last-child{
+                border-bottom: 0;
+            } 
+            input::-moz-selection { background: #777; }
+            input::selection { background: #777; }
+            input{
+                width: 84%;
+                margin: 0; 
+                padding: 5% 8%; 
+                border: 0;
+                display: block;
+                background: transparent; 
+                &:hover,&:focus{
+                    background-color: #4fbaea;
+                    color:#FFF;
+                }       
+                
+            }
+        }
+    }
+    p{
+        padding: 20px;
+    }
+
+    ul.tags{
+        padding: 20px;
+        border-top: none;
+        li{
+            padding: 3px 9px;
+            position: relative;
+            background: #F1F1F7;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            -ms-border-radius: 2px;
+            -o-border-radius: 2px;
+            border-radius: 2px;
+            border: 0;
+            height: 21px;
+            line-height: 21px;
+            -webkit-box-shadow: 0 1px 0 #CECED8;
+            -moz-box-shadow: 0 1px 0 #ceced8;
+            box-shadow: 0 1px 0 #CECED8;
+            margin-right: 4px;
+            display: -moz-inline-box;
+            -moz-box-orient: vertical;
+            display: inline-block;
+            vertical-align: middle;
+            color: #4E4E4E;
+        }
+        .delete{
+            .box-shadow(~"none");
+            padding: 2px;
+            &:hover{
+                .box-shadow(~"none");
+                color: #4fbaea;
+            }
+        }
+    }
+
+    ::-webkit-input-placeholder {
+       color: #777;
+    }
+
+    :-moz-placeholder { /* Firefox 18- */
+       color: #777;
+    }
+
+    ::-moz-placeholder {  /* Firefox 19+ */
+       color: #777;
+    }
+
+    :-ms-input-placeholder {  
+       color: #777;
     }
 }
 

@@ -57,7 +57,6 @@ textarea {
   width: 469px;
 }
 .ideal-form {
-  font-size: 15px;
   line-height: 22.5px;
   background: #ffffff;
 }
@@ -918,7 +917,7 @@ button.ideal-file-upload {
   margin-bottom: 1em;
   cursor: pointer;
   position: absolute;
-  top: 0;
+  top: -1px;
   right: 0;
   margin: 0;
   height: 33px;
