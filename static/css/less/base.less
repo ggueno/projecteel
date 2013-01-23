@@ -109,8 +109,11 @@ a{
 body{
     color:#393939;
     background:#e5e5e5;
-    font-family: 'PT Sans', sans-serif;
+    font-family: 'OpenSans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.1px;
     font-size: 10pt;    
+    overflow-y:scroll;
 }
 
 html,
@@ -118,7 +121,7 @@ button,
 input,
 select,
 textarea {
-  font-family: 'PT Sans', sans-serif;
+  font-family: 'OpenSans', sans-serif;
 }
 
 .row{
@@ -139,7 +142,7 @@ textarea {
     .border-radius(3px 3px 0 0);
     padding: 12px 15px 10px 15Px;
     font-size: 1em;
-    font-weight: 400;
+    font-weight: 800;
     text-transform: uppercase;
     line-height: 1.1em;
 }
@@ -161,6 +164,9 @@ textarea {
 
 .alignRight{
     margin:0 0 0 auto;
+}
+.ideal-wrap.alignRight{
+    float:right;
 }
 
 a.buttonAqua{
@@ -465,55 +471,21 @@ a.buttonAqua{
     }
 }
 
-.form{
-    div{
-        margin:10px 0 20px 0;
-        overflow:hidden;
+.ideal-form{
+    padding: 10px;
+    background:transparent;
+    .ideal-label{
+        width: 100px;
     }
-    label.head{
-        display:block;
-        font-weight:500;
-        margin-bottom:5px;
-        &.radio{
-            display:block;
-            float:left;
-            margin:3px 20px 0 0;
-            font-weight:400;
-        }
+    .ideal-heading{
+        background:transparent;
     }
-    input{
-        &:focus{
-            outline:none;
-        }
-        &[type=text],&[type=password]{
-            height:20px;
-            .border-radius(3px);
-            .greyInput();
-            width:97%;
-            &.error{
-                .box-shadow(~"inset 0 0 3px #F00");
-                border-color:#c17575;
-            }
-            &.success{
-                .box-shadow(~"inset 0 0 41pxpx #7db975");
-                border-color:#7db975;
-            }
-        }
-        &[type=radio]{
-            width:auto;
-            display:inline;
-            margin:1px 3px;
-        }
-        &[type=file]{
-
-        }
-    }
-    select{
-        width:100%;
-        height:20px;
+    .ideal-field{
+        background:transparent;
+        border:none;
+        padding:0;
     }
 }
-
 
 /*
    H O M E

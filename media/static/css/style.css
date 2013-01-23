@@ -735,6 +735,63 @@ img {
     padding-right: 20px;
   }
 }
+/*  OpenSans    */
+@font-face {
+  font-family: 'OpenSans';
+  src: url('../fonts/opensans/OpenSans-Light-webfont.eot');
+  src: url('../fonts/opensans/OpenSans-Light-webfont.svg#OpenSans') format('svg'), url('../fonts/opensans/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans/OpenSans-Light-webfont.woff') format('woff'), url('../fonts/opensans/OpenSans-Light-webfont.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'OpenSans';
+  src: url('../fonts/opensans/OpenSans-LightItalic-webfont.eot');
+  src: url('../fonts/opensans/OpenSans-LightItalic-webfont.svg#OpenSans') format('svg'), url('../fonts/opensans/OpenSans-LightItalic-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans/OpenSans-LightItalic-webfont.woff') format('woff'), url('../fonts/opensans/OpenSans-LightItalic-webfont.ttf') format('truetype');
+  font-weight: 100;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'OpenSans';
+  src: url('../fonts/opensans/OpenSans-Regular-webfont.eot');
+  src: url('../fonts/opensans/OpenSans-Regular-webfont.svg#OpenSans') format('svg'), url('../fonts/opensans/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans/OpenSans-Regular-webfont.woff') format('woff'), url('../fonts/opensans/OpenSans-Regular-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'OpenSans';
+  src: url('../fonts/opensans/OpenSans-Italic-webfont.eot');
+  src: url('../fonts/opensans/OpenSans-Italic-webfont.svg#OpenSans') format('svg'), url('../fonts/opensans/OpenSans-Italic-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans/OpenSans-Italic-webfont.woff') format('woff'), url('../fonts/opensans/OpenSans-Italic-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'OpenSans';
+  src: url('../fonts/opensans/OpenSans-Semibold-webfont.eot');
+  src: url('../fonts/opensans/OpenSans-Semibold-webfont.svg#OpenSans') format('svg'), url('../fonts/opensans/OpenSans-Semibold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans/OpenSans-Semibold-webfont.woff') format('woff'), url('../fonts/opensans/OpenSans-Semibold-webfont.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'OpenSans';
+  src: url('../fonts/opensans/OpenSans-SemiboldItalic-webfont.eot');
+  src: url('../fonts/opensans/OpenSans-SemiboldItalic-webfont.svg#OpenSans') format('svg'), url('../fonts/opensans/OpenSans-SemiboldItalic-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans/OpenSans-SemiboldItalic-webfont.woff') format('woff'), url('../fonts/opensans/OpenSans-SemiboldItalic-webfont.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'OpenSans';
+  src: url('../fonts/opensans/OpenSans-Bold-webfont.eot');
+  src: url('../fonts/opensans/OpenSans-Bold-webfont.svg#OpenSans') format('svg'), url('../fonts/opensans/OpenSans-Bold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans/OpenSans-Bold-webfont.woff') format('woff'), url('../fonts/opensans/OpenSans-Bold-webfont.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'OpenSans';
+  src: url('../fonts/opensans/OpenSans-BoldItalic-webfont.eot');
+  src: url('../fonts/opensans/OpenSans-BoldItalic-webfont.svg#OpenSans') format('svg'), url('../fonts/opensans/OpenSans-BoldItalic-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans/OpenSans-BoldItalic-webfont.woff') format('woff'), url('../fonts/opensans/OpenSans-BoldItalic-webfont.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+}
 fieldset {
   border: 1px solid #c0c0c0;
   margin: 0 2px;
@@ -748,7 +805,6 @@ button,
 input,
 select,
 textarea {
-  font-family: inherit;
   font-size: 100%;
   margin: 0;
 }
@@ -796,7 +852,6 @@ textarea {
 }
 .ideal-form {
   font-size: 15px;
-  font-family: sans-serif;
   line-height: 22.5px;
   background: #ffffff;
 }
@@ -858,7 +913,6 @@ textarea {
 .ideal-form textarea,
 .ideal-form select {
   font-size: 15px;
-  font-family: sans-serif;
   padding: 7.5px;
   width: 225px;
   border: 1px solid #aaa;
@@ -887,7 +941,6 @@ textarea {
 .ideal-form button,
 .ideal-form input[type="reset"],
 .ideal-form input[type="submit"] {
-  font-family: sans-serif;
   height: 33px;
   line-height: 33px;
   padding: 0 .8em;
@@ -911,7 +964,7 @@ textarea {
   background-image: -moz-linear-gradient(#ffffff, #ffffff);
   background-image: -o-linear-gradient(top, #ffffff, #ffffff);
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#ffffff', EndColorStr='#ffffff', GradientType=0);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#ffffff', GradientType=0))";
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#ffffff',GradientType=0))";
   border-color: #aaa;
   border-style: solid;
   border-width: 0 0 1px 0;
@@ -919,7 +972,6 @@ textarea {
   margin: 2em 0 1.2em 0;
   padding: 0 0 15px 0;
   border-radius: 0;
-  font-family: sans-serif;
 }
 .ideal-form .ideal-heading h1,
 .ideal-form .ideal-heading h2,
@@ -1046,7 +1098,7 @@ textarea {
   background-image: -moz-linear-gradient(#285d85, #3478ac);
   background-image: -o-linear-gradient(top, #285d85, #3478ac);
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#285d85', EndColorStr='#3478ac', GradientType=0);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#285d85', EndColorStr='#3478ac', GradientType=0))";
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#285d85',EndColorStr='#3478ac',GradientType=0))";
   color: #fff;
   border: 1px solid #214d6d;
   border-bottom: 1px solid #214d6d;
@@ -1162,7 +1214,7 @@ textarea {
   background-image: -moz-linear-gradient(#ffffff, #e5e5e5);
   background-image: -o-linear-gradient(top, #ffffff, #e5e5e5);
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#ffffff', EndColorStr='#e5e5e5', GradientType=0);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#e5e5e5', GradientType=0))";
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#e5e5e5',GradientType=0))";
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -1310,7 +1362,6 @@ textarea {
 }
 .ideal-select-title,
 .ideal-select-item {
-  font-family: sans-serif;
   height: 33px;
   line-height: 33px;
   padding: 0 .8em;
@@ -1329,7 +1380,7 @@ textarea {
   background-image: -moz-linear-gradient(#ffffff, #e5e5e5);
   background-image: -o-linear-gradient(top, #ffffff, #e5e5e5);
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#ffffff', EndColorStr='#e5e5e5', GradientType=0);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#e5e5e5', GradientType=0))";
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#e5e5e5',GradientType=0))";
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -1378,7 +1429,7 @@ textarea {
   background-image: -moz-linear-gradient(#ffffff, #d5e3ed);
   background-image: -o-linear-gradient(top, #ffffff, #d5e3ed);
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#ffffff', EndColorStr='#d5e3ed', GradientType=0);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#d5e3ed', GradientType=0))";
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#d5e3ed',GradientType=0))";
   color: #2b4d65;
 }
 .ideal-select-focus .ideal-select-title:before,
@@ -1426,7 +1477,7 @@ textarea {
   background-image: -moz-linear-gradient(#ffffff, #ffffff);
   background-image: -o-linear-gradient(top, #ffffff, #ffffff);
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#ffffff', EndColorStr='#ffffff', GradientType=0);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#ffffff', GradientType=0))";
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#ffffff',GradientType=0))";
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), transparent 0 0 0;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), transparent 0 0 0;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), transparent 0 0 0;
@@ -1452,7 +1503,7 @@ textarea {
   background-image: -moz-linear-gradient(#285d85, #3478ac);
   background-image: -o-linear-gradient(top, #285d85, #3478ac);
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#285d85', EndColorStr='#3478ac', GradientType=0);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#285d85', EndColorStr='#3478ac', GradientType=0))";
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#285d85',EndColorStr='#3478ac',GradientType=0))";
   -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), transparent 0 0 0;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), transparent 0 0 0;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), transparent 0 0 0;
@@ -1514,7 +1565,7 @@ textarea {
   background-image: -moz-linear-gradient(#ffffff, #ffffff);
   background-image: -o-linear-gradient(top, #ffffff, #ffffff);
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#ffffff', EndColorStr='#ffffff', GradientType=0);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#ffffff', GradientType=0))";
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#ffffff',GradientType=0))";
 }
 .ideal-radiocheck label,
 .ideal-radiocheck input {
@@ -1589,7 +1640,7 @@ textarea {
   background-image: -moz-linear-gradient(#ffffff, #e5e5e5);
   background-image: -o-linear-gradient(top, #ffffff, #e5e5e5);
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#ffffff', EndColorStr='#e5e5e5', GradientType=0);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#e5e5e5', GradientType=0))";
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#e5e5e5',GradientType=0))";
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -1614,7 +1665,7 @@ textarea {
   background-image: -moz-linear-gradient(#ffffff, #d5e3ed);
   background-image: -o-linear-gradient(top, #ffffff, #d5e3ed);
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#ffffff', EndColorStr='#d5e3ed', GradientType=0);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#d5e3ed', GradientType=0))";
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#d5e3ed',GradientType=0))";
   color: #2b4d65;
 }
 .ideal-button:active {
@@ -1633,7 +1684,6 @@ input.ideal-file-filename {
 }
 label.ideal-file-upload,
 button.ideal-file-upload {
-  font-family: sans-serif;
   line-height: 33px;
   padding: 0 .8em;
   -webkit-touch-callout: none;
@@ -1648,7 +1698,7 @@ button.ideal-file-upload {
   background-image: -moz-linear-gradient(#ffffff, #e5e5e5);
   background-image: -o-linear-gradient(top, #ffffff, #e5e5e5);
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#ffffff', EndColorStr='#e5e5e5', GradientType=0);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#e5e5e5', GradientType=0))";
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#e5e5e5',GradientType=0))";
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -1681,7 +1731,7 @@ button.ideal-file-upload:focus {
   background-image: -moz-linear-gradient(#ffffff, #d5e3ed);
   background-image: -o-linear-gradient(top, #ffffff, #d5e3ed);
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#ffffff', EndColorStr='#d5e3ed', GradientType=0);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#d5e3ed', GradientType=0))";
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#d5e3ed',GradientType=0))";
   color: #2b4d65;
 }
 label.ideal-file-upload:active,
@@ -1723,7 +1773,6 @@ button.ideal-file-upload:active {
   background: #fff;
   border-radius: 0 0 3px 3px;
   font-size: 85%;
-  font-family: sans-serif;
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), transparent 0 0 0;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), transparent 0 0 0;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), transparent 0 0 0;
@@ -1807,9 +1856,6 @@ input.hasDatepicker.open {
 }
 .ie9 .ideal-tabs .ideal-tabs-tab-counter {
   border-radius: 10em !important;
-}
-.ie8 .ideal-form input[type="password"] {
-  font-family: Arial;
 }
 .ie8 .ideal-form .ideal-error {
   filter: 0;
@@ -1923,15 +1969,18 @@ a {
 body {
   color: #393939;
   background: #e5e5e5;
-  font-family: 'PT Sans', sans-serif;
+  font-family: 'OpenSans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.1px;
   font-size: 10pt;
+  overflow-y: scroll;
 }
 html,
 button,
 input,
 select,
 textarea {
-  font-family: 'PT Sans', sans-serif;
+  font-family: 'OpenSans', sans-serif;
 }
 .row {
   margin: 10px auto;
@@ -1977,7 +2026,7 @@ textarea {
   background-clip: padding-box;
   padding: 12px 15px 10px 15Px;
   font-size: 1em;
-  font-weight: 400;
+  font-weight: 800;
   text-transform: uppercase;
   line-height: 1.1em;
 }
