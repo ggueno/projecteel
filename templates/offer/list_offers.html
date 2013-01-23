@@ -2,31 +2,51 @@
 
 {% block title %} Offers {% endblock %}
 {% block content %}
-    <h1>Offers</h1>
+    <h1 class="heading">Offers</h1>
 
     <div class="row wrapper">
 		<div class="threecol">
-            <div class="whitediv">
+            <div class="whitediv filters">
 			   	<h4>Affiner ma recherche</h4>
-			    <p>Mots-clés</p>
-			    <input type="text" name="keywords-sorting">
-			    <p>Localisation</p>
-			    <input type="text" name="location">
-			    <p>Secteur d'activité</p>
-			    <p>Type de contrat</p>
-			    <p>Durée</p>
+			   	<form action="" id="projectFilters">
+			   		<ul class="filters">
+			   			<li class="tag">
+			   				<span class="ideal-field">
+						    	<input type="text" name="keywords-sorting" placeholder="mots-cles">
+						    </span>
+			   			</li>
+			   			<li class="region">
+			   				<span class="ideal-field">
+						    	<input type="text" name="keywords-sorting" placeholder="localisation">
+						    </span>
+			   			</li>
+			   			<li class="tag">
+			   				<span class="ideal-field">
+						    	<input type="text" name="keywords-sorting" placeholder="secteur d'activite">
+						    </span>
+			   			</li>
+			   		</ul>
+				    <p>Secteur d'activité</p>
+				    <p>Type de contrat</p>
+				    <p>Durée</p>
+			    </form>
 			</div>
 		</div>
-	    <div class="eightcol last">
+	    <div class="eightcol last" id="list_offers">
 	        
-	        <input class="" type="text" name="search">
+	        <div class="PTform inline">
+		        <form action="">
+		        	<input class="sixcol" type="text" name="search">
+	        		<button type="submit">Recherche</button>
+		        </form>
+	        </div>
 
 			{% if offers %}
 				{% for offer in offers %}
 
-				<div class="whitediv">
+				<h1 class="blackTitle"><a href="/offer/{{ offer.slug }}/">{{ offer.title }}</a></h1>
+				<div class="whitediv header">
 					
-					<h2><a href="/offer/{{ offer.slug }}/">{{ offer.title }}</a></h2>
 					<h4>{{ offer.company }}</h4>
 					<p>{{ offer.location }}</p>
 							
@@ -46,6 +66,6 @@
 			{% endif %}
 			
 	    </div>
-	</div>
+    </div>
 
 {% endblock %}

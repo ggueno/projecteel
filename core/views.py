@@ -46,6 +46,7 @@ def add_project(request):
             
             project.owner = applicant
             project.save()
+            form.save_m2m()
             get_project(request, project.slug)
     else:
         form = ProjectForm()
@@ -75,6 +76,7 @@ def add_offer(request):
             offer = form.save(commit=False)
             offer.company = company
             offer.save()
+            form.save_m2m()
             return render(request, 'offer/show_offer.html', {'offer': offer, 'slug': offer.slug})
     else:
         form = OfferForm()

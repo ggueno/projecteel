@@ -1,0 +1,105 @@
+info it worked if it ends with ok
+verbose cli [ 'node', '/usr/bin/npm', 'install', '-g', 'less' ]
+info using npm@1.1.4
+info using node@v0.6.12
+verbose config file /home/ggueno/.npmrc
+verbose config file /usr/etc/npmrc
+verbose config file /usr/share/npm/npmrc
+verbose cache add [ 'less', null ]
+silly cache add: name, spec, args [ undefined, 'less', [ 'less', null ] ]
+verbose parsed url { pathname: 'less', path: 'less', href: 'less' }
+verbose addNamed [ 'less', '' ]
+verbose addNamed [ null, '' ]
+silly name, range, hasData [ 'less', '', false ]
+verbose raw, before any munging less
+verbose url resolving [ 'https://registry.npmjs.org/', './less' ]
+verbose url resolved https://registry.npmjs.org/less
+verbose etag "3RE57HRQZXP7RL8ILM6G3CGP0"
+http GET https://registry.npmjs.org/less
+http 304 https://registry.npmjs.org/less
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B)',
+silly get cb     etag: '"3RE57HRQZXP7RL8ILM6G3CGP0"',
+silly get cb     date: 'Sun, 20 Jan 2013 22:54:27 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag less from cache
+silly name, range, hasData 2 [ 'less', '', true ]
+silly versions [ 'less',
+silly versions   [ '1.0.10',
+silly versions     '1.0.11',
+silly versions     '1.0.14',
+silly versions     '1.0.18',
+silly versions     '1.0.19',
+silly versions     '1.0.21',
+silly versions     '1.0.32',
+silly versions     '1.0.36',
+silly versions     '1.0.5',
+silly versions     '1.0.40',
+silly versions     '1.0.41',
+silly versions     '1.0.44',
+silly versions     '1.1.0',
+silly versions     '1.1.1',
+silly versions     '1.1.2',
+silly versions     '1.1.4',
+silly versions     '1.1.5',
+silly versions     '1.1.6',
+silly versions     '1.2.0',
+silly versions     '1.2.1',
+silly versions     '1.2.2',
+silly versions     '1.3.0',
+silly versions     '1.3.1',
+silly versions     '1.3.2',
+silly versions     '1.3.3' ] ]
+verbose bin dist [ '0.6-ares1.7.5-evundefined-openssl1.0.1-v83.7.12.22-linux-x64-3.2.0-35-generic',
+verbose bin dist   { shasum: '7ee8f300a41080f3544c80c7a70cdf6a61280cf9',
+verbose bin dist     tarball: 'http://registry.npmjs.org/less/-/less-1.3.3.tgz' } ]
+verbose caching /home/ggueno/.npm/less/1.3.3/package/package.json
+verbose loadDefaults less@1.3.3
+silly resolved [ { name: 'less',
+silly resolved     description: 'Leaner CSS',
+silly resolved     homepage: 'http://lesscss.org',
+silly resolved     keywords: [ 'css', 'parser', 'lesscss', 'browser' ],
+silly resolved     author: { name: 'Alexis Sellier', email: 'self@cloudhead.net' },
+silly resolved     contributors: [],
+silly resolved     version: '1.3.3',
+silly resolved     bin: { lessc: './bin/lessc' },
+silly resolved     main: './lib/less/index',
+silly resolved     directories: { test: './test' },
+silly resolved     engines: { node: '>=0.4.2' },
+silly resolved     optionalDependencies: { ycssmin: '>=1.0.1' },
+silly resolved     devDependencies: { diff: '~1.0' },
+silly resolved     scripts: { test: 'make test' },
+silly resolved     bugs: { url: 'https://github.com/cloudhead/less.js/issues' },
+silly resolved     repository: { type: 'git', url: 'git://github.com/cloudhead/less.js.git' },
+silly resolved     _id: 'less@1.3.3',
+silly resolved     dependencies: { ycssmin: '>=1.0.1' },
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.4',
+silly resolved     _nodeVersion: 'v0.6.12',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'less' } ]
+info into /usr/local/lib less@1.3.3
+info installOne less@1.3.3
+verbose from cache /home/ggueno/.npm/less/1.3.3/package/package.json
+info unbuild /usr/local/lib/node_modules/less
+verbose mkdir (expected) error ENOENT, no such file or directory '/usr/local/lib/node_modules'
+verbose unpack_ uid, gid [ undefined, undefined ]
+verbose unpackTarget /usr/local/lib/node_modules/less
+ERR! Could not create /usr/local/lib/node_modules/___less.npm
+ERR! error installing less@1.3.3
+info unbuild /usr/local/lib/node_modules/less
+verbose installOne cb less@1.3.3
+ERR! Error: EACCES, permission denied '/usr/local/lib/node_modules'
+ERR! 
+ERR! Please try running this command again as root/Administrator.
+ERR! 
+ERR! System Linux 3.2.0-35-generic
+ERR! command "node" "/usr/bin/npm" "install" "-g" "less"
+ERR! cwd /home/ggueno/django/django_projects/projecteel/media/static/css/less
+ERR! node -v v0.6.12
+ERR! npm -v 1.1.4
+ERR! path /usr/local/lib/node_modules
+ERR! code EACCES
+ERR! message EACCES, permission denied '/usr/local/lib/node_modules'
+ERR! errno {}
+verbose exit [ 1, true ]
