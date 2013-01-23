@@ -4,40 +4,48 @@
 {% block content %}
     <h1>Offers</h1>
 
-    <div class="sorting whitediv threecol">
-    	<h4>Affiner ma recherche</h4>
-    	<p>Mots-clés</p>
-    	<input type="text" name="keywords-sorting">
-    	<p>Localisation</p>
-    	<input type="text" name="location">
-    	<p>Secteur d'activité</p>
-    	<p>Type de contrat</p>
-    	<p>Durée</p>
-    </div>
-
-    <div class="list-offers eightcol">
-
-    	<input id="search-offer" type="text" name="search">
-
-		{% if offers %}
-			{% for offer in offers %}
-			<div class="whitediv row eightcol">
-				<h2><a href="/offer/{{ offer.slug }}/">{{ offer.title }}</a></h2>
-				<h4>{{ offer.company }}</h4>
-				<p>{{ offer.location }}</p>
-				<div class="tags">
-					{% if offer.tags %}
-						{% for tag in offer.tags.all %}
-							{{ tag.name }}
-						{% endfor %}
-					{% endif %}
-				</div>
-				<h4>{{ offer.contract }}</h4>
-				<p>{{ offer.publish_date }}</p>
+    <div class="row wrapper">
+		<div class="threecol">
+            <div class="whitediv">
+			   	<h4>Affiner ma recherche</h4>
+			    <p>Mots-clés</p>
+			    <input type="text" name="keywords-sorting">
+			    <p>Localisation</p>
+			    <input type="text" name="location">
+			    <p>Secteur d'activité</p>
+			    <p>Type de contrat</p>
+			    <p>Durée</p>
 			</div>
-			{% endfor %}
-		{% endif %}
+		</div>
+	    <div class="eightcol last">
+	        
+	        <input class="" type="text" name="search">
 
-    </div>
+			{% if offers %}
+				{% for offer in offers %}
+
+				<div class="whitediv">
+					
+					<h2><a href="/offer/{{ offer.slug }}/">{{ offer.title }}</a></h2>
+					<h4>{{ offer.company }}</h4>
+					<p>{{ offer.location }}</p>
+							
+					{% if offer.tags %}
+						<ul class="tags inline">
+						{% for tag in offer.tags.all %}
+							<li>{{ tag.name }}</li>
+						{% endfor %}
+						</ul>
+					{% endif %}
+
+					<h4>{{ offer.contract }}</h4>
+					<p>{{ offer.publish_date }}</p>
+
+				</div>
+				{% endfor %}
+			{% endif %}
+			
+	    </div>
+	</div>
 
 {% endblock %}
