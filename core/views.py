@@ -43,6 +43,7 @@ def add_project(request):
         if form.is_valid():
             cd = form.cleaned_data
             project = form.save(commit=False)
+            
             project.owner = applicant
             project.save()
             get_project(request, project.slug)
