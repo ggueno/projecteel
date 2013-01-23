@@ -7,6 +7,7 @@ from taggit.models import Tag
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
+
 def home(request):
     return render_to_response('index.html')
 
