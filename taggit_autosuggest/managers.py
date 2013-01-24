@@ -8,7 +8,7 @@ class TaggableManager(BaseTaggableManager):
 
     def formfield(self, form_class=TagField, **kwargs):
         defaults = {
-            "label": _("Tags"),
+            "label": _(self.verbose_name),
             "help_text": _("A comma-separated list of tags."),
             "required": not self.blank,
             "widget": TagAutoSuggest(),

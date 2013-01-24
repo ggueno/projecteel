@@ -142,6 +142,7 @@ INSTALLED_APPS = (
     'autoslug',
     'taggit',
     'taggit_autosuggest',
+    'multiuploader',
     'sorl.thumbnail',
     'core',
     # Uncomment the next line to enable the admin:
