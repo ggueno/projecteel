@@ -7,6 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
+    url(r'', include('multiuploader.urls')),
     url(r'', include('core.urls')),
     # url(r'^$', 'projecteel.views.home', name='home'),
     # url(r'^projecteel/', include('projecteel.foo.urls')),
