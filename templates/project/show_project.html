@@ -5,11 +5,17 @@
 {% block title %} Project {{ slug }} {% endblock %}
 {% block content %}
 
-
-
     {% if project %}
 
+     <script type="text/javascript">
+        $(document).ready(function() {
 
+            $('#push-button').click(function() {
+                //{{ Like.objects.create(profile=applicant, project=project) }}
+            });
+
+        });
+    </script>
 
 <div class="row project-header">
     <h2 class="project-title">{{ project.title }}</h2>
@@ -21,6 +27,10 @@
 </div>
 
 <div class="row">
+
+    <button id="push-button">Push</button>
+    <h4>{{ likes.count }} push</h4>
+    </div>
 
     <div class="eightcol  whitediv">
         <p class="project-content">{{ project.content }}<p>

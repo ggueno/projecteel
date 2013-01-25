@@ -5,6 +5,23 @@
 
     {% if offer %}
 
+    <script type="text/javascript">
+
+    $(document).ready(function() {
+
+    	//if user is not in applicantoffer
+    	$('#button-apply').click(function() {
+    		//add user in applicantoffer
+    		$('#button-apply').replaceWith('<p style="color:green">Merci {{user.first_name}} d\' avoir postuler à cette offre</p>');
+		});
+		//else hide button 
+
+	});
+
+	</script>
+
+    <button id="button-apply">Postuler à cette offre</button>
+
     	<div class="row wrapper">
             <div class="threecol">
                 <div class="whitediv">

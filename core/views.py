@@ -25,8 +25,10 @@ def get_project(request, slug):
     skillsList = project.skills.get_query_set()
     tagsList = project.tags.get_query_set()
     equipementsList = project.equipments.get_query_set()
+    applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+    likes = Like.objects.filter(project_id=project.id)
     #TODO : delete slug from view and template
-    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList})
+    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList , 'user': applicant, 'likes': likes})
 
 
 @login_required
@@ -59,8 +61,9 @@ def offers(request):
 
 def get_offer(request, slug):
     offer = Offer.objects.get(slug=slug)
+    applicant = Applicant.objects.filter(user_id=request.user.id)[0]
     #TODO : delete slug from view and template
-    return render_to_response('offer/show_offer.html', {'offer': offer, 'slug': slug})
+    return render_to_response('offer/show_offer.html', {'offer': offer, 'slug': slug, 'user': applicant})
 
 
 @login_required
