@@ -35,9 +35,9 @@ def get_project(request, slug):
     tagsList = project.tags.get_query_set()
     equipementsList = project.equipments.get_query_set()
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
-    likes = Like.objects.filter(project_id=project.id)
+    # likes = Like.objects.filter(project_id=project.id)
     #TODO : delete slug from view and template
-    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList , 'user': applicant, 'likes': likes})
+    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList , 'user': applicant})
 
 
 @login_required
@@ -56,8 +56,13 @@ def add_project(request):
             form = ProjectForm(request.POST, request.FILES, instance=project)
 
             if form.is_valid():
+                embed = request.POST.getlist('embed')
+                for embed in embed:
+                    EmbedContent.objects.create(title=project.title, content=embed, project=project)
+
                 cd = form.cleaned_data
                 project_save = form.save(commit=False)
+                project_save.published = True
                 project_save.save()
                 form.save_m2m()
 
@@ -76,6 +81,40 @@ def add_project_image(request):
     return render(request, 'project/add_images.html')
 
 
+@login_required
+def remove_project(request, pk):
+    try:
+        applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+        project = Project.objects.get(id=pk, owner=applicant)
+        state = False
+        if project.owner == applicant:
+            state = Project.objects.get(id=pk).delete()
+    except Project.DoesNotExist:
+        response = JSONResponse(False, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+
+    if request.is_ajax():
+        response = JSONResponse(True, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        return HttpResponseRedirect('/projects/')
+
+
+def like(request, pk):
+    try:
+        profile = Profile.objects.filter(user_id=request.user.id)[0]
+        Like.objects.create(profile=profile, project_id=pk)
+    except Profile.DoesNotExist:
+        return False
+
+    if request.is_ajax():
+        response = JSONResponse(True, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        return HttpResponseRedirect('/projects/')
 
 
 def offers(request):
@@ -88,6 +127,8 @@ def get_offer(request, slug):
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
     #TODO : delete slug from view and template
     return render_to_response('offer/show_offer.html', {'offer': offer, 'slug': slug, 'user': applicant})
+
+
 
 
 @login_required

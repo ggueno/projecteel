@@ -8,7 +8,7 @@ class ProjectForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        exclude = ('slug', 'publish_date', 'like', 'view', 'published', 'images', 'videos', 'owner')
+        exclude = ('slug', 'publish_date', 'like', 'view', 'published', 'images', 'owner')
         widgets = {
             'skills': TagAutoSuggest(),
             'participant': forms.TextInput(),

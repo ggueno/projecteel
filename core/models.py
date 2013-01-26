@@ -197,8 +197,9 @@ class ImageProject(Media):
         super(ImageProject, self).delete(*args, **kwargs)
 
 
-class VideoLink(Media):
+class EmbedContent(Media):
     content = models.TextField()
+    project = models.ForeignKey('Project', related_name='embed', blank=True, null=True)
 
 
 class SkillsTag(TagBase):
@@ -237,7 +238,7 @@ class Project(models.Model):
     )
 
     title = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='title', unique=True)
+    slug = AutoSlugField(populate_from='title', unique=True, always_update=True)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     published = models.BooleanField(default=True)
     content = models.TextField()
@@ -251,7 +252,6 @@ class Project(models.Model):
     tags = TaggableManager(verbose_name="Tags", through=CommonTaggedItem, blank=True)
     equipments = TaggableManager(verbose_name="Equipments", through=EquipmentTaggedItem, blank=True)
     #images = models.ManyToManyField(Image, blank=True, null=True)
-    videos = models.ManyToManyField(VideoLink, blank=True, null=True)
 
     view = models.IntegerField(blank=False, null=False, default=0)
 

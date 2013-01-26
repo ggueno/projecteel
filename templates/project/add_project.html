@@ -1,10 +1,28 @@
 {% extends "layout/base.html" %}
-{% load multiuploader %}
 {% load upload_tags %}
 
 {% block title %} Project {{ slug }} {% endblock %}
 
+
 {% block content %}
+<script>
+    $().ready(function(){
+        $("#remove").click(function(){
+          $.get($(this).attr("href"), function(data) {
+              alert(data);
+
+            });
+          return false;
+    });
+
+
+    $('#add_video').click(function(){
+        var plop = $(".embeds").children("textarea:last");
+        plop.after(plop.clone(true));
+    });
+
+    });
+</script>
     <h1>Add Project </h1>
     {% if form.errors %}
         <p style="color: red;">
@@ -12,8 +30,15 @@
         </p>
     {% endif %}
 
+    {% if videos %}
+        <h3>Vidéos</h3>
+        {% for video in videos %}
+            <h2>{{ video }}</h2>
+        {% endfor %}
+    {% endif %}
 
 
+    <a id="remove" href="/project/remove/{{project_id}}" alt="Remove Project" />Remove</a>
 
     <form action="" method="post">
         {% csrf_token %}
@@ -36,6 +61,12 @@
         {{form.tags.label}} {{ form.tags }}
         {{form.equipments.label}} {{ form.equipments }}
 
+
+        <div class="embeds">
+            <textarea name="embed"></textarea>
+        </div>
+
+        <a id="add_video" href="#" alt="Add Embed Content" />Add Embed Content</a>
         <input type="hidden" name="project_id" value="{{ project_id }}" >
         <input type="submit" value="Submit">
     </form>
