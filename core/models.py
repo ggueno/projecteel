@@ -274,6 +274,9 @@ class Like(models.Model):
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     project = models.ForeignKey(Project)
 
+    #@classmethod
+    #def create(self):
+    #    print("Request finished!")
 
 class Follow(models.Model):
     company = models.ForeignKey(Company)
