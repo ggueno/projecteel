@@ -9,12 +9,8 @@ from django.conf import settings
 
 from core.models import *
 
-<<<<<<< HEAD
-from forms import ProjectForm, OfferForm, EducationForm, ExperienceForm
-=======
-from forms import ProjectForm
-from forms import OfferForm, CommentForm
->>>>>>> 7670bab07e299e084a4e780ef71fc0436bdbe18c
+
+from forms import ProjectForm, OfferForm, EducationForm, ExperienceForm, CommentForm
 
 from taggit.models import Tag
 from django.contrib.auth.decorators import login_required
@@ -226,8 +222,6 @@ def response_mimetype(request):
         return "text/plain"
 
 
-<<<<<<< HEAD
-=======
 def add_comment(request):
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
 
@@ -245,7 +239,7 @@ def add_comment(request):
                 'name': applicant.first_name + " " + applicant.last_name,
                 'content': cd['content'],
                 'avatar_url': '',
-                'delete_url': '', 
+                'delete_url': '',
                 'delete_type': "DELETE"
             }]
         else:
@@ -260,7 +254,6 @@ def add_comment(request):
 
 
 
->>>>>>> 7670bab07e299e084a4e780ef71fc0436bdbe18c
 class ImageProjectCreateView(CreateView):
     model = ImageProject
 
