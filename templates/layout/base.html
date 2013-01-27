@@ -15,10 +15,26 @@
         <!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css" type="text/css" STATIC="screen" /><![endif]-->
         <link rel="stylesheet" href="{% static "css/style.css" %}">
         <script src="{% static "js/vendor/modernizr-2.6.2.min.js" %}"></script>
+
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css">
+        <!-- Generic page styles -->
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+        <!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-responsive.min.css">
+        <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-image-gallery.min.css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.fileupload-ui.css">
+
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.8.3.min.js" %}"><\/script>')</script>
-        <script src="{% static "js/plugins.js" %}"></script>
-        <script src="{% static "js/main.js" %}"></script>
+
+
+        <script>
+            var django = {
+                "jQuery": jQuery
+            };
+        </script>
+
         <script src="{% static "js/jquery.autoSuggest.minified.js" %}"></script>
     </head>
     <body>
@@ -30,7 +46,7 @@
             <div class="row">
                 <a href="#" id="logo" class=""></a>
                 <ul id="menu" class="fivecol">
-                    <li><a href="/profile/tim-tatou" class="active">Profil</a></li>
+                    <li><a href="/profile/guenole-guemas" class="active">Profil</a></li>
                     <li><a href="/projects/">Projet</a></li>
                     <li><a href="/offers/">Offres</a></li>
                 </ul>
@@ -42,7 +58,7 @@
         {% endblock %}
         </div>
 
-
-
+        <script src="{% static "js/plugins.js" %}"></script>
+        <script src="{% static "js/main.js" %}"></script>
     </body>
 </html>

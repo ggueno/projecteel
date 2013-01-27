@@ -2135,6 +2135,11 @@ a.buttonAqua {
   bottom: 10px;
   right: 10px;
 }
+.heading {
+  font-size: 2em;
+  text-transform: uppercase;
+  padding: 20px 0;
+}
 .wrapper {
   padding: 5px;
   width: 1130px;
@@ -2153,8 +2158,7 @@ a.buttonAqua {
   box-shadow: 0 0 4px 1px rgba(0,0,0,.2);
   color: 0 0 4px 1px rgba(0,0,0,.2);
   padding: 0px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   text-align: center;
 }
 .thumb img {
@@ -2491,6 +2495,9 @@ a.buttonAqua {
   border: none;
   padding: 0;
 }
+.PTform.inline input[type=text] {
+  height: 33px;
+}
 /*
    H O M E
    ========================================================================== */
@@ -2532,6 +2539,12 @@ header #menu a.active,
 header #menu a:hover {
   border-bottom: 4px solid #1c7faf;
   height: 17px;
+}
+/*
+   O F F E R S
+   ========================================================================== */
+#list_offers .blackTitle {
+  margin-top: 15px;
 }
 /* ==========================================================================
    Helper classes

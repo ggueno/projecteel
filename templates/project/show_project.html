@@ -5,10 +5,7 @@
 {% block title %} Project {{ slug }} {% endblock %}
 {% block content %}
 
-
-
     {% if project %}
-
 
 
 <div class="row project-header">
@@ -22,6 +19,10 @@
 
 <div class="row">
 
+    <button id="push-button">Push</button>
+    <h4>{{ likes.count }} push</h4>
+    </div>
+
     <div class="eightcol  whitediv">
         <p class="project-content">{{ project.content }}<p>
 
@@ -29,6 +30,11 @@
             <img class="project-content" src="{{ img.image.url }}" alt="{{ img.slug }}">
             <h4>{{img.title}}</h4>
             <p>{{img.description}}</p>
+        {% endfor %}
+
+
+        {% for embed in project.embed.all %}
+            <p>{{embed.content|safe}}</p>
         {% endfor %}
     </div>
 

@@ -73,7 +73,6 @@ class Company(Profile):
     name = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='name')
     #django enum : TODO
-    #status = models
     address = models.ManyToManyField(Address, blank=False, null=False)
     social_network = models.ManyToManyField(SocialNetwork, blank=False, null=False)
 
@@ -123,6 +122,7 @@ class Education(models.Model):
     end = models.DateField(blank=True, null=True)
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500, blank=False, null=False)
+    #domaine
 
     def __unicode__(self):
         return "%s %s %s" % (self.title, str(self.school), str(self.start))
@@ -171,20 +171,35 @@ class Offer(models.Model):
 
 
 class Media(models.Model):
-    title = models.CharField(max_length=500)
+    title = models.CharField(max_length=500, blank=True, null=True)
     slug = AutoSlugField(populate_from='title', unique=True)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
 
     def __unicode__(self):
         return "%s %s" % (self.title, self.description)
 
 
-class Image(Media):
+class ImageProject(Media):
     image = models.ImageField(upload_to='upload/images/project')
+    project = models.ForeignKey('Project', related_name='images', blank=True, null=True)
+    upload_date = models.DateTimeField(auto_now=True)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('upload-new', )
+
+    def save(self, *args, **kwargs):
+        self.slug = self.image.name
+        super(ImageProject, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.image.delete(False)
+        super(ImageProject, self).delete(*args, **kwargs)
 
 
-class VideoLink(Media):
+class EmbedContent(Media):
     content = models.TextField()
+    project = models.ForeignKey('Project', related_name='embed', blank=True, null=True)
 
 
 class SkillsTag(TagBase):
@@ -197,6 +212,9 @@ class SkillsTaggedItem(GenericTaggedItemBase):
 
 class CategoryTag(TagBase):
     parent = models.ForeignKey('self', null=True, blank=True)
+    class Meta:
+        verbose_name = "CategoryTag"
+        verbose_name_plural = "CategoryTags"
 
 
 class CategoryTaggedItem(GenericTaggedItemBase):
@@ -204,7 +222,9 @@ class CategoryTaggedItem(GenericTaggedItemBase):
 
 
 class EquipmentTag(TagBase):
-    pass
+    class Meta:
+        verbose_name = "EquipmentTag"
+        verbose_name_plural = "EquipmentTags"
 
 
 class EquipmentTaggedItem(GenericTaggedItemBase):
@@ -218,7 +238,7 @@ class Project(models.Model):
     )
 
     title = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='title', unique=True)
+    slug = AutoSlugField(populate_from='title', unique=True, always_update=True)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     published = models.BooleanField(default=True)
     content = models.TextField()
@@ -227,17 +247,19 @@ class Project(models.Model):
     state = models.CharField(blank=True, max_length=2, choices=PROJECT_STATE, default='FINISHED')
     cadre = models.CharField(blank=True, max_length=100)
     location = models.CharField(blank=True, max_length=100)
-    categories = TaggableManager(verbose_name="CategoryTag", through=CategoryTaggedItem, blank=True)
-    skills = TaggableManager(verbose_name="SkillsTag", through=SkillsTaggedItem, blank=True)
-    tags = TaggableManager(verbose_name="CommonTag", through=CommonTaggedItem, blank=True)
-    equipments = TaggableManager(verbose_name="EquipmentTag", through=EquipmentTaggedItem, blank=True)
-    images = models.ManyToManyField(Image, blank=True, null=True)
-    videos = models.ManyToManyField(VideoLink, blank=True, null=True)
+    categories = TaggableManager(verbose_name="Category", through=CategoryTaggedItem, blank=True)
+    skills = TaggableManager(verbose_name="Skills", through=SkillsTaggedItem, blank=True)
+    tags = TaggableManager(verbose_name="Tags", through=CommonTaggedItem, blank=True)
+    equipments = TaggableManager(verbose_name="Equipments", through=EquipmentTaggedItem, blank=True)
+    #images = models.ManyToManyField(Image, blank=True, null=True)
 
     view = models.IntegerField(blank=False, null=False, default=0)
 
     owner = models.ForeignKey(Applicant, related_name="Owner")
     participant = models.ManyToManyField(Applicant, blank=True, null=True)
+
+    def __unicode__(self):
+        return "%s" % (self.title)
 
 
 class ApplicantOffer(models.Model):
@@ -252,6 +274,9 @@ class Like(models.Model):
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     project = models.ForeignKey(Project)
 
+    #@classmethod
+    #def create(self):
+    #    print("Request finished!")
 
 class Follow(models.Model):
     company = models.ForeignKey(Company)

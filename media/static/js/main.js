@@ -1,6 +1,6 @@
 // django jQuery namespace
 var django = {
-    "jQuery": jQuery.noConflict(true)
+    "jQuery": jQuery
 };
 
 django.jQuery(function() {
