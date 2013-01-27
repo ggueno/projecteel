@@ -39,6 +39,7 @@
         {% endif %}
 
         {% if profile.educations %}
+            <h1>Formation</h1>
             {% for education in profile.educations.all %}
                 <div class="education">
                     <span class="start"> {{ education.start }} </span>
@@ -52,7 +53,7 @@
         {% endif %}
 
         {% if profile.experiences %}
-            <div class="">
+            <h1>Experiences</h1>
             {% for experience in profile.experiences.all %}
                 <div class="experience">
                     <span class="start"> {{ expericence.start }} </span>

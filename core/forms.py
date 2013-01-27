@@ -1,6 +1,5 @@
 from django import forms
-from core.models import Project
-from core.models import Offer
+from core.models import Project, Offer, Education, Experience
 from taggit_autosuggest.widgets import TagAutoSuggest
 
 
@@ -19,3 +18,21 @@ class OfferForm(forms.ModelForm):
     class Meta:
         model = Offer
         exclude = ('slug', 'company')
+
+
+class EducationForm(forms.ModelForm):
+    class Meta:
+        model = Education
+        widgets = {
+            'start': forms.DateInput(),
+            'end': forms.DateInput(),
+        }
+
+
+class ExperienceForm(forms.ModelForm):
+    class Meta:
+        model = Experience
+        widgets = {
+            'start': forms.DateInput(),
+            'end': forms.DateInput(),
+        }
