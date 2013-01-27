@@ -68,7 +68,6 @@ def add_project(request):
                 form.save_m2m()
 
             return get_project(request, project_save.slug)
->>>>>>> 8f9bf1c4a2bd01c573e83427c8f767e9f3dfb7c9
     else:
         p = Project(title="Untitled", content="  ", owner=applicant, published=False)
         p.save()

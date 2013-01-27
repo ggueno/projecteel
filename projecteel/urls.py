@@ -8,7 +8,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'', include('core.urls')),
-    url(r'^upload/', include('fileupload.urls')),
     # url(r'^$', 'projecteel.views.home', name='home'),
     # url(r'^projecteel/', include('projecteel.foo.urls')),
     (r'^accounts/', include('registration.urls')),

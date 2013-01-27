@@ -228,7 +228,7 @@ class EquipmentTag(TagBase):
 
 
 class EquipmentTaggedItem(GenericTaggedItemBase):
-    tag = models.ForeignKey(EquipmentTag, related_name="equipment")
+    tag = models.ForeignKey(EquipmentTag, related_name="equipments")
 
 
 class Project(models.Model):
