@@ -116,5 +116,27 @@
     </div>
 
 </div>
+
+
+
+<div class="comments_part">
+    <form class="comment_form" action="/project/comment/new/" method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <input type="hidden" name="project_id" value="{{ project.id }}">
+        <input type="submit">
+    </form>
+
+
+
+    <div class="comments">
+        {% for comment in comments %}
+            <h3>{{comment.profile.last_name}} {{ comment.profile.first_name}}</h3>
+            <span>{{comment.publish_date}}</span>
+            <p>{{comment.content}}</p>
+        {% endfor %}
+    </div>
+</div>
+
     {% endif %}
 {% endblock %}

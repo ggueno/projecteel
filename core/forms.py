@@ -1,6 +1,6 @@
 from django import forms
 from core.models import Project
-from core.models import Offer
+from core.models import Offer, Comment
 from taggit_autosuggest.widgets import TagAutoSuggest
 
 
@@ -19,3 +19,9 @@ class OfferForm(forms.ModelForm):
     class Meta:
         model = Offer
         exclude = ('slug', 'company')
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        exclude = ('profile', 'publish_date', 'project')
