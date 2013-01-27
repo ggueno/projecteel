@@ -6,6 +6,7 @@ from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
 from taggit_autosuggest.managers import TaggableManager
 from sorl.thumbnail import get_thumbnail
 from django.core.files.base import ContentFile
+from django.core.validators import MaxLengthValidator
 # from utils import Address, Country
 
 
@@ -122,7 +123,8 @@ class Education(models.Model):
     start = models.DateField(blank=True, null=False)
     end = models.DateField(blank=True, null=True)
     title = models.CharField(max_length=100)
-    description = models.TextField(max_length=500, blank=False, null=False)
+    description = models.TextField(blank=False, null=False)
+    #domaine
 
     def __unicode__(self):
         return "%s %s %s" % (self.title, str(self.school), str(self.start))
@@ -183,8 +185,9 @@ class Image(Media):
     image = models.ImageField(upload_to='upload/images/project')
 
 
-class VideoLink(Media):
+class EmbedContent(Media):
     content = models.TextField()
+    project = models.ForeignKey('Project', related_name='embed', blank=True, null=True)
 
 
 class SkillsTag(TagBase):
@@ -208,7 +211,7 @@ class EquipmentTag(TagBase):
 
 
 class EquipmentTaggedItem(GenericTaggedItemBase):
-    tag = models.ForeignKey(EquipmentTag, related_name="equipment")
+    tag = models.ForeignKey(EquipmentTag, related_name="equipments")
 
 
 class Project(models.Model):
@@ -218,7 +221,7 @@ class Project(models.Model):
     )
 
     title = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='title', unique=True)
+    slug = AutoSlugField(populate_from='title', unique=True, always_update=True)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     published = models.BooleanField(default=True)
     content = models.TextField()
@@ -227,17 +230,28 @@ class Project(models.Model):
     state = models.CharField(blank=True, max_length=2, choices=PROJECT_STATE, default='FINISHED')
     cadre = models.CharField(blank=True, max_length=100)
     location = models.CharField(blank=True, max_length=100)
-    categories = TaggableManager(verbose_name="CategoryTag", through=CategoryTaggedItem, blank=True)
-    skills = TaggableManager(verbose_name="SkillsTag", through=SkillsTaggedItem, blank=True)
-    tags = TaggableManager(verbose_name="CommonTag", through=CommonTaggedItem, blank=True)
-    equipments = TaggableManager(verbose_name="EquipmentTag", through=EquipmentTaggedItem, blank=True)
-    images = models.ManyToManyField(Image, blank=True, null=True)
-    videos = models.ManyToManyField(VideoLink, blank=True, null=True)
+    categories = TaggableManager(verbose_name="Category", through=CategoryTaggedItem, blank=True)
+    skills = TaggableManager(verbose_name="Skills", through=SkillsTaggedItem, blank=True)
+    tags = TaggableManager(verbose_name="Tags", through=CommonTaggedItem, blank=True)
+    equipments = TaggableManager(verbose_name="Equipments", through=EquipmentTaggedItem, blank=True)
+    #images = models.ManyToManyField(Image, blank=True, null=True)
 
     view = models.IntegerField(blank=False, null=False, default=0)
 
     owner = models.ForeignKey(Applicant, related_name="Owner")
     participant = models.ManyToManyField(Applicant, blank=True, null=True)
+
+
+class Comment(models.Model):
+    project = models.ForeignKey(Project)
+    profile = models.ForeignKey(Profile)
+    publish_date = models.DateField(auto_now=True, auto_now_add=True)
+    content = models.TextField(validators=[MaxLengthValidator(500)])
+
+    def __unicode__(self):
+        return "%s %s" % (self.profile, self.content)
+
+
 
 
 class ApplicantOffer(models.Model):

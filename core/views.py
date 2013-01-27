@@ -9,12 +9,14 @@ from django.conf import settings
 
 from core.models import *
 
-from forms import ProjectForm
-from forms import OfferForm
+
+from forms import ProjectForm, OfferForm, EducationForm, ExperienceForm, CommentForm
 
 from taggit.models import Tag
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+
+from django.views.decorators.csrf import requires_csrf_token, ensure_csrf_cookie
 
 
 def home(request):
@@ -35,9 +37,12 @@ def get_project(request, slug):
     tagsList = project.tags.get_query_set()
     equipementsList = project.equipments.get_query_set()
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
-    likes = Like.objects.filter(project_id=project.id)
+
+    comments = Comment.objects.filter(project=project)
+    comment_form = CommentForm()
+    # likes = Like.objects.filter(project_id=project.id)
     #TODO : delete slug from view and template
-    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList , 'user': applicant, 'likes': likes})
+    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList , 'user': applicant, 'comment_form': comment_form, 'comments': comments})
 
 
 @login_required
@@ -50,14 +55,20 @@ def add_project(request):
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
 
     if request.method == 'POST':
+
         project = get_object_or_404(Project, id=request.POST['project_id'], owner=applicant)
         # form = ProjectForm(request.POST)
         if project.owner == applicant:
             form = ProjectForm(request.POST, request.FILES, instance=project)
 
             if form.is_valid():
+                embed = request.POST.getlist('embed')
+                for embed in embed:
+                    EmbedContent.objects.create(title=project.title, content=embed, project=project)
+
                 cd = form.cleaned_data
                 project_save = form.save(commit=False)
+                project_save.published = True
                 project_save.save()
                 form.save_m2m()
 
@@ -76,6 +87,40 @@ def add_project_image(request):
     return render(request, 'project/add_images.html')
 
 
+@login_required
+def remove_project(request, pk):
+    try:
+        applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+        project = Project.objects.get(id=pk, owner=applicant)
+        state = False
+        if project.owner == applicant:
+            state = Project.objects.get(id=pk).delete()
+    except Project.DoesNotExist:
+        response = JSONResponse(False, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+
+    if request.is_ajax():
+        response = JSONResponse(True, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        return HttpResponseRedirect('/projects/')
+
+
+def like(request, pk):
+    try:
+        profile = Profile.objects.filter(user_id=request.user.id)[0]
+        Like.objects.create(profile=profile, project_id=pk)
+    except Profile.DoesNotExist:
+        return False
+
+    if request.is_ajax():
+        response = JSONResponse(True, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        return HttpResponseRedirect('/projects/')
 
 
 def offers(request):
@@ -88,6 +133,8 @@ def get_offer(request, slug):
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
     #TODO : delete slug from view and template
     return render_to_response('offer/show_offer.html', {'offer': offer, 'slug': slug, 'user': applicant})
+
+
 
 
 @login_required
@@ -109,12 +156,48 @@ def add_offer(request):
     return render(request, 'offer/add_offer.html', {'form': form})
 
 
+@login_required
+def add_education(request):
+    form = {}
+
+    applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+    if request.method == 'POST':
+        form = EducationForm(request.POST)
+        if form.is_valid():
+            # cd = form.cleaned_data
+            education = form.save(commit=False)
+            applicant.educations.create(school=education.school, start=education.start, end=education.end, title=education.title, description=education.description)
+            # education.save()
+            # form.save_m2m()
+            return HttpResponseRedirect('/')
+    else:
+        form = EducationForm()
+    return render(request, 'education/add_education.html', {'form': form})
+
+
+@login_required
+def add_experience(request):
+    form = {}
+
+    applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+    if request.method == 'POST':
+        form = ExperienceForm(request.POST)
+        if form.is_valid():
+            # cd = form.cleaned_data
+            experience = form.save(commit=False)
+            applicant.experiences.create(company=experience.company, title=experience.title, city=experience.city, start=experience.start, end=experience.end, details=experience.details)
+            # education.save()
+            # form.save_m2m()
+            return HttpResponseRedirect('/')
+    else:
+        form = ExperienceForm()
+    return render(request, 'experience/add_experience.html', {'form': form})
+
+
 #TODO : generic view for all profile
 def get_applicant(request, slug):
     profile = Applicant.objects.get(slug=slug)
-
     projects = Project.objects.filter(Q(owner=profile.user) | Q(participant__in=[profile]))
-
     #TODO : delete slug from view and template
     return render_to_response('profile/profile_applicant.html', {'profile': profile, 'slug': slug, 'projects': projects})
 
@@ -130,10 +213,6 @@ def get_school(request, slug):
     return render_to_response('profile/profile_school.html', {'profile': school, 'slug': slug})
 
 
-
-
-
-
 # View For PictureUpload
 def response_mimetype(request):
     return "application/json"
@@ -141,6 +220,37 @@ def response_mimetype(request):
         return "application/json"
     else:
         return "text/plain"
+
+
+def add_comment(request):
+    applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+
+    if request.method == 'POST':
+
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            cd = form.cleaned_data
+            data = cd
+            project = Project.objects.get(id=request.POST['project_id'])
+            Comment.objects.create(project=project, profile=applicant, content=cd['content'])
+
+            data = [{
+                'name': applicant.first_name + " " + applicant.last_name,
+                'content': cd['content'],
+                'avatar_url': '',
+                'delete_url': '',
+                'delete_type': "DELETE"
+            }]
+        else:
+            data = request.POST
+    else:
+        data = 'False1'
+
+    if request.is_ajax():
+        response = JSONResponse(data, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
 
 
 

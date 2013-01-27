@@ -8,6 +8,9 @@ urlpatterns = patterns('',
 
     url(r'^project/add/image/new/$', views.ImageProjectCreateView.as_view(), {}, 'upload-new'),
     url(r'^project/add/image/delete/(?P<pk>\d+)$', views.ImageProjectDeleteView.as_view(), {}, 'upload-delete'),
+    url(r'^project/remove/(?P<pk>\d+)$', views.remove_project),
+
+    url(r'^project/comment/new/$', views.add_comment, {}, 'comment-new'),
 
     url(r'^project/(?P<slug>[^\.]+)/$', views.get_project),
     url(r'^offers/$', views.offers),
@@ -16,5 +19,7 @@ urlpatterns = patterns('',
     url(r'^profile/(?P<slug>[^\.]+)/$', views.get_applicant),
     url(r'^profile/company/(?P<slug>[^\.]+)/$', views.get_company),
     url(r'^profile/school/(?P<slug>[^\.]+)/$', views.get_school),
+    url(r'^education/add/$', views.add_education),
+    url(r'^experience/add/$', views.add_experience),
     url(r'^$', views.home),
 )
