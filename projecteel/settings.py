@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     'taggit_autosuggest',
     'sorl.thumbnail',
     'core',
+    'fileupload',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
