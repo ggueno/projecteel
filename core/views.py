@@ -9,11 +9,18 @@ from django.conf import settings
 
 from core.models import *
 
+<<<<<<< HEAD
 from forms import ProjectForm, OfferForm, EducationForm, ExperienceForm
+=======
+from forms import ProjectForm
+from forms import OfferForm, CommentForm
+>>>>>>> 7670bab07e299e084a4e780ef71fc0436bdbe18c
 
 from taggit.models import Tag
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+
+from django.views.decorators.csrf import requires_csrf_token, ensure_csrf_cookie
 
 
 def home(request):
@@ -34,9 +41,12 @@ def get_project(request, slug):
     tagsList = project.tags.get_query_set()
     equipementsList = project.equipments.get_query_set()
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+
+    comments = Comment.objects.filter(project=project)
+    comment_form = CommentForm()
     # likes = Like.objects.filter(project_id=project.id)
     #TODO : delete slug from view and template
-    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList , 'user': applicant})
+    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList , 'user': applicant, 'comment_form': comment_form, 'comments': comments})
 
 
 @login_required
@@ -216,6 +226,41 @@ def response_mimetype(request):
         return "text/plain"
 
 
+<<<<<<< HEAD
+=======
+def add_comment(request):
+    applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+
+    if request.method == 'POST':
+
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            cd = form.cleaned_data
+            data = cd
+            project = Project.objects.get(id=request.POST['project_id'])
+            Comment.objects.create(project=project, profile=applicant, content=cd['content'])
+
+            data = [{
+                'name': applicant.first_name + " " + applicant.last_name,
+                'content': cd['content'],
+                'avatar_url': '',
+                'delete_url': '', 
+                'delete_type': "DELETE"
+            }]
+        else:
+            data = request.POST
+    else:
+        data = 'False1'
+
+    if request.is_ajax():
+        response = JSONResponse(data, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+
+
+
+>>>>>>> 7670bab07e299e084a4e780ef71fc0436bdbe18c
 class ImageProjectCreateView(CreateView):
     model = ImageProject
 

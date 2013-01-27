@@ -6,6 +6,7 @@ from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
 from taggit_autosuggest.managers import TaggableManager
 from sorl.thumbnail import get_thumbnail
 from django.core.files.base import ContentFile
+from django.core.validators import MaxLengthValidator
 # from utils import Address, Country
 
 
@@ -121,7 +122,7 @@ class Education(models.Model):
     start = models.DateField(blank=True, null=False)
     end = models.DateField(blank=True, null=True)
     title = models.CharField(max_length=100)
-    description = models.TextField(max_length=500, blank=False, null=False)
+    description = models.TextField(blank=False, null=False)
     #domaine
 
     def __unicode__(self):
@@ -260,6 +261,18 @@ class Project(models.Model):
 
     def __unicode__(self):
         return "%s" % (self.title)
+
+
+class Comment(models.Model):
+    project = models.ForeignKey(Project)
+    profile = models.ForeignKey(Profile)
+    publish_date = models.DateField(auto_now=True, auto_now_add=True)
+    content = models.TextField(validators=[MaxLengthValidator(500)])
+
+    def __unicode__(self):
+        return "%s %s" % (self.profile, self.content)
+
+
 
 
 class ApplicantOffer(models.Model):

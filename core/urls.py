@@ -10,6 +10,8 @@ urlpatterns = patterns('',
     url(r'^project/add/image/delete/(?P<pk>\d+)$', views.ImageProjectDeleteView.as_view(), {}, 'upload-delete'),
     url(r'^project/remove/(?P<pk>\d+)$', views.remove_project),
 
+    url(r'^project/comment/new/$', views.add_comment, {}, 'comment-new'),
+
     url(r'^project/(?P<slug>[^\.]+)/$', views.get_project),
     url(r'^offers/$', views.offers),
     url(r'^offer/add/$', views.add_offer),

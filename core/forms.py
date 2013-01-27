@@ -1,5 +1,5 @@
 from django import forms
-from core.models import Project, Offer, Education, Experience
+from core.models import Project, Offer, Education, Experience, Comment
 from taggit_autosuggest.widgets import TagAutoSuggest
 
 
@@ -36,3 +36,9 @@ class ExperienceForm(forms.ModelForm):
             'start': forms.DateInput(),
             'end': forms.DateInput(),
         }
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        exclude = ('profile', 'publish_date', 'project')
