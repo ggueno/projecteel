@@ -11,7 +11,7 @@
         $(document).ready(function() {
 
             $('#push-button').click(function() {
-                //{{ Like.objects.create(profile=applicant, project=project) }}
+                {{ Like.create(applicant, project) }}
             });
 
         });
