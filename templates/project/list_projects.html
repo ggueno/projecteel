@@ -3,7 +3,7 @@
 
 {% block title %} Projects {% endblock %}
 {% block content %}
-    
+
     <div class="row wrapper">
         <h1 class="heading">Projects</h1>
 
@@ -18,22 +18,21 @@
             <p>Durée</p>
         </div>
 
-
         <div class="list-offers eightcol">
-    	{% if projects %}
-            {% for project in projects %}
-            <div class="thumb fourcol {% if forloop.counter|divisibleby:"3"%}last{%endif%}">
-                <a href="/project/{{ project.slug }}/">
-                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
-                    <div class="project_infos">
-                        <div class="project_views"><span class="label_views"></span>{{ project.view }}</div>
-                        <div class="project_pushs"><span class="label_pushs"></span>150</div>
-                    </div>
-                    <h3>{{ project.title }}</h3>
-                </a>
-            </div>
-    		{% endfor %}
-    	{% endif %}
+
+        {% include endless_part %}
+
+        {% block js %}
+            {{ block.super }}
+            <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
+            <script>
+                $.endlessPaginate({
+                paginateOnScroll: true,
+                paginateOnScrollMargin: 20
+                });
+            </script>
+        {% endblock %}
+
         </div>
     </div>
 {% endblock %}

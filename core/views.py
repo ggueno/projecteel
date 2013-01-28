@@ -16,14 +16,26 @@ from taggit.models import Tag
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+
 
 def home(request):
     return render_to_response('index.html')
 
 
-def projects(request):
-    list_projects = Project.objects.filter(published=True)
-    return render_to_response('project/list_projects.html', {'theme': "themy", 'projects': list_projects})
+def projects(
+        request,
+        template = 'project/list_projects.html',
+        endless_part = 'project/endless_part.html'):
+    context = {
+        'projects': Project.objects.filter(published=True),
+        'endless_part': endless_part,
+    }
+    if request.is_ajax():
+        template = endless_part
+    return render_to_response(
+        template, context, context_instance=RequestContext(request))
 
 
 def get_project(request, slug):
