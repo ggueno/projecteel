@@ -25,7 +25,7 @@ def home(request):
 
 def projects(request):
     list_projects = Project.objects.filter(published=True)
-    return render_to_response('project/list_projects.html', {'theme': "themy", 'projects': list_projects})
+    return render_to_response('project/list_projects.html', {'projects': list_projects})
 
 
 def get_project(request, slug):
