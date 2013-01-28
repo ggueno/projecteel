@@ -135,8 +135,15 @@ def like(request, pk):
 
 
 def offers(request):
-    list_offers = Offer.objects.all()
-    return render_to_response('offer/list_offers.html', {'offers': list_offers})
+    template = 'offer/list_offers.html'
+    endless_part = 'offer/endless_part.html'
+    context = {
+        'offers': Offer.objects.all(),
+        'endless_part': endless_part,
+    }
+    if request.is_ajax():
+        template = endless_part
+    return render_to_response(template, context, context_instance=RequestContext(request))
 
 
 def get_offer(request, slug):
