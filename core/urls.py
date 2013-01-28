@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^project/like/(?P<pk>\d+)$', views.like),
 
     url(r'^project/comment/new/$', views.add_comment, {}, 'comment-new'),
+    url(r'^comment/delete/(?P<pk>\d+)$', views.delete_comment, {}, 'comment-delete'),
 
     url(r'^project/(?P<slug>[^\.]+)/$', views.get_project),
     url(r'^offers/$', views.offers),

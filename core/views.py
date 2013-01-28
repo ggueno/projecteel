@@ -250,7 +250,7 @@ def add_comment(request):
             Comment.objects.create(project=project, profile=applicant, content=cd['content'])
 
             data = [{
-                'name': applicant.first_name + " " + applicant.last_name,
+                'name': applicant.name,
                 'content': cd['content'],
                 'avatar_url': '',
                 'delete_url': '',
@@ -265,6 +265,23 @@ def add_comment(request):
         response = JSONResponse(data, {}, response_mimetype(request))
         response['Content-Disposition'] = 'inline; filename=files.json'
         return response
+
+def delete_comment(request, pk):
+    
+    try:
+        comment = Comment.objects.get(id=pk)
+
+        if comment.profile.user.id == request.user.id:
+            comment.delete()
+            data = True
+    except Comment.DoesNotExist:
+            data = False
+
+    if request.is_ajax():
+        response = JSONResponse(data, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    #TO DO : Not Ajax Response
 
 
 
