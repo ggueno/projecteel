@@ -16,30 +16,26 @@ from taggit.models import Tag
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
-<<<<<<< HEAD
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-=======
 from django.views.decorators.csrf import requires_csrf_token, ensure_csrf_cookie
->>>>>>> dcb12c1a9d57384d37c291ef1fa1c12d62777f69
+
 
 
 def home(request):
     return render_to_response('index.html')
 
 
-def projects(
-        request,
-        template = 'project/list_projects.html',
-        endless_part = 'project/endless_part.html'):
+def projects(request):
+    template = 'project/list_projects.html'
+    endless_part = 'project/endless_part.html'
     context = {
         'projects': Project.objects.filter(published=True),
         'endless_part': endless_part,
     }
     if request.is_ajax():
         template = endless_part
-    return render_to_response(
-        template, context, context_instance=RequestContext(request))
+    return render_to_response(template, context, context_instance=RequestContext(request))
 
 
 def get_project(request, slug):
@@ -281,7 +277,7 @@ def add_comment(request):
         return response
 
 def delete_comment(request, pk):
-    
+
     try:
         comment = Comment.objects.get(id=pk)
 
