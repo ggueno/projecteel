@@ -38,7 +38,7 @@
                 loadedPages = 1;
 
             // Twitter-style pagination.
-            element.find(settings.moreSelector).live('click', function() {
+            element.on('click', settings.moreSelector, function() {
                 var link = $(this),
                     html_link = link.get(0),
                     container = link.closest(settings.containerSelector),
@@ -61,7 +61,7 @@
                         loadedPages += 1;
                         // Fire onCompleted callback.
                         settings.onCompleted.apply(
-                            html_link, [context, fragment]);
+                            html_link, [context, fragment.trim()]);
                     });
                 }
                 return false;
@@ -85,7 +85,7 @@
             }
 
             // Digg-style pagination.
-            element.find(settings.pagesSelector).live('click', function() {
+            element.on('click', settings.pagesSelector, function() {
                 var link = $(this),
                     html_link = link.get(0),
                     context = getContext(link);
@@ -97,7 +97,7 @@
                     page_template.load(context.url, data, function(fragment) {
                         // Fire onCompleted callback.
                         settings.onCompleted.apply(
-                            html_link, [context, fragment]);
+                            html_link, [context, fragment.trim()]);
                     });
                 }
                 return false;
