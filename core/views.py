@@ -16,7 +16,10 @@ from taggit.models import Tag
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 from django.views.decorators.csrf import requires_csrf_token, ensure_csrf_cookie
+
 
 
 def home(request):
@@ -24,8 +27,15 @@ def home(request):
 
 
 def projects(request):
-    list_projects = Project.objects.filter(published=True)
-    return render_to_response('project/list_projects.html', {'theme': "themy", 'projects': list_projects})
+    template = 'project/list_projects.html'
+    endless_part = 'project/endless_part.html'
+    context = {
+        'projects': Project.objects.filter(published=True),
+        'endless_part': endless_part,
+    }
+    if request.is_ajax():
+        template = endless_part
+    return render_to_response(template, context, context_instance=RequestContext(request))
 
 
 def get_project(request, slug):
@@ -40,9 +50,9 @@ def get_project(request, slug):
 
     comments = Comment.objects.filter(project=project)
     comment_form = CommentForm()
-    # likes = Like.objects.filter(project_id=project.id)
+    likes = Like.objects.filter(project_id=project.id)
     #TODO : delete slug from view and template
-    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList , 'user': applicant, 'comment_form': comment_form, 'comments': comments})
+    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList , 'user': applicant, 'comment_form': comment_form, 'comments': comments, 'likes': likes})
 
 
 @login_required
@@ -112,6 +122,7 @@ def like(request, pk):
     try:
         profile = Profile.objects.filter(user_id=request.user.id)[0]
         Like.objects.create(profile=profile, project_id=pk)
+        project = Project.objects.get(id=pk)
     except Profile.DoesNotExist:
         return False
 
@@ -120,12 +131,19 @@ def like(request, pk):
         response['Content-Disposition'] = 'inline; filename=files.json'
         return response
     else:
-        return HttpResponseRedirect('/projects/')
+        return HttpResponseRedirect('/project/'+project.slug)
 
 
 def offers(request):
-    list_offers = Offer.objects.all()
-    return render_to_response('offer/list_offers.html', {'offers': list_offers})
+    template = 'offer/list_offers.html'
+    endless_part = 'offer/endless_part.html'
+    context = {
+        'offers': Offer.objects.all(),
+        'endless_part': endless_part,
+    }
+    if request.is_ajax():
+        template = endless_part
+    return render_to_response(template, context, context_instance=RequestContext(request))
 
 
 def get_offer(request, slug):
@@ -133,8 +151,6 @@ def get_offer(request, slug):
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
     #TODO : delete slug from view and template
     return render_to_response('offer/show_offer.html', {'offer': offer, 'slug': slug, 'user': applicant})
-
-
 
 
 @login_required
@@ -154,6 +170,21 @@ def add_offer(request):
     else:
         form = OfferForm()
     return render(request, 'offer/add_offer.html', {'form': form})
+
+@login_required
+def apply_offer(request, pk):
+    try:
+        applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+        ApplicantOffer.objects.create(applicant=applicant, offer_id=pk)
+    except Applicant.DoesNotExist:
+        return False
+
+    if request.is_ajax():
+        response = JSONResponse(True, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        return HttpResponseRedirect('/offers/')
 
 
 @login_required
@@ -240,7 +271,7 @@ def add_comment(request):
             Comment.objects.create(project=project, profile=applicant, content=cd['content'])
 
             data = [{
-                'name': applicant.first_name + " " + applicant.last_name,
+                'name': applicant.name,
                 'content': cd['content'],
                 'avatar_url': '',
                 'delete_url': '',
@@ -255,6 +286,23 @@ def add_comment(request):
         response = JSONResponse(data, {}, response_mimetype(request))
         response['Content-Disposition'] = 'inline; filename=files.json'
         return response
+
+def delete_comment(request, pk):
+
+    try:
+        comment = Comment.objects.get(id=pk)
+
+        if comment.profile.user.id == request.user.id:
+            comment.delete()
+            data = True
+    except Comment.DoesNotExist:
+            data = False
+
+    if request.is_ajax():
+        response = JSONResponse(data, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    #TO DO : Not Ajax Response
 
 
 

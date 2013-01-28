@@ -6,15 +6,15 @@
 
 {% block content %}
     {% if profile %}
-        <h2> {{ profile.first_name }} {{ profile.last_name }} </h1>
+        <h2> {{ profile.name }} </h1>
         <h3> {{ profile.profession }}</h3>
         <h4> {{ profile.search_location }}</h4>
         <br/>
         <p>
             {% for social_network in profile.social_network.all %}
-                <a href="{{ social_network.url }}" title="{{ profile.first_name }} {{ profile.last_name }} on {{ social_network.name }}"> {{ social_network.name }} </a>
+                <a href="{{ social_network.url }}" title="{{ profile.name }} on {{ social_network.name }}"> {{ social_network.name }} </a>
             {% empty %}
-                <p> {{ profile.first_name }} {{ profile.last_name }} n'aime pas vraiment les reseaux sociaux </p>
+                <p> {{ profile.name }} n'aime pas vraiment les reseaux sociaux </p>
 
             {% endfor %}
         </p>

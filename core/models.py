@@ -50,8 +50,9 @@ class SocialNetwork(models.Model):
 
 
 class Profile(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, blank=True, null=True)
     date_signin = models.DateField(auto_now=True, auto_now_add=True)
+    name = models.CharField(max_length=150)
     avatar = models.ImageField(upload_to="upload/images/avatar", blank=True, null=True)
     description = models.TextField(blank=False, null=False)
     url = models.URLField(blank=True, null=True)
@@ -64,13 +65,7 @@ class Profile(models.Model):
         super(Profile, self).save(*args, **kwargs)
 
 
-# class ProfileManager(models.Manager):
-#     def for_user(self, user):
-#         return self.get_query_set().filter(profile__user=user)
-
-
 class Company(Profile):
-    name = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='name')
     #django enum : TODO
     address = models.ManyToManyField(Address, blank=False, null=False)
@@ -81,7 +76,6 @@ class Company(Profile):
 
 
 class School(Profile):
-    name = models.CharField(max_length=150)
     slug = AutoSlugField(populate_from='name')
 
     def __unicode__(self):
@@ -89,10 +83,7 @@ class School(Profile):
 
 
 class Applicant(Profile):
-    pseudo = models.CharField(max_length=50, blank=True, null=True, unique=True)
-    first_name = models.CharField(max_length=100, blank=False, null=False)
-    last_name = models.CharField(max_length=100, blank=False, null=False)
-    slug = AutoSlugField(populate_from=lambda instance: u'%s-%s' % (instance.first_name, instance.last_name))
+    slug = AutoSlugField(populate_from=lambda instance: u'%s' % (instance.name))
     profession = models.CharField(max_length=100, blank=False, null=False)
     search_location = models.CharField(max_length=100, blank=True, null=True)
     social_network = models.ManyToManyField(SocialNetwork, blank=True, null=True)
@@ -101,7 +92,7 @@ class Applicant(Profile):
     experiences = models.ManyToManyField('Experience', blank=True, null=True)
 
     def __unicode__(self):
-        return "%s %s, %s" % (self.first_name, self.last_name, self.profession)
+        return "%s, %s" % (self.name, self.profession)
 
 
 class Experience(models.Model):
@@ -273,10 +264,6 @@ class Like(models.Model):
     profile = models.ForeignKey(Profile)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     project = models.ForeignKey(Project)
-
-    #@classmethod
-    #def create(self):
-    #    print("Request finished!")
 
 class Follow(models.Model):
     company = models.ForeignKey(Company)

@@ -64,9 +64,17 @@ $.ajaxSetup({
 
 
 $(".comment_form").submit(function(e){
-	console.log($(this).serialize());
 		$.post($(this).attr('action'),$(this).serialize()).done(function(data){
-            alert(data);
+          
         });
         return false;
     });
+
+
+$(".delete-comment").click(function(e){
+	var parent = $(this).parent();
+	$.post($(this).attr('href'),function(data){
+		$(parent).fadeOut();
+	});
+	return false;
+})
