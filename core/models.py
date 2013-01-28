@@ -69,8 +69,8 @@ class Profile(models.Model):
 class Company(Profile):
     slug = AutoSlugField(populate_from='name')
     #django enum : TODO
-    address = models.ManyToManyField(Address, blank=False, null=False)
-    social_network = models.ManyToManyField(SocialNetwork, blank=False, null=False)
+    address = models.ManyToManyField(Address, blank=True, null=True)
+    social_network = models.ManyToManyField(SocialNetwork, blank=True, null=True)
 
     def __unicode__(self):
         return "%s" % (self.name)

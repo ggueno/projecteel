@@ -1,7 +1,7 @@
 {% if offers %}
     {% load staticfiles %}
     {% load endless %}
-    {% lazy_paginate 6 projects %}
+    {% lazy_paginate 3 offers %}
     {% for offer in offers %}
         <h1 class="blackTitle"><a href="/offer/{{ offer.slug }}/">{{ offer.title }}</a></h1>
         <div class="whitediv header">

@@ -20,6 +20,12 @@
 
         <div class="list-offers eightcol">
 
+            <form action="/projects/search/" class="project-search" method="get">
+                {% csrf_token %}
+                <input type="text" name="query">
+                <input type="submit">
+            </form>
+
         {% include endless_part %}
 
         </div>

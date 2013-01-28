@@ -26,16 +26,30 @@ def home(request):
     return render_to_response('index.html')
 
 
-def projects(request):
+def projects(request, projects):
     template = 'project/list_projects.html'
     endless_part = 'project/endless_part.html'
     context = {
-        'projects': Project.objects.filter(published=True),
+        'projects': projects,
         'endless_part': endless_part,
     }
     if request.is_ajax():
         template = endless_part
     return render_to_response(template, context, context_instance=RequestContext(request))
+
+
+def projects_all(request):
+    return projects(request, Project.objects.filter(published=True))
+
+
+def search_projects(request):
+    try:
+        q = request.GET['query']
+        projects_list = Project.objects.filter(title__icontains=q, published=True) | \
+                Project.objects.filter(content__icontains=q, published=True)
+        return projects(request, projects_list)
+    except KeyError:
+        return render_to_response('search/results.html')
 
 
 def get_project(request, slug):
@@ -95,6 +109,7 @@ def add_project(request):
 def add_project_image(request):
     # user = User.objects.get(id=request.user.id)
     return render(request, 'project/add_images.html')
+
 
 
 @login_required
