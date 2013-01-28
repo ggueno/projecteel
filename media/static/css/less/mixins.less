@@ -1,3 +1,21 @@
+//RGBA support for IE 7,8
+.rgba(@colour, @alpha) {
+    @alphaColour: hsla(hue(@colour), saturation(@colour), lightness(@colour), @alpha);
+    @ieAlphaColour: argb(@alphaColour);
+
+    background-color: @colour; // Fallback for older browsers
+
+    // IE hacks
+    zoom: 1; // hasLayout
+    background-color: transparent\9;
+    -ms-filter:  "progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColour}, endColorstr=@{ieAlphaColour})"; // IE 8+
+        filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColour}, endColorstr=@{ieAlphaColour})"; // IE 6 & 7
+
+    background-color: @alphaColour;
+
+}
+
+
 .whiteBox(){
 	.border-radius(3px);
 	padding:10px 15px;
@@ -27,7 +45,7 @@
     margin:5px 0;
     text-align:center;
     .box-shadow(~"0 0 1px rgba(0,0,0,.8), inset 0 0 9px rgba(255,255,255,.5)");
-    .transition(~"box-shadow .3s ease"); 
+    .transition(~"box-shadow .3s ease");
 
     &:hover{
         .box-shadow(~"0 0 1px rgba(0,0,0,.8), inset 0 0 10px rgba(255,255,255,.9)");

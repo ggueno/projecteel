@@ -21,7 +21,7 @@
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
 
-        <header>
+        <header class="menu">
             <div class="row">
                 <a href="#" id="logo" class=""></a>
                 <ul id="menu" class="fivecol">
@@ -32,23 +32,159 @@
             </div>
         </header>
 
-        <div class="row wrapper">
-            <div class="whitediv">
-                <h1>WHITEBOX</h1>
-                <p>LOLOL SAWG YOLO</p>
-            </div>
-        </div>
-
-        <div class="row wrapper">
-            <div class="sixcol">
-                <div class="messageBox">
-                    <a href="#" class="closeBtn">X</a>
-                    <h4>Vous êtes étudiant ou jeune diplômé</h4>
-                    <div class="row">
-                        <p class="ninecol">Ajoutez vous des projets, approchez les recruteurs et faites vous un nom</p>
-                        <button type="button" class="threecol last buttonAqua">S'inscrire</button>
+        <section class="row profile">
+            <div class="sleekbox">
+                <div class="profile_cover">
+                    <img src="{% static "img/profile_cover.jpg" %}" alt="Cover image">
+                    <div class="profile_cover_infobar row">
+                        <h1 id="name">Henriette de Poulpiquet</h1>
+                        <a class="PTbutton" href="#" >Suivre</a>
+                        <ul class="fourcol last profile_stats">
+                            <li><span>2316</span>vues</li>
+                            <li><span>172</span>push</li>
+                            <li><span>23</span>followers</li>
+                            <li><span>9</span>following</li>
+                        </ul>
                     </div>
                 </div>
+                <div class="profile_secondbar">
+                        <ul>
+                            <li>Paris,France</li>
+                            <li>Développeur web</li>
+                            <li class="last"><a href="#" title="">guenoleguemas.fr</a></li>
+                            <li class="last"><a href="#" title="">@hPoulpe</a></li>
+                        </ul>
+                    </div>
+                <img class="profile_pic" src="{% static "img/profile_pic.png" %}" alt="">
+            </div>
+            <div class="row profile_menubar">
+                    <ul class="profile_menu fourcol">
+                        <li><a href="#" class="active">Projets</a></li>
+                        <li><a href="#">Parcours</a></li>
+                    </ul>
+                    <ul class="tags">
+                        <li>photoshop</li>
+                        <li>php</li>
+                        <li>html5</li>
+                        <li>django</li>
+                    </ul>
+                </div>
+        </section>
+
+        <section class="row">
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol last">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+        </section>
+
+        <section class="row">
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol last">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+        </section>
+
+        <div class="row wrapper">
+            <div class="sleekbox">
+                <h1>WHITEBOX</h1>
+                <p>LOLOL SAWG YOLO</p>
             </div>
         </div>
 
@@ -56,7 +192,7 @@
             <div class="threecol">
                 <form action="" class="sleekbox">
                     <h4>Filtres</h4>
-                    <ul>
+                    <ul class="filters">
                         <li class="tag">
                             <input type="text" placeholder="Tags">
                         </li>
@@ -505,44 +641,7 @@
             </div>
 
         </div>
-        <div class="row wrapper" >
 
-            <div class="thumb threecol">
-                <img src="{% static "img/thumb1.jpg" %}" alt="" />
-                <div class="project_infos">
-                    <div class="project_views"><span class="label_views"></span>1250</div>
-                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
-                </div>
-                <h3>The megastore</h3>
-            </div>
-
-            <div class="thumb threecol">
-                <img src="{% static "img/thumb1.jpg" %}" alt="" />
-                <div class="project_infos">
-                    <div class="project_views"><span class="label_views"></span>1250</div>
-                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
-                </div>
-                <h3>The megastore</h3>
-            </div>
-
-            <div class="thumb threecol">
-                <img src="{% static "img/thumb1.jpg" %}" alt="" />
-                <div class="project_infos">
-                    <div class="project_views"><span class="label_views"></span>1250</div>
-                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
-                </div>
-                <h3>The megastore</h3>
-            </div>
-
-            <div class="thumb threecol last">
-                <img src="{% static "img/thumb1.jpg" %}" alt="" />
-                <div class="project_infos">
-                    <div class="project_views"><span class="label_views"></span>1250</div>
-                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
-                </div>
-                <h3>The megastore</h3>
-            </div>
-        </div>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.8.3.min.js" %}"><\/script>')</script>
