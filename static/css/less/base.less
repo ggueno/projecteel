@@ -131,6 +131,10 @@ textarea {
     margin:10px auto;
 }
 
+.last{
+    float:right;
+}
+
 ::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
 ::selection { background: #fe57a1; color: #fff; text-shadow: none; }
 
@@ -151,6 +155,18 @@ textarea {
     font-weight: 800;
     text-transform: uppercase;
     line-height: 1.1em;
+}
+
+.PTbutton{
+    background:@PTblue;
+    color:#FFF;
+    text-align:center;
+    padding:3px 6px;
+    text-transform:uppercase;
+    &:hover{
+        background:#FFF;
+        color:@PTblue;
+    }
 }
 
 .buttonAqua{
@@ -229,27 +245,29 @@ a.buttonAqua{
 // }
 
 .thumb{
-    .whiteBox;
     padding:0px;
     margin-bottom: 20px;
     text-align:center;
+    background: #fff;
+    padding:0;
 
     img{
-        padding:5px;
-        width:95.5%;
+        padding:0;
+        width:100%;
     }
     h3{
         text-align:center;
-        height:33px;
-        line-height:1.8em;
-        .gradient(~"linear-gradient(0deg, #f5f5f5 0%,#e8e8e8 100%)");
-        .border-radius(0 0 3px 3px);
+        height:38px;
+        line-height:38px;
+        width:92%;
+        margin: 0 auto;
+        border-top:1px solid #d2d2d2;
     }
 
     .project_infos{
         overflow:auto;
         width:100%;
-        margin-bottom:3px;
+        margin:5px 0;
 
         .project_views{
             float:left;
@@ -293,54 +311,51 @@ a.buttonAqua{
 }
 
 
-.filters{
-    list-style-type:none;
-    li{
-        border-bottom:1px solid #d2d2d2;
-        padding:10px 0 10px 40px;
-        overflow:auto;
-        &:last-child{
-            border-bottom:none;
-        }
-        input, select, option{
-            .greyInput;
-            float:right;
-            clear:both;
-        }
-        input{
-            width:96%;
-        }
-        &.tag{
-            background: url(../img/filters_pictos.png) no-repeat 5px 10px;
-        }
-        &.push{
-            background: url(../img/filters_pictos.png) no-repeat 5px -43px;
-        }
-        &.date{
-            background: url(../img/filters_pictos.png) no-repeat 5px -98px;
-        }
-        &.region{
-            background: url(../img/filters_pictos.png) no-repeat 5px -147px;
-        }
-        &.category{
-            background: url(../img/filters_pictos.png) no-repeat 5px -200px;
-        }
-    }
-}
+// .filters{
+//     list-style-type:none;
+//     li{
+//         border-bottom:1px solid #d2d2d2;
+//         padding:10px 0 10px 40px;
+//         overflow:auto;
+//         &:last-child{
+//             border-bottom:none;
+//         }
+//         input, select, option{
+//             .greyInput;
+//             float:right;
+//             clear:both;
+//         }
+//         input{
+//             width:96%;
+//         }
+//         &.tag{
+//             background: url(../img/filters_pictos.png) no-repeat 5px 10px;
+//         }
+//         &.push{
+//             background: url(../img/filters_pictos.png) no-repeat 5px -43px;
+//         }
+//         &.date{
+//             background: url(../img/filters_pictos.png) no-repeat 5px -98px;
+//         }
+//         &.region{
+//             background: url(../img/filters_pictos.png) no-repeat 5px -147px;
+//         }
+//         &.category{
+//             background: url(../img/filters_pictos.png) no-repeat 5px -200px;
+//         }
+//     }
+// }
 
 .tags{
-    padding:10px 0;
-    width: 100%;
     margin:0;
     overflow:auto;
     li{
-        background:#4e4e4e;
-        padding:2px 0px 2px 4px;
+        background:#c0c0c0;
+        padding: 2px 5px;
         display:block;
         float: left;
         color:#FFF;
         font-size:1em;
-        .border-radius(3px);
         margin:5px 10px 5px 0;
 
         a.delete{
@@ -515,7 +530,7 @@ a.buttonAqua{
     display: block;
     padding: 0;
     margin: 0;
-    .box-shadow(~"0 1px 1px 1px rgba(0,0,0,.1)");
+    // .box-shadow(~"0 1px 1px 1px rgba(0,0,0,.1)");
     h1,h2,h3,h4,h5,h6{
         padding: 15px 20px;
         display: block;
@@ -524,7 +539,7 @@ a.buttonAqua{
         font-size: 1.5em;
         font-weight: 400;
     }
-    ul{
+    ul.filters{
         border-top: 1px solid #e6e6e6;
         li{
             display: block;
@@ -671,9 +686,11 @@ header.menu{
    ========================================================================== */
 
 .profile{
+    margin-top: 0;
     .profile_cover{
         position: relative;
         height: 277px;
+        overflow: hidden;
         .profile_cover_infobar{
             height: 42px;
             position: absolute;
@@ -684,9 +701,96 @@ header.menu{
             width:100%;
             .rgba(#393838,0.9);
             color: #FFF;
+            h1#name{
+                line-height: 42px;
+                padding: 0 20px;
+                font-size:1.4em;
+                font-weight: 400;
+                text-transform:uppercase;
+                float: left;
+            }
+            .PTbutton{
+                margin-top:9px;
+                float: left;
+                display: block;
+            }
+            .profile_stats{
+                list-style-type: none;
+                padding: 5px 0;
+                li{
+                    display: block;
+                    float: left;
+                    width: 24%;
+                    text-align:center;
+                    line-height: 1.1;
+                    font-size: .8em;
+                    border-right: 1px solid #757575;
+                    &:last-child{
+                        border:none;
+                    }
+                    span{
+                        display: block;
+                        font-size: 1.7em;
+                    }
+                }
+            }
         }
     }
-
+    .profile_secondbar{
+        height: 42px;
+        margin-bottom: 40px;
+        ul{
+            list-style-type:none;
+            overflow: auto;
+            width:100%;
+            li{
+                line-height: 42px;
+                float: left;
+                padding: 0 40px;
+                &.last{
+                    float: right;
+                }
+            }
+        }
+    }
+    .profile_pic{
+        position: absolute;
+        left:50%;
+        margin-left:-95px;
+        top: 235px;
+        .border-radius(95px);
+        border:6px solid #FFF;
+    }
+    .profile_menubar{
+        border-bottom: 1px solid #d2d2d2;
+        text-align: right;
+        .profile_menu{
+            list-style-type: none;
+            li a{
+                display: block;
+                float: left;
+                text-transform: uppercase;
+                padding:5px 0;
+                width:50%;
+                text-align: center;
+                font-size: 1.1em;
+                &.active, &:hover{
+                    background: #f6f6f6;
+                }
+            }
+        }
+        .tags{
+            display: inline;
+            position: relative;
+            top: 6px;
+            vertical-align: bottom;
+            li{
+                float: none;
+                display: inline;
+                margin:5px 0 5px 10px;
+            }
+        }
+    }
 }
 
 
