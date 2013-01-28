@@ -24,6 +24,7 @@ class EducationForm(forms.ModelForm):
     class Meta:
         model = Education
         widgets = {
+            'school': forms.TextInput(),
             'start': forms.DateInput(),
             'end': forms.DateInput(),
         }
@@ -33,6 +34,7 @@ class ExperienceForm(forms.ModelForm):
     class Meta:
         model = Experience
         widgets = {
+            'company': forms.TextInput(),
             'start': forms.DateInput(),
             'end': forms.DateInput(),
         }
