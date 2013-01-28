@@ -20,19 +20,24 @@
 
         <div class="list-offers eightcol">
 
-        {% include endless_part %}
+            <form action="/projects/search/" class="project-search" method="get">
+                {% csrf_token %}
+                <input type="text" name="query">
+                <input type="submit">
+            </form>
 
-        {% block js %}
-            {{ block.super }}
-            <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-            <script>
-                $.endlessPaginate({
-                paginateOnScroll: true,
-                paginateOnScrollMargin: 20
-                });
-            </script>
-        {% endblock %}
+        {% include endless_part %}
 
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
+    <script>
+        $.endlessPaginate({
+        paginateOnScroll: true,
+        paginateOnScrollMargin: 20
+        });
+    </script>
 {% endblock %}

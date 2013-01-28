@@ -1,6 +1,8 @@
 @import "lesshat.less";
 @import "mixins.less";
 
+@PTblue : #0099e6;
+
 /*
  * HTML5 Boilerplate
  *
@@ -8,6 +10,7 @@
  * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
  * Kroc Camen, and the H5BP dev community and team.
  */
+
 
 /* ==========================================================================
    Base styles: opinionated defaults
@@ -112,7 +115,7 @@ body{
     font-family: 'OpenSans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -webkit-text-stroke-width: 0.1px;
-    font-size: 10pt;    
+    font-size: 10pt;
     overflow-y:scroll;
 }
 
@@ -127,6 +130,13 @@ textarea {
 .row{
     margin:10px auto;
 }
+
+.last{
+    float:right;
+}
+
+::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
+::selection { background: #fe57a1; color: #fff; text-shadow: none; }
 
 .whitediv{
     .whiteBox;
@@ -145,6 +155,18 @@ textarea {
     font-weight: 800;
     text-transform: uppercase;
     line-height: 1.1em;
+}
+
+.PTbutton{
+    background:@PTblue;
+    color:#FFF;
+    text-align:center;
+    padding:3px 6px;
+    text-transform:uppercase;
+    &:hover{
+        background:#FFF;
+        color:@PTblue;
+    }
 }
 
 .buttonAqua{
@@ -217,33 +239,35 @@ a.buttonAqua{
 }
 
 
-.wrapper{
-    padding:5px;
-    width:1130px;
-}
+// .wrapper{
+//     padding:5px;
+//     width:1130px;
+// }
 
 .thumb{
-    .whiteBox;
     padding:0px;
     margin-bottom: 20px;
     text-align:center;
+    background: #fff;
+    padding:0;
 
     img{
-        padding:5px;
-        width:95.5%;
+        padding:0;
+        width:100%;
     }
     h3{
         text-align:center;
-        height:33px;
-        line-height:1.8em;
-        .gradient(~"linear-gradient(0deg, #f5f5f5 0%,#e8e8e8 100%)");
-        .border-radius(0 0 3px 3px);
+        height:38px;
+        line-height:38px;
+        width:92%;
+        margin: 0 auto;
+        border-top:1px solid #d2d2d2;
     }
 
     .project_infos{
         overflow:auto;
         width:100%;
-        margin-bottom:3px;
+        margin:5px 0;
 
         .project_views{
             float:left;
@@ -287,54 +311,51 @@ a.buttonAqua{
 }
 
 
-.filters{
-    list-style-type:none;
-    li{
-        border-bottom:1px solid #d2d2d2;
-        padding:10px 0 10px 40px;
-        overflow:auto;
-        &:last-child{
-            border-bottom:none;
-        }
-        input, select, option{
-            .greyInput;
-            float:right;
-            clear:both;
-        }
-        input{
-            width:96%;
-        }
-        &.tag{
-            background: url(../img/filters_pictos.png) no-repeat 5px 10px;
-        }
-        &.push{
-            background: url(../img/filters_pictos.png) no-repeat 5px -43px;
-        }
-        &.date{
-            background: url(../img/filters_pictos.png) no-repeat 5px -98px;
-        }
-        &.region{
-            background: url(../img/filters_pictos.png) no-repeat 5px -147px;
-        }
-        &.category{
-            background: url(../img/filters_pictos.png) no-repeat 5px -200px;
-        }
-    }
-}
+// .filters{
+//     list-style-type:none;
+//     li{
+//         border-bottom:1px solid #d2d2d2;
+//         padding:10px 0 10px 40px;
+//         overflow:auto;
+//         &:last-child{
+//             border-bottom:none;
+//         }
+//         input, select, option{
+//             .greyInput;
+//             float:right;
+//             clear:both;
+//         }
+//         input{
+//             width:96%;
+//         }
+//         &.tag{
+//             background: url(../img/filters_pictos.png) no-repeat 5px 10px;
+//         }
+//         &.push{
+//             background: url(../img/filters_pictos.png) no-repeat 5px -43px;
+//         }
+//         &.date{
+//             background: url(../img/filters_pictos.png) no-repeat 5px -98px;
+//         }
+//         &.region{
+//             background: url(../img/filters_pictos.png) no-repeat 5px -147px;
+//         }
+//         &.category{
+//             background: url(../img/filters_pictos.png) no-repeat 5px -200px;
+//         }
+//     }
+// }
 
 .tags{
-    padding:10px 0;
-    width: 100%;
     margin:0;
     overflow:auto;
     li{
-        background:#4e4e4e;
-        padding:2px 0px 2px 4px;
+        background:#c0c0c0;
+        padding: 2px 5px;
         display:block;
         float: left;
         color:#FFF;
         font-size:1em;
-        .border-radius(3px);
         margin:5px 10px 5px 0;
 
         a.delete{
@@ -477,7 +498,7 @@ a.buttonAqua{
 }
 
 .ideal-form{
-    padding: 10px;
+    padding: 10px 20px;
     background:transparent;
     .ideal-label{
         width: 100px;
@@ -498,8 +519,122 @@ a.buttonAqua{
             height: 33px;
         }
         .ideal-field{
-            
+
         }
+    }
+}
+
+.sleekbox{
+    width: 100%;
+    background: #FFFFFF;
+    display: block;
+    padding: 0;
+    margin: 0;
+    // .box-shadow(~"0 1px 1px 1px rgba(0,0,0,.1)");
+    h1,h2,h3,h4,h5,h6{
+        padding: 15px 20px;
+        display: block;
+    }
+    h4{
+        font-size: 1.5em;
+        font-weight: 400;
+    }
+    ul.filters{
+        border-top: 1px solid #e6e6e6;
+        li{
+            display: block;
+            padding: 0;
+            border-bottom: 1px solid #e6e6e6;
+            &:focus,&:hover{
+                ::-webkit-input-placeholder {
+                   color: #FFF;
+                }
+
+                :-moz-placeholder { /* Firefox 18- */
+                   color: #FFF;
+                }
+
+                ::-moz-placeholder {  /* Firefox 19+ */
+                   color: #FFF;
+                }
+
+                :-ms-input-placeholder {
+                   color: #FFF;
+                }
+            }
+            &:last-child{
+                border-bottom: 0;
+            }
+            input::-moz-selection { background: #777; }
+            input::selection { background: #777; }
+            input{
+                width: 84%;
+                margin: 0;
+                padding: 5% 8%;
+                border: 0;
+                display: block;
+                background: transparent;
+                &:hover,&:focus{
+                    background-color: #4fbaea;
+                    color:#FFF;
+                }
+
+            }
+        }
+    }
+    p{
+        padding: 20px;
+    }
+
+    ul.tags{
+        padding: 20px;
+        border-top: none;
+        li{
+            padding: 3px 9px;
+            position: relative;
+            background: #F1F1F7;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            -ms-border-radius: 2px;
+            -o-border-radius: 2px;
+            border-radius: 2px;
+            border: 0;
+            height: 21px;
+            line-height: 21px;
+            -webkit-box-shadow: 0 1px 0 #CECED8;
+            -moz-box-shadow: 0 1px 0 #ceced8;
+            box-shadow: 0 1px 0 #CECED8;
+            margin-right: 4px;
+            display: -moz-inline-box;
+            -moz-box-orient: vertical;
+            display: inline-block;
+            vertical-align: middle;
+            color: #4E4E4E;
+        }
+        .delete{
+            .box-shadow(~"none");
+            padding: 2px;
+            &:hover{
+                .box-shadow(~"none");
+                color: #4fbaea;
+            }
+        }
+    }
+
+    ::-webkit-input-placeholder {
+       color: #777;
+    }
+
+    :-moz-placeholder { /* Firefox 18- */
+       color: #777;
+    }
+
+    ::-moz-placeholder {  /* Firefox 19+ */
+       color: #777;
+    }
+
+    :-ms-input-placeholder {
+       color: #777;
     }
 }
 
@@ -507,9 +642,9 @@ a.buttonAqua{
    H O M E
    ========================================================================== */
 
-header{
-    .gradient(~"linear-gradient(0deg, #212121 0%,#323232 100%)");
-    height:41px;
+header.menu{
+    background:#252525;
+    height:51px;
     width: 100%;
     overflow:auto;
     color:#FFFFFF;
@@ -521,7 +656,7 @@ header{
     #logo{
         background: url(../img/logo.png) no-repeat 0 center transparent;
         width: 113px;
-        height:41px;
+        height:51px;
         display: block;
         float: left;
     }
@@ -532,17 +667,132 @@ header{
         a{
             display: block;
             float: left;
-            padding: 10px 30px;
-            margin: 0 20px;
+            padding: 15px 50px;
+            margin: 0;
             text-transform: uppercase;
             text-align: center;
+            font-size:1.1em;
             &.active, &:hover{
-                border-bottom: 4px solid #1c7faf;
+                border-bottom: 4px solid @PTblue;
                 height: 17px;
+                background: #353535;
             }
         }
     }
 }
+
+/*
+   P R O F I L E
+   ========================================================================== */
+
+.profile{
+    margin-top: 0;
+    .profile_cover{
+        position: relative;
+        height: 277px;
+        overflow: hidden;
+        .profile_cover_infobar{
+            height: 42px;
+            position: absolute;
+            margin:0;
+            padding:0;
+            bottom:0;
+            left: 0;
+            width:100%;
+            .rgba(#393838,0.9);
+            color: #FFF;
+            h1#name{
+                line-height: 42px;
+                padding: 0 20px;
+                font-size:1.4em;
+                font-weight: 400;
+                text-transform:uppercase;
+                float: left;
+            }
+            .PTbutton{
+                margin-top:9px;
+                float: left;
+                display: block;
+            }
+            .profile_stats{
+                list-style-type: none;
+                padding: 5px 0;
+                li{
+                    display: block;
+                    float: left;
+                    width: 24%;
+                    text-align:center;
+                    line-height: 1.1;
+                    font-size: .8em;
+                    border-right: 1px solid #757575;
+                    &:last-child{
+                        border:none;
+                    }
+                    span{
+                        display: block;
+                        font-size: 1.7em;
+                    }
+                }
+            }
+        }
+    }
+    .profile_secondbar{
+        height: 42px;
+        margin-bottom: 40px;
+        ul{
+            list-style-type:none;
+            overflow: auto;
+            width:100%;
+            li{
+                line-height: 42px;
+                float: left;
+                padding: 0 40px;
+                &.last{
+                    float: right;
+                }
+            }
+        }
+    }
+    .profile_pic{
+        position: absolute;
+        left:50%;
+        margin-left:-95px;
+        top: 235px;
+        .border-radius(95px);
+        border:6px solid #FFF;
+    }
+    .profile_menubar{
+        border-bottom: 1px solid #d2d2d2;
+        text-align: right;
+        .profile_menu{
+            list-style-type: none;
+            li a{
+                display: block;
+                float: left;
+                text-transform: uppercase;
+                padding:5px 0;
+                width:50%;
+                text-align: center;
+                font-size: 1.1em;
+                &.active, &:hover{
+                    background: #f6f6f6;
+                }
+            }
+        }
+        .tags{
+            display: inline;
+            position: relative;
+            top: 6px;
+            vertical-align: bottom;
+            li{
+                float: none;
+                display: inline;
+                margin:5px 0 5px 10px;
+            }
+        }
+    }
+}
+
 
 
 
