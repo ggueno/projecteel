@@ -40,9 +40,9 @@ def get_project(request, slug):
 
     comments = Comment.objects.filter(project=project)
     comment_form = CommentForm()
-    # likes = Like.objects.filter(project_id=project.id)
+    likes = Like.objects.filter(project_id=project.id)
     #TODO : delete slug from view and template
-    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList , 'user': applicant, 'comment_form': comment_form, 'comments': comments})
+    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList , 'user': applicant, 'comment_form': comment_form, 'comments': comments, 'likes': likes})
 
 
 @login_required
@@ -112,6 +112,7 @@ def like(request, pk):
     try:
         profile = Profile.objects.filter(user_id=request.user.id)[0]
         Like.objects.create(profile=profile, project_id=pk)
+        project = Project.objects.get(id=pk)
     except Profile.DoesNotExist:
         return False
 
@@ -120,7 +121,7 @@ def like(request, pk):
         response['Content-Disposition'] = 'inline; filename=files.json'
         return response
     else:
-        return HttpResponseRedirect('/projects/')
+        return HttpResponseRedirect('/project/'+project.slug)
 
 
 def offers(request):
@@ -133,8 +134,6 @@ def get_offer(request, slug):
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
     #TODO : delete slug from view and template
     return render_to_response('offer/show_offer.html', {'offer': offer, 'slug': slug, 'user': applicant})
-
-
 
 
 @login_required
@@ -154,6 +153,21 @@ def add_offer(request):
     else:
         form = OfferForm()
     return render(request, 'offer/add_offer.html', {'form': form})
+
+@login_required
+def apply_offer(request, pk):
+    try:
+        applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+        ApplicantOffer.objects.create(applicant=applicant, offer_id=pk)
+    except Applicant.DoesNotExist:
+        return False
+
+    if request.is_ajax():
+        response = JSONResponse(True, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        return HttpResponseRedirect('/offers/')
 
 
 @login_required

@@ -7,18 +7,17 @@
 
     {% if project %}
 
-<<<<<<< HEAD
      <script type="text/javascript">
-        $(document).ready(function() {
 
-            $('#push-button').click(function() {
-                {{ Like.create(applicant, project) }}
+        $().ready(function(){
+
+            $("#push").click(function(){
+                //alert($(this).attr("href"));
             });
 
         });
+
     </script>
-=======
->>>>>>> d2af26f42cd8b4e16f0d130ddc162260e099c412
 
 <div class="row project-header">
     <h2 class="project-title">{{ project.title }}</h2>
@@ -31,7 +30,7 @@
 
 <div class="row">
 
-    <button id="push-button">Push</button>
+    <a id="push" href="/project/like/{{project.id}}" alt="Push Project" />Push this project</a>
     <h4>{{ likes.count }} push</h4>
     </div>
 
