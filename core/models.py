@@ -6,6 +6,7 @@ from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
 from taggit_autosuggest.managers import TaggableManager
 from sorl.thumbnail import get_thumbnail
 from django.core.files.base import ContentFile
+from django.core.validators import MaxLengthValidator
 # from utils import Address, Country
 
 
@@ -50,8 +51,9 @@ class SocialNetwork(models.Model):
 
 
 class Profile(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, blank=True, null=True)
     date_signin = models.DateField(auto_now=True, auto_now_add=True)
+    name = models.CharField(max_length=150)
     avatar = models.ImageField(upload_to="upload/images/avatar", blank=True, null=True)
     description = models.TextField(blank=False, null=False)
     url = models.URLField(blank=True, null=True)
@@ -64,13 +66,7 @@ class Profile(models.Model):
         super(Profile, self).save(*args, **kwargs)
 
 
-# class ProfileManager(models.Manager):
-#     def for_user(self, user):
-#         return self.get_query_set().filter(profile__user=user)
-
-
 class Company(Profile):
-    name = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='name')
     #django enum : TODO
     address = models.ManyToManyField(Address, blank=False, null=False)
@@ -81,7 +77,6 @@ class Company(Profile):
 
 
 class School(Profile):
-    name = models.CharField(max_length=150)
     slug = AutoSlugField(populate_from='name')
 
     def __unicode__(self):
@@ -89,10 +84,7 @@ class School(Profile):
 
 
 class Applicant(Profile):
-    pseudo = models.CharField(max_length=50, blank=True, null=True, unique=True)
-    first_name = models.CharField(max_length=100, blank=False, null=False)
-    last_name = models.CharField(max_length=100, blank=False, null=False)
-    slug = AutoSlugField(populate_from=lambda instance: u'%s-%s' % (instance.first_name, instance.last_name))
+    slug = AutoSlugField(populate_from=lambda instance: u'%s' % (instance.name))
     profession = models.CharField(max_length=100, blank=False, null=False)
     search_location = models.CharField(max_length=100, blank=True, null=True)
     social_network = models.ManyToManyField(SocialNetwork, blank=True, null=True)
@@ -101,7 +93,7 @@ class Applicant(Profile):
     experiences = models.ManyToManyField('Experience', blank=True, null=True)
 
     def __unicode__(self):
-        return "%s %s, %s" % (self.first_name, self.last_name, self.profession)
+        return "%s, %s" % (self.name, self.profession)
 
 
 class Experience(models.Model):
@@ -121,7 +113,7 @@ class Education(models.Model):
     start = models.DateField(blank=True, null=False)
     end = models.DateField(blank=True, null=True)
     title = models.CharField(max_length=100)
-    description = models.TextField(max_length=500, blank=False, null=False)
+    description = models.TextField(blank=False, null=False)
     #domaine
 
     def __unicode__(self):
@@ -197,8 +189,9 @@ class ImageProject(Media):
         super(ImageProject, self).delete(*args, **kwargs)
 
 
-class VideoLink(Media):
+class EmbedContent(Media):
     content = models.TextField()
+    project = models.ForeignKey('Project', related_name='embed', blank=True, null=True)
 
 
 class SkillsTag(TagBase):
@@ -227,7 +220,7 @@ class EquipmentTag(TagBase):
 
 
 class EquipmentTaggedItem(GenericTaggedItemBase):
-    tag = models.ForeignKey(EquipmentTag, related_name="equipment")
+    tag = models.ForeignKey(EquipmentTag, related_name="equipments")
 
 
 class Project(models.Model):
@@ -237,7 +230,7 @@ class Project(models.Model):
     )
 
     title = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='title', unique=True)
+    slug = AutoSlugField(populate_from='title', unique=True, always_update=True)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     published = models.BooleanField(default=True)
     content = models.TextField()
@@ -251,7 +244,6 @@ class Project(models.Model):
     tags = TaggableManager(verbose_name="Tags", through=CommonTaggedItem, blank=True)
     equipments = TaggableManager(verbose_name="Equipments", through=EquipmentTaggedItem, blank=True)
     #images = models.ManyToManyField(Image, blank=True, null=True)
-    videos = models.ManyToManyField(VideoLink, blank=True, null=True)
 
     view = models.IntegerField(blank=False, null=False, default=0)
 
@@ -260,6 +252,18 @@ class Project(models.Model):
 
     def __unicode__(self):
         return "%s" % (self.title)
+
+
+class Comment(models.Model):
+    project = models.ForeignKey(Project)
+    profile = models.ForeignKey(Profile)
+    publish_date = models.DateField(auto_now=True, auto_now_add=True)
+    content = models.TextField(validators=[MaxLengthValidator(500)])
+
+    def __unicode__(self):
+        return "%s %s" % (self.profile, self.content)
+
+
 
 
 class ApplicantOffer(models.Model):
@@ -273,10 +277,6 @@ class Like(models.Model):
     profile = models.ForeignKey(Profile)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     project = models.ForeignKey(Project)
-
-    #@classmethod
-    #def create(self):
-    #    print("Request finished!")
 
 class Follow(models.Model):
     company = models.ForeignKey(Company)

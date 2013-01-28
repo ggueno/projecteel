@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'autoslug',
     'endless_pagination',
     'grappelli',
@@ -187,7 +188,7 @@ LOGGING = {
 
 ACCOUNT_ACTIVATION_DAYS = 7
 EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1023
+EMAIL_PORT = 1025
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False

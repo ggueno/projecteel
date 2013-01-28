@@ -8,13 +8,15 @@
     {% if project %}
 
      <script type="text/javascript">
-        $(document).ready(function() {
 
-            $('#push-button').click(function() {
-                //{{ Like.objects.create(profile=applicant, project=project) }}
+        $().ready(function(){
+
+            $("#push").click(function(){
+                //alert($(this).attr("href"));
             });
 
         });
+
     </script>
 
 <div class="row project-header">
@@ -28,7 +30,7 @@
 
 <div class="row">
 
-    <button id="push-button">Push</button>
+    <a id="push" href="/project/like/{{project.id}}" alt="Push Project" />Push this project</a>
     <h4>{{ likes.count }} push</h4>
     </div>
 
@@ -39,6 +41,11 @@
             <img class="project-content" src="{{ img.image.url }}" alt="{{ img.slug }}">
             <h4>{{img.title}}</h4>
             <p>{{img.description}}</p>
+        {% endfor %}
+
+
+        {% for embed in project.embed.all %}
+            <p>{{embed.content|safe}}</p>
         {% endfor %}
     </div>
 
@@ -51,7 +58,7 @@
                 <img src="{{im.url}}" alt="{{project.owner.pseudo}}" />
                 {% endthumbnail %}
 
-                <h3>{{project.owner.first_name}} {{project.owner.last_name}}</h3>
+                <h3>{{project.owner.user.first_name}} {{project.owner.user.last_name}}</h3>
 
                 <span>{{project.owner.profession}}</span>
             </a>
@@ -120,5 +127,32 @@
     </div>
 
 </div>
+
+
+
+<div class="comments_part">
+    <form class="comment_form" action="/project/comment/new/" method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <input type="hidden" name="project_id" value="{{ project.id }}">
+        <input type="submit">
+    </form>
+
+
+
+    <div class="comments">
+        {% for comment in comments %}
+            <div class="comment">
+                <h3>{{ comment.profile.user.last_name }} {{ comment.profile.user.first_name}}</h3>
+                <span>{{comment.publish_date}}</span>
+                <p>{{comment.content}}</p>
+                {% if user.id == comment.profile.user_id %}
+                    <a class="delete-comment" href="/comment/delete/{{comment.id}}">X</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
     {% endif %}
 {% endblock %}

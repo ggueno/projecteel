@@ -63,7 +63,7 @@ class TagAutoSuggest(forms.TextInput):
             </script>""" % {
                 'result_id': result_attrs['id'],
                 'widget_id': widget_attrs['id'],
-                'url': reverse('taggit_autosuggest-list'),
+                'url': reverse('taggit_autosuggest-list')+name,
                 'start_text': _("Enter Tag Here"),
                 'empty_text': _("No Results"),
                 'limit_text': _('No More Selections Are Allowed'),
