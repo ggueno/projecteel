@@ -195,11 +195,7 @@ def add_education(request):
     if request.method == 'POST':
         form = EducationForm(request.POST)
         if form.is_valid():
-            cd = form.cleaned_data
-            try:
-                school = Schools.objects.get(name=cd.school)
-            except ObjectDoesNotExist:
-                school = Schools.objects.create()
+            # cd = form.cleaned_data
             education = form.save(commit=False)
             applicant.educations.create(school=education.school, start=education.start, end=education.end, title=education.title, description=education.description)
             # education.save()
