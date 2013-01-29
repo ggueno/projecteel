@@ -11,19 +11,17 @@
                     <img src="{% static "img/profile_cover.jpg" %}" alt="Cover image">
                     <div class="profile_cover_infobar row">
                         <h1 id="name">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
-<<<<<<< HEAD
-                        <a class="PTbutton" href="#" >Suivre</a>
-=======
+
                         {% if profile.user.id != request.user.id %}
-                            {% if following %} 
+                            {% if following %}
                                  <a class="PTbutton following follow" href="/profile/unfollow/{{profile.id}}/">Suivi</a>
                             {%else%}
                                  <a class="PTbutton not-following follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
                             {% endif %}
 
-                           
+
                         {% endif %}
->>>>>>> 001751c621f4342f5fff3ecb2aa82637c88f909b
+
                         <ul class="fourcol last profile_stats">
                             <li><span>2316</span>vues</li>
                             <li><span>172</span>push</li>
@@ -33,36 +31,22 @@
                     </div>
                 </div>
                 <div class="profile_secondbar">
-<<<<<<< HEAD
+
                         <ul>
-                            <li>{{ profile.search_location }}</li>
-                            <li>{{ profile.profession }}</li>
-                            <li class="last"><a href="{{ profile.url }}" title="">{{ profile.url}}</a></li>
-                            <li class="last"><a href="#" title="">@hPoulpe</a></li>
+                            <li><i class="icon pin"></i> {{ profile.search_location }}</li>
+                            <li><i class="icon job"></i> {{ profile.profession }}</li>
+                            <li class="last"><a href="#" title=""><i class="icon web"></i> {{ profile.url }}</a></li>
+                            <li class="last"><a href="#" title=""><i class="icon twitter"></i> @hPoulpe</a></li>
                         </ul>
                     </div>
                 <img class="profile_pic" src="{{ profile.avatar.url }}" alt="">
             </div>
-            <div class="row profile_menubar">
-                    <ul class="profile_menu fourcol">
-                        <li><a href="#" class="active">Projets</a></li>
-                        <li><a href="#">Parcours</a></li>
-=======
-                    <ul>
-                        <li><i class="icon pin"></i> {{ profile.search_location }}</li>
-                        <li><i class="icon job"></i> {{ profile.profession }}</li>
-                        <li class="last"><a href="#" title=""><i class="icon web"></i> {{ profile.url }}</a></li>
-                        <li class="last"><a href="#" title=""><i class="icon twitter"></i> @hPoulpe</a></li>
-                    </ul>
-                    <p> {{ profile.description }} </p>
-                </div>
-                <img class="profile_pic" src="{{ profile.avatar.url }}" alt="">
-            </div>
+
             <div class="row profile_menubar">
                     <ul class="profile_menu fourcol tabs">
                         <li><a href="#projects" class="active">Projets</a></li>
                         <li><a href="#infos">Parcours</a></li>
->>>>>>> 001751c621f4342f5fff3ecb2aa82637c88f909b
+
                     </ul>
                     <ul class="tags">
                         <li>photoshop</li>
@@ -73,20 +57,6 @@
                 </div>
         </section>
 
-<<<<<<< HEAD
-
-        <img src="{{ profile.avatar.url }}" alt="">
-        <br/>
-=======
->>>>>>> 001751c621f4342f5fff3ecb2aa82637c88f909b
-        <p>
-            {% for social_network in profile.social_network.all %}
-                <a href="{{ social_network.url }}" title="{{ profile.first_name }} {{ profile.last_name }} on {{ social_network.name }}"> {{ social_network.name }} </a>
-            {% empty %}
-                <p> {{ profile.user.first_name }} n'aime pas vraiment les reseaux sociaux </p>
-
-            {% endfor %}
-        </p>
 
         <!-- TODO : Template Project -->
         {% if projects %}

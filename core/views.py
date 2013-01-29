@@ -14,9 +14,9 @@ from forms import ProjectForm, OfferForm, EducationForm, ExperienceForm, Comment
 
 from taggit.models import Tag
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 
 from django.template import RequestContext
+
 from django.views.decorators.csrf import requires_csrf_token, ensure_csrf_cookie
 
 def home(request):
@@ -62,9 +62,8 @@ def get_project(request, slug):
 
     comments = Comment.objects.filter(project=project)
     comment_form = CommentForm()
-    likes = Like.objects.filter(project_id=project.id)
     #TODO : delete slug from view and template
-    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList , 'user': applicant, 'comment_form': comment_form, 'comments': comments, 'likes': likes})
+    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList , 'user': applicant, 'comment_form': comment_form, 'comments': comments})
 
 
 @login_required
@@ -130,21 +129,40 @@ def remove_project(request, pk):
     else:
         return HttpResponseRedirect('/projects/')
 
-
 def like(request, pk):
     try:
+        nblikes = Like.objects.all().count()
         profile = Profile.objects.filter(user_id=request.user.id)[0]
-        Like.objects.create(profile=profile, project_id=pk)
         project = Project.objects.get(id=pk)
+        if Like.objects.filter(profile=profile).count() == 0:
+            Like.objects.create(profile=profile, project_id=pk)
+            likecreate = 2 #create
+        else:
+            likecreate = 1 #not create because profile already push
     except Profile.DoesNotExist:
+        likecreate = 0 #not create because error
         return False
+    to_json = {
+        "likecreate": likecreate,
+        "nblikes": nblikes
+    }
+    return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
 
+
+def likeldknklsd(request, pk):
     if request.is_ajax():
-        response = JSONResponse(True, {}, response_mimetype(request))
-        response['Content-Disposition'] = 'inline; filename=files.json'
-        return response
-    else:
-        return HttpResponseRedirect('/project/'+project.slug)
+        if request.method == 'POST':
+            try:
+                profile = Profile.objects.filter(user_id=request.user.id)[0]
+                project = Project.objects.get(id=pk)
+                if Like.objects.filter(profile=profile).count() == 0:
+                    message = "unpushed"
+                    Like.objects.create(profile=profile, project_id=pk)
+                else:
+                    message = "pushed"      
+            except Profile.DoesNotExist:
+                return False
+    return HttpResponse(message)
 
 
 def get_my_self(request):
@@ -234,7 +252,8 @@ def add_offer(request):
 def apply_offer(request, pk):
     try:
         applicant = Applicant.objects.filter(user_id=request.user.id)[0]
-        ApplicantOffer.objects.create(applicant=applicant, offer_id=pk)
+        if ApplicantOffer.objects.filter(applicant=applicant).count() == 0:
+            ApplicantOffer.objects.create(applicant=applicant, offer_id=pk)
     except Applicant.DoesNotExist:
         return False
 

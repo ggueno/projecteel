@@ -18,8 +18,11 @@
 
 <div class="row">
 
-    <a id="push" href="/project/like/{{project.id}}" alt="Push Project" />Push this project</a>
-    <h4>{{ likes.count }} push</h4>
+    <div>
+        <a class="push-link" href="/project/like/{{project.id}}" alt="Push Project" />Push this project</a>
+        <h4 class="count-likes"></h4>
+        <hr/>
+        <br/>
     </div>
 
     <div class="eightcol  whitediv">
@@ -116,8 +119,6 @@
 
 </div>
 
-
-
 <div class="comments_part">
     <form class="comment_form" action="/project/comment/new/" method="post">
         {% csrf_token %}
@@ -125,8 +126,6 @@
         <input type="hidden" name="project_id" value="{{ project.id }}">
         <input type="submit">
     </form>
-
-
 
     <div class="comments">
         {% for comment in comments %}
@@ -147,11 +146,38 @@
 
 
 {% block js %}
+
      <script type="text/javascript">
+
         $().ready(function(){
-            $("#push").click(function(){
-                //alert($(this).attr("href"));
+
+            event.preventDefault();
+            $.ajax({
+                type:"POST",
+                url:"/project/like/{{project.id}}", 
+                success: function(data) {
+                    var nbl = data.nblikes;
+                    $(".count-likes").html(nbl+" push");
+
+                    if (data.likecreate == 1) {
+                        $("a.push-link").addClass("pushed");
+                        $("a.push-link").replaceWith("<p style=\"color:green\">Project pushed</p>")
+                    } else {
+                        $(".push-link").click(function() {
+                            if (data.likecreate == 2) {
+                                $("a.push-link").addClass("pushed");
+                                $("a.push-link").replaceWith("<p style=\"color:green\">Project pushed</p>");
+                                nbl= nbl+1;
+                                $(".count-likes").html(nbl+" push");
+                            }
+                            event.preventDefault();
+                        });  
+                    }
+                    
+                }
             });
         });
+
     </script>
+
 {% endblock %}
