@@ -2,7 +2,8 @@ from django.conf.urls import patterns, url
 from core import views
 
 urlpatterns = patterns('',
-    url(r'^projects/$', views.projects),
+    url(r'^projects/$', views.projects_all),
+    url(r'^projects/search/$', views.search_projects),
     url(r'^project/add/$', views.add_project),
     url(r'^project/add/image/$', views.add_project_image),
 

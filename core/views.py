@@ -16,23 +16,38 @@ from taggit.models import Tag
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
-from django.shortcuts import render_to_response
+from django.template import RequestContext
 from django.views.decorators.csrf import requires_csrf_token, ensure_csrf_cookie
-
 
 def home(request):
     return render_to_response('index.html')
 
 
-def projects(request, template = 'project/list_projects.html', endless_part = 'project/endless_part.html'):
+
+def projects(request, projects):
+    template = 'project/list_projects.html'
+    endless_part = 'project/endless_part.html'
     context = {
-        'projects': Project.objects.filter(published=True),
+        'projects': projects,
         'endless_part': endless_part,
     }
     if request.is_ajax():   
         template = endless_part
-    return render_to_response(
-        template, context, context_instance=RequestContext(request))
+    return render_to_response(template, context, context_instance=RequestContext(request))
+
+
+def projects_all(request):
+    return projects(request, Project.objects.filter(published=True))
+
+
+def search_projects(request):
+    try:
+        q = request.GET['query']
+        projects_list = Project.objects.filter(title__icontains=q, published=True) | \
+                Project.objects.filter(content__icontains=q, published=True)
+        return projects(request, projects_list)
+    except KeyError:
+        return render_to_response('search/results.html')
 
 
 def get_project(request, slug):
@@ -94,6 +109,7 @@ def add_project_image(request):
     return render(request, 'project/add_images.html')
 
 
+
 @login_required
 def remove_project(request, pk):
     try:
@@ -132,8 +148,15 @@ def like(request, pk):
 
 
 def offers(request):
-    list_offers = Offer.objects.all()
-    return render_to_response('offer/list_offers.html', {'offers': list_offers})
+    template = 'offer/list_offers.html'
+    endless_part = 'offer/endless_part.html'
+    context = {
+        'offers': Offer.objects.all(),
+        'endless_part': endless_part,
+    }
+    if request.is_ajax():
+        template = endless_part
+    return render_to_response(template, context, context_instance=RequestContext(request))
 
 
 def get_offer(request, slug):
@@ -274,7 +297,7 @@ def add_comment(request):
         return response
 
 def delete_comment(request, pk):
-    
+
     try:
         comment = Comment.objects.get(id=pk)
 

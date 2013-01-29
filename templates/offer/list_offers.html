@@ -3,69 +3,53 @@
 {% block title %} Offers {% endblock %}
 {% block content %}
     <h1 class="heading">Offers</h1>
-
     <div class="row wrapper">
-		<div class="threecol">
-            <div class="whitediv filters">
-			   	<h4>Affiner ma recherche</h4>
-			   	<form action="" id="projectFilters">
-			   		<ul class="filters">
-			   			<li class="tag">
-			   				<span class="ideal-field">
-						    	<input type="text" name="keywords-sorting" placeholder="mots-cles">
-						    </span>
-			   			</li>
-			   			<li class="region">
-			   				<span class="ideal-field">
-						    	<input type="text" name="keywords-sorting" placeholder="localisation">
-						    </span>
-			   			</li>
-			   			<li class="tag">
-			   				<span class="ideal-field">
-						    	<input type="text" name="keywords-sorting" placeholder="secteur d'activite">
-						    </span>
-			   			</li>
-			   		</ul>
-				    <p>Secteur d'activité</p>
-				    <p>Type de contrat</p>
-				    <p>Durée</p>
-			    </form>
-			</div>
-		</div>
-	    <div class="eightcol last" id="list_offers">
-	        
-	        <div class="PTform inline">
-		        <form action="">
-		        	<input class="sixcol" type="text" name="search">
-	        		<button type="submit">Recherche</button>
-		        </form>
-	        </div>
-
-			{% if offers %}
-				{% for offer in offers %}
-
-				<h1 class="blackTitle"><a href="/offer/{{ offer.slug }}/">{{ offer.title }}</a></h1>
-				<div class="whitediv header">
-					
-					<h4>{{ offer.company }}</h4>
-					<p>{{ offer.location }}</p>
-							
-					{% if offer.tags %}
-						<ul class="tags inline">
-						{% for tag in offer.tags.all %}
-							<li>{{ tag.name }}</li>
-						{% endfor %}
-						</ul>
-					{% endif %}
-
-					<h4>{{ offer.contract }}</h4>
-					<p>{{ offer.publish_date }}</p>
-
-				</div>
-				{% endfor %}
-			{% endif %}
-			
-	    </div>
+        <div class="threecol">
+            <div class="sleekbox filters">
+                <h4>Affiner ma recherche</h4>
+                <form action="" id="projectFilters">
+                    <ul class="filters">
+                        <li class="tag">
+                            <span class="ideal-field">
+                                <input type="text" name="keywords-sorting" placeholder="mots-cles">
+                            </span>
+                        </li>
+                        <li class="region">
+                                   <span class="ideal-field">
+                              <input type="text" name="keywords-sorting" placeholder="localisation">
+                          </span>
+                        </li>
+                        <li class="tag">
+                          <span class="ideal-field">
+                              <input type="text" name="keywords-sorting" placeholder="secteur d'activite">
+                          </span>
+                        </li>
+                    </ul>
+        	       <p>Secteur d'activité</p>
+        	       <p>Type de contrat</p>
+        	       <p>Durée</p>
+                </form>
+            </div>
+        </div>
+        <div class="eightcol last" id="list_offers">
+            <div class="PTform inline">
+	       <form action="">
+               	<input class="sixcol" type="text" name="search">
+        		<button type="submit">Recherche</button>
+	        </form>
+                </div>
+                {% include endless_part %}
+                {% block js %}
+                    {{ block.super }}
+                    <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
+                    <script>
+                        $.endlessPaginate({
+                            paginateOnScroll: true,
+                            paginateOnScrollMargin: 30
+                        });
+                    </script>
+                {% endblock %}
+        </div>
     </div>
 
 {% endblock %}

@@ -7,32 +7,39 @@
     <div class="row wrapper">
         <h1 class="heading">Projects</h1>
 
-        <div class="sorting whitediv threecol">
-            <h4>Affiner ma recherche</h4>
-            <p>Mots-clés</p>
-            <input type="text" name="keywords-sorting">
-            <p>Localisation</p>
-            <input type="text" name="location">
-            <p>Secteur d'activité</p>
-            <p>Type de contrat</p>
-            <p>Durée</p>
+        <div class="sorting threecol">
+            <div class="sleekbox">
+                <h4>Affiner ma recherche</h4>
+                <p>Mots-clés</p>
+                <input type="text" name="keywords-sorting">
+                <p>Localisation</p>
+                <input type="text" name="location">
+                <p>Secteur d'activité</p>
+                <p>Type de contrat</p>
+                <p>Durée</p>
+            </div>
         </div>
 
         <div class="list-offers eightcol">
 
-        {% include endless_part %}
+            <form action="/projects/search/" class="project-search" method="get">
+                {% csrf_token %}
+                <input type="text" name="query">
+                <input type="submit">
+            </form>
 
-        {% block js %}
-            {{ block.super }}
-            <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-            <script>
-                $.endlessPaginate({
-                paginateOnScroll: true,
-                paginateOnScrollMargin: 20
-                });
-            </script>
-        {% endblock %}
+        {% include endless_part %}
 
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
+    <script>
+        $.endlessPaginate({
+        paginateOnScroll: true,
+        paginateOnScrollMargin: 20
+        });
+    </script>
 {% endblock %}

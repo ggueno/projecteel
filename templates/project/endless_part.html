@@ -1,7 +1,7 @@
 {% if projects %}
 {% load staticfiles %}
     {% load endless %}
-    {% paginate 6 projects %}
+    {% lazy_paginate 9 projects %}
     {% for project in projects %}
         <div class="thumb fourcol {% if forloop.counter|divisibleby:"3"%}last{%endif%}">
             <a href="/project/{{ project.slug }}/">
