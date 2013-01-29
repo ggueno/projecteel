@@ -11,7 +11,15 @@
                     <img src="{% static "img/profile_cover.jpg" %}" alt="Cover image">
                     <div class="profile_cover_infobar row">
                         <h1 id="name">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
-                        <a class="PTbutton" href="#" >Suivre</a>
+                        {% if profile.user.id != request.user.id %}
+                            {% if following %} 
+                                 <a class="PTbutton following follow" href="/profile/unfollow/{{profile.id}}/">Suivi</a>
+                            {%else%}
+                                 <a class="PTbutton not-following follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
+                            {% endif %}
+
+                           
+                        {% endif %}
                         <ul class="fourcol last profile_stats">
                             <li><span>2316</span>vues</li>
                             <li><span>172</span>push</li>
@@ -106,4 +114,32 @@
     {% else %}
         <h1> Profile unfound. <h1>
     {% endif %}
+{% endblock %}
+
+{% block js %}
+<script>
+    $().ready(function(){
+
+        $(".follow").click(function(){
+            var follow_button = this;
+            $.post($(this).attr('href'),function(data){
+                if(data==true)
+                    if($(follow_button).hasClass('not-following')){
+                        var link = $(follow_button).attr('href').replace('follow','unfollow');
+                        $(follow_button).attr('href',link)
+                        $(follow_button).removeClass('not-following');
+                        $(follow_button).addClass('following');
+                        $(follow_button).html("Suivi");
+                    }else{
+                        var link = $(follow_button).attr('href').replace('unfollow','follow');
+                        $(follow_button).attr('href',link)
+                        $(follow_button).addClass('not-following');
+                        $(follow_button).removeClass('following');
+                        $(follow_button).html("Suivre");
+                    }
+            });
+            return false;
+        });
+    });
+</script>
 {% endblock %}
