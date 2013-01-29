@@ -278,7 +278,8 @@ class Like(models.Model):
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     project = models.ForeignKey(Project)
 
+
 class Follow(models.Model):
-    company = models.ForeignKey(Company)
+    follower = models.ForeignKey(Profile, related_name="follower")
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
-    applicant = models.ForeignKey(Applicant)
+    following = models.ForeignKey(Profile, related_name="following")

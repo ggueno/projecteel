@@ -147,6 +147,52 @@ def like(request, pk):
         return HttpResponseRedirect('/project/'+project.slug)
 
 
+def get_my_self(request):
+    return Profile.objects.get(user_id=request.user.id)
+
+@login_required
+def follow(request, pk):
+    myself = get_my_self(request)
+    if request.user.id == pk :
+        result=False
+    else:
+        try:
+            Follow.objects.get(follower_id=myself.id, following_id=pk)
+            result = False
+        except Follow.DoesNotExist:
+            Follow.objects.create(follower_id=myself.id, following_id=pk)
+            result = True
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        profile = Profile.objects.get(id=pk)
+        return HttpResponseRedirect('/profile/'+profile.slug)
+
+
+@login_required
+def unfollow(request, pk):
+    myself = get_my_self(request)
+    if request.user.id == pk :
+        result=False
+    else:
+        try:
+            Follow.objects.get(follower_id=myself.id, following_id=pk).delete()
+            result = True
+        except Follow.DoesNotExist:
+            result = False
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        profile = Profile.objects.get(id=pk)
+        return HttpResponseRedirect('/profile/'+profile.slug)
+
+
 def offers(request):
     template = 'offer/list_offers.html'
     endless_part = 'offer/endless_part.html'
@@ -240,10 +286,12 @@ def add_experience(request):
 
 #TODO : generic view for all profile
 def get_applicant(request, slug):
+    # myself = get_my_self(request)
     profile = Applicant.objects.get(slug=slug)
     projects = Project.objects.filter(Q(owner=profile.user) | Q(participant__in=[profile]))
+    following = Follow.objects.filter(follower__user_id=request.user.id)
     #TODO : delete slug from view and template
-    return render_to_response('profile/profile_applicant.html', {'profile': profile, 'slug': slug, 'projects': projects})
+    return render(request,'profile/profile_applicant.html', {'profile': profile, 'slug': slug, 'following': following, 'projects': projects})
 
 
 def get_company(request, slug):
