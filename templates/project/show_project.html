@@ -7,39 +7,6 @@
 
     {% if project %}
 
-     <script type="text/javascript">
-
-        $().ready(function(){
-
-            event.preventDefault();
-            $.ajax({
-                type:"POST",
-                url:"/project/like/{{project.id}}", 
-                success: function(data) {
-                    var nbl = data.nblikes;
-                    $(".count-likes").html(nbl+" push");
-
-                    if (data.likecreate == 1) {
-                        $("a.push-link").addClass("pushed");
-                        $("a.push-link").replaceWith("<p style=\"color:green\">Project pushed</p>")
-                    } else {
-                        $(".push-link").click(function() {
-                            if (data.likecreate == 2) {
-                                $("a.push-link").addClass("pushed");
-                                $("a.push-link").replaceWith("<p style=\"color:green\">Project pushed</p>");
-                                nbl= nbl+1;
-                                $(".count-likes").html(nbl+" push");
-                            }
-                            event.preventDefault();
-                        });  
-                    }
-                    
-                }
-            });
-        });
-
-    </script>
-
 <div class="row project-header">
     <h2 class="project-title">{{ project.title }}</h2>
     <ul class="tags inline">
@@ -175,4 +142,42 @@
 </div>
 
     {% endif %}
+{% endblock %}
+
+
+{% block js %}
+
+     <script type="text/javascript">
+
+        $().ready(function(){
+
+            event.preventDefault();
+            $.ajax({
+                type:"POST",
+                url:"/project/like/{{project.id}}", 
+                success: function(data) {
+                    var nbl = data.nblikes;
+                    $(".count-likes").html(nbl+" push");
+
+                    if (data.likecreate == 1) {
+                        $("a.push-link").addClass("pushed");
+                        $("a.push-link").replaceWith("<p style=\"color:green\">Project pushed</p>")
+                    } else {
+                        $(".push-link").click(function() {
+                            if (data.likecreate == 2) {
+                                $("a.push-link").addClass("pushed");
+                                $("a.push-link").replaceWith("<p style=\"color:green\">Project pushed</p>");
+                                nbl= nbl+1;
+                                $(".count-likes").html(nbl+" push");
+                            }
+                            event.preventDefault();
+                        });  
+                    }
+                    
+                }
+            });
+        });
+
+    </script>
+
 {% endblock %}

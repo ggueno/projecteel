@@ -1,17 +1,58 @@
 {% extends "layout/base.html" %}
 {% load staticfiles %}
 
-{% block title %} {{ profile.slug }}'s profile. {% endblock %}
+{% block title %} {{ profile.slug }}'s profile{% endblock %}
 
 {% block content %}
     {% if profile %}
-        <h2> {{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
-        <h3> {{ profile.profession }}</h3>
-        <h4> {{ profile.search_location }}</h4>
-        <h4> {{ profile.url }}</h4>
-        <p> {{ profile.description }} </p>
-        <img src="{{ profile.avatar.url }}" alt="">
-        <br/>
+        <section class="row profile">
+            <div class="sleekbox">
+                <div class="profile_cover">
+                    <img src="{% static "img/profile_cover.jpg" %}" alt="Cover image">
+                    <div class="profile_cover_infobar row">
+                        <h1 id="name">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
+                        {% if profile.user.id != request.user.id %}
+                            {% if following %} 
+                                 <a class="PTbutton following follow" href="/profile/unfollow/{{profile.id}}/">Suivi</a>
+                            {%else%}
+                                 <a class="PTbutton not-following follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
+                            {% endif %}
+
+                           
+                        {% endif %}
+                        <ul class="fourcol last profile_stats">
+                            <li><span>2316</span>vues</li>
+                            <li><span>172</span>push</li>
+                            <li><span>23</span>followers</li>
+                            <li><span>9</span>following</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="profile_secondbar">
+                    <ul>
+                        <li><i class="icon pin"></i> {{ profile.search_location }}</li>
+                        <li><i class="icon job"></i> {{ profile.profession }}</li>
+                        <li class="last"><a href="#" title=""><i class="icon web"></i> {{ profile.url }}</a></li>
+                        <li class="last"><a href="#" title=""><i class="icon twitter"></i> @hPoulpe</a></li>
+                    </ul>
+                    <p> {{ profile.description }} </p>
+                </div>
+                <img class="profile_pic" src="{{ profile.avatar.url }}" alt="">
+            </div>
+            <div class="row profile_menubar">
+                    <ul class="profile_menu fourcol tabs">
+                        <li><a href="#projects" class="active">Projets</a></li>
+                        <li><a href="#infos">Parcours</a></li>
+                    </ul>
+                    <ul class="tags">
+                        <li>photoshop</li>
+                        <li>php</li>
+                        <li>html5</li>
+                        <li>django</li>
+                    </ul>
+                </div>
+        </section>
+
         <p>
             {% for social_network in profile.social_network.all %}
                 <a href="{{ social_network.url }}" title="{{ profile.first_name }} {{ profile.last_name }} on {{ social_network.name }}"> {{ social_network.name }} </a>
@@ -21,9 +62,9 @@
             {% endfor %}
         </p>
 
-
         <!-- TODO : Template Project -->
         {% if projects %}
+        <section class="row projects" id="projects">
             {% for project in projects %}
             <div class="thumb threecol">
                 <a href="/project/{{ project.slug }}/">
@@ -36,8 +77,10 @@
                 </a>
             </div>
             {% endfor %}
+        </section>
         {% endif %}
 
+        <section class="row" id="infos">
         {% if profile.educations %}
             <h1>Formation</h1>
             {% for education in profile.educations.all %}
@@ -67,8 +110,37 @@
             {% endfor %}
             </div>
         {% endif %}
+        </section>
 
     {% else %}
         <h1> Profile unfound. <h1>
     {% endif %}
+{% endblock %}
+
+{% block js %}
+<script>
+    $().ready(function(){
+
+        $(".follow").click(function(){
+            var follow_button = this;
+            $.post($(this).attr('href'),function(data){
+                if(data==true)
+                    if($(follow_button).hasClass('not-following')){
+                        var link = $(follow_button).attr('href').replace('follow','unfollow');
+                        $(follow_button).attr('href',link)
+                        $(follow_button).removeClass('not-following');
+                        $(follow_button).addClass('following');
+                        $(follow_button).html("Suivi");
+                    }else{
+                        var link = $(follow_button).attr('href').replace('unfollow','follow');
+                        $(follow_button).attr('href',link)
+                        $(follow_button).addClass('not-following');
+                        $(follow_button).removeClass('following');
+                        $(follow_button).html("Suivre");
+                    }
+            });
+            return false;
+        });
+    });
+</script>
 {% endblock %}
