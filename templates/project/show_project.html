@@ -7,18 +7,6 @@
 
     {% if project %}
 
-     <script type="text/javascript">
-
-        $().ready(function(){
-
-            $("#push").click(function(){
-                //alert($(this).attr("href"));
-            });
-
-        });
-
-    </script>
-
 <div class="row project-header">
     <h2 class="project-title">{{ project.title }}</h2>
     <ul class="tags inline">
@@ -155,4 +143,15 @@
 </div>
 
     {% endif %}
+{% endblock %}
+
+
+{% block js %}
+     <script type="text/javascript">
+        $().ready(function(){
+            $("#push").click(function(){
+                //alert($(this).attr("href"));
+            });
+        });
+    </script>
 {% endblock %}

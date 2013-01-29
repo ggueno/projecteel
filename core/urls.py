@@ -21,9 +21,12 @@ urlpatterns = patterns('',
     url(r'^offer/(?P<slug>[^\.]+)/$', views.get_offer),
     url(r'^offer/apply/(?P<pk>\d+)$', views.apply_offer),
 
-    url(r'^profile/(?P<slug>[^\.]+)/$', views.get_applicant),
+    url(r'^profile/follow/(?P<pk>\d+)/$', views.follow),
+    url(r'^profile/unfollow/(?P<pk>\d+)/$', views.unfollow),
     url(r'^profile/company/(?P<slug>[^\.]+)/$', views.get_company),
     url(r'^profile/school/(?P<slug>[^\.]+)/$', views.get_school),
+    url(r'^profile/(?P<slug>[^\.]+)/$', views.get_applicant),
+
     url(r'^education/add/$', views.add_education),
     url(r'^experience/add/$', views.add_experience),
     url(r'^$', views.home),

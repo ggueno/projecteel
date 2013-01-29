@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, render, get_object_or_404
-
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import CreateView, DeleteView
+from django.template import RequestContext
 
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
@@ -16,14 +16,12 @@ from taggit.models import Tag
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
-from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import requires_csrf_token, ensure_csrf_cookie
 
-
-
 def home(request):
     return render_to_response('index.html')
+
 
 
 def projects(request, projects):
@@ -33,7 +31,7 @@ def projects(request, projects):
         'projects': projects,
         'endless_part': endless_part,
     }
-    if request.is_ajax():
+    if request.is_ajax():   
         template = endless_part
     return render_to_response(template, context, context_instance=RequestContext(request))
 
@@ -149,6 +147,52 @@ def like(request, pk):
         return HttpResponseRedirect('/project/'+project.slug)
 
 
+def get_my_self(request):
+    return Profile.objects.get(user_id=request.user.id)
+
+@login_required
+def follow(request, pk):
+    myself = get_my_self(request)
+    if request.user.id == pk :
+        result=False
+    else:
+        try:
+            Follow.objects.get(follower_id=myself.id, following_id=pk)
+            result = False
+        except Follow.DoesNotExist:
+            Follow.objects.create(follower_id=myself.id, following_id=pk)
+            result = True
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        profile = Profile.objects.get(id=pk)
+        return HttpResponseRedirect('/profile/'+profile.slug)
+
+
+@login_required
+def unfollow(request, pk):
+    myself = get_my_self(request)
+    if request.user.id == pk :
+        result=False
+    else:
+        try:
+            Follow.objects.get(follower_id=myself.id, following_id=pk).delete()
+            result = True
+        except Follow.DoesNotExist:
+            result = False
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        profile = Profile.objects.get(id=pk)
+        return HttpResponseRedirect('/profile/'+profile.slug)
+
+
 def offers(request):
     template = 'offer/list_offers.html'
     endless_part = 'offer/endless_part.html'
@@ -242,10 +286,12 @@ def add_experience(request):
 
 #TODO : generic view for all profile
 def get_applicant(request, slug):
+    # myself = get_my_self(request)
     profile = Applicant.objects.get(slug=slug)
     projects = Project.objects.filter(Q(owner=profile.user) | Q(participant__in=[profile]))
+    following = Follow.objects.filter(follower__user_id=request.user.id)
     #TODO : delete slug from view and template
-    return render_to_response('profile/profile_applicant.html', {'profile': profile, 'slug': slug, 'projects': projects})
+    return render(request,'profile/profile_applicant.html', {'profile': profile, 'slug': slug, 'following': following, 'projects': projects})
 
 
 def get_company(request, slug):
