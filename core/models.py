@@ -223,6 +223,11 @@ class EquipmentTaggedItem(GenericTaggedItemBase):
     tag = models.ForeignKey(EquipmentTag, related_name="equipments")
 
 
+class ProjectManager(models.Manager):
+    def like_count(self):
+        return self.like.count()
+
+
 class Project(models.Model):
     PROJECT_STATE = (
         ('IP', "En Cours"),
@@ -243,11 +248,13 @@ class Project(models.Model):
     skills = TaggableManager(verbose_name="Skills", through=SkillsTaggedItem, blank=True)
     tags = TaggableManager(verbose_name="Tags", through=CommonTaggedItem, blank=True)
     equipments = TaggableManager(verbose_name="Equipments", through=EquipmentTaggedItem, blank=True)
-
+    thumbnail = fields.ImageField(upload_to='upload/images/project')
     view = models.IntegerField(blank=False, null=False, default=0)
 
     owner = models.ForeignKey(Applicant, related_name="Owner")
     participant = models.ManyToManyField(Applicant, blank=True, null=True)
+
+    objects = ProjectManager()
 
     def __unicode__(self):
         return "%s" % (self.title)
@@ -273,7 +280,7 @@ class ApplicantOffer(models.Model):
 class Like(models.Model):
     profile = models.ForeignKey(Profile)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey(Project, related_name="likes")
 
 
 class Follow(models.Model):
