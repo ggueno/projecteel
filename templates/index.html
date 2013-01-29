@@ -23,11 +23,11 @@
 
         <header class="menu">
             <div class="row">
-                <a href="#" id="logo" class=""></a>
+                <a href="/" id="logo" class=""></a>
                 <ul id="menu" class="fivecol">
-                    <li><a href="#" class="active">Profil</a></li>
-                    <li><a href="#">Projet</a></li>
-                    <li><a href="#">Offres</a></li>
+                    <li><a href="/profile/guenole-guemas" class="active">Profil</a></li>
+                    <li><a href="/projects/">Projet</a></li>
+                    <li><a href="/offers/">Offres</a></li>
                 </ul>
             </div>
         </header>
@@ -48,19 +48,19 @@
                     </div>
                 </div>
                 <div class="profile_secondbar">
-                        <ul>
-                            <li>Paris,France</li>
-                            <li>Développeur web</li>
-                            <li class="last"><a href="#" title="">guenoleguemas.fr</a></li>
-                            <li class="last"><a href="#" title="">@hPoulpe</a></li>
-                        </ul>
-                    </div>
+                    <ul>
+                        <li><i class="icon pin"></i> Paris,France</li>
+                        <li><i class="icon job"></i> Développeur web</li>
+                        <li class="last"><a href="#" title=""><i class="icon web"></i> guenoleguemas.fr</a></li>
+                        <li class="last"><a href="#" title=""><i class="icon twitter"></i> @hPoulpe</a></li>
+                    </ul>
+                </div>
                 <img class="profile_pic" src="{% static "img/profile_pic.jpg" %}" alt="">
             </div>
             <div class="row profile_menubar">
-                    <ul class="profile_menu fourcol">
-                        <li><a href="#" class="active">Projets</a></li>
-                        <li><a href="#">Parcours</a></li>
+                    <ul class="profile_menu fourcol tabs">
+                        <li><a href="#projects" class="active">Projets</a></li>
+                        <li><a href="#infos">Parcours</a></li>
                     </ul>
                     <ul class="tags">
                         <li>photoshop</li>
@@ -71,7 +71,59 @@
                 </div>
         </section>
 
-        <section class="row">
+        <section class="row projects" id="projects">
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol last">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
 
             <div class="thumb threecol">
                 <a href="" title="">
@@ -126,59 +178,13 @@
             </div>
         </section>
 
-        <section class="row">
-
-            <div class="thumb threecol">
-                <a href="" title="">
-                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
-                </a>
-                <div class="project_infos">
-                    <div class="project_views"><span class="label_views"></span>1250</div>
-                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
-                </div>
-                <a href="" title="">
-                    <h3>The megastore</h3>
-                </a>
-            </div>
-
-            <div class="thumb threecol">
-                <a href="" title="">
-                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
-                </a>
-                <div class="project_infos">
-                    <div class="project_views"><span class="label_views"></span>1250</div>
-                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
-                </div>
-                <a href="" title="">
-                    <h3>The megastore</h3>
-                </a>
-            </div>
-
-            <div class="thumb threecol">
-                <a href="" title="">
-                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
-                </a>
-                <div class="project_infos">
-                    <div class="project_views"><span class="label_views"></span>1250</div>
-                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
-                </div>
-                <a href="" title="">
-                    <h3>The megastore</h3>
-                </a>
-            </div>
-
-            <div class="thumb threecol last">
-                <a href="" title="">
-                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
-                </a>
-                <div class="project_infos">
-                    <div class="project_views"><span class="label_views"></span>1250</div>
-                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
-                </div>
-                <a href="" title="">
-                    <h3>The megastore</h3>
-                </a>
-            </div>
+        <section class="row" id="infos">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </section>
 
         <div class="row wrapper">
