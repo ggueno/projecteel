@@ -4,7 +4,7 @@ from autoslug import AutoSlugField
 from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
     TagBase, Tag)
 from taggit_autosuggest.managers import TaggableManager
-from sorl.thumbnail import get_thumbnail
+from sorl.thumbnail import get_thumbnail, fields
 from django.core.files.base import ContentFile
 from django.core.validators import MaxLengthValidator
 # from utils import Address, Country
@@ -54,14 +54,14 @@ class Profile(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)
     date_signin = models.DateField(auto_now=True, auto_now_add=True)
     name = models.CharField(max_length=150)
-    avatar = models.ImageField(upload_to="upload/images/avatar", blank=True, null=True)
+    avatar = fields.ImageField(upload_to="upload/images/avatar", blank=True, null=True)
     description = models.TextField(blank=False, null=False)
     url = models.URLField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.id:
             super(Profile, self).save(*args, **kwargs)
-            resized = get_thumbnail(self.avatar, "200x200")
+            resized = get_thumbnail(self.avatar, "180x180")
             self.avatar.save(resized.name, ContentFile(resized.read()), True)
         super(Profile, self).save(*args, **kwargs)
 

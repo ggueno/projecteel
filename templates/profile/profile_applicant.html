@@ -5,11 +5,46 @@
 
 {% block content %}
     {% if profile %}
-        <h2> {{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
-        <h3> {{ profile.profession }}</h3>
-        <h4> {{ profile.search_location }}</h4>
-        <h4> {{ profile.url }}</h4>
-        <p> {{ profile.description }} </p>
+        <section class="row profile">
+            <div class="sleekbox">
+                <div class="profile_cover">
+                    <img src="{% static "img/profile_cover.jpg" %}" alt="Cover image">
+                    <div class="profile_cover_infobar row">
+                        <h1 id="name">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
+                        <a class="PTbutton" href="#" >Suivre</a>
+                        <ul class="fourcol last profile_stats">
+                            <li><span>2316</span>vues</li>
+                            <li><span>172</span>push</li>
+                            <li><span>23</span>followers</li>
+                            <li><span>9</span>following</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="profile_secondbar">
+                        <ul>
+                            <li>{{ profile.search_location }}</li>
+                            <li>{{ profile.profession }}</li>
+                            <li class="last"><a href="{{ profile.url }}" title="">{{ profile.url}}</a></li>
+                            <li class="last"><a href="#" title="">@hPoulpe</a></li>
+                        </ul>
+                    </div>
+                <img class="profile_pic" src="{{ profile.avatar.url }}" alt="">
+            </div>
+            <div class="row profile_menubar">
+                    <ul class="profile_menu fourcol">
+                        <li><a href="#" class="active">Projets</a></li>
+                        <li><a href="#">Parcours</a></li>
+                    </ul>
+                    <ul class="tags">
+                        <li>photoshop</li>
+                        <li>php</li>
+                        <li>html5</li>
+                        <li>django</li>
+                    </ul>
+                </div>
+        </section>
+
+
         <img src="{{ profile.avatar.url }}" alt="">
         <br/>
         <p>

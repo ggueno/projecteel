@@ -1,5 +1,6 @@
 from django.contrib import admin
 from core.models import *
+from sorl.thumbnail.admin import AdminImageMixin
 
 admin.site.register(Country)
 admin.site.register(Address)
@@ -8,7 +9,12 @@ admin.site.register(Profile)
 admin.site.register(Company)
 admin.site.register(School)
 admin.site.register(Experience)
-admin.site.register(Applicant)
+
+
+class ApplicantAdmin(AdminImageMixin, admin.ModelAdmin):
+    pass
+
+admin.site.register(Applicant, ApplicantAdmin)
 admin.site.register(Education)
 admin.site.register(SkillsTag)
 admin.site.register(CommonTag)
