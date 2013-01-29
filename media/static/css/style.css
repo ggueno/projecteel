@@ -2760,6 +2760,13 @@ header.menu #menu a:hover {
   display: inline;
   margin: 5px 0 5px 10px;
 }
+#infos_profile h1 {
+  text-transform: uppercase;
+  margin: 15px 0;
+  padding: 5px 0;
+  font-size: 1.4em;
+  border-bottom: 1px solid #d2d2d2;
+}
 /*
    O F F E R S
    ========================================================================== */

@@ -24,17 +24,16 @@
                     <ul>
                         <li><i class="icon pin"></i> {{ profile.search_location }}</li>
                         <li><i class="icon job"></i> {{ profile.profession }}</li>
-                        <li class="last"><a href="#" title=""><i class="icon web"></i> {{ profile.url }}</a></li>
+                        <li class="last"><a href="{{ profile.url }}" target="_blank" title=""><i class="icon web"></i> {{ profile.url }}</a></li>
                         <li class="last"><a href="#" title=""><i class="icon twitter"></i> @hPoulpe</a></li>
                     </ul>
-                    <p> {{ profile.description }} </p>
                 </div>
                 <img class="profile_pic" src="{{ profile.avatar.url }}" alt="">
             </div>
             <div class="row profile_menubar">
                     <ul class="profile_menu fourcol tabs">
                         <li><a href="#projects" class="active">Projets</a></li>
-                        <li><a href="#infos">Parcours</a></li>
+                        <li><a href="#infos_profile">Parcours</a></li>
                     </ul>
                     <ul class="tags">
                         <li>photoshop</li>
@@ -72,12 +71,12 @@
         </section>
         {% endif %}
 
-        <section class="row" id="infos">
+        <section class="row" id="infos_profile">
         {% if profile.educations %}
             <h1>Formation</h1>
             {% for education in profile.educations.all %}
                 <div class="education">
-                    <span class="start"> {{ education.start }} </span>
+                    <span class="start"> {{ education.start }} -</span>
                     <span class="end"> {{ education.end }} </span>
                     <h3> {{ education.title }} </h3>
                     <h4> {{ education.school.name }} </h4>
