@@ -2,7 +2,7 @@
 {% load thumbnail %}
 
 
-{% block title %} Project {{ slug }} {% endblock %}
+{% block title %} Project {{ profile.slug }} {% endblock %}
 {% block content %}
 
     {% if project %}
@@ -154,7 +154,7 @@
             event.preventDefault();
             $.ajax({
                 type:"POST",
-                url:"/project/like/{{project.id}}", 
+                url:"/project/like/{{project.id}}",
                 success: function(data) {
                     var nbl = data.nblikes;
                     $(".count-likes").html(nbl+" push");
@@ -171,9 +171,9 @@
                                 $(".count-likes").html(nbl+" push");
                             }
                             event.preventDefault();
-                        });  
+                        });
                     }
-                    
+
                 }
             });
         });

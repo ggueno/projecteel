@@ -243,7 +243,6 @@ class Project(models.Model):
     skills = TaggableManager(verbose_name="Skills", through=SkillsTaggedItem, blank=True)
     tags = TaggableManager(verbose_name="Tags", through=CommonTaggedItem, blank=True)
     equipments = TaggableManager(verbose_name="Equipments", through=EquipmentTaggedItem, blank=True)
-    #images = models.ManyToManyField(Image, blank=True, null=True)
 
     view = models.IntegerField(blank=False, null=False, default=0)
 
@@ -262,8 +261,6 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return "%s %s" % (self.profile, self.content)
-
-
 
 
 class ApplicantOffer(models.Model):
