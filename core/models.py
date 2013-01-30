@@ -83,6 +83,14 @@ class School(Profile):
         return "%s" % (self.name)
 
 
+class ApplicantManager(models.Manager):
+    def push_user(self):
+        nb_push = 0
+        for project in self.projects:
+            nb_push = project.likes.count()
+        return nb_push
+
+
 class Applicant(Profile):
     slug = AutoSlugField(populate_from=lambda instance: u'%s' % (instance.name))
     profession = models.CharField(max_length=100, blank=False, null=False)
@@ -91,6 +99,7 @@ class Applicant(Profile):
     #situation =
     educations = models.ManyToManyField('Education', blank=True, null=True)
     experiences = models.ManyToManyField('Experience', blank=True, null=True)
+    objects = ApplicantManager()
 
     def __unicode__(self):
         return "%s, %s" % (self.name, self.profession)
@@ -248,10 +257,10 @@ class Project(models.Model):
     skills = TaggableManager(verbose_name="Skills", through=SkillsTaggedItem, blank=True)
     tags = TaggableManager(verbose_name="Tags", through=CommonTaggedItem, blank=True)
     equipments = TaggableManager(verbose_name="Equipments", through=EquipmentTaggedItem, blank=True)
-    thumbnail = fields.ImageField(upload_to='upload/images/project')
+    thumbnail = fields.ImageField(upload_to='upload/images/project', blank=True, null=True)
     view = models.IntegerField(blank=False, null=False, default=0)
 
-    owner = models.ForeignKey(Applicant, related_name="Owner")
+    owner = models.ForeignKey(Applicant, related_name="projects")
     participant = models.ManyToManyField(Applicant, blank=True, null=True)
 
     objects = ProjectManager()

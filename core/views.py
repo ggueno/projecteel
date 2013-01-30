@@ -310,11 +310,18 @@ def add_experience(request):
 #TODO : generic view for all profile
 def get_applicant(request, slug):
     # myself = get_my_self(request)
+
     profile = Applicant.objects.get(slug=slug)
     projects = Project.objects.filter(Q(owner=profile.user) | Q(participant__in=[profile]))
     following = Follow.objects.filter(follower__user_id=request.user.id)
     #TODO : delete slug from view and template
-    return render(request,'profile/profile_applicant.html', {'profile': profile, 'slug': slug, 'following': following, 'projects': projects})
+    context = {
+        'profile': profile,
+        'following': following,
+        'projects': projects,
+        'pushs': Applicant.objects.push_user()
+    }
+    return render(request, 'profile/profile_applicant.html', context)
 
 
 def get_company(request, slug):
