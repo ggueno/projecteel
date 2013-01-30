@@ -6,22 +6,19 @@ from django.template import RequestContext
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.db.models import Q
 
 from core.models import *
-
-
 from forms import ProjectForm, OfferForm, EducationForm, ExperienceForm, CommentForm
-
-from taggit.models import Tag
 from django.contrib.auth.decorators import login_required
 
-from django.template import RequestContext
-
-from django.views.decorators.csrf import requires_csrf_token, ensure_csrf_cookie
 
 def home(request):
     return render_to_response('index.html')
 
+
+def get_my_self(request):
+    return Profile.objects.get(user_id=request.user.id)
 
 
 def projects(request, projects):
@@ -31,7 +28,7 @@ def projects(request, projects):
         'projects': projects,
         'endless_part': endless_part,
     }
-    if request.is_ajax():   
+    if request.is_ajax():
         template = endless_part
     return render_to_response(template, context, context_instance=RequestContext(request))
 
@@ -53,17 +50,26 @@ def search_projects(request):
 def get_project(request, slug):
     project = Project.objects.get(slug=slug)
 
-    #outagg = project.skills
+    # get all tags for project
     categoriesList = project.categories.get_query_set()
     skillsList = project.skills.get_query_set()
     tagsList = project.tags.get_query_set()
     equipementsList = project.equipments.get_query_set()
-    applicant = Applicant.objects.filter(user_id=request.user.id)[0]
 
     comments = Comment.objects.filter(project=project)
     comment_form = CommentForm()
-    #TODO : delete slug from view and template
-    return render_to_response('project/show_project.html', {'project': project, 'slug': slug, 'tags': tagsList, 'categories': categoriesList, 'skills': skillsList, 'equipments': equipementsList , 'user': applicant, 'comment_form': comment_form, 'comments': comments})
+
+    context = {
+        'project': project,
+        'tags': tagsList,
+        'categories': categoriesList,
+        'skills': skillsList,
+        'equipments': equipementsList,
+        'user': get_my_self(request),
+        'comment_form': comment_form,
+        'comments': comments
+    }
+    return render(request, 'project/show_project.html', context)
 
 
 @login_required
@@ -108,7 +114,6 @@ def add_project_image(request):
     return render(request, 'project/add_images.html')
 
 
-
 @login_required
 def remove_project(request, pk):
     try:
@@ -129,6 +134,7 @@ def remove_project(request, pk):
     else:
         return HttpResponseRedirect('/projects/')
 
+
 def like(request, pk):
     try:
         nblikes = Like.objects.all().count()
@@ -136,37 +142,18 @@ def like(request, pk):
         project = Project.objects.get(id=pk)
         if Like.objects.filter(profile=profile).count() == 0:
             Like.objects.create(profile=profile, project_id=pk)
-            likecreate = 2 #create
+            likecreate = 2  # create
         else:
-            likecreate = 1 #not create because profile already push
+            likecreate = 1  # not create because profile already push
     except Profile.DoesNotExist:
-        likecreate = 0 #not create because error
+        likecreate = 0  # not create because error
         return False
     to_json = {
         "likecreate": likecreate,
         "nblikes": nblikes
     }
     return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
-
-
-def likeldknklsd(request, pk):
-    if request.is_ajax():
-        if request.method == 'POST':
-            try:
-                profile = Profile.objects.filter(user_id=request.user.id)[0]
-                project = Project.objects.get(id=pk)
-                if Like.objects.filter(profile=profile).count() == 0:
-                    message = "unpushed"
-                    Like.objects.create(profile=profile, project_id=pk)
-                else:
-                    message = "pushed"      
-            except Profile.DoesNotExist:
-                return False
-    return HttpResponse(message)
-
-
-def get_my_self(request):
-    return Profile.objects.get(user_id=request.user.id)
+    
 
 @login_required
 def follow(request, pk):
@@ -254,15 +241,16 @@ def apply_offer(request, pk):
         applicant = Applicant.objects.filter(user_id=request.user.id)[0]
         if ApplicantOffer.objects.filter(applicant=applicant).count() == 0:
             ApplicantOffer.objects.create(applicant=applicant, offer_id=pk)
+            supplyOffer = 2
+        else:
+            supplyOffer = 1
     except Applicant.DoesNotExist:
         return False
 
-    if request.is_ajax():
-        response = JSONResponse(True, {}, response_mimetype(request))
-        response['Content-Disposition'] = 'inline; filename=files.json'
-        return response
-    else:
-        return HttpResponseRedirect('/offers/')
+    to_json = {
+        "supplyOffer": supplyOffer
+    }
+    return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
 
 
 @login_required
@@ -306,11 +294,18 @@ def add_experience(request):
 #TODO : generic view for all profile
 def get_applicant(request, slug):
     # myself = get_my_self(request)
+
     profile = Applicant.objects.get(slug=slug)
     projects = Project.objects.filter(Q(owner=profile.user) | Q(participant__in=[profile]))
     following = Follow.objects.filter(follower__user_id=request.user.id)
     #TODO : delete slug from view and template
-    return render(request,'profile/profile_applicant.html', {'profile': profile, 'slug': slug, 'following': following, 'projects': projects})
+    context = {
+        'profile': profile,
+        'following': following,
+        'projects': projects,
+        'pushs': Applicant.objects.push_user()
+    }
+    return render(request, 'profile/profile_applicant.html', context)
 
 
 def get_company(request, slug):

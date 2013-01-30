@@ -5,25 +5,7 @@
 
     {% if offer %}
 
-    <script type="text/javascript">
-
-    $(document).ready(function() {
-
-    	$().ready(function(){
-
-    		//if user is not in applicantoffer
-            $("#apply").click(function(){
-               $('#button-apply').replaceWith('<p style="color:green">Thank you {{user.first_name}}</p>');
-            });
-
-        });
-		
-
-	});
-
-	</script>
-
-    <a id="apply" href="/offer/apply/{{offer.id}}" alt="Apply for Offer" />Apply for this offer</a>
+    <a class="apply" href="/offer/apply/{{offer.id}}" alt="Apply for Offer" />Apply for this offer</a>
 
     	<div class="row wrapper">
             <div class="threecol">
@@ -67,4 +49,35 @@
         </div>
 
     {% endif %}
+{% endblock %}
+
+{% block js %}
+
+     <script type="text/javascript">
+
+        $().ready(function(){
+
+            event.preventDefault();
+            $.ajax({
+                type:"POST",
+                url:"/offer/apply/{{offer.id}}", 
+                success: function(data) {
+                    if (data.supplyOffer == 1) {
+                        $("a.apply").replaceWith("<p style=\"color:green\">Applied for this offer</p>")
+                    } else {
+                        $(".apply").click(function() {
+                            if (data.supplyOffer == 2) {
+                                $("a.apply").addClass("pushed");
+                                $("a.apply").replaceWith("<p style=\"color:green\">Applied for this offer</p>");
+                            }
+                            event.preventDefault();
+                        });  
+                    }
+                    
+                }
+            });
+        });
+
+    </script>
+
 {% endblock %}
