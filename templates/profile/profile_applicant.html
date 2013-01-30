@@ -10,7 +10,8 @@
                 <div class="profile_cover">
                     <img src="{% static "img/profile_cover.jpg" %}" alt="Cover image">
                     <div class="profile_cover_infobar row">
-                        <h1 id="name">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
+
+                        <h1 id="name" class="blackTitle">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
 
                         {% if profile.user.id != request.user.id %}
                             {% if following %}
@@ -24,29 +25,27 @@
 
                         <ul class="fourcol last profile_stats">
                             <li><span>2316</span>vues</li>
-                            <li><span>{{ pushs }}</span>push</li>
+                            <li><span>{% if pushs == 0 %}0{%else%}{{pushs}}{%endif%}</span>push</li>
                             <li><span>23</span>followers</li>
                             <li><span>9</span>following</li>
                         </ul>
                     </div>
                 </div>
                 <div class="profile_secondbar">
-
-                        <ul>
-                            <li><i class="icon pin"></i> {{ profile.search_location }}</li>
-                            <li><i class="icon job"></i> {{ profile.profession }}</li>
-                            <li class="last"><a href="#" title=""><i class="icon web"></i> {{ profile.url }}</a></li>
-                            <li class="last"><a href="#" title=""><i class="icon twitter"></i> @hPoulpe</a></li>
-                        </ul>
-                    </div>
+                    <ul>
+                        <li><i class="icon pin"></i> {{ profile.search_location }}</li>
+                        <li><i class="icon job"></i> {{ profile.profession }}</li>
+                        <li class="last"><a href="{{ profile.url }}" target="_blank" title=""><i class="icon web"></i> {{ profile.url }}</a></li>
+                        <li class="last"><a href="#" title=""><i class="icon twitter"></i> @hPoulpe</a></li>
+                    </ul>
+                </div>
                 <img class="profile_pic" src="{{ profile.avatar.url }}" alt="">
             </div>
 
             <div class="row profile_menubar">
                     <ul class="profile_menu fourcol tabs">
                         <li><a href="#projects" class="active">Projets</a></li>
-                        <li><a href="#infos">Parcours</a></li>
-
+                        <li><a href="#infos_profile">Parcours</a></li>
                     </ul>
                     <ul class="tags">
                         <li>photoshop</li>
@@ -62,7 +61,7 @@
         {% if projects %}
         <section class="row projects" id="projects">
             {% for project in projects %}
-            <div class="thumb threecol">
+            <div class="thumb threecol {% if forloop.counter|divisibleby:"4"%}last{%endif%}">
                 <a href="/project/{{ project.slug }}/">
                     <img src="{% static "img/thumb1.jpg" %}" alt="" />
                     <div class="project_infos">
@@ -76,12 +75,12 @@
         </section>
         {% endif %}
 
-        <section class="row" id="infos">
+        <section class="row" id="infos_profile">
         {% if profile.educations %}
             <h1>Formation</h1>
             {% for education in profile.educations.all %}
                 <div class="education">
-                    <span class="start"> {{ education.start }} </span>
+                    <span class="start"> {{ education.start }} -</span>
                     <span class="end"> {{ education.end }} </span>
                     <h3> {{ education.title }} </h3>
                     <h4> {{ education.school.name }} </h4>
