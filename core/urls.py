@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     url(r'^profile/company/(?P<slug>[^\.]+)/$', views.get_company),
     url(r'^profile/school/(?P<slug>[^\.]+)/$', views.get_school),
     url(r'^profile/(?P<slug>[^\.]+)/$', views.get_applicant),
+    url(r'^profile/$', views.get_my_profile),
 
     url(r'^education/add/$', views.add_education),
     url(r'^experience/add/$', views.add_experience),

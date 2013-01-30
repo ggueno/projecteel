@@ -72,6 +72,10 @@ def get_project(request, slug):
     return render(request, 'project/show_project.html', context)
 
 
+def get_my_profile(request):
+    app = Applicant.objects.get(user_id=request.user.id)
+    return get_applicant(request, app.slug)
+
 @login_required
 def add_project(request):
 
@@ -303,7 +307,7 @@ def get_applicant(request, slug):
         'profile': profile,
         'following': following,
         'projects': projects,
-        'pushs': Applicant.objects.push_user()
+        # 'pushs': Applicant.objects.push_user()
     }
     return render(request, 'profile/profile_applicant.html', context)
 
