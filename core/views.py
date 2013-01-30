@@ -59,6 +59,11 @@ def get_project(request, slug):
     comments = Comment.objects.filter(project=project)
     comment_form = CommentForm()
 
+    if Like.objects.filter(project=project).filter(profile=get_my_self(request)).count() == 0:
+        push = "unpushed"
+    else:
+        push = "pushed"
+
     context = {
         'project': project,
         'tags': tagsList,
@@ -67,7 +72,8 @@ def get_project(request, slug):
         'equipments': equipementsList,
         'user': get_my_self(request),
         'comment_form': comment_form,
-        'comments': comments
+        'comments': comments,
+        'push' : push
     }
     return render(request, 'project/show_project.html', context)
 
@@ -140,24 +146,12 @@ def remove_project(request, pk):
 
 
 def like(request, pk):
-    try:
-        nblikes = Like.objects.all().count()
-        profile = Profile.objects.filter(user_id=request.user.id)[0]
-        project = Project.objects.get(id=pk)
-        if Like.objects.filter(profile=profile).count() == 0:
-            Like.objects.create(profile=profile, project_id=pk)
-            likecreate = 2  # create
-        else:
-            likecreate = 1  # not create because profile already push
-    except Profile.DoesNotExist:
-        likecreate = 0  # not create because error
-        return False
-    to_json = {
-        "likecreate": likecreate,
-        "nblikes": nblikes
-    }
-    return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
-    
+    project = Project.objects.get(id=pk)
+    profile = Profile.objects.filter(user_id=request.user.id)[0]
+    if Like.objects.filter(project=project).filter(profile=profile).count() == 0:
+        Like.objects.create(profile=profile, project_id=pk)
+    return get_project(request, project.slug)
+
 
 @login_required
 def follow(request, pk):
@@ -217,8 +211,12 @@ def offers(request):
 def get_offer(request, slug):
     offer = Offer.objects.get(slug=slug)
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+    if ApplicantOffer.objects.filter(offer=offer).filter(applicant=applicant).count() == 0:
+        status = "nonapplied"
+    else:
+        status = "applied"
     #TODO : delete slug from view and template
-    return render_to_response('offer/show_offer.html', {'offer': offer, 'slug': slug, 'user': applicant})
+    return render_to_response('offer/show_offer.html', {'offer': offer, 'slug': slug, 'user': applicant, 'status': status})
 
 
 @login_required
@@ -241,20 +239,11 @@ def add_offer(request):
 
 @login_required
 def apply_offer(request, pk):
-    try:
-        applicant = Applicant.objects.filter(user_id=request.user.id)[0]
-        if ApplicantOffer.objects.filter(applicant=applicant).count() == 0:
-            ApplicantOffer.objects.create(applicant=applicant, offer_id=pk)
-            supplyOffer = 2
-        else:
-            supplyOffer = 1
-    except Applicant.DoesNotExist:
-        return False
-
-    to_json = {
-        "supplyOffer": supplyOffer
-    }
-    return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
+    offer = Offer.objects.get(id=pk)
+    applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+    if ApplicantOffer.objects.filter(offer=offer).filter(applicant=applicant).count() == 0:
+        ApplicantOffer.objects.create(applicant=applicant, offer_id=pk)
+    return get_offer(request, offer.slug)
 
 
 @login_required

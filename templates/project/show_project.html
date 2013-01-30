@@ -1,180 +1,175 @@
 {% extends "layout/base.html" %}
 {% load thumbnail %}
+{% load staticfiles %}
 
 
 {% block title %} Project {{ profile.slug }} {% endblock %}
 {% block content %}
-
+    <div class="row">
     {% if project %}
+    <section class="ninecol" id="project">
+        <div class="sleekbox">
 
-<div class="row project-header">
-    <h2 class="project-title">{{ project.title }}</h2>
-    <ul class="tags inline">
-        {% for tag in categories %}
-            <li>{{ tag.name }} </li>
-        {% endfor %}
-    </ul>
-</div>
+            <form action="/project/like/{{project.id}}" class="push" method="get">
+                {% csrf_token %}
+                <h4 class="count-likes">{{project.likes.count}} push</h4>
+                <input class="{{push}}" type="submit" value="push">
+            </form>
 
-<div class="row">
-
-    <div>
-        <a class="push-link" href="/project/like/{{project.id}}" alt="Push Project" />Push this project</a>
-        <h4 class="count-likes"></h4>
-        <hr/>
-        <br/>
-    </div>
-
-    <div class="eightcol  whitediv">
-        <p class="project-content">{{ project.content }}<p>
-
-        {% for img in project.images.all %}
-            <img class="project-content" src="{{ img.image.url }}" alt="{{ img.slug }}">
-            <h4>{{img.title}}</h4>
-            <p>{{img.description}}</p>
-        {% endfor %}
-
-
-        {% for embed in project.embed.all %}
-            <p>{{embed.content|safe}}</p>
-        {% endfor %}
-    </div>
-
-    <div class="threecol whitediv last">
-        <span>{{ project.publish_date }}</span>
-
-        <div class="applicant-mini">
-            <a href="/profile/{{ project.owner.slug }}">
-                {% thumbnail project.owner.avatar "50x50" crop="left" as im %}
-                <img src="{{im.url}}" alt="{{project.owner.pseudo}}" />
-                {% endthumbnail %}
-
-                <h3>{{project.owner.user.first_name}} {{project.owner.user.last_name}}</h3>
-
-                <span>{{project.owner.profession}}</span>
-            </a>
-        </div>
-
-        {% if project.participant %}
-            <h4>Participant</h4>
-
-            {% for profile in project.participant.all %}
-            {% thumbnail profile.avatar "50x50" as im %}
-            <a href="/profile/{{ profile.slug }}">
-                <img alt="{{project.participant.first_name}} {{project.owner.last_name}}" src="{{im.url}}" />
-            </a>
-            {% endthumbnail %}
-            {% endfor %}
-        {% endif %}
-
-        {% if project.view %}
-        <h4>Vues</h4>
-        <p> {{ project.view }} mois</p>
-        {% endif %}
-
-        {% if project.period %}
-        <h4>Temps</h4>
-        <p> {{ project.period }} mois</p>
-        {% endif %}
-
-        {% if project.period %}
-        <h4>Réalisé dans le cadre</h4>
-        <p> {{ project.cadre }} mois</p>
-        {% endif %}
-
-        {% if project.state %}
-        <h4>Etat</h4>
-        <p> {{ project.state }}</p>
-        {% endif %}
-
-        {% if project.skills %}
-        <h4>Compétences</h4>
-        <ul class="tags inline">
-        {% for tag in skills %}
-            <li> {{ tag.name }} </li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-
-
-        {% if project.tags %}
-        <ul class="tags inline">
-        {% for tag in tags %}
-            <li> {{ tag.name }} </li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-
-
-        {% if project.equipments %}
-        <h4>Equipements</h4>
-        <ul class="tags inline">
-        {% for tag in equipments %}
-            <li> {{ tag.name }} </li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-
-    </div>
-
-</div>
-
-<div class="comments_part">
-    <form class="comment_form" action="/project/comment/new/" method="post">
-        {% csrf_token %}
-        {{ comment_form.as_p }}
-        <input type="hidden" name="project_id" value="{{ project.id }}">
-        <input type="submit">
-    </form>
-
-    <div class="comments">
-        {% for comment in comments %}
-            <div class="comment">
-                <h3>{{ comment.profile.user.last_name }} {{ comment.profile.user.first_name}}</h3>
-                <span>{{comment.publish_date}}</span>
-                <p>{{comment.content}}</p>
-                {% if user.id == comment.profile.user_id %}
-                    <a class="delete-comment" href="/comment/delete/{{comment.id}}">X</a>
-                {% endif %}
+            <div class="row project-header">
+                <h1 class="project-title blackTitle">{{ project.title }}</h1>
+                <ul class="project-stats twocol last">
+                    <li><span>2316</span>vues</li>
+                    <li><span>26</span>pushs</li>
+                </ul>
             </div>
-        {% endfor %}
-    </div>
-</div>
+
+            <div class="row" id="project-body">
+                {% comment %}
+                <div>
+                    <a class="push-link" href="/project/like/{{project.id}}" alt="Push Project" />Push this project</a>
+                    <h4 class="count-likes"></h4>
+                    <hr/>
+                    <br/>
+                </div>{% endcomment %}
+                <h4 class="subline">Graphic Design, Motion graphics, User interface Design  <span>{{ project.publish_date }}</span></h4>
+
+                <p class="project-content">{{ project.content }}</p>
+
+                {% for img in project.images.all %}
+                    <img class="project-content" src="{{ img.image.url }}" alt="{{ img.slug }}">
+                    <h6 class="image-title">{{img.title}}</h6>
+                    <p>{{img.description}}</p>
+                {% endfor %}
+
+                {% for embed in project.embed.all %}
+                    <p>{{embed.content|safe}}</p>
+                {% endfor %}
+
+            <div class="projectComments">
+                <h3 class="postComment">Poster un commentaire</h3>
+                <form class="comment_form" action="/project/comment/new/" method="post">
+                    {% csrf_token %}
+                    {{ comment_form.content }}
+                    <input type="hidden" name="project_id" value="{{ project.id }}">
+                    <input type="submit">
+                </form>
+
+                <h3 class="numberComments">{% if commennts%}{{ comments|length }} commentaires{%else%}Pas de commentaire{%endif%}</h3>
+                <ul class="commentList">
+                {% for comment in comments %}
+                    <li>
+                        {% thumbnail comment.profile.avatar "40x40" crop="left" as avat %}
+                        <img src="{{ avat.url }}" class="profilePic" alt="">
+                        {% endthumbnail %}
+                        <span class="name">{{ comment.profile.user.last_name }} {{ comment.profile.user.first_name}}</span>
+                        <span class="commentInfo"> - {{comment.publish_date}}</span>
+                        <p>{{comment.content}}</p>
+                        {% if user.id == comment.profile.user_id %}
+                            <a class="delete-comment" href="/comment/delete/{{comment.id}}">X</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="threecol last" id="project-author">
+        <div class="sleekbox">
+            <div class="applicant-mini">
+                <a href="/profile/{{ project.owner.slug }}">
+                    {% thumbnail project.owner.avatar "80x80" crop="left" as im %}
+                    <img src="{{im.url}}" alt="{{project.owner.pseudo}}" id="profile_pic"/>
+                    {% endthumbnail %}
+
+                    <h3>{{project.owner.user.first_name}} {{project.owner.user.last_name}}</h3>
+                    <span class="profession">{{project.owner.profession}}</span>
+                    <a href="#" class="PTbutton">SUIVRE</a>
+                    <a href="#" class="PTbutton"><i class="icon message"></i></a>
+                </a>
+            </div>
+
+
+            {% if project.participant %}
+             <div class="participants">
+                <span>avec</span>
+                {% for profile in project.participant.all %}
+                {% thumbnail profile.avatar "50x50" crop="left" as im %}
+                <a href="/profile/{{ profile.slug }}" data-tooltip="{{ profile.user.first_name}} {{profile.user.last_name}}" class="tooltip">
+                    <img alt="{{ profile.user.first_name}} {{profile.user.last_name}}" src="{{im.url}}" />
+                </a>
+                {% endthumbnail %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if project.owner.search_location %}
+            <p class="location"><i class="icon pin"></i> {{ project.owner.search_location }}</p>
+            {% endif %}
+
+            {% if project.view %}
+            <h4>Vues</h4>
+            <p> {{ project.view }} mois</p>
+            {% endif %}
+
+            {% if project.period %}
+            <h4>Temps</h4>
+            <p> {{ project.period }} mois</p>
+            {% endif %}
+
+            {% if project.period %}
+            <h4>Réalisé dans le cadre</h4>
+            <p> {{ project.cadre }} mois</p>
+            {% endif %}
+
+            {% if project.state %}
+            <h4>Etat</h4>
+            <p> {{ project.state }}</p>
+            {% endif %}
+
+            {% if project.skills %}
+            <h4>Compétences</h4>
+            <ul class="tags inline">
+            {% for tag in skills %}
+                <li> {{ tag.name }} </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+
+
+            {% if project.tags %}
+            <ul class="tags inline">
+            {% for tag in tags %}
+                <li> {{ tag.name }} </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+
+
+            {% if project.equipments %}
+            <h4>Equipements</h4>
+            <ul class="tags inline">
+            {% for tag in equipments %}
+                <li> {{ tag.name }} </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </section>
 
     {% endif %}
+    </div>
 {% endblock %}
 
 
 {% block js %}
 
-     <script type="text/javascript">
+    <script type="text/javascript">
 
         $().ready(function(){
 
-            event.preventDefault();
-            $.ajax({
-                type:"POST",
-                url:"/project/like/{{project.id}}",
-                success: function(data) {
-                    var nbl = data.nblikes;
-                    $(".count-likes").html(nbl+" push");
-
-                    if (data.likecreate == 1) {
-                        $("a.push-link").addClass("pushed");
-                        $("a.push-link").replaceWith("<p style=\"color:green\">Project pushed</p>")
-                    } else {
-                        $(".push-link").click(function() {
-                            if (data.likecreate == 2) {
-                                $("a.push-link").addClass("pushed");
-                                $("a.push-link").replaceWith("<p style=\"color:green\">Project pushed</p>");
-                                nbl= nbl+1;
-                                $(".count-likes").html(nbl+" push");
-                            }
-                            event.preventDefault();
-                        });
-                    }
-
-                }
+            $(".push").click(function() {
+                //$(".push").addClass("pushed");
             });
         });
 
