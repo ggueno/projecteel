@@ -6,7 +6,10 @@
     {% if offer %}
 
 <div class="row">
-    <a class="PTbutton apply" href="/offer/apply/{{offer.id}}" alt="Apply for Offer" />Apply for this offer</a>
+    <form action="/offer/apply/{{offer.id}}" class="apply" method="get">
+        {% csrf_token %}
+        <input class="{{status}}" type="submit" value="Apply for this offer">
+    </form>
 </div>
     	<div class="row wrapper">
             <div class="threecol">
@@ -61,25 +64,8 @@
 
         $().ready(function(){
 
-            event.preventDefault();
-            $.ajax({
-                type:"POST",
-                url:"/offer/apply/{{offer.id}}", 
-                success: function(data) {
-                    if (data.supplyOffer == 1) {
-                        $("a.apply").replaceWith("<p style=\"color:green\">Applied for this offer</p>")
-                    } else {
-                        $(".apply").click(function() {
-                            if (data.supplyOffer == 2) {
-                                $("a.apply").addClass("pushed");
-                                $("a.apply").replaceWith("<p style=\"color:green\">Applied for this offer</p>");
-                            }
-                            event.preventDefault();
-                        });  
-                    }
-                    
-                }
-            });
+            $(".apply").click(function() {
+            }
         });
 
     </script>

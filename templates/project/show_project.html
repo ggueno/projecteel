@@ -18,12 +18,11 @@
 
 <div class="row">
 
-    <div>
-        <a class="push-link" href="/project/like/{{project.id}}" alt="Push Project" />Push this project</a>
-        <h4 class="count-likes"></h4>
-        <hr/>
-        <br/>
-    </div>
+    <form action="/project/like/{{project.id}}" class="push" method="get">
+        {% csrf_token %}
+        <h4 class="count-likes">{{project.likes.count}} push</h4>
+        <input class="{{push}}" type="submit" value="push">
+    </form>
 
     <div class="eightcol  whitediv">
         <p class="project-content">{{ project.content }}<p>
@@ -147,34 +146,12 @@
 
 {% block js %}
 
-     <script type="text/javascript">
+    <script type="text/javascript">
 
         $().ready(function(){
 
-            event.preventDefault();
-            $.ajax({
-                type:"POST",
-                url:"/project/like/{{project.id}}",
-                success: function(data) {
-                    var nbl = data.nblikes;
-                    $(".count-likes").html(nbl+" push");
-
-                    if (data.likecreate == 1) {
-                        $("a.push-link").addClass("pushed");
-                        $("a.push-link").replaceWith("<p style=\"color:green\">Project pushed</p>")
-                    } else {
-                        $(".push-link").click(function() {
-                            if (data.likecreate == 2) {
-                                $("a.push-link").addClass("pushed");
-                                $("a.push-link").replaceWith("<p style=\"color:green\">Project pushed</p>");
-                                nbl= nbl+1;
-                                $(".count-likes").html(nbl+" push");
-                            }
-                            event.preventDefault();
-                        });
-                    }
-
-                }
+            $(".push").click(function() {
+                //$(".push").addClass("pushed");
             });
         });
 
