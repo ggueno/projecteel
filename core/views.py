@@ -153,24 +153,7 @@ def like(request, pk):
         "nblikes": nblikes
     }
     return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
-
-
-def likeldknklsd(request, pk):
-    if request.is_ajax():
-        if request.method == 'POST':
-            try:
-                profile = Profile.objects.filter(user_id=request.user.id)[0]
-                project = Project.objects.get(id=pk)
-                if Like.objects.filter(profile=profile).count() == 0:
-                    message = "unpushed"
-                    Like.objects.create(profile=profile, project_id=pk)
-                else:
-                    message = "pushed"
-            except Profile.DoesNotExist:
-                return False
-    return HttpResponse(message)
-
-
+    
 
 @login_required
 def follow(request, pk):
@@ -258,15 +241,16 @@ def apply_offer(request, pk):
         applicant = Applicant.objects.filter(user_id=request.user.id)[0]
         if ApplicantOffer.objects.filter(applicant=applicant).count() == 0:
             ApplicantOffer.objects.create(applicant=applicant, offer_id=pk)
+            supplyOffer = 2
+        else:
+            supplyOffer = 1
     except Applicant.DoesNotExist:
         return False
 
-    if request.is_ajax():
-        response = JSONResponse(True, {}, response_mimetype(request))
-        response['Content-Disposition'] = 'inline; filename=files.json'
-        return response
-    else:
-        return HttpResponseRedirect('/offers/')
+    to_json = {
+        "supplyOffer": supplyOffer
+    }
+    return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
 
 
 @login_required
