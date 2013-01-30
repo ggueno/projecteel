@@ -1,46 +1,120 @@
+@import "lesshat.less";
+
+#project{
+    h4.subline{
+        font-size: 14px;
+        color: #787878;
+        padding: 10px 20px;
+        span{
+            float: right;
+        }
+    }
+    p{
+        line-height: 1.5em;
+    }
+    .postComment, .numberComments{
+        padding:0 0 0 35px;
+    }
+    .projectComments{
+        padding: 0 20px;
+        input[type=submit]{
+            margin-top:15px;
+        }
+    }
+    .commentList {
+        p{
+            padding: 0;
+        }
+    }
+}
 .project-header{
     color: white;
+    background:#3a3a3a;
+    height:42px;
+    margin-top:0;
 
     .project-title{
-        color: black;
-        float: left;
-        margin: 20px 2%;
-        font-size: 3em;
+        margin: 0;
+        float:left;
     }
 
-    .tags{
-        width: 30%;
-        float: right;
+    .project-stats{
+        list-style-type: none;
+        padding:5px 0px;
+        li{
+            float:left;
+            width:49%;
+            text-align:center;
+            line-height: 1.1;
+            font-size: .8em;
+            border-right: 1px solid #757575;
+            &:last-child{
+                border:none;
+            }
+            span{
+                display: block;
+                font-size: 1.7em;
+            }
+        }
     }
 }
 
-.project-content{
-    margin: 25px 0;
+.image-title{
+    padding-bottom: 0;
+    text-align:center;
+    font-size:1em;
+    font-weight:600;
 }
 
 
-.applicant-mini{
-    background-color: gray;
-    overflow: hidden;
-    height: 70px;
-    width: 93%;
-    margin: 20px 0;
-    padding: 10px 4%;
+img.project-content{
+    display: block;
+    margin: 0 auto;
+}
 
-    img{
-        float: left;
-        width: 30%;
+#project-author{
+    .applicant-mini{
+        overflow: hidden;
+        // margin: 20px 0;
+        padding: 30px 4%;
+        text-align:center;
+
+        img#profile_pic{
+            margin: 0 auto 10px auto;
+            .border-radius(40px);
+        }
+
+        span.profession{
+            display: block;
+            color: #777777;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        a.PTbutton{
+            margin: 0 3px;
+            &:hover{
+                background: #007ab8;
+                color: #FFF;
+            }
+        }
+        h3{
+            text-transform: uppercase;
+            font-weight: 400;
+            padding: 5px;
+        }
     }
-
-    h3, span{
-        float: left;
-        width: 66%;
-        margin-left: 4%;
-
-    }
-
-    h3{
-        margin-top: 10px;
-        margin-bottom: 5px;
+    .participants{
+        background: #f6f6f6;
+        padding: 18px;
+        overflow: visible;
+        span{
+            color: #777777;
+            margin-right: 10px;
+        }
+        img{
+            .border-radius(30px);
+            border: 3px solid #FFF;
+            margin: 0 3px;
+        }
     }
 }

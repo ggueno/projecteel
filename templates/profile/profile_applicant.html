@@ -10,15 +10,15 @@
                 <div class="profile_cover">
                     <img src="{% static "img/profile_cover.jpg" %}" alt="Cover image">
                     <div class="profile_cover_infobar row">
-                        <h1 id="name">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
+                        <h1 id="name" class="blackTitle">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
                         {% if profile.user.id != request.user.id %}
-                            {% if following %} 
+                            {% if following %}
                                  <a class="PTbutton following follow" href="/profile/unfollow/{{profile.id}}/">Suivi</a>
                             {%else%}
                                  <a class="PTbutton not-following follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
                             {% endif %}
 
-                           
+
                         {% endif %}
                         <ul class="fourcol last profile_stats">
                             <li><span>2316</span>vues</li>
