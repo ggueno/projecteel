@@ -282,6 +282,8 @@ def add_experience(request):
 
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
     if request.method == 'POST':
+        company = Company.objects.get(slug__icontains=request.POST['company'])[0]
+
         form = ExperienceForm(request.POST)
         if form.is_valid():
             # cd = form.cleaned_data
@@ -307,7 +309,7 @@ def get_applicant(request, slug):
         'profile': profile,
         'following': following,
         'projects': projects,
-        # 'pushs': Applicant.objects.push_user()
+        'pushs': Project.objects.push_user(profile.user_id)
     }
     return render(request, 'profile/profile_applicant.html', context)
 

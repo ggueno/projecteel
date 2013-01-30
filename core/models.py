@@ -86,12 +86,7 @@ class School(Profile):
         return "%s" % (self.name)
 
 
-class ApplicantManager(models.Manager):
-    def push_user(self):
-        nb_push = 0
-        for project in self.Owner:
-            nb_push = project.likes.count()
-        return nb_push
+
 
 
 class Applicant(Profile):
@@ -102,7 +97,8 @@ class Applicant(Profile):
     #situation =
     educations = models.ManyToManyField('Education', blank=True, null=True)
     experiences = models.ManyToManyField('Experience', blank=True, null=True)
-    objects = ApplicantManager()
+    
+
 
     def __unicode__(self):
         return "%s, %s" % (self.name, self.profession)
@@ -239,6 +235,13 @@ class ProjectManager(models.Manager):
     def like_count(self):
         return self.like.count()
 
+    def push_user(self, id_applicant):
+        nb_push = 0
+        projects = self.filter(owner_id=id_applicant)
+        for project in projects:
+            nb_push = project.likes.count()
+        return nb_push
+
 
 class Project(models.Model):
     PROJECT_STATE = (
@@ -263,7 +266,7 @@ class Project(models.Model):
     thumbnail = fields.ImageField(upload_to='upload/images/project', blank=True, null=True)
     view = models.IntegerField(blank=False, null=False, default=0)
 
-    owner = models.ForeignKey(Applicant, related_name="Owner")
+    owner = models.ForeignKey(Applicant, related_name="project_owner")
     participant = models.ManyToManyField(Applicant, blank=True, null=True)
 
     objects = ProjectManager()
