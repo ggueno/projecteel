@@ -4,7 +4,7 @@ from autoslug import AutoSlugField
 from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
     TagBase, Tag)
 from taggit_autosuggest.managers import TaggableManager
-from sorl.thumbnail import get_thumbnail
+from sorl.thumbnail import get_thumbnail, fields
 from django.core.files.base import ContentFile
 from django.core.validators import MaxLengthValidator
 # from utils import Address, Country
@@ -54,14 +54,14 @@ class Profile(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)
     date_signin = models.DateField(auto_now=True, auto_now_add=True)
     name = models.CharField(max_length=150)
-    avatar = models.ImageField(upload_to="upload/images/avatar", blank=True, null=True)
+    avatar = fields.ImageField(upload_to="upload/images/avatar", blank=True, null=True)
     description = models.TextField(blank=False, null=False)
     url = models.URLField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.id:
             super(Profile, self).save(*args, **kwargs)
-            resized = get_thumbnail(self.avatar, "200x200")
+            resized = get_thumbnail(self.avatar, "180x180")
             self.avatar.save(resized.name, ContentFile(resized.read()), True)
         super(Profile, self).save(*args, **kwargs)
 
@@ -83,6 +83,14 @@ class School(Profile):
         return "%s" % (self.name)
 
 
+class ApplicantManager(models.Manager):
+    def push_user(self):
+        nb_push = 0
+        for project in self.projects:
+            nb_push = project.likes.count()
+        return nb_push
+
+
 class Applicant(Profile):
     slug = AutoSlugField(populate_from=lambda instance: u'%s' % (instance.name))
     profession = models.CharField(max_length=100, blank=False, null=False)
@@ -91,6 +99,7 @@ class Applicant(Profile):
     #situation =
     educations = models.ManyToManyField('Education', blank=True, null=True)
     experiences = models.ManyToManyField('Experience', blank=True, null=True)
+    objects = ApplicantManager()
 
     def __unicode__(self):
         return "%s, %s" % (self.name, self.profession)
@@ -223,6 +232,11 @@ class EquipmentTaggedItem(GenericTaggedItemBase):
     tag = models.ForeignKey(EquipmentTag, related_name="equipments")
 
 
+class ProjectManager(models.Manager):
+    def like_count(self):
+        return self.like.count()
+
+
 class Project(models.Model):
     PROJECT_STATE = (
         ('IP', "En Cours"),
@@ -243,12 +257,13 @@ class Project(models.Model):
     skills = TaggableManager(verbose_name="Skills", through=SkillsTaggedItem, blank=True)
     tags = TaggableManager(verbose_name="Tags", through=CommonTaggedItem, blank=True)
     equipments = TaggableManager(verbose_name="Equipments", through=EquipmentTaggedItem, blank=True)
-    #images = models.ManyToManyField(Image, blank=True, null=True)
-
+    thumbnail = fields.ImageField(upload_to='upload/images/project', blank=True, null=True)
     view = models.IntegerField(blank=False, null=False, default=0)
 
-    owner = models.ForeignKey(Applicant, related_name="Owner")
+    owner = models.ForeignKey(Applicant, related_name="projects")
     participant = models.ManyToManyField(Applicant, blank=True, null=True)
+
+    objects = ProjectManager()
 
     def __unicode__(self):
         return "%s" % (self.title)
@@ -264,8 +279,6 @@ class Comment(models.Model):
         return "%s %s" % (self.profile, self.content)
 
 
-
-
 class ApplicantOffer(models.Model):
     applicant = models.ForeignKey(Applicant)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
@@ -276,7 +289,7 @@ class ApplicantOffer(models.Model):
 class Like(models.Model):
     profile = models.ForeignKey(Profile)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey(Project, related_name="likes")
 
 
 class Follow(models.Model):
