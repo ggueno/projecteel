@@ -65,6 +65,9 @@ class Profile(models.Model):
             self.avatar.save(resized.name, ContentFile(resized.read()), True)
         super(Profile, self).save(*args, **kwargs)
 
+    def __unicode__(self):
+        return "%s" % (self.name)
+
 
 class Company(Profile):
     slug = AutoSlugField(populate_from='name', unique=True, always_update=True)
