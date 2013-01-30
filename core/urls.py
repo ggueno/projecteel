@@ -10,12 +10,12 @@ urlpatterns = patterns('',
     url(r'^project/add/image/new/$', views.ImageProjectCreateView.as_view(), {}, 'upload-new'),
     url(r'^project/add/image/delete/(?P<pk>\d+)$', views.ImageProjectDeleteView.as_view(), {}, 'upload-delete'),
     url(r'^project/remove/(?P<pk>\d+)$', views.remove_project),
-    url(r'^project/like/(?P<pk>\d+)$', views.like),
 
     url(r'^project/comment/new/$', views.add_comment, {}, 'comment-new'),
     url(r'^comment/delete/(?P<pk>\d+)$', views.delete_comment, {}, 'comment-delete'),
 
     url(r'^project/(?P<slug>[^\.]+)/$', views.get_project),
+    url(r'^project/like/(?P<pk>\d+)$', views.like),
     url(r'^offers/$', views.offers),
     url(r'^offer/add/$', views.add_offer),
     url(r'^offer/(?P<slug>[^\.]+)/$', views.get_offer),
