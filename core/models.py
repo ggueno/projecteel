@@ -67,7 +67,7 @@ class Profile(models.Model):
 
 
 class Company(Profile):
-    slug = AutoSlugField(populate_from='name')
+    slug = AutoSlugField(populate_from='name', unique=True, always_update=True)
     #django enum : TODO
     address = models.ManyToManyField(Address, blank=True, null=True)
     social_network = models.ManyToManyField(SocialNetwork, blank=True, null=True)
@@ -77,7 +77,7 @@ class Company(Profile):
 
 
 class School(Profile):
-    slug = AutoSlugField(populate_from='name')
+    slug = AutoSlugField(populate_from='name', unique=True, always_update=True)
 
     def __unicode__(self):
         return "%s" % (self.name)
@@ -92,7 +92,7 @@ class ApplicantManager(models.Manager):
 
 
 class Applicant(Profile):
-    slug = AutoSlugField(populate_from=lambda instance: u'%s' % (instance.name))
+    slug = AutoSlugField(populate_from=lambda instance: u'%s' % (instance.name), unique=True, always_update=True)
     profession = models.CharField(max_length=100, blank=False, null=False)
     search_location = models.CharField(max_length=100, blank=True, null=True)
     social_network = models.ManyToManyField(SocialNetwork, blank=True, null=True)
