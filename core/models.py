@@ -86,7 +86,7 @@ class School(Profile):
 class ApplicantManager(models.Manager):
     def push_user(self):
         nb_push = 0
-        for project in self.projects:
+        for project in self.Owner:
             nb_push = project.likes.count()
         return nb_push
 
@@ -260,7 +260,7 @@ class Project(models.Model):
     thumbnail = fields.ImageField(upload_to='upload/images/project', blank=True, null=True)
     view = models.IntegerField(blank=False, null=False, default=0)
 
-    owner = models.ForeignKey(Applicant, related_name="projects")
+    owner = models.ForeignKey(Applicant, related_name="Owner")
     participant = models.ManyToManyField(Applicant, blank=True, null=True)
 
     objects = ProjectManager()
