@@ -479,15 +479,16 @@ a.buttonAqua {
   border-bottom: 1px solid #d2d2d2;
 }
 .projectComments ul li img.profilePic {
-  border: 3px solid #ffffff;
-  border-radius: 3px;
-  -webkit-box-shadow: 0 0 3px rgba(0,0,0,.2);
-  -moz-box-shadow: 0 0 3px rgba(0,0,0,.2);
-  box-shadow: 0 0 3px rgba(0,0,0,.2);
-  color: 0 0 3px rgba(0,0,0,.2);
+  -webkit-border-radius: 20px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 20px;
+  -moz-background-clip: padding;
+  border-radius: 20px;
+  background-clip: padding-box;
   display: block;
   float: left;
   clear: left;
+  margin-top: 5px;
   margin-right: 10px;
 }
 .projectComments ul li .name {

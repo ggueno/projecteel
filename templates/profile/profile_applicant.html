@@ -25,7 +25,7 @@
 
                         <ul class="fourcol last profile_stats">
                             <li><span>2316</span>vues</li>
-                            <li><span>{{ pushs }}</span>push</li>
+                            <li><span>{% if pushs == 0 %}0{%else%}{{pushs}}{%endif%}</span>push</li>
                             <li><span>23</span>followers</li>
                             <li><span>9</span>following</li>
                         </ul>
@@ -61,7 +61,7 @@
         {% if projects %}
         <section class="row projects" id="projects">
             {% for project in projects %}
-            <div class="thumb threecol">
+            <div class="thumb threecol {% if forloop.counter|divisibleby:"4"%}last{%endif%}">
                 <a href="/project/{{ project.slug }}/">
                     <img src="{% static "img/thumb1.jpg" %}" alt="" />
                     <div class="project_infos">
