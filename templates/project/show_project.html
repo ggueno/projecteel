@@ -124,7 +124,7 @@
 
             {% if project.state %}
             <h4>Etat</h4>
-            <p> {{ project.state }}</p>
+            <p> {{ project.get_state_display }}</p>
             {% endif %}
 
             {% if project.skills %}

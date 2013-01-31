@@ -1,22 +1,11 @@
 {% if projects %}
 {% load staticfiles %}
 {% load thumbnail %}
+{% load projects %}
     {% load endless %}
     {% lazy_paginate 9 projects %}
     {% for project in projects %}
-        <div class="thumb fourcol {% if forloop.counter|divisibleby:"3"%}last{%endif%}">
-            <a href="/project/{{ project.slug }}/">
-                {% thumbnail project.thumbnail "210x166" crop="center" as im %}
-                <img src="{{ im.url }}" alt="" />
-                {% endthumbnail %}
-
-                <div class="project_infos">
-                    <div class="project_views"><span class="label_views"></span>{{ project.view }}</div>
-                    <div class="project_pushs"><span class="label_pushs"></span>{{ project.likes.count }}</div>
-                </div>
-                <h3>{{ project.title }}</h3>
-            </a>
-        </div>
+        {% project_mini project forloop.counter|divisibleby:"3" %}
     {% endfor %}
     {% show_more "Plus de projets" %}
 {% endif %}

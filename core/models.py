@@ -98,10 +98,12 @@ class Applicant(Profile):
     educations = models.ManyToManyField('Education', blank=True, null=True)
     experiences = models.ManyToManyField('Experience', blank=True, null=True)
     
-
-
     def __unicode__(self):
         return "%s, %s" % (self.name, self.profession)
+
+    @models.permalink
+    def get_absolute_url(self):
+       return ('applicant_view', [str(self.slug)])
 
 
 class Experience(models.Model):
@@ -168,6 +170,10 @@ class Offer(models.Model):
 
     def __unicode__(self):
         return "%s %s %s" % (self.title, self.company, self.location)
+
+    @models.permalink
+    def get_absolute_url(self):
+       return ('offer_view', [str(self.slug)])
 
 
 class Media(models.Model):
@@ -273,6 +279,10 @@ class Project(models.Model):
 
     def __unicode__(self):
         return "%s" % (self.title)
+
+    @models.permalink
+    def get_absolute_url(self):
+       return ('project_view', [str(self.slug)])
 
 
 class Comment(models.Model):

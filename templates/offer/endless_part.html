@@ -1,22 +1,10 @@
 {% if offers %}
     {% load staticfiles %}
+    {% load offers %}
     {% load endless %}
     {% lazy_paginate 3 offers %}
     {% for offer in offers %}
-        <h1 class="blackTitle"><a href="/offer/{{ offer.slug }}/">{{ offer.title }}</a></h1>
-        <div class="whitediv header">
-            <h4>{{ offer.company }}</h4>
-            <p>{{ offer.location }}</p>
-            {% if offer.tags %}
-                <ul class="tags inline">
-                    {% for tag in offer.tags.all %}
-                        <li>{{ tag.name }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            <h4>{{ offer.contract }}</h4>
-            <p>{{ offer.publish_date }}</p>
-        </div>
+        {% offer_mini offer %}
     {% endfor %}
     {% show_more "Plus d'offres" %}
 {% endif %}

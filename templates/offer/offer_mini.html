@@ -1,0 +1,17 @@
+{% load thumbnail %}
+{% if offer %}
+    <h1 class="blackTitle"><a href="{{ offer.get_absolute_url }}">{{ offer.title }}</a></h1>
+    <div class="whitediv header">
+        <h4>{{ offer.company }}</h4>
+        <p>{{ offer.location }}</p>
+        {% if offer.tags %}
+            <ul class="tags inline">
+                {% for tag in offer.tags.all %}
+                    <li>{{ tag.name }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <h4>{{ offer.contract }}</h4>
+        <p>{{ offer.publish_date }}</p>
+    </div>
+{% endif %}
