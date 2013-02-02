@@ -13,7 +13,6 @@ class ProjectForm(forms.ModelForm):
             'participant': forms.TextInput(),
         }
 
-
 class OfferForm(forms.ModelForm):
     class Meta:
         model = Offer
@@ -32,7 +31,7 @@ class EducationForm(forms.ModelForm):
 class ExperienceForm(forms.ModelForm):
     class Meta:
         model = Experience
-        widgets = {
+        widgets = { 
             'start': forms.DateInput(),
             'end': forms.DateInput(),
         }
