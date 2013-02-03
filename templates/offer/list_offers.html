@@ -33,23 +33,25 @@
         </div>
         <div class="eightcol last" id="list_offers">
             <div class="PTform inline">
-	       <form action="">
-               	<input class="sixcol" type="text" name="search">
-        		<button type="submit">Recherche</button>
-	        </form>
-                </div>
-                {% include endless_part %}
-                {% block js %}
-                    {{ block.super }}
-                    <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-                    <script>
-                        $.endlessPaginate({
-                            paginateOnScroll: true,
-                            paginateOnScrollMargin: 30
-                        });
-                    </script>
-                {% endblock %}
+                <form action="">
+                   	<input class="sixcol" type="text" name="search">
+            		<button type="submit">Recherche</button>
+    	        </form>
+            </div>
+            {% include endless_part %}
         </div>
     </div>
 
+{% endblock %}
+
+
+{% block js %}
+    {{ block.super }}
+    <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
+    <script>
+        $.endlessPaginate({
+            paginateOnScroll: true,
+            paginateOnScrollMargin: 30
+        });
+    </script>
 {% endblock %}

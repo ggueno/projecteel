@@ -5,45 +5,52 @@
 
     {% if offer %}
 
-    <a class="apply" href="/offer/apply/{{offer.id}}" alt="Apply for Offer" />Apply for this offer</a>
-
+<div class="row">
+    <form action="/offer/apply/{{offer.id}}" class="apply" method="get">
+        {% csrf_token %}
+        <input class="{{status}} PTbutton" type="submit" value="Apply for this offer">
+    </form>
+</div>
     	<div class="row wrapper">
             <div class="threecol">
-                <div class="whitediv">
+                <div class="sleekbox">
 
                 	<h1>{{ offer.title }}</h1>
-		        	<p>Postée le {{ offer.publish_date }}</p>
-		        	<h3>{{ offer.contract }}</h3>
-                    <p>{{ offer.location }}</p>
-		        	<p>{{ offer.reference }}</p>
+		        	<p>Posté le {{ offer.publish_date }}</p>
+                    <h4>{{ offer.contract }}</h4>
 
-		            {% if offer.salary %}
-		                <p>Salaire : {{  offer.salary }} €</p>
-		            {% endif %}
+                    <ul>
+                        <li><i class="icon pin"></i>{{ offer.location }}</li>
+                        <li><span>Reference : </span>{{ offer.reference }}</li>
+                        <li><span>Beginning : </span></li>
+                        <li><span>Salary : {{  offer.salary }} €</span></li>
+                    </ul>
 
 		        	{% if offer.tags.all %}
-			        	<h3>Compétences</h3>
-			        	<ul class="tags inline">
+			        	<h4>Skills</h4>
+			        	<ul class="tags">
 	                        {% for tag in offer.tags.all %}
-		        				<p>{{ tag.name }}</p>
+		        				<li>{{ tag.name }}</li>
 		        			{% endfor %}
 	                    </ul>
 		        	{% endif %}
 		        	<div class="share-social-network"></div>
+
 	            </div>
 	        </div>
 	    	<div class="ninecol last">
-            	<div class="whitediv">
-            		<p>{{ offer.content }}</p>
+            	<div class="sleekbox">
+            		<p>{{ offer.content|safe }}</p>
             	</div>
         	</div>
         </div>
 
         <div class="row wrapper">
 	        <div class="threecol">
-	        	<div class="whitediv">
-	        		<h3>{{ offer.company.name }}</h3>
-	        		<p>{{ offer.company.url }}</p>
+	        	<div class="sleekbox">
+                    <a href="/profile/{{ offer.company.profile.slug }}"><img class="profile_pic" src="{{ offer.company.avatar }}" alt="">
+	        		<h4>{{ offer.company.name }}</h4></a>
+	        		<p><a href="{{ offer.company.url }}" target="_blank">{{ offer.company.url }}</a></p>
 	        	</div>
 	        </div>
         </div>
@@ -57,24 +64,7 @@
 
         $().ready(function(){
 
-            event.preventDefault();
-            $.ajax({
-                type:"POST",
-                url:"/offer/apply/{{offer.id}}", 
-                success: function(data) {
-                    if (data.supplyOffer == 1) {
-                        $("a.apply").replaceWith("<p style=\"color:green\">Applied for this offer</p>")
-                    } else {
-                        $(".apply").click(function() {
-                            if (data.supplyOffer == 2) {
-                                $("a.apply").addClass("pushed");
-                                $("a.apply").replaceWith("<p style=\"color:green\">Applied for this offer</p>");
-                            }
-                            event.preventDefault();
-                        });  
-                    }
-                    
-                }
+            $(".apply").click(function() {
             });
         });
 

@@ -13,7 +13,6 @@ class ProjectForm(forms.ModelForm):
             'participant': forms.TextInput(),
         }
 
-
 class OfferForm(forms.ModelForm):
     class Meta:
         model = Offer

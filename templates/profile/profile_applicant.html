@@ -1,5 +1,6 @@
 {% extends "layout/base.html" %}
 {% load staticfiles %}
+{% load projects %}
 
 {% block title %} {{ profile.slug }}'s profile{% endblock %}
 
@@ -61,16 +62,7 @@
         {% if projects %}
         <section class="row projects" id="projects">
             {% for project in projects %}
-            <div class="thumb threecol {% if forloop.counter|divisibleby:"4"%}last{%endif%}">
-                <a href="/project/{{ project.slug }}/">
-                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
-                    <div class="project_infos">
-                        <div class="project_views"><span class="label_views"></span>{{ project.view }}</div>
-                        <div class="project_pushs"><span class="label_pushs"></span>150</div>
-                    </div>
-                    <h3>{{ project.title }}</h3>
-                </a>
-            </div>
+                {% project_mini project forloop.counter|divisibleby:"4" "threecol" %}
             {% endfor %}
         </section>
         {% endif %}

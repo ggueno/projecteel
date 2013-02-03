@@ -9,6 +9,13 @@
     {% if project %}
     <section class="ninecol" id="project">
         <div class="sleekbox">
+
+            <form action="/project/like/{{project.id}}" class="push" method="get">
+                {% csrf_token %}
+                <h4 class="count-likes">{{project.likes.count}} push</h4>
+                <input class="{{push}}" type="submit" value="push">
+            </form>
+
             <div class="row project-header">
                 <h1 class="project-title blackTitle">{{ project.title }}</h1>
                 <ul class="project-stats twocol last">
@@ -117,7 +124,7 @@
 
             {% if project.state %}
             <h4>Etat</h4>
-            <p> {{ project.state }}</p>
+            <p> {{ project.get_state_display }}</p>
             {% endif %}
 
             {% if project.skills %}
@@ -157,34 +164,12 @@
 
 {% block js %}
 
-     <script type="text/javascript">
+    <script type="text/javascript">
 
         $().ready(function(){
 
-            event.preventDefault();
-            $.ajax({
-                type:"POST",
-                url:"/project/like/{{project.id}}",
-                success: function(data) {
-                    var nbl = data.nblikes;
-                    $(".count-likes").html(nbl+" push");
-
-                    if (data.likecreate == 1) {
-                        $("a.push-link").addClass("pushed");
-                        $("a.push-link").replaceWith("<p style=\"color:green\">Project pushed</p>")
-                    } else {
-                        $(".push-link").click(function() {
-                            if (data.likecreate == 2) {
-                                $("a.push-link").addClass("pushed");
-                                $("a.push-link").replaceWith("<p style=\"color:green\">Project pushed</p>");
-                                nbl= nbl+1;
-                                $(".count-likes").html(nbl+" push");
-                            }
-                            event.preventDefault();
-                        });
-                    }
-
-                }
+            $(".push").click(function() {
+                //$(".push").addClass("pushed");
             });
         });
 
