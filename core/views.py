@@ -267,13 +267,53 @@ def add_education(request):
         if form.is_valid():
             # cd = form.cleaned_data
             education = form.save(commit=False)
-            applicant.educations.create(school=education.school, start=education.start, end=education.end, title=education.title, description=education.description)
-            # education.save()
+            # Education.create(school=education.school, start=education.start, end=education.end, title=education.title, description=education.description, owner=applicant)
+            education.owner = applicant
+            education.save()
             # form.save_m2m()
-            return HttpResponseRedirect('/')
+            if request.is_ajax():
+                formData = {
+                    'school' : education.school.name,
+                    'title' : education.title,
+                    'start' : education.start.strftime("%d %B %Y"),
+                    'end' : education.end.strftime("%d %B %Y"),
+                    'description' : education.description,
+                }
+                response = JSONResponse([True,formData], {}, response_mimetype(request))
+                response['Content-Disposition'] = 'inline; filename=files.json'
+                return response
+            else:
+                return HttpResponseRedirect('/')
+        else:
+            if request.is_ajax():
+                response = JSONResponse([False,form.errors], {}, response_mimetype(request))
+                response['Content-Disposition'] = 'inline; filename=files.json'
+                return response
+            else:
+                return render(request, 'education/add_education.html', {'form': form})
     else:
         form = EducationForm()
-    return render(request, 'education/add_education.html', {'form': form})
+        return render(request, 'education/add_education.html', {'form': form})
+
+@login_required
+def delete_education(request, pk):
+    try:
+        applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+        education = Education.objects.get(id=pk)
+        state = False
+        if education.owner == applicant:
+            state = Education.objects.get(id=pk).delete()
+    except Education.DoesNotExist:
+        response = JSONResponse(False, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+
+    if request.is_ajax():
+        response = JSONResponse(True, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        return HttpResponseRedirect('/profile/')
 
 
 @login_required
@@ -286,13 +326,48 @@ def add_experience(request):
         if form.is_valid():
             # cd = form.cleaned_data
             experience = form.save(commit=False)
-            applicant.experiences.create(company=experience.company, title=experience.title, city=experience.city, start=experience.start, end=experience.end, details=experience.details)
-            # education.save()
+            # applicant.experiences.create(company=experience.company, title=experience.title, city=experience.city, start=experience.start, end=experience.end, details=experience.details)
+            experience.save()
             # form.save_m2m()
+            if request.is_ajax():
+                formData = {
+                    'company' : experience.company.name,
+                    'city' : experience.city,
+                    'title' : experience.title,
+                    'start' : experience.start.strftime("%d %B %Y"),
+                    'end' : experience.end.strftime("%d %B %Y"),
+                    'details' : experience.details,
+                }
+                response = JSONResponse([True,formData], {}, response_mimetype(request))
+                response['Content-Disposition'] = 'inline; filename=files.json'
+                response['formData'] = experience
+                return response
+        else:
             return HttpResponseRedirect('/')
     else:
         form = ExperienceForm()
     return render(request, 'experience/add_experience.html', {'form': form})
+
+
+@login_required
+def delete_experience(request, pk):
+    try:
+        applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+        experience = Experience.objects.get(id=pk)
+        state = False
+        if experience.owner == applicant:
+            state = Experience.objects.get(id=pk).delete()
+    except Experience.DoesNotExist:
+        response = JSONResponse(False, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+
+    if request.is_ajax():
+        response = JSONResponse(True, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        return HttpResponseRedirect('/profile/')
 
 
 #TODO : generic view for all profile
@@ -302,11 +377,15 @@ def get_applicant(request, slug):
     profile = Applicant.objects.get(slug=slug)
     projects = Project.objects.filter(Q(owner=profile.user) | Q(participant__in=[profile]))
     following = Follow.objects.filter(follower__user_id=request.user.id)
+    formEducation = EducationForm()
+    formExperience = ExperienceForm()
     #TODO : delete slug from view and template
     context = {
         'profile': profile,
         'following': following,
         'projects': projects,
+        'formEducation' : formEducation,
+        'formExperience' : formExperience,
         # 'pushs': Applicant.objects.push_user()
     }
     return render(request, 'profile/profile_applicant.html', context)

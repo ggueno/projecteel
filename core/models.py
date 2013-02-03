@@ -99,9 +99,6 @@ class Applicant(Profile):
     profession = models.CharField(max_length=100, blank=False, null=False)
     search_location = models.CharField(max_length=100, blank=True, null=True)
     social_network = models.ManyToManyField(SocialNetwork, blank=True, null=True)
-    #situation =
-    educations = models.ManyToManyField('Education', blank=True, null=True)
-    experiences = models.ManyToManyField('Experience', blank=True, null=True)
     objects = ApplicantManager()
 
     def __unicode__(self):
@@ -115,17 +112,18 @@ class Experience(models.Model):
     start = models.DateField(blank=False, null=False)
     end = models.DateField(blank=True, null=True)
     details = models.TextField(blank=True, null=True)
-
+    owner = models.ForeignKey(Applicant, related_name='experience')
     def __unicode__(self):
         return "%s %s %s" % (self.title, self.company, self.start)
 
 
 class Education(models.Model):
     school = models.ForeignKey(School)
-    start = models.DateField(blank=True, null=False)
+    start = models.DateField(blank=False, null=False)
     end = models.DateField(blank=True, null=True)
     title = models.CharField(max_length=100)
     description = models.TextField(blank=False, null=False)
+    owner = models.ForeignKey(Applicant, related_name='education')
     #domaine
 
     def __unicode__(self):

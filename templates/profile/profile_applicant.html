@@ -76,9 +76,9 @@
         {% endif %}
 
         <section class="row" id="infos_profile">
-        {% if profile.educations %}
+        {% if profile.education %}
             <h1>Formation</h1>
-            {% for education in profile.educations.all %}
+            {% for education in profile.education.all %}
                 <div class="education">
                     <span class="start"> {{ education.start }} -</span>
                     <span class="end"> {{ education.end }} </span>
@@ -86,24 +86,61 @@
                     <h4> {{ education.school.name }} </h4>
 
                     <p> {{ education.description }} </p>
+                    {% if user.id == education.owner.id %}
+                            <a class="delete-item" href="/education/delete/{{education.id}}">X</a>
+                    {% endif %}
                 </div>
             {% endfor %}
+            {% if user.id == profile.id %}
+            <a href="#" id="add-education">Ajouter une formation</a>
+            <div id="add-education-form">
+                {% if formEducation.errors %}
+                    <p style="color: red;">
+                        Please correct the error{{ formEducation.errors|pluralize }} below.
+                    </p>
+                {% endif %}
+
+                <form action="/education/add/" method="post">
+                    {% csrf_token %}
+                    {{ formEducation.as_p }}
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+            {% endif %}
         {% endif %}
 
-        {% if profile.experiences %}
+        {% if profile.experience %}
             <h1>Experiences</h1>
-            {% for experience in profile.experiences.all %}
+            {% for experience in profile.experience.all %}
                 <div class="experience">
-                    <span class="start"> {{ expericence.start }} </span>
-                    <span class="end"> {{ expericence.end }} </span>
+                    <span class="start"> {{ experience.start }} -</span>
+                    <span class="end"> {{ experience.end }} </span>
                     <h3> {{ experience.title }} </h3>
                     <h4> {{ experience.company.name }} </h4>
 
                     <p> {{ experience.details }} </p>
                     <p> {{ experience.city }} </p>
+                    {% if user.id == experience.owner.id %}
+                            <a class="delete-item" href="/experience/delete/{{experience.id}}">X</a>
+                    {% endif %}
                 </div>
             {% endfor %}
+            {% if user.id == profile.id %}
+            <a href="#" id="add-experience">Ajouter une formation</a>
+            <div id="add-experience-form">
+                {% if formExperience.errors %}
+                    <p style="color: red;">
+                        Please correct the error{{ formExperience.errors|pluralize }} below.
+                    </p>
+                {% endif %}
+
+                <form action="/experience/add/" method="post">
+                    {% csrf_token %}
+                    {{ formExperience.as_p }}
+                    <input type="submit" value="Submit">
+                </form>
             </div>
+            {% endif %}
         {% endif %}
         </section>
 
@@ -136,6 +173,72 @@
             });
             return false;
         });
+
+        $(".delete-item").click(function(e){
+            var parent = $(this).parent();
+            $.post($(this).attr('href'),function(data){
+                $(parent).fadeOut(function(){
+                    $(this).remove();
+                });
+            });
+            return false;
+        });
+
+        $("#add-education").click(function(e){            
+            $("#add-education-form").slideToggle();
+            e.preventDefault();
+        });
+
+        $("#add-experience").click(function(e){            
+            $("#add-experience-form").slideToggle();
+            e.preventDefault();
+        });
+
+        $("#add-education-form form").submit(function(e){
+            e.preventDefault();
+            var data = $(this).serialize();
+            var cur = $(this);     
+            $.post($(this).attr("action"),data).done(function(data){
+                if(data[0]==true){
+                    cur.each(function(){this.reset()});
+                    edu = data[1];
+                    var $element = $(".education:last").clone().find(".start").html(edu.start).parent()
+                                            .find(".end").html(edu.end).parent()
+                                            .find("h3").html(edu.title).parent()
+                                            .find("h4").html(edu.school).parent()
+                                            .find("p").html(edu.description).parent()
+                                            .insertAfter(".education:last");
+                    
+                }else if(data[0]==false){
+                    // var response = data[1];
+                    // console.log(response);
+                    // $(response).each(function(i,cur){
+                    //     console.log(cur);
+                    // });
+                }
+            });
+        });
+
+        $("#add-experience-form form").submit(function(e){
+            e.preventDefault();
+            var data = $(this).serialize();
+            var cur = $(this);            
+            $.post($(this).attr("action"),data).done(function(data){
+                if(data[0]==true){
+                    cur.each(function(){this.reset()});
+                    edu = data[1];
+                    var $element = $(".experience:last").clone().find(".start").html(edu.start).parent()
+                                            .find(".end").html(edu.end).parent()
+                                            .find("h3").html(edu.title).parent()
+                                            .find("h4").html(edu.school).parent()
+                                            .find("p").html(edu.description).parent()
+                                            .insertAfter(".experience:last");
+                }   
+            });
+        });
+
+
+
 
 
         
