@@ -35,6 +35,7 @@
 {% endblock %}
 
 {% block js %}
+    <script src="{{ STATIC_URL }}js/jquery.autoSuggest.minified.js"></script>
     <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
     <script>
         $.endlessPaginate({
@@ -91,6 +92,7 @@
         }
 
 
+        $("#search-location").autoSuggest("/locations/list/", {minChars: 2, matchCase: true});
 
         $(".search-field").keypress(function(e) {
             if(e.which == 13) {

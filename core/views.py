@@ -103,6 +103,21 @@ def get_project(request, slug):
     return render(request, 'project/show_project.html', context)
 
 
+def get_locations(request):
+
+    if(request.method == 'GET'):
+        q = ""
+        if 'q' in request.GET:
+            q = request.GET["q"]
+        else:
+            raise
+        locations = Project.objects.filter(location__startswith=q).values_list('location', flat=True)
+
+    choices = [{"name": l, "value": l} for l in locations]
+    response = JSONResponse(choices, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response
+
 def get_my_profile(request):
     app = Applicant.objects.get(user_id=request.user.id)
     return get_applicant(request, app.slug)
