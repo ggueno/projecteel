@@ -3,15 +3,16 @@ from core import views
 
 urlpatterns = patterns('',
     url(r'^projects/$', views.projects_all),
-    url(r'^projects/search/$', views.search_projects),
+    url(r'^projects/search/$', views.search_projects2),
     url(r'^project/add/$', views.add_project),
     url(r'^project/add/image/$', views.add_project_image),
 
     url(r'^project/add/image/new/$', views.ImageProjectCreateView.as_view(), {}, 'upload-new'),
     url(r'^project/add/image/delete/(?P<pk>\d+)$', views.ImageProjectDeleteView.as_view(), {}, 'upload-delete'),
     url(r'^project/remove/(?P<pk>\d+)$', views.remove_project),
+    url(r'^locations/list/$', views.get_locations),
 
-    
+
     url(r'^comment/delete/(?P<pk>\d+)$', views.delete_comment, {}, 'comment-delete'),
 
     url(r'^project/(?P<slug>[^\.]+)/$', views.get_project, name="project_view"),
