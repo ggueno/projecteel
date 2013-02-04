@@ -146,25 +146,32 @@ textarea {
 }
 
 i.icon{
-    background:url(../img/icons.png) no-repeat 0 0;
+    background:url(../img/PTicons.png) no-repeat 0 0;
     width:22px;
     height:21px;
+    display: inline-block;
+    line-height:22px;
+    vertical-align:text-top;
     &.pin{  background-position:0 0; }
-    &.job{  background-position:-22px 0; }
-    &.web{  background-position:-44px 0; }
-    &.twitter{  background-position:-66px 0; }
+    &.job{  background-position:-28px 0; }
+    &.web{  background-position:-59px 0; }
+    &.twitter{  background-position:-92px -1px; }
+    &.message{  background-position:-124px -2px; }
 }
 
-.blackTitle{
-    .gradient(~"linear-gradient(0deg, #373737 0%,#505050 100%)");
-    color:#FFF;
-    .box-shadow(~"0 0 4px rgba(0,0,0,.3)");
-    .border-radius(3px 3px 0 0);
-    padding: 12px 15px 10px 15Px;
-    font-size: 1em;
-    font-weight: 800;
-    text-transform: uppercase;
-    line-height: 1.1em;
+
+
+.sleekbox h1.blackTitle{
+    line-height: 42px;
+    padding: 0 20px;
+    font-size:1.4em;
+    font-weight: 400;
+    text-transform:uppercase;
+}
+
+.subline{
+    font-size:12pt;
+    font-weight:300;
 }
 
 .PTbutton{
@@ -200,6 +207,47 @@ i.icon{
 .ideal-wrap.alignRight{
     float:right;
 }
+
+.tooltip {
+    display: inline;
+    position: relative;
+}
+
+.tooltip:hover {
+    color: #c00;
+    text-decoration: none;
+
+}
+
+.tooltip:hover:after {
+    background: #111;
+    background: rgba(0,0,0,.8);
+    top: 3.35em;
+    color: #fff;
+    content: attr(data-tooltip);
+    display: block;
+    left: 1em;
+    padding: .3em .5em;
+    position: absolute;
+    text-shadow: 0 1px 0 #000;
+    white-space: nowrap;
+    z-index: 98;
+}
+
+.tooltip:hover:before {
+    border: solid;
+    border-color: #111 transparent;
+    border-color: rgba(0,0,0,.8) transparent;
+    border-width: 0 .4em  .4em .4em;
+    top: 3em;
+    content: "";
+    display: block;
+    left: 2em;
+    position: absolute;
+    z-index: 99;
+}
+
+
 
 a.buttonAqua{
     line-height:1.8em;
@@ -260,7 +308,10 @@ a.buttonAqua{
     text-align:center;
     background: #fff;
     padding:0;
-
+    a{
+        color:inherit;
+        text-decoration:none;
+    }
     img{
         padding:0;
         width:100%;
@@ -411,26 +462,31 @@ a.buttonAqua{
     form{
         textarea{
             .greyInput;
-            width:99%;
-            .border-radius(3px);
+            width:97.5%;
+            padding:10px;
         }
         input{
             .blueButton;
             margin:10px 0 10px auto;
         }
     }
+    .commentList{
+        padding-bottom:20px;
+    }
     ul{
         border-top:1px solid #9e9e9e;
         padding:0 5px;
         list-style-type:none;
         li{
-            padding:10px 0;
+            padding:20px 0;
+            position: relative;
             border-bottom:1px solid #d2d2d2;
             img.profilePic{
-                .imageBorder(3px);
+                .border-radius(20px);
                 display:block;
                 float:left;
                 clear:left;
+                margin-top: 5px;
                 margin-right:10px;
             }
             .name{
@@ -445,6 +501,14 @@ a.buttonAqua{
             }
             &:last-child{
                 border-bottom:none;
+            }
+            a.delete-comment{
+                position:absolute;
+                top: 10px;
+                right:0;
+                &:hover{
+                    color:@PTblue;
+                }
             }
         }
     }
@@ -686,6 +750,8 @@ header.menu{
                 border-bottom: 4px solid @PTblue;
                 height: 17px;
                 background: #353535;
+                color: inherit;
+                text-decoration:none;
             }
         }
     }
@@ -712,11 +778,6 @@ header.menu{
             .rgba(#393838,0.9);
             color: #FFF;
             h1#name{
-                line-height: 42px;
-                padding: 0 20px;
-                font-size:1.4em;
-                font-weight: 400;
-                text-transform:uppercase;
                 float: left;
             }
             .PTbutton{
@@ -767,9 +828,11 @@ header.menu{
         position: absolute;
         left:50%;
         margin-left:-95px;
-        top: 235px;
-        .border-radius(95px);
+        top: 225px;
+        .border-radius(100px);
         border:6px solid #FFF;
+        width:190px;
+        height: 190px;
     }
     .profile_menubar{
         border-bottom: 1px solid #d2d2d2;
@@ -802,7 +865,15 @@ header.menu{
         }
     }
 }
-
+#infos_profile{
+    h1{
+        text-transform: uppercase;
+        margin: 15px 0;
+        padding: 5px 0;
+        font-size: 1.4em;
+        border-bottom:1px solid #d2d2d2;
+    }
+}
 
 
 

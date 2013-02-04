@@ -176,18 +176,17 @@ i.icon{
 
 .PTbutton{
     background:@PTblue;
+    border-bottom:1px solid #007cbb;
     color:#FFF;
     text-align:center;
     padding:3px 6px;
+    font-weight:400;
     text-transform:uppercase;
+    .transition(~"background .3s ease");
     &:hover{
         background:#FFF;
         color:@PTblue;
     }
-}
-
-.buttonAqua{
-    .blueButton;
 }
 
 .titleU{
@@ -467,6 +466,7 @@ a.buttonAqua{
         }
         input{
             .blueButton;
+            display: block;
             margin:10px 0 10px auto;
         }
     }

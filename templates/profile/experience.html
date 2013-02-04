@@ -1,0 +1,12 @@
+                <div class="experience">
+                    <span class="start"> {{ experience.start }} -</span>
+                    <span class="end"> {{ experience.end }} </span>
+                    <h3> {{ experience.title }} </h3>
+                    <h4> {{ experience.company.name }} </h4>
+
+                    <p> {{ experience.details }} </p>
+                    <p> {{ experience.city }} </p>
+                    {% if user.id == experience.owner.id %}
+                            <a class="delete-item" href="/experience/delete/{{experience.id}}">X</a>
+                    {% endif %}
+                </div>

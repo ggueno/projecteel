@@ -18,7 +18,7 @@ def home(request):
 
 
 def get_my_self(request):
-    return Profile.objects.get(user_id=request.user.id)
+    return Profile.objects.filter(user_id=request.user.id)[0]
 
 
 def projects(request, projects):
@@ -40,11 +40,36 @@ def projects_all(request):
 def search_projects(request):
     try:
         q = request.GET['query']
+
         projects_list = Project.objects.filter(title__icontains=q, published=True) | \
                 Project.objects.filter(content__icontains=q, published=True)
         return projects(request, projects_list)
     except KeyError:
         return render_to_response('search/results.html')
+
+
+def search_projects2(request):
+
+    q = {}
+
+    if(request.method == 'GET'):
+        if 'query[]' in request.GET:
+            q['title__icontains'] = request.GET.getlist('query[]')[0]
+
+        if 'location[]' in request.GET:
+            q["location__in"] = request.GET.getlist('location[]')
+
+        q['published'] = True
+
+        projects_list = Project.objects.filter(**q)
+
+        response = JSONResponse(q, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        # return response
+        return projects(request, projects_list)
+    # except KeyError:
+    #     return render_to_response('search/results.html')
+
 
 
 def get_project(request, slug):
@@ -77,6 +102,21 @@ def get_project(request, slug):
     }
     return render(request, 'project/show_project.html', context)
 
+
+def get_locations(request):
+
+    if(request.method == 'GET'):
+        q = ""
+        if 'q' in request.GET:
+            q = request.GET["q"]
+        else:
+            raise
+        locations = Project.objects.filter(location__startswith=q).values_list('location', flat=True)
+
+    choices = [{"name": l, "value": l} for l in locations]
+    response = JSONResponse(choices, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response
 
 def get_my_profile(request):
     app = Applicant.objects.get(user_id=request.user.id)

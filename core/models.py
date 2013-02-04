@@ -96,7 +96,7 @@ class Applicant(Profile):
     social_network = models.ManyToManyField(SocialNetwork, blank=True, null=True)
     educations = models.ManyToManyField('Education', blank=True, null=True)
     experiences = models.ManyToManyField('Experience', blank=True, null=True)
-    
+
     def __unicode__(self):
         return "%s, %s" % (self.name, self.profession)
 
@@ -282,7 +282,7 @@ class Project(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-       return ('project_view', [str(self.slug)])
+        return ('project_view', [str(self.slug)])
 
 
 class Comment(models.Model):
