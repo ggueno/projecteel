@@ -262,20 +262,24 @@ def add_education(request):
             # form.save_m2m()
             if request.is_ajax():
                 formData = {
-                    'school' : education.school.name,
+                    'school' : {'name' :education.school.name },
                     'title' : education.title,
                     'start' : education.start.strftime("%d %B %Y"),
                     'end' : education.end.strftime("%d %B %Y"),
                     'description' : education.description,
+                    'owner' : education.owner,
+                    'id' : education.id,
                 }
-                response = JSONResponse([True,formData], {}, response_mimetype(request))
+                user = request.user
+                html = render(request, 'profile/education.html', {'education': formData, 'user' : user})
+                response = JSONResponse([True,{'data' : html.content}], {}, response_mimetype(request))
                 response['Content-Disposition'] = 'inline; filename=files.json'
                 return response
             else:
                 return HttpResponseRedirect('/')
         else:
             if request.is_ajax():
-                response = JSONResponse([False,form.errors], {}, response_mimetype(request))
+                response = JSONResponse([False,{'data' : form.as_p()}], {}, response_mimetype(request))
                 response['Content-Disposition'] = 'inline; filename=files.json'
                 return response
             else:
@@ -311,12 +315,13 @@ def add_experience(request):
 
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
     if request.method == 'POST':
-        company = Company.objects.get(slug__icontains=request.POST['company'])[0]
+        # company = Company.objects.get(slug=request.POST['company'])[0]
 
         form = ExperienceForm(request.POST)
         if form.is_valid():
             # cd = form.cleaned_data
             experience = form.save(commit=False)
+            experience.owner = applicant
             # applicant.experiences.create(company=experience.company, title=experience.title, city=experience.city, start=experience.start, end=experience.end, details=experience.details)
             experience.save()
             # form.save_m2m()
@@ -328,13 +333,21 @@ def add_experience(request):
                     'start' : experience.start.strftime("%d %B %Y"),
                     'end' : experience.end.strftime("%d %B %Y"),
                     'details' : experience.details,
+                    'owner' : experience.owner,
+                    'id' : experience.id,
                 }
-                response = JSONResponse([True,formData], {}, response_mimetype(request))
+                user = request.user
+                html = render(request, 'profile/experience.html', {'experience': formData, 'user' : user})
+                response = JSONResponse([True,{'data' : html.content}], {}, response_mimetype(request))
                 response['Content-Disposition'] = 'inline; filename=files.json'
-                response['formData'] = experience
                 return response
         else:
-            return HttpResponseRedirect('/')
+            if request.is_ajax():
+                response = JSONResponse([False,{'data' : form.as_p()}], {}, response_mimetype(request))
+                response['Content-Disposition'] = 'inline; filename=files.json'
+                return response
+            else:
+                return render(request, 'experience/add_experience.html', {'form': form})
     else:
         form = ExperienceForm()
     return render(request, 'experience/add_experience.html', {'form': form})

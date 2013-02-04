@@ -71,17 +71,7 @@
         {% if profile.education %}
             <h1>Formation</h1>
             {% for education in profile.education.all %}
-                <div class="education">
-                    <span class="start"> {{ education.start }} -</span>
-                    <span class="end"> {{ education.end }} </span>
-                    <h3> {{ education.title }} </h3>
-                    <h4> {{ education.school.name }} </h4>
-
-                    <p> {{ education.description }} </p>
-                    {% if user.id == education.owner.id %}
-                            <a class="delete-item" href="/education/delete/{{education.id}}">X</a>
-                    {% endif %}
-                </div>
+                {% include "profile/education.html" %}
             {% endfor %}
             {% if user.id == profile.id %}
             <a href="#" id="add-education">Ajouter une formation</a>
@@ -94,7 +84,9 @@
 
                 <form action="/education/add/" method="post">
                     {% csrf_token %}
-                    {{ formEducation.as_p }}
+                    <div class="form-content">
+                        {{ formEducation.as_p }}
+                    </div>
                     <input type="submit" value="Submit">
                 </form>
             </div>
@@ -104,18 +96,7 @@
         {% if profile.experience %}
             <h1>Experiences</h1>
             {% for experience in profile.experience.all %}
-                <div class="experience">
-                    <span class="start"> {{ experience.start }} -</span>
-                    <span class="end"> {{ experience.end }} </span>
-                    <h3> {{ experience.title }} </h3>
-                    <h4> {{ experience.company.name }} </h4>
-
-                    <p> {{ experience.details }} </p>
-                    <p> {{ experience.city }} </p>
-                    {% if user.id == experience.owner.id %}
-                            <a class="delete-item" href="/experience/delete/{{experience.id}}">X</a>
-                    {% endif %}
-                </div>
+                {% include "profile/experience.html" %}
             {% endfor %}
             {% if user.id == profile.id %}
             <a href="#" id="add-experience">Ajouter une formation</a>
@@ -128,7 +109,9 @@
 
                 <form action="/experience/add/" method="post">
                     {% csrf_token %}
-                    {{ formExperience.as_p }}
+                    <div class="form-content">
+                        {{ formExperience.as_p }}
+                    </div>
                     <input type="submit" value="Submit">
                 </form>
             </div>
@@ -143,7 +126,7 @@
 
 {% block js %}
 <script>
-    $().ready(function(){
+    $(document).ready(function(){
 
         $(".follow").click(function(){
             var follow_button = this;
@@ -166,7 +149,7 @@
             return false;
         });
 
-        $(".delete-item").click(function(e){
+        $("#infos_profile").on('click','a.delete-item',function(e){
             var parent = $(this).parent();
             $.post($(this).attr('href'),function(data){
                 $(parent).fadeOut(function(){
@@ -186,53 +169,28 @@
             e.preventDefault();
         });
 
-        $("#add-education-form form").submit(function(e){
+        $("#add-education-form form, #add-experience-form form").submit(function(e){
             e.preventDefault();
             var data = $(this).serialize();
             var cur = $(this);     
             $.post($(this).attr("action"),data).done(function(data){
+
                 if(data[0]==true){
-                    cur.each(function(){this.reset()});
+                    console.log("TRUE");
                     edu = data[1];
-                    var $element = $(".education:last").clone().find(".start").html(edu.start).parent()
-                                            .find(".end").html(edu.end).parent()
-                                            .find("h3").html(edu.title).parent()
-                                            .find("h4").html(edu.school).parent()
-                                            .find("p").html(edu.description).parent()
-                                            .insertAfter(".education:last");
+                    cur.parent().prev().before(edu.data);
                     
+                    cur.find("ul.errorlist").each(function(){
+                        $(this).remove();
+                    });
+                    cur.clearForm();
                 }else if(data[0]==false){
-                    // var response = data[1];
-                    // console.log(response);
-                    // $(response).each(function(i,cur){
-                    //     console.log(cur);
-                    // });
+                    console.log("FALSE");
+                    form = data[1];
+                    cur.find('.form-content').html(form.data);
                 }
             });
         });
-
-        $("#add-experience-form form").submit(function(e){
-            e.preventDefault();
-            var data = $(this).serialize();
-            var cur = $(this);            
-            $.post($(this).attr("action"),data).done(function(data){
-                if(data[0]==true){
-                    cur.each(function(){this.reset()});
-                    edu = data[1];
-                    var $element = $(".experience:last").clone().find(".start").html(edu.start).parent()
-                                            .find(".end").html(edu.end).parent()
-                                            .find("h3").html(edu.title).parent()
-                                            .find("h4").html(edu.school).parent()
-                                            .find("p").html(edu.description).parent()
-                                            .insertAfter(".experience:last");
-                }   
-            });
-        });
-
-
-
-
-
         
         // $(".following").hover(function(){
         //     $(this).html("Ne plus suivre");

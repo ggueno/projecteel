@@ -94,7 +94,6 @@ class Applicant(Profile):
     profession = models.CharField(max_length=100, blank=False, null=False)
     search_location = models.CharField(max_length=100, blank=True, null=True)
     social_network = models.ManyToManyField(SocialNetwork, blank=True, null=True)
-    objects = ApplicantManager()
     educations = models.ManyToManyField('Education', blank=True, null=True)
     experiences = models.ManyToManyField('Experience', blank=True, null=True)
     

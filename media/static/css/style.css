@@ -2800,6 +2800,9 @@ header.menu #menu a:hover {
 #add-experience-form {
   display: none;
 }
+.errorlist {
+  color: #F00;
+}
 /*
    O F F E R S
    ========================================================================== */
