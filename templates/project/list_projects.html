@@ -13,7 +13,7 @@
                 <p>Mots-clés</p>
                 <input type="text" name="keywords-sorting">
                 <p>Localisation</p>
-                <input type="text" name="location">
+                <input class="search-field" id="search-location" type="text" name="location">
                 <p>Secteur d'activité</p>
                 <p>Type de contrat</p>
                 <p>Durée</p>
@@ -24,11 +24,11 @@
 
             <form action="/projects/search/" class="project-search" method="get">
                 {% csrf_token %}
-                <input type="text" name="query">
+                <input class="search-field" id="search-query" type="text" name="query">
                 <input type="submit">
             </form>
 
-        {% include endless_part %}
+            {% include endless_part %}
 
         </div>
     </div>
@@ -38,8 +38,65 @@
     <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
     <script>
         $.endlessPaginate({
-        paginateOnScroll: true,
-        paginateOnScrollMargin: 20
+            paginateOnScroll: true,
+            paginateOnScrollMargin: 20
+        });
+
+        var search_url = $(".project-search").attr('action');
+
+        function sendSearch(url, data){
+            $.get(url, data, function(result){
+                $('.thumb').remove();
+                $(result).insertAfter(".project-search");
+            });
+        }
+
+        function collectData(){
+            var datas = {};
+            $('.data-search-field').each(function(){
+                var type = $(this).attr("class").split(" ")[1].replace("queryfield-", "");
+                var val = $(this).data('value');
+                if(datas[type])
+                    datas[type].push(val);
+                else{
+                    datas[type] = new Array();
+                    datas[type].push(val);
+                }
+            });
+            return datas;
+        }
+
+
+        function removeSearch(event){
+            $(this).parent().remove();
+            sendSearch(search_url, collectData());
+            return false;
+        };
+
+
+        function addToSearch(e){
+            var id = $(e).attr('id');
+            var value = $(e).val();
+            id = id.replace('search-','');
+
+            //append data-search-field for the id category
+            var data = "<span class='data-search-field queryfield-"+id+"' data-value='"+value+"''>"+value+" <a class='remove-search' href='#' >X</a></span>";
+            var newData = $(data).insertAfter(e);
+
+            $(newData).find('.remove-search').on('click', removeSearch);
+
+            //get all datas
+            $(e).val('');
+            sendSearch(search_url, collectData());
+        }
+
+
+
+        $(".search-field").keypress(function(e) {
+            if(e.which == 13) {
+                addToSearch(this);
+                return false;
+            }
         });
     </script>
 {% endblock %}
