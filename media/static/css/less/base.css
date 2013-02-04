@@ -504,12 +504,12 @@ a.buttonAqua {
 .projectComments ul li:last-child {
   border-bottom: none;
 }
-.projectComments ul li a.delete-comment {
+a.delete-item {
   position: absolute;
-  top: 10px;
-  right: 0;
+  top: 20px;
+  right: 20px;
 }
-.projectComments ul li a.delete-comment:hover {
+a.delete-item:hover {
   color: #0099e6;
 }
 .lastProjects {
@@ -881,6 +881,41 @@ header.menu #menu a:hover {
   padding: 5px 0;
   font-size: 1.4em;
   border-bottom: 1px solid #d2d2d2;
+}
+#infos_profile .experience,
+#infos_profile .education {
+  padding: 10px 20px;
+  margin: 10px 0;
+  position: relative;
+}
+#infos_profile .experience:hover,
+#infos_profile .education:hover {
+  background: #CCC;
+}
+#infos_profile .experience:hover a.delete-item,
+#infos_profile .education:hover a.delete-item {
+  display: block;
+}
+#infos_profile .experience a.delete-item,
+#infos_profile .education a.delete-item {
+  display: none;
+}
+#infos_profile #add-experience,
+#infos_profile #add-education {
+  font-weight: 600;
+  margin: 15px 0;
+  display: block;
+}
+#infos_profile #add-experience:hover,
+#infos_profile #add-education:hover {
+  color: #0099e6;
+}
+#add-education-form,
+#add-experience-form {
+  display: none;
+}
+.errorlist {
+  color: #F00;
 }
 /*
    O F F E R S

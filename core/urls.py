@@ -34,6 +34,8 @@ urlpatterns = patterns('',
     url(r'^profile/$', views.get_my_profile),
 
     url(r'^education/add/$', views.add_education),
+    url(r'^education/delete/(?P<pk>\d+)$', views.delete_education),
     url(r'^experience/add/$', views.add_experience),
+    url(r'^experience/delete/(?P<pk>\d+)$', views.delete_experience),
     url(r'^$', views.home),
 )

@@ -68,34 +68,54 @@
         {% endif %}
 
         <section class="row" id="infos_profile">
-        {% if profile.educations %}
+        {% if profile.education %}
             <h1>Formation</h1>
-            {% for education in profile.educations.all %}
-                <div class="education">
-                    <span class="start"> {{ education.start }} -</span>
-                    <span class="end"> {{ education.end }} </span>
-                    <h3> {{ education.title }} </h3>
-                    <h4> {{ education.school.name }} </h4>
-
-                    <p> {{ education.description }} </p>
-                </div>
+            {% for education in profile.education.all %}
+                {% include "profile/education.html" %}
             {% endfor %}
+            {% if user.id == profile.id %}
+            <a href="#" id="add-education">Ajouter une formation</a>
+            <div id="add-education-form">
+                {% if formEducation.errors %}
+                    <p style="color: red;">
+                        Please correct the error{{ formEducation.errors|pluralize }} below.
+                    </p>
+                {% endif %}
+
+                <form action="/education/add/" method="post">
+                    {% csrf_token %}
+                    <div class="form-content">
+                        {{ formEducation.as_p }}
+                    </div>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+            {% endif %}
         {% endif %}
 
-        {% if profile.experiences %}
+        {% if profile.experience %}
             <h1>Experiences</h1>
-            {% for experience in profile.experiences.all %}
-                <div class="experience">
-                    <span class="start"> {{ expericence.start }} </span>
-                    <span class="end"> {{ expericence.end }} </span>
-                    <h3> {{ experience.title }} </h3>
-                    <h4> {{ experience.company.name }} </h4>
-
-                    <p> {{ experience.details }} </p>
-                    <p> {{ experience.city }} </p>
-                </div>
+            {% for experience in profile.experience.all %}
+                {% include "profile/experience.html" %}
             {% endfor %}
+            {% if user.id == profile.id %}
+            <a href="#" id="add-experience">Ajouter une formation</a>
+            <div id="add-experience-form">
+                {% if formExperience.errors %}
+                    <p style="color: red;">
+                        Please correct the error{{ formExperience.errors|pluralize }} below.
+                    </p>
+                {% endif %}
+
+                <form action="/experience/add/" method="post">
+                    {% csrf_token %}
+                    <div class="form-content">
+                        {{ formExperience.as_p }}
+                    </div>
+                    <input type="submit" value="Submit">
+                </form>
             </div>
+            {% endif %}
         {% endif %}
         </section>
 
@@ -106,7 +126,7 @@
 
 {% block js %}
 <script>
-    $().ready(function(){
+    $(document).ready(function(){
 
         $(".follow").click(function(){
             var follow_button = this;
@@ -129,7 +149,48 @@
             return false;
         });
 
+        $("#infos_profile").on('click','a.delete-item',function(e){
+            var parent = $(this).parent();
+            $.post($(this).attr('href'),function(data){
+                $(parent).fadeOut(function(){
+                    $(this).remove();
+                });
+            });
+            return false;
+        });
 
+        $("#add-education").click(function(e){            
+            $("#add-education-form").slideToggle();
+            e.preventDefault();
+        });
+
+        $("#add-experience").click(function(e){            
+            $("#add-experience-form").slideToggle();
+            e.preventDefault();
+        });
+
+        $("#add-education-form form, #add-experience-form form").submit(function(e){
+            e.preventDefault();
+            var data = $(this).serialize();
+            var cur = $(this);     
+            $.post($(this).attr("action"),data).done(function(data){
+
+                if(data[0]==true){
+                    console.log("TRUE");
+                    edu = data[1];
+                    cur.parent().prev().before(edu.data);
+                    
+                    cur.find("ul.errorlist").each(function(){
+                        $(this).remove();
+                    });
+                    cur.clearForm();
+                }else if(data[0]==false){
+                    console.log("FALSE");
+                    form = data[1];
+                    cur.find('.form-content').html(form.data);
+                }
+            });
+        });
         
         // $(".following").hover(function(){
         //     $(this).html("Ne plus suivre");
