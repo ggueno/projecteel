@@ -32,7 +32,7 @@ django.jQuery(function() {
 		      errors: { min: 'Check only <strong>1</strong> option.' }
 		    }
 		},
-		responsiveAt: 100
+		responsiveAt: 50
 	}
 	var $myform = django.jQuery('#my-form, .PTform').idealforms(options).data('idealforms');
 

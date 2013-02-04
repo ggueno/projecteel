@@ -1,0 +1,11 @@
+                <div class="education">
+                    <span class="start"> {{ education.start }} -</span>
+                    <span class="end"> {{ education.end }} </span>
+                    <h3> {{ education.title }} </h3>
+                    <h4> {{ education.school.name }} </h4>
+
+                    <p> {{ education.description }} </p>
+                    {% if user.id == education.owner.id %}
+                            <a class="delete-item" href="/education/delete/{{education.id}}">X</a>
+                    {% endif %}
+                </div>

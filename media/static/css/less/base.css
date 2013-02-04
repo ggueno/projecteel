@@ -175,35 +175,21 @@ i.icon.message {
 }
 .PTbutton {
   background: #0099e6;
+  border-bottom: 1px solid #007cbb;
   color: #FFF;
   text-align: center;
   padding: 3px 6px;
-  text-transform: uppercase;
-}
-.PTbutton:hover {
-  background: #FFF;
-  color: #0099e6;
-}
-.buttonAqua {
-  display: block;
-  border: none;
-  background: #0099e6;
-  width: 115px;
-  height: 23px;
-  color: #FFF;
-  margin: 5px 0;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: -0.05em;
   font-weight: 400;
+  text-transform: uppercase;
   -webkit-transition: background .3s ease;
   -moz-transition: background .3s ease;
   -o-transition: background .3s ease;
   -ms-transition: background .3s ease;
   transition: background .3s ease;
 }
-.buttonAqua:hover {
-  background: #047dba;
+.PTbutton:hover {
+  background: #FFF;
+  color: #0099e6;
 }
 .titleU {
   padding: 5px 0;
@@ -444,22 +430,24 @@ a.buttonAqua {
   padding: 10px;
 }
 .projectComments form input {
-  display: block;
   border: none;
+  border-bottom: 1px solid #007cbb;
   background: #0099e6;
   width: 115px;
-  height: 23px;
+  height: 26px;
   color: #FFF;
   margin: 5px 0;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: -0.05em;
-  font-weight: 400;
+  font-weight: 200;
+  font-size: 12px;
   -webkit-transition: background .3s ease;
   -moz-transition: background .3s ease;
   -o-transition: background .3s ease;
   -ms-transition: background .3s ease;
   transition: background .3s ease;
+  display: block;
   margin: 10px 0 10px auto;
 }
 .projectComments form input:hover {
