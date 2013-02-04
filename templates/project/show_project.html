@@ -66,7 +66,7 @@
                         <span class="commentInfo"> - {{comment.publish_date}}</span>
                         <p>{{comment.content}}</p>
                         {% if user.id == comment.profile.user_id %}
-                            <a class="delete-comment" href="/comment/delete/{{comment.id}}">X</a>
+                            <a class="delete-item" href="/comment/delete/{{comment.id}}">X</a>
                         {% endif %}
                     </li>
                 {% endfor %}

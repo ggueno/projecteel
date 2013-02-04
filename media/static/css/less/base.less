@@ -502,15 +502,16 @@ a.buttonAqua{
             &:last-child{
                 border-bottom:none;
             }
-            a.delete-comment{
-                position:absolute;
-                top: 10px;
-                right:0;
-                &:hover{
-                    color:@PTblue;
-                }
-            }
         }
+    }
+}
+
+a.delete-item{
+    position:absolute;
+    top: 20px;
+    right:20px;
+    &:hover{
+        color:@PTblue;
     }
 }
 
@@ -873,8 +874,37 @@ header.menu{
         font-size: 1.4em;
         border-bottom:1px solid #d2d2d2;
     }
+    .experience, .education{
+        padding: 10px 20px;
+        margin: 10px 0;
+        position: relative;
+        &:hover{
+            background: #CCC;
+            a.delete-item{
+                display: block;
+            }
+        }
+        a.delete-item{
+            display: none;
+        }
+    }
+    #add-experience, #add-education{
+        font-weight: 600;
+        margin: 15px 0;
+        display: block;
+        &:hover{
+            color: @PTblue;
+        }
+    }
 }
 
+#add-education-form, #add-experience-form{
+    display: none;
+}
+
+.errorlist{
+    color: #F00;
+}
 
 
 /*

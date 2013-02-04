@@ -22,6 +22,7 @@ class OfferForm(forms.ModelForm):
 class EducationForm(forms.ModelForm):
     class Meta:
         model = Education
+        exclude = ('owner')
         widgets = {
             'start': forms.DateInput(),
             'end': forms.DateInput(),
@@ -31,7 +32,8 @@ class EducationForm(forms.ModelForm):
 class ExperienceForm(forms.ModelForm):
     class Meta:
         model = Experience
-        widgets = { 
+        exclude = ('owner')
+        widgets = {
             'start': forms.DateInput(),
             'end': forms.DateInput(),
         }
