@@ -1,0 +1,58 @@
+{% extends "layout/base.html" %}
+{% load thumbnail %}
+
+{% block title %} Mes offres {% endblock %}
+{% block content %}
+
+	<div class="row wrapper">
+		<h1>Mes offres</h1>
+
+		<div class="twelvecol last">
+
+			{% if offers %}
+
+			<p>{{ offers.count }} offres postées</p>
+				
+				{% for offer in offers %}
+				<h1><a href="{{ offer.get_absolute_url }}">{{ offer.title }}</a></h1>
+				<div class="sleekbox">
+					<p>{{ offer.location }}</p>
+			        {% if offer.tags %}
+			            <ul class="tags inline">
+			                {% for tag in offer.tags.all %}
+			                    <li>{{ tag.name }}</li>
+			                {% endfor %}
+			            </ul>
+			        {% endif %}
+			        <h4>{{ offer.contract }}</h4>
+			        {% for profile in applicants %}
+		            {% thumbnail profile.avatar "50x50" crop="left" as im %}
+		                <a href="/profile/{{ profile.slug }}" data-tooltip="{{ profile.user.first_name}} {{profile.user.last_name}}" class="tooltip">
+		                    <img alt="{{ profile.user.first_name}} {{profile.user.last_name}}" src="{{im.url}}" />
+		                </a>
+		            {% endthumbnail %}
+		            {% endfor %}
+
+			        <!--{% if applicants %}
+			        	
+			        	{% for applicant in applicants %}
+			        		{% if applicant.offer == offer %}
+								<a href="/profile/{{ applicant.profile.slug }}">
+                    			{% thumbnail applicant.profile.avatar "80x80" crop="left" as im %}
+                    			<img src="{{im.url}}" alt="{{applicant.profile.avatar}}" id="profile_pic"/>
+                    			{% endthumbnail %}
+                    		{% endif %}
+			        	{% endfor %}
+
+			        {% endif %}-->
+				</div>
+				{% endfor %}
+				
+
+			{% endif %}
+		
+		</div>
+
+	</div>
+
+{% endblock %}
