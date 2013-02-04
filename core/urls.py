@@ -21,8 +21,10 @@ urlpatterns = patterns('',
 
     url(r'^offers/$', views.offers),
     url(r'^offer/add/$', views.add_offer),
+    url(r'^offer/posted_offers/$', views.posted_offers),
     url(r'^offer/(?P<slug>[^\.]+)/$', views.get_offer, name="offer_view"),
     url(r'^offer/apply/(?P<pk>\d+)$', views.apply_offer),
+    
 
     url(r'^profile/follow/(?P<pk>\d+)/$', views.follow),
     url(r'^profile/unfollow/(?P<pk>\d+)/$', views.unfollow),
