@@ -3,26 +3,40 @@
 {% block title %} Ajouter une offre {% endblock %}
 {% block content %}
 
-    <div class="row">
+    <section class="row profile">
 
-        <h1>Ajouter une offre</h1>
-        {% if form.errors %}
-            <p style="color: red;">
-                Please correct the error{{ form.errors|pluralize }} below.
-            </p>
-        {% endif %}
+        <div class="sleekbox ideal-wrap ideal-hidden">
 
-        <form action="" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Submit">
-        </form>
-    </div>
+            <h1>Ajouter une offre</h1>
+            {% if form.errors %}
+                <p style="color: red;">
+                    Please correct the error{{ form.errors|pluralize }} below.
+                </p>
+            {% endif %}
+
+            <form id="add-offer" action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Submit">
+            </form>
+
+        </div>
+
+    </section>
 {% endblock %}
 
 {% block js %}
     <script src="{{ STATIC_URL }}js/nicEdit.js" type="text/javascript"></script>
     <script type="text/javascript">
+
+    $().ready(function(){
+
+        $('#add-offer').submit(function() {
+            var content = $("#id_content").html();
+            alert(content);            
+        });
+
+    });
 
     bkLib.onDomLoaded(function() {
         new nicEditor({buttonList : ['bold','italic','underline','fontSize','strikeThrough', 'link', 'ul', 'html','image']}).panelInstance('id_content');
