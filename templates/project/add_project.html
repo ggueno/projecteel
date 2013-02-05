@@ -5,138 +5,129 @@
 
 
 {% block content %}
-    <section class="row profile">
+    <section class="row add_project">
         <div class="sleekbox">
-            <h1>Add Project </h1>
-            {% if form.errors %}
-                <p style="color: red;">
-                    Please correct the error{{ form.errors|pluralize }} below.
-                </p>
-            {% endif %}
+            <div class="content">
+                <h1 class="heading">Ajouter projet</h1>
+                {% if form.errors %}
+                    <p style="color: red;">
+                        Please correct the error{{ form.errors|pluralize }} below.
+                    </p>
+                {% endif %}
 
-            {% if videos %}
-                <h3>Vidéos</h3>
-                {% for video in videos %}
-                    <h2>{{ video }}</h2>
-                {% endfor %}
-            {% endif %}
+                <div class="row">
+                    <div class="sixcol">
+                        <!-- <a id="remove" href="/project/remove/{{project_id}}" alt="Remove Project" />Remove</a> -->
+                        <ul class="tabs">
+                            <li><a href="#etape1"><i class="step-label">1</i>Etape 1</a></li>
+                            <li><a href="#etape2"><i class="step-label">2</i>Etape 2</a></li>
+                        </ul>
+
+                        <form action="" class="PTform" method="post" id="fileupload" action="/project/add/image/new/" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <!-- TAB -->
+                            <section id="etape1">
+                                <!-- Heading -->
+                                <div>
+                                    <label for="">{{form.title.label}}</label>
+                                    {{ form.title }}
+                                </div>
+                                <div class="file-wrap">
+                                    <label>Vignette</label>
+                                    <input type="file" multiple>
+                                    <input type="text" autocomplete="off" disabled>
+                                    <button type="button"><i class="icon image"></i> Choisir</button>
+                                    <p class="annotation">(< 1Mo, > 300x250px)</p>
+                                </div>
+                                <div>
+                                    <label for="">{{form.categories.label}}</label>
+                                    {{ form.categories }}
+                                </div>
+                                <div>
+                                    <label for="">{{form.content.label}}</label>
+                                    {{ form.content }}
+                                </div>
+                                <div>
+                                    <label for="">Médias</label>
+                                    <label class="sublabel">par URL</label>
+                                    <hr class="sublabel"/>
+                                    <textarea name="" id="" cols="30" rows="10"></textarea>
+                                    <button class="PTbutton"><i class="icon add"></i>Ajouter</button>
+
+                                    <label class="sublabel">par fichier</label>
+                                    <hr class="sublabel"/>
+                                </div>
+                                <div class="row fileupload-buttonbar">
+                                    <div class="span7">
+                                        <span class="btn btn-primary fileinput-button">
+                                            <span class="PTbutton"><i class="icon add"></i>Ajouter</span>
+                                            <input type="hidden" name="project_id" value="{{ project_id }}" >
+                                            <input type="file" name="file" multiple>
+                                        </span>
+                                        <button type="submit" class="btn btn-success start PTbutton">
+                                            <i class="icon send"></i>
+                                            <span>Envoyer</span>
+                                        </button>
+                                        <button type="reset" class="btn btn-warning cancel PTbutton">
+                                            <i class="icon cancel"></i>
+                                            <span>Annuler</span>
+                                        </button>
+                                        <button type="button" class="btn btn-danger delete PTbutton">
+                                            <i class="icon delete"></i>
+                                            <span>Supprimer</span>
+                                        </button>
+                                        <input type="checkbox" class="toggle">
+                                    </div>
+                                    <!-- The global progress information -->
+                                    <div class="span5 fileupload-progress fade">
+                                        <!-- The global progress bar -->
+                                        <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                            <div class="bar" style="width:0%;"></div>
+                                        </div>
+                                        <!-- The extended global progress information -->
+                                        <div class="progress-extended">&nbsp;</div>
+                                    </div>
+                                </div>
+                                <!-- The loading indicator is shown during file processing -->
+                                <div class="fileupload-loading"></div>
+                                <br>
+                                <!-- The table listing the files available for upload/download -->
+                                <table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
 
 
-            <a id="remove" href="/project/remove/{{project_id}}" alt="Remove Project" />Remove</a>
+                            </section> <!-- END TAB -->
 
-            <form action="" class="PTform" method="post">
-                {% csrf_token %}
+                            <section id="etape2">
+                                <!-- Vidéo & Image -->
+                                <div>{{ form.images.label }} {{ form.images }}</div>
+                                <div>{{form.participant.label}}{{ form.participant }}</div>
+                                <div>{{form.cadre.label}} {{ form.cadre }}</div>
+                                <div>{{form.state.label}} {{ form.state }}</div>
+                                <div>{{form.period.label}} {{ form.period }}</div>
+                                <div>{{form.location.label}} {{ form.location }}</div>
 
-                <!-- TAB -->
-                <section name="Informations<br/> générales">
-                    <!-- Heading -->
-                    <div>
-                      <h1>Vos infos de base</h1>
-                      <p>Faisons connaissance, renseignez ces quelques champs.</p>
-                    </div>
-                    <div>
-                        {{form.title.label}}{{ form.title }}
-                    </div>
-                    <div>
-                        {{form.categories.label}} {{ form.categories }}
-                    </div>
-                    <div>
-                        {{form.content.label}} {{ form.content }}
-                    </div>
-                    
-
-                </section> <!-- END TAB -->
-
-                <section name="Contenu<br/> du projet">
-                    <!-- Vidéo & Image -->
-                    <div>{{ form.images.label }} {{ form.images }}</div>
-                    <div>{{form.participant.label}}{{ form.participant }}</div>
-                    <div>{{form.cadre.label}} {{ form.cadre }}</div>
-                    <div>{{form.state.label}} {{ form.state }}</div>
-                    <div>{{form.period.label}} {{ form.period }}</div>
-                    <div>{{form.location.label}} {{ form.location }}</div>
-                </section>
-
-                <section name="Partie III<br/> liste des tags">
-                    {{form.tags.label}} {{ form.tags }}
-                    {{form.equipments.label}} {{ form.equipments }}
+                                {{form.tags.label}} {{ form.tags }}
+                                {{form.equipments.label}} {{ form.equipments }}
 
 
-                    <div class="embeds">
-                        <textarea name="embed"></textarea>
-                    </div>
+                                <div class="embeds">
+                                    <textarea name="embed"></textarea>
+                                </div>
 
-                    <a id="add_video" href="#" alt="Add Embed Content" />Add Embed Content</a>
-                    <input type="hidden" name="project_id" value="{{ project_id }}" >
-                    </section>
-                <input type="submit" value="Submit">
-                
-            </form>
+                                <a id="add_video" href="#" alt="Add Embed Content" />Add Embed Content</a>
+                                <input type="hidden" name="project_id" value="{{ project_id }}" >
+                                <input type="submit" value="Submit">
 
 
-            <form id="fileupload" method="post" action="/project/add/image/new/" enctype="multipart/form-data">{% csrf_token %}
-                <div class="row fileupload-buttonbar">
-                    <div class="span7">
-                        <span class="btn btn-primary fileinput-button">
-                            <i class="icon-plus icon-white"></i>
-                            <span>Add files...</span>
-                            <input type="hidden" name="project_id" value="{{ project_id }}" >
-                            <input type="file" name="file" multiple>
-                        </span>
-                        <button type="submit" class="btn btn-success start">
-                            <i class="icon-upload icon-white"></i>
-                            <span>Start upload</span>
-                        </button>
-                        <button type="reset" class="btn btn-warning cancel">
-                            <i class="icon-ban-circle icon-white"></i>
-                            <span>Cancel upload</span>
-                        </button>
-                        <button type="button" class="btn btn-danger delete">
-                            <i class="icon-trash icon-white"></i>
-                            <span>Delete files</span>
-                        </button>
-                        <input type="checkbox" class="toggle">
-                    </div>
-                    <div class="span5 fileupload-progress fade">
-                        <div class="progress progress-success progres-striped active">
-                            <div class="bar" style="width:0%"></div>
-                        </div>
-                        <div class="progress-extended">&nbsp;</div>
+                            </section>
+
+                        </form>
                     </div>
                 </div>
-                <div class="fileupload-loading"></div>
-                <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
-            </form>
-            <div class="fileupload-content">
-                <table class="files"></table>
-                <div class="fileupload-progressbar"></div>
-            </div>
-            </div>
-            <!-- modal-gallery is the modal dialog used for the image gallery -->
-            <div id="modal-gallery" class="modal modal-gallery hide fade" data-filter=":odd">
-                <div class="modal-header">
-                    <a class="close" data-dismiss="modal">&times;</a>
-                    <h3 class="modal-title"></h3>
-                </div>
-                <div class="modal-body"><div class="modal-image"></div></div>
-                <div class="modal-footer">
-                    <a class="btn modal-download" target="_blank">
-                        <i class="icon-download"></i>
-                        <span>Download</span>
-                    </a>
-                    <a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000">
-                        <i class="icon-play icon-white"></i>
-                        <span>Slideshow</span>
-                    </a>
-                    <a class="btn btn-info modal-prev">
-                        <i class="icon-arrow-left icon-white"></i>
-                        <span>Previous</span>
-                    </a>
-                    <a class="btn btn-primary modal-next">
-                        <span>Next</span>
-                        <i class="icon-arrow-right icon-white"></i>
-                    </a>
-                </div>
+
+
+
             </div>
         </div>
     </section>
