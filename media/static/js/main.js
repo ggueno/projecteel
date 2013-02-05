@@ -34,7 +34,7 @@ django.jQuery(function() {
 		},
 		responsiveAt: 50
 	}
-	var $myform = django.jQuery('#my-form, .PTform').idealforms(options).data('idealforms');
+	var $myform = django.jQuery('#my-form').idealforms(options).data('idealforms');
 
 });
 

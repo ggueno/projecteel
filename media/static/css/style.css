@@ -1853,6 +1853,9 @@ a {
 img {
   vertical-align: middle;
 }
+ul {
+  list-style-type: none;
+}
 /*
  * Remove default fieldset styles.
  */
@@ -1963,6 +1966,21 @@ i.icon.twitter {
 i.icon.message {
   background-position: -124px -2px;
 }
+i.icon.image {
+  background-position: -156px -1px;
+}
+i.icon.add {
+  background-position: -185px -2px;
+}
+i.icon.cancel {
+  background-position: -210px -2px;
+}
+i.icon.send {
+  background-position: -240px -3px;
+}
+i.icon.delete {
+  background-position: -265px -2px;
+}
 .sleekbox h1.blackTitle {
   line-height: 42px;
   padding: 0 20px;
@@ -1975,18 +1993,36 @@ i.icon.message {
   font-weight: 300;
 }
 .PTbutton {
+  width: 115px;
+  height: 26px;
+  margin: 5px 0;
+  letter-spacing: -0.05em;
+  font-weight: 200;
+  font-size: 12px;
   background: #0099e6;
+  border: none;
   border-bottom: 1px solid #007cbb;
   color: #FFF;
   text-align: center;
   padding: 3px 6px;
+  height: 38px;
   font-weight: 400;
+  line-height: 2em;
   text-transform: uppercase;
   -webkit-transition: background .3s ease;
   -moz-transition: background .3s ease;
   -o-transition: background .3s ease;
   -ms-transition: background .3s ease;
   transition: background .3s ease;
+}
+.PTbutton:hover {
+  background: #047dba;
+}
+.PTbutton:hover {
+  background: #047dba;
+}
+.PTbutton:hover {
+  background: #047dba;
 }
 .PTbutton:hover {
   background: #FFF;
@@ -2102,6 +2138,10 @@ a.buttonAqua {
   font-size: 2em;
   text-transform: uppercase;
   padding: 20px 0;
+  font-weight: 400;
+}
+.content {
+  padding: 20px;
 }
 .thumb {
   padding: 0px;
@@ -2179,6 +2219,7 @@ a.buttonAqua {
   color: #FFF;
   font-size: 1em;
   margin: 5px 10px 5px 0;
+  border-bottom: 1px;
 }
 .tags li a.delete {
   margin-left: 3px;
@@ -2377,9 +2418,6 @@ a.delete-item:hover {
   background: transparent;
   border: none;
   padding: 0;
-}
-.PTform.inline input[type=text] {
-  height: 33px;
 }
 .sleekbox {
   width: 100%;
@@ -2711,6 +2749,233 @@ header.menu #menu a:hover {
 }
 .errorlist {
   color: #F00;
+}
+.PTform label {
+  display: block;
+  padding: 5px 0;
+  font-weight: 800;
+}
+.PTform div {
+  margin: 15px 0;
+}
+.PTform input[type=text],
+.PTform input[type=password],
+.PTform input[type=email],
+.PTform textarea {
+  height: 25px;
+  width: 96%;
+  font-size: 15px;
+  padding: 2%;
+  border: 1px solid #cdcdcd;
+  background: #fcfcfc;
+  outline: 0;
+  color: #666;
+}
+.PTform textarea {
+  height: auto;
+}
+.PTform .file-wrap {
+  position: relative;
+}
+.PTform .file-wrap input[type=file] {
+  visibility: hidden;
+  text-indent: -9999px;
+  position: absolute;
+}
+.PTform .file-wrap input[type=text] {
+  width: 70%;
+}
+.PTform .file-wrap button {
+  border: none;
+  border-bottom: 1px solid #007cbb;
+  background: #0099e6;
+  width: 115px;
+  height: 26px;
+  color: #FFF;
+  margin: 5px 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  font-weight: 200;
+  font-size: 12px;
+  -webkit-transition: background .3s ease;
+  -moz-transition: background .3s ease;
+  -o-transition: background .3s ease;
+  -ms-transition: background .3s ease;
+  transition: background .3s ease;
+  width: 26%;
+  margin: 0;
+  height: 47px;
+  position: absolute;
+  text-transform: none;
+  font-size: 1em;
+  right: 0;
+}
+.PTform .file-wrap button:hover {
+  background: #047dba;
+}
+.PTform .file-wrap button:hover {
+  background: #047dba;
+}
+.PTform .file-wrap button:hover {
+  background: #047dba;
+}
+.PTform .fileupload-buttonbar .PTbutton {
+  margin: 0 5px;
+  float: left;
+}
+.PTform .fileupload-buttonbar .PTbutton.start {
+  background: #5e5e5e;
+  border-bottom-color: #3b3b3b;
+}
+.PTform .fileupload-buttonbar .PTbutton.start:hover {
+  background: #3b3b3b;
+}
+.PTform .fileupload-buttonbar .PTbutton.cancel {
+  background: #bfbfbf;
+  border-bottom-color: #9e9e9e;
+}
+.PTform .fileupload-buttonbar .PTbutton.cancel:hover {
+  background: #9e9e9e;
+}
+.PTform .fileupload-buttonbar .PTbutton.delete {
+  background: #ef5555;
+  border-bottom-color: #c63838;
+}
+.PTform .fileupload-buttonbar .PTbutton.delete:hover {
+  background: #c63838;
+}
+.PTform .fileupload-buttonbar span.PTbutton {
+  line-height: 2.6em;
+  padding: 3px 6px;
+  height: 31px;
+  margin: 0;
+  display: block;
+  float: left;
+  font-weight: bold;
+  -webkit-transition: background .3s ease;
+  -moz-transition: background .3s ease;
+  -o-transition: background .3s ease;
+  -ms-transition: background .3s ease;
+  transition: background .3s ease;
+}
+.PTform .fileupload-buttonbar i.icon {
+  margin-left: -10px;
+}
+.PTform .fileupload-buttonbar .fileinput-button {
+  margin: 0 5px 0 0;
+}
+.PTform .fileupload-buttonbar .fileinput-button:hover span {
+  background: #047dba;
+}
+.PTform.inline input[type=text] {
+  height: 33px;
+}
+.PTform p.annotation {
+  margin: 0;
+  font-style: italic;
+  color: #a0a0a0;
+  padding: 5px 0;
+  font-size: 87%;
+}
+.PTform .as-selection-item {
+  background: #c0c0c0;
+  padding: 2px 5px;
+  display: block;
+  float: left;
+  color: #FFF;
+  font-size: 1em;
+  margin: 5px 10px 5px 0;
+  border-bottom: 1px;
+  margin-bottom: 12px;
+}
+.PTform .as-selection-item .as-close {
+  font-weight: 800;
+  float: right;
+  margin-left: 5px;
+  cursor: pointer;
+}
+.PTform .as-selection-item .as-close:hover {
+  color: #0099e6;
+}
+.PTform .as-results {
+  border: 1px solid #cdcdcd;
+}
+.PTform .as-results ul li {
+  padding: 3px;
+}
+.PTform .as-results ul li:hover {
+  background: #0099e6;
+  color: #FFF;
+  cursor: pointer;
+}
+.PTform .PTbutton {
+  margin: 10px 0 10px auto;
+  float: none;
+  display: block;
+}
+.PTform .PTbutton:hover {
+  background: #047dba;
+  color: #FFF;
+}
+.PTform .sublabel {
+  color: #777777;
+  font-size: .9em;
+  width: 13%;
+  float: left;
+  margin-bottom: 10px;
+}
+.PTform hr.sublabel {
+  float: left;
+  width: 87%;
+  border-color: #e2e2e2;
+}
+.add_project .content {
+  padding: 40px 60px;
+}
+.add_project .heading {
+  padding: 0;
+  margin-bottom: 30px;
+}
+.add_project ul.tabs {
+  border-top: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
+  overflow: auto;
+  padding: 3px 0;
+  margin-bottom: 20px;
+  list-style-type: none;
+}
+.add_project ul.tabs li a {
+  float: left;
+  padding: 10px 40px 10px 70px;
+  border-right: 1px solid #e2e2e2;
+  position: relative;
+}
+.add_project ul.tabs li a:hover,
+.add_project ul.tabs li a.active {
+  text-decoration: none;
+  color: #0099e6;
+}
+.add_project ul.tabs li a:hover .step-label,
+.add_project ul.tabs li a.active .step-label {
+  color: #0099e6;
+  border-color: #0099e6;
+}
+.add_project ul.tabs li a .step-label {
+  display: block;
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  margin-top: -9.5px;
+  height: 25px;
+  width: 25px;
+  border: 1px solid #cecece;
+  color: #cecece;
+  line-height: 25px;
+  text-align: center;
+  font-size: 12pt;
+  font-style: normal;
+  border-radius: 10em;
 }
 /*
    O F F E R S
