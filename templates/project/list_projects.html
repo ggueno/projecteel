@@ -43,62 +43,92 @@
             paginateOnScrollMargin: 20
         });
 
-        var search_url = $(".project-search").attr('action');
-
-        function sendSearch(url, data){
-            $.get(url, data, function(result){
-                $('.thumb').remove();
-                $(result).insertAfter(".project-search");
-            });
-        }
-
-        function collectData(){
-            var datas = {};
-            $('.data-search-field').each(function(){
-                var type = $(this).attr("class").split(" ")[1].replace("queryfield-", "");
-                var val = $(this).data('value');
-                if(datas[type])
-                    datas[type].push(val);
-                else{
-                    datas[type] = new Array();
-                    datas[type].push(val);
-                }
-            });
-            return datas;
-        }
 
 
-        function removeSearch(event){
-            $(this).parent().remove();
-            sendSearch(search_url, collectData());
-            return false;
-        };
+        var searchEngine = {
+            search_url : "",
+            search_datas : "",
+            container : "",
+
+            init : function(){
+                this.search_url = $(".project-search").attr('action');
+                this.search_datas = new Array();
+
+                //foreach search-field
+                var that = this;
+
+                $("#search-location").autoSuggest("/locations/list/",
+                {
+                    minChars: 2,
+                    matchCase: true,
+                    resultClick: function(elem){ that.addToSearch("location", elem.attributes.name); return elem;  },
+                    selectionAdded: function(elem){   return elem;},
+                    selectionRemoved: function(elem){
+                        var id = $(elem).parent().attr('id').replace('as-selections-','');
+
+                        that.removeFromSearch($("#as-input-"+id).attr('name'), $(elem).data('value'));
+                        $(elem).remove();
+                    }
+                });
+
+                this.search_datas['location'] = new Array();
+
+                $('#search-query').keypress(function(e) {
+                    if(e.which == 13) {
+                        addToSearch(this);
+                        return false;
+                    }
+                });
+
+                    //If autocomplete
+
+                    //If unique
+            },
+
+            addField : function () {},
+            removeField : function() {},
 
 
-        function addToSearch(e){
-            var id = $(e).attr('id');
-            var value = $(e).val();
-            id = id.replace('search-','');
+            addToSearch : function(type, val){
 
-            //append data-search-field for the id category
-            var data = "<span class='data-search-field queryfield-"+id+"' data-value='"+value+"''>"+value+" <a class='remove-search' href='#' >X</a></span>";
-            var newData = $(data).insertAfter(e);
+                this.search_datas[type].push(val);
+                this.sendSearch();
+            },
 
-            $(newData).find('.remove-search').on('click', removeSearch);
+            removeFromSearch : function(type, val){
+                console.log(type);
+                console.log(val);
+                this.search_datas[type].splice(val);
+                this.sendSearch();
+            },
 
-            //get all datas
-            $(e).val('');
-            sendSearch(search_url, collectData());
-        }
+            sendSearch : function(){
+                var array = new Array;
+                $.each(this.search_datas['location'], function(i, val){
+                    array.push(val);
+                });
 
+                var that = { 'location[]': array };
+                $.ajax({
+                    type: "GET",
+                    url : this.search_url,
 
-        $("#search-location").autoSuggest("/locations/list/", {minChars: 2, matchCase: true});
-
-        $(".search-field").keypress(function(e) {
-            if(e.which == 13) {
-                addToSearch(this);
-                return false;
+                    traditional: true,
+                    data : that,
+                    success:
+                        function(result, status){
+                            $('.thumb').remove();
+                            $(result).insertAfter(".project-search");
+                        },
+                });
             }
+        }
+
+
+
+        $().ready(function(){
+            searchEngine.init();
         });
+
     </script>
 {% endblock %}
