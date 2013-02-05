@@ -63,8 +63,8 @@ def search_projects2(request):
 
         projects_list = Project.objects.filter(**q)
 
-        response = JSONResponse(q, {}, response_mimetype(request))
-        response['Content-Disposition'] = 'inline; filename=files.json'
+        # response = JSONResponse(request.GET.getlist('location[]'), {}, response_mimetype(request))
+        # response['Content-Disposition'] = 'inline; filename=files.json'
         # return response
         return projects(request, projects_list)
     # except KeyError:
