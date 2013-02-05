@@ -25,26 +25,20 @@
 			            </ul>
 			        {% endif %}
 			        <h4>{{ offer.contract }}</h4>
-			        {% for profile in applicants %}
-		            {% thumbnail profile.avatar "50x50" crop="left" as im %}
-		                <a href="/profile/{{ profile.slug }}" data-tooltip="{{ profile.user.first_name}} {{profile.user.last_name}}" class="tooltip">
-		                    <img alt="{{ profile.user.first_name}} {{profile.user.last_name}}" src="{{im.url}}" />
-		                </a>
-		            {% endthumbnail %}
-		            {% endfor %}
+			        {% if applicants %}
+				        {% for applicantoffer in applicants %}
+				        	{% if applicantoffer.offer == offer %}
+					            {% thumbnail applicantoffer.applicant.avatar "50x50" crop="left" as im %}
+					            <a href="/profile/{{ applicantoffer.applicant.slug }}" data-tooltip="{{ applicantoffer.applicant.user.first_name}} {{profile.user.last_name}}" class="tooltip">
+			                    	<img src="{{im.url}}" alt="{{ applicantoffer.applicant.name }}"/>
+			                	</a>
+					            {% endthumbnail %}
+					        {% else %}
+					        	<p>Pas de candidature</p>
+					        {% endif %}
+			            {% endfor %}
+			        {% endif %}
 
-			        <!--{% if applicants %}
-			        	
-			        	{% for applicant in applicants %}
-			        		{% if applicant.offer == offer %}
-								<a href="/profile/{{ applicant.profile.slug }}">
-                    			{% thumbnail applicant.profile.avatar "80x80" crop="left" as im %}
-                    			<img src="{{im.url}}" alt="{{applicant.profile.avatar}}" id="profile_pic"/>
-                    			{% endthumbnail %}
-                    		{% endif %}
-			        	{% endfor %}
-
-			        {% endif %}-->
 				</div>
 				{% endfor %}
 				
