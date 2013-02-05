@@ -113,7 +113,7 @@ def get_locations(request):
             raise
         locations = Project.objects.filter(location__startswith=q).values_list('location', flat=True)
 
-    choices = [{"name": l, "value": l} for l in locations]
+    choices = [{"name": l, "value": l} for l in set(locations)]
     response = JSONResponse(choices, {}, response_mimetype(request))
     response['Content-Disposition'] = 'inline; filename=files.json'
     return response
