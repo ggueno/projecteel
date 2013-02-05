@@ -287,6 +287,20 @@ def apply_offer(request, pk):
 
 
 @login_required
+def posted_offers(request):
+    company = Company.objects.filter(user_id=request.user.id)[0]
+    offers = Offer.objects.filter(company=company)
+    applicantsOffer = ApplicantOffer.objects.all()
+    endless_part = 'offer/endless_part.html'
+    context = {
+        'offers': offers,
+        'applicants': applicantsOffer,
+        'endless_part': endless_part,
+    }
+    return render(request, 'offer/posted_offers.html', context)
+
+
+@login_required
 def add_education(request):
     form = {}
 
@@ -347,6 +361,7 @@ def delete_education(request, pk):
         return response
     else:
         return HttpResponseRedirect('/profile/')
+
 
 
 @login_required
