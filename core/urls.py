@@ -12,6 +12,8 @@ urlpatterns = patterns('',
     url(r'^project/remove/(?P<pk>\d+)$', views.remove_project),
     url(r'^locations/list/$', views.get_locations),
     url(r'^tags/list/$', views.get_tags),
+    url(r'^skills/list/$', views.get_tags),
+    url(r'^list/(?P<tag>[^\.]+)/$', views.get_list),
 
 
     url(r'^comment/delete/(?P<pk>\d+)$', views.delete_comment, {}, 'comment-delete'),

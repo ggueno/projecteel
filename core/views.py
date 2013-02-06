@@ -62,6 +62,9 @@ def search_projects2(request):
         if 'tags[]' in request.GET:
             q["tags__name__in"] = request.GET.getlist('tags[]')
 
+        if 'skills[]' in request.GET:
+            q["skills__name__in"] = request.GET.getlist('skills[]')
+
         q['published'] = True
 
         projects_list = Project.objects.filter(**q)
@@ -128,6 +131,25 @@ def get_tags(request):
     else:
         raise
     tags = CommonTag.objects.filter(name__startswith=q).values_list('name', flat=True)
+
+    choices = [{"name": l, "value": l} for l in tags]
+    response = JSONResponse(choices, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response
+
+
+def get_list(request, tag):
+    q = ""
+    if tag == 'skills':
+        objectKind = SkillsTag
+    elif tag == 'tags':
+        objectKind = CommonTag
+
+    if 'q' in request.GET:
+        q = request.GET["q"]
+    else:
+        raise
+    tags = objectKind.objects.filter(name__startswith=q).values_list('name', flat=True)
 
     choices = [{"name": l, "value": l} for l in tags]
     response = JSONResponse(choices, {}, response_mimetype(request))

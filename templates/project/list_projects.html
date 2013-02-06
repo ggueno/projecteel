@@ -14,8 +14,8 @@
                 <input type="text" id="search-tags" name="keywords-sorting">
                 <p>Localisation</p>
                 <input class="search-field" id="search-location" type="text" name="location">
-                <p>Secteur d'activité</p>
-                <p>Type de contrat</p>
+                <p>Compétences</p>
+                <input type="text" id="search-skills" name="keywords-sorting">
                 <p>Durée</p>
             </div>
         </div>
@@ -71,6 +71,20 @@
                     }
                 });
 
+                $("#search-skills").autoSuggest("/list/skills/",
+                {
+                    minChars: 2,
+                    matchCase: true,
+                    resultClick: function(elem){ that.addToSearch("skills", elem.attributes.name); return elem;  },
+                    selectionAdded: function(elem){ return elem;},
+                    selectionRemoved: function(elem){
+                        var id = $(elem).parent().attr('id').replace('as-selections-','');
+
+                        that.removeFromSearch($("#as-input-"+id).attr('name'), $(elem).data('value'));
+                        $(elem).remove();
+                    }
+                });
+
                  $("#search-tags").autoSuggest("/tags/list/",
                 {
                     minChars: 2,
@@ -89,13 +103,17 @@
 
                 this.search_datas['location'] = new Array();
                 this.search_datas['tags'] = new Array();
+                this.search_datas['skills'] = new Array();
+                this.search_datas['query'] = new Array();
 
                 $('#search-query').keypress(function(e) {
                     if(e.which == 13) {
-                        addToSearch('query',$(this).query);
+                        that.addToSearch('query',$(this).val());
                         return false;
                     }
                 });
+
+                // $('.project-search').submit(function(){ return false; });
 
                     //If autocomplete
 
@@ -107,7 +125,6 @@
 
 
             addToSearch : function(type, val){
-
                 this.search_datas[type].push(val);
                 this.sendSearch();
             },
@@ -125,7 +142,7 @@
                     array.push(val);
                 });
 
-                var that = { 'location[]': this.search_datas['location'], 'tags[]': this.search_datas['tags'] };
+                var that = { 'location[]': this.search_datas['location'], 'tags[]': this.search_datas['tags'], 'skills[]': this.search_datas['skills'], 'query[]': this.search_datas['query']};
                 console.log(that);
                 $.ajax({
                     type: "GET",
