@@ -8,15 +8,40 @@
         <h1 class="heading">Projects</h1>
 
         <div class="sorting threecol">
+            <select id="search-categories" name="search-categories">
+                <option value="all">Tous les catégories</option>
+                {% for categorie in categories %}
+                <option value="{{categorie.slug}}">{{categorie.name}}</option>
+                {% endfor %}
+            </select>
+
+            <select id="search-filter" name="search-filter">
+                <option value="pushs">Les plus pushés</option>
+                <!-- <option value="views">Les plus vues</option> -->
+                <option value="comments">Les plus commentés</option>
+                <option value="recents">Les plus récents</option>
+            </select>
+
+            <select id="search-when" name="search-when">
+                <option value="1">Aujourd'hui</option>
+                <option value="7">Cette semaine</option>
+                <option value="30">Ce mois</option>
+                <option value="0" selected>Toujours</option>
+            </select>
+
+
+
             <div class="sleekbox">
                 <h4>Affiner ma recherche</h4>
                 <p>Mots-clés</p>
-                <input type="text" name="keywords-sorting">
+                <input type="text" id="search-tags" name="keywords-sorting">
                 <p>Localisation</p>
                 <input class="search-field" id="search-location" type="text" name="location">
-                <p>Secteur d'activité</p>
-                <p>Type de contrat</p>
+                <p>Compétences</p>
+                <input type="text" id="search-skills">
                 <p>Durée</p>
+                <input type="text" id="search-durationmin">
+                <input type="text" id="search-durationmax">
             </div>
         </div>
 
@@ -57,12 +82,27 @@
                 //foreach search-field
                 var that = this;
 
+                $('#search-categories').change(function(){
+                    that.addToSearch('categories', $(this).val(), true)
+                    return false;
+                });
+
+                $('#search-when').change(function(){
+                    that.addToSearch('when', $(this).val(), true)
+                    return false;
+                });
+
+                $('#search-filter').change(function(){
+                    that.addToSearch('filter', $(this).val(), true)
+                    return false;
+                });
+
                 $("#search-location").autoSuggest("/locations/list/",
                 {
                     minChars: 2,
                     matchCase: true,
-                    resultClick: function(elem){ that.addToSearch("location", elem.attributes.name); return elem;  },
-                    selectionAdded: function(elem){   return elem;},
+                    resultClick: function(elem){ that.addToSearch("location", elem.attributes.name, false); return elem;  },
+                    selectionAdded: function(elem){ return elem;},
                     selectionRemoved: function(elem){
                         var id = $(elem).parent().attr('id').replace('as-selections-','');
 
@@ -71,14 +111,66 @@
                     }
                 });
 
+                $("#search-skills").autoSuggest("/list/skills/",
+                {
+                    minChars: 2,
+                    matchCase: true,
+                    resultClick: function(elem){ that.addToSearch("skills", elem.attributes.name, false); return elem;  },
+                    selectionAdded: function(elem){ return elem;},
+                    selectionRemoved: function(elem){
+                        var id = $(elem).parent().attr('id').replace('as-selections-','');
+
+                        that.removeFromSearch($("#as-input-"+id).attr('name'), $(elem).data('value'));
+                        $(elem).remove();
+                    }
+                });
+
+                 $("#search-tags").autoSuggest("/tags/list/",
+                {
+                    minChars: 2,
+                    matchCase: true,
+                    resultClick: function(elem){ that.addToSearch("tags", elem.attributes.name); return elem;  },
+                    selectionAdded: function(elem){ return elem;},
+                    selectionRemoved: function(elem){
+                        var id = $(elem).parent().attr('id').replace('as-selections-','');
+
+                        that.removeFromSearch($("#as-input-"+id).attr('name'), $(elem).data('value'));
+                        $(elem).remove();
+                    }
+                });
+
+                 $('#search-durationmin').keypress(function(e){
+                    if(e.which == 13){
+                        that.addToSearch('durationmin', $(this).val(), true);
+                        return false;
+                    }
+                 });
+
+
+                 $('#search-durationmax').keypress(function(e){
+                    if(e.which == 13){
+                        that.addToSearch('durationmax', $(this).val(), true)
+                        return false;
+                    }
+                 });
+
                 this.search_datas['location'] = new Array();
+                this.search_datas['tags'] = new Array();
+                this.search_datas['skills'] = new Array();
+                this.search_datas['query'] = new Array();
+                this.search_datas['durationmin'] = -1;
+                this.search_datas['durationmax'] = -1;
+                this.search_datas['when'] = 0;
+                this.search_datas['filter'] = "pushs";
 
                 $('#search-query').keypress(function(e) {
                     if(e.which == 13) {
-                        addToSearch(this);
+                        that.addToSearch('query',$(this).val());
                         return false;
                     }
                 });
+
+                // $('.project-search').submit(function(){ return false; });
 
                     //If autocomplete
 
@@ -89,16 +181,21 @@
             removeField : function() {},
 
 
-            addToSearch : function(type, val){
-
-                this.search_datas[type].push(val);
+            addToSearch : function(type, val, unique){
+                if(unique){
+                    this.search_datas[type] = val;
+                }else{
+                    this.search_datas[type].push(val);
+                }
                 this.sendSearch();
             },
 
-            removeFromSearch : function(type, val){
-                console.log(type);
-                console.log(val);
-                this.search_datas[type].splice(val);
+            removeFromSearch : function(type, val, unique){
+                if(unique){
+                    this.search_datas[type].splice(val);
+                }else{
+                    this.search_datas[type] = -1;
+                }
                 this.sendSearch();
             },
 
@@ -108,7 +205,27 @@
                     array.push(val);
                 });
 
-                var that = { 'location[]': array };
+                var that = { 
+                    'location[]': this.search_datas['location'], 
+                    'tags[]': this.search_datas['tags'], 
+                    'skills[]': this.search_datas['skills'], 
+                    'query[]': this.search_datas['query'],
+                    'categories' : this.search_datas['categories'],
+                    'when': this.search_datas['when'],
+                    'filter': this.search_datas['filter']
+                };
+
+            
+                if(this.search_datas['durationmin'] > 0){
+                    that['durationmin'] = this.search_datas['durationmin'];;
+                }
+
+
+                if(this.search_datas['durationmax'] > 0){
+                    that['durationmax'] = this.search_datas['durationmax'];
+                }
+
+                console.log(that);
                 $.ajax({
                     type: "GET",
                     url : this.search_url,

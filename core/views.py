@@ -2,11 +2,12 @@ from django.shortcuts import render_to_response, render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import CreateView, DeleteView
 from django.template import RequestContext
+from datetime import datetime, timedelta
 
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from django.db.models import Q
+from django.db.models import Q, Count
 
 from core.models import *
 from forms import ProjectForm, OfferForm, EducationForm, ExperienceForm, CommentForm
@@ -26,6 +27,7 @@ def projects(request, projects):
     endless_part = 'project/endless_part.html'
     context = {
         'projects': projects,
+        'categories': CategoryTag.objects.all(),
         'endless_part': endless_part,
     }
     if request.is_ajax():
@@ -53,17 +55,61 @@ def search_projects2(request):
     q = {}
 
     if(request.method == 'GET'):
+        q['published'] = True
+
         if 'query[]' in request.GET:
             q['title__icontains'] = request.GET.getlist('query[]')[0]
 
         if 'location[]' in request.GET:
             q["location__in"] = request.GET.getlist('location[]')
 
-        q['published'] = True
+        if 'tags[]' in request.GET:
+            q["tags__name__in"] = request.GET.getlist('tags[]')
 
-        projects_list = Project.objects.filter(**q)
+        if 'skills[]' in request.GET:
+            q["skills__name__in"] = request.GET.getlist('skills[]')
 
-        # response = JSONResponse(request.GET.getlist('location[]'), {}, response_mimetype(request))
+        if 'durationmin' in request.GET:
+            # TODO : check if 'duration-min' is an number
+            q["period__gte"] = request.GET['durationmin']
+        
+        
+        if 'durationmax' in request.GET:
+            # TODO : check if 'duration-min' is an number
+            q["period__lte"] = request.GET['durationmax']
+
+        if 'categories' in request.GET :
+            if request.GET['categories'] != 'all':
+                q['categories__name__in'] = [request.GET['categories']]
+
+        if 'when' in request.GET and request.GET['when']!=0:
+            when = int(request.GET['when'])
+        else:
+            #first day for a project
+            when = 9999
+
+        #check if when is a number
+        today = datetime.now()
+        start_date = datetime.now() - timedelta(days=when)
+
+        if 'filter' in request.GET and request.GET['filter'] != 'pushs':
+            if request.GET['filter'] == 'comments':
+                if when != 9999 : 
+                    q['comments__publish_date__range'] = (start_date, today)
+                projects_list = Project.objects.annotate(num_comment=Count('comments')).filter(**q).order_by('-num_comment')
+
+            elif request.GET['filter'] == 'recents':
+                if when != 9999 : 
+                    q['publish_date__range'] = (start_date, today)
+                projects_list = Project.objects.filter(**q).order_by('-publish_date')
+        else:
+            if when != 9999 : 
+                q['likes__publish_date__range'] = (start_date, today)
+            projects_list = Project.objects.annotate(num_like=Count('likes')).filter(**q).order_by('-num_like')
+
+        #order_by
+
+        # response = JSONResponse(q, {}, response_mimetype(request))
         # response['Content-Disposition'] = 'inline; filename=files.json'
         # return response
         return projects(request, projects_list)
@@ -76,7 +122,7 @@ def get_project(request, slug):
     project = Project.objects.get(slug=slug)
 
     # get all tags for project
-    categoriesList = project.categories.get_query_set()
+    categoriesList = CategoryTaggedItem.objects.filter(content_object=project.id)
     skillsList = project.skills.get_query_set()
     tagsList = project.tags.get_query_set()
     equipementsList = project.equipments.get_query_set()
@@ -113,10 +159,44 @@ def get_locations(request):
             raise
         locations = Project.objects.filter(location__startswith=q).values_list('location', flat=True)
 
-    choices = [{"name": l, "value": l} for l in locations]
+    choices = [{"name": l, "value": l} for l in set(locations)]
     response = JSONResponse(choices, {}, response_mimetype(request))
     response['Content-Disposition'] = 'inline; filename=files.json'
     return response
+
+def get_tags(request):
+    q = ""
+    if 'q' in request.GET:
+        q = request.GET["q"]
+    else:
+        raise
+    tags = CommonTag.objects.filter(name__startswith=q).values_list('name', flat=True)
+
+    choices = [{"name": l, "value": l} for l in tags]
+    response = JSONResponse(choices, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response
+
+
+def get_list(request, tag):
+    q = ""
+    if tag == 'skills':
+        objectKind = SkillsTag
+    elif tag == 'tags':
+        objectKind = CommonTag
+
+    if 'q' in request.GET:
+        q = request.GET["q"]
+    else:
+        raise
+    tags = objectKind.objects.filter(name__startswith=q).values_list('name', flat=True)
+
+    choices = [{"name": l, "value": l} for l in tags]
+    response = JSONResponse(choices, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response
+
+
 
 def get_my_profile(request):
     app = Applicant.objects.get(user_id=request.user.id)
@@ -474,30 +554,36 @@ def response_mimetype(request):
 def add_comment(request):
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
 
-    if request.method == 'POST':
+    try:
+        if request.method == 'POST':
 
-        form = CommentForm(request.POST)
+            form = CommentForm(request.POST)
 
-        if form.is_valid():
-            cd = form.cleaned_data
-            data = cd
-            project = Project.objects.get(id=request.POST['project_id'])
-            Comment.objects.create(project=project, profile=applicant, content=cd['content'])
+            if form.is_valid():
+                cd = form.cleaned_data
+                data = cd
+                project = Project.objects.get(id=int(request.POST['project_id']))
+                Comment.objects.create(project=project, profile=applicant, content=cd['content'])
 
-            data = [{
-                'name': applicant.name,
-                'content': cd['content'],
-                'avatar_url': '',
-                'delete_url': '',
-                'delete_type': "DELETE"
-            }]
+                data = [{
+                    'name': applicant.name,
+                    'content': cd['content'],
+                    'avatar_url': '',
+                    'delete_url': '',
+                    'delete_type': "DELETE"
+                }]
+            else:
+                data = request.POST
         else:
-            data = request.POST
-    else:
-        data = 'False1'
+            data = 'False1'
 
-    if request.is_ajax():
-        response = JSONResponse(data, {}, response_mimetype(request))
+        if request.is_ajax():
+            response = JSONResponse(data, {}, response_mimetype(request))
+            response['Content-Disposition'] = 'inline; filename=files.json'
+            return response
+
+    except Project.DoesNotExist:
+        response = JSONResponse(request, {}, response_mimetype(request))
         response['Content-Disposition'] = 'inline; filename=files.json'
         return response
 

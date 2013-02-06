@@ -3,6 +3,7 @@ from core import views
 
 urlpatterns = patterns('',
     url(r'^projects/$', views.projects_all),
+    url(r'^project/comment/new/$', views.add_comment, {}, 'comment-new'),
     url(r'^projects/search/$', views.search_projects2),
     url(r'^project/add/$', views.add_project),
     url(r'^project/add/image/$', views.add_project_image),
@@ -11,13 +12,15 @@ urlpatterns = patterns('',
     url(r'^project/add/image/delete/(?P<pk>\d+)$', views.ImageProjectDeleteView.as_view(), {}, 'upload-delete'),
     url(r'^project/remove/(?P<pk>\d+)$', views.remove_project),
     url(r'^locations/list/$', views.get_locations),
+    url(r'^tags/list/$', views.get_tags),
+    url(r'^skills/list/$', views.get_tags),
+    url(r'^list/(?P<tag>[^\.]+)/$', views.get_list),
 
 
     url(r'^comment/delete/(?P<pk>\d+)$', views.delete_comment, {}, 'comment-delete'),
 
     url(r'^project/(?P<slug>[^\.]+)/$', views.get_project, name="project_view"),
     url(r'^project/like/(?P<pk>\d+)$', views.like),
-    url(r'^project/comment/new/$', views.add_comment, {}, 'comment-new'),
 
 
     url(r'^offers/$', views.offers),
@@ -25,7 +28,7 @@ urlpatterns = patterns('',
     url(r'^offer/posted_offers/$', views.posted_offers),
     url(r'^offer/(?P<slug>[^\.]+)/$', views.get_offer, name="offer_view"),
     url(r'^offer/apply/(?P<pk>\d+)$', views.apply_offer),
-    
+
 
     url(r'^profile/follow/(?P<pk>\d+)/$', views.follow),
     url(r'^profile/unfollow/(?P<pk>\d+)/$', views.unfollow),
