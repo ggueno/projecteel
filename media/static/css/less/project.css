@@ -1,0 +1,123 @@
+#project h4.subline {
+  font-size: 14px;
+  color: #787878;
+  padding: 10px 20px;
+}
+#project h4.subline span {
+  float: right;
+}
+#project p {
+  line-height: 1.5em;
+}
+#project .postComment,
+#project .numberComments {
+  padding: 0 0 0 35px;
+}
+#project .projectComments {
+  padding: 0 20px;
+}
+#project .projectComments input[type=submit] {
+  margin-top: 15px;
+}
+#project .commentList p {
+  padding: 0;
+}
+p.location {
+  padding-bottom: 5px;
+}
+.project-header {
+  color: white;
+  background: #3a3a3a;
+  height: 42px;
+  margin-top: 0;
+}
+.project-header .project-title {
+  margin: 0;
+  float: left;
+}
+.project-header .project-stats {
+  list-style-type: none;
+  padding: 5px 0px;
+}
+.project-header .project-stats li {
+  float: left;
+  width: 49%;
+  text-align: center;
+  line-height: 1.1;
+  font-size: .8em;
+  border-right: 1px solid #757575;
+}
+.project-header .project-stats li:last-child {
+  border: none;
+}
+.project-header .project-stats li span {
+  display: block;
+  font-size: 1.7em;
+}
+.image-title {
+  padding-bottom: 0;
+  text-align: center;
+  font-size: 1em;
+  font-weight: 600;
+}
+img.project-content {
+  display: block;
+  margin: 0 auto;
+}
+#project-author .applicant-mini {
+  overflow: hidden;
+  padding: 30px 4%;
+  text-align: center;
+}
+#project-author .applicant-mini img#profile_pic {
+  margin: 0 auto 10px auto;
+  -webkit-border-radius: 40px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 40px;
+  -moz-background-clip: padding;
+  border-radius: 40px;
+  background-clip: padding-box;
+}
+#project-author .applicant-mini span.profession {
+  display: block;
+  color: #777777;
+  font-style: italic;
+  margin-bottom: 15px;
+}
+#project-author .applicant-mini a.PTbutton {
+  margin: 0 3px;
+}
+#project-author .applicant-mini a.PTbutton:hover {
+  background: #007ab8;
+  color: #FFF;
+}
+#project-author .applicant-mini h3 {
+  text-transform: uppercase;
+  font-weight: 400;
+  padding: 5px;
+}
+#project-author .participants {
+  background: #f6f6f6;
+  padding: 18px;
+  overflow: visible;
+}
+#project-author .participants span {
+  color: #777777;
+  margin-right: 10px;
+}
+#project-author .participants img {
+  -webkit-border-radius: 30px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 30px;
+  -moz-background-clip: padding;
+  border-radius: 30px;
+  background-clip: padding-box;
+  border: 3px solid #FFF;
+  margin: 0 3px;
+}
+#project-author h4 {
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 1.2em;
+  padding: 20px 20px 5px 20px;
+}
