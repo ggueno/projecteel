@@ -3,6 +3,7 @@ from core import views
 
 urlpatterns = patterns('',
     url(r'^projects/$', views.projects_all),
+    url(r'^project/comment/new/$', views.add_comment, {}, 'comment-new'),
     url(r'^projects/search/$', views.search_projects2),
     url(r'^project/add/$', views.add_project),
     url(r'^project/add/image/$', views.add_project_image),
@@ -20,7 +21,6 @@ urlpatterns = patterns('',
 
     url(r'^project/(?P<slug>[^\.]+)/$', views.get_project, name="project_view"),
     url(r'^project/like/(?P<pk>\d+)$', views.like),
-    url(r'^project/comment/new/$', views.add_comment, {}, 'comment-new'),
 
 
     url(r'^offers/$', views.offers),
