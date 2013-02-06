@@ -1040,9 +1040,6 @@ header.menu #menu a:hover {
   -ms-transition: background .3s ease;
   transition: background .3s ease;
 }
-.PTform .fileupload-buttonbar i.icon {
-  margin-left: -10px;
-}
 .PTform .fileupload-buttonbar .fileinput-button {
   margin: 0 5px 0 0;
 }
@@ -1099,6 +1096,9 @@ header.menu #menu a:hover {
   background: #047dba;
   color: #FFF;
 }
+.PTform .PTbutton i.icon {
+  margin-left: -10px;
+}
 .PTform .sublabel {
   color: #777777;
   font-size: .9em;
@@ -1110,6 +1110,27 @@ header.menu #menu a:hover {
   float: left;
   width: 87%;
   border-color: #e2e2e2;
+}
+.PTform .footer {
+  border-top: 1px solid #e2e2e2;
+  padding-top: 10px;
+  color: #777777;
+}
+.PTform div.dk_container {
+  float: none;
+  display: block;
+  margin: 0;
+  width: 100%;
+}
+.PTform div.dk_container div {
+  margin: 0;
+}
+.PTform div.dk_container .dk_toggle {
+  width: 445px;
+  margin: 0;
+  height: 33px;
+  line-height: 33px;
+  padding: 7px 45px 7px 10px;
 }
 .add_project .content {
   padding: 40px 60px;
@@ -1157,6 +1178,121 @@ header.menu #menu a:hover {
   font-size: 12pt;
   font-style: normal;
   border-radius: 10em;
+}
+.add_project #upload_files_container .template-upload,
+.add_project #upload_files_container .template-download {
+  overflow: auto;
+  border: 1px solid #dedede;
+  border-bottom: none;
+  margin: 10px 0;
+  padding: 10px;
+  position: relative;
+}
+.add_project #upload_files_container .template-upload div,
+.add_project #upload_files_container .template-download div {
+  margin: 5px 0;
+}
+.add_project #upload_files_container .template-upload .preview,
+.add_project #upload_files_container .template-download .preview {
+  float: left;
+  width: 20%;
+}
+.add_project #upload_files_container .template-upload .infos,
+.add_project #upload_files_container .template-download .infos {
+  float: left;
+  width: 42%;
+  color: #a0a0a0;
+  font-size: .9em;
+}
+.add_project #upload_files_container .template-upload .infos span,
+.add_project #upload_files_container .template-download .infos span {
+  display: block;
+}
+.add_project #upload_files_container .template-upload .infos span.size,
+.add_project #upload_files_container .template-download .infos span.size {
+  font-style: italic;
+}
+.add_project #upload_files_container .template-upload div.start,
+.add_project #upload_files_container .template-download div.start,
+.add_project #upload_files_container .template-upload div.cancel,
+.add_project #upload_files_container .template-download div.cancel,
+.add_project #upload_files_container .template-upload div.delete,
+.add_project #upload_files_container .template-download div.delete {
+  float: left;
+  width: 85px;
+}
+.add_project #upload_files_container .template-upload div.start .PTbutton,
+.add_project #upload_files_container .template-download div.start .PTbutton,
+.add_project #upload_files_container .template-upload div.cancel .PTbutton,
+.add_project #upload_files_container .template-download div.cancel .PTbutton,
+.add_project #upload_files_container .template-upload div.delete .PTbutton,
+.add_project #upload_files_container .template-download div.delete .PTbutton {
+  padding: 0;
+  height: 24px;
+  width: 80px;
+  text-transform: none;
+  margin: 5px 0;
+}
+.add_project #upload_files_container .template-upload div.start .PTbutton.cancel,
+.add_project #upload_files_container .template-download div.start .PTbutton.cancel,
+.add_project #upload_files_container .template-upload div.cancel .PTbutton.cancel,
+.add_project #upload_files_container .template-download div.cancel .PTbutton.cancel,
+.add_project #upload_files_container .template-upload div.delete .PTbutton.cancel,
+.add_project #upload_files_container .template-download div.delete .PTbutton.cancel {
+  background: #bfbfbf;
+  border-bottom-color: #9e9e9e;
+}
+.add_project #upload_files_container .template-upload div.start .PTbutton.cancel:hover,
+.add_project #upload_files_container .template-download div.start .PTbutton.cancel:hover,
+.add_project #upload_files_container .template-upload div.cancel .PTbutton.cancel:hover,
+.add_project #upload_files_container .template-download div.cancel .PTbutton.cancel:hover,
+.add_project #upload_files_container .template-upload div.delete .PTbutton.cancel:hover,
+.add_project #upload_files_container .template-download div.delete .PTbutton.cancel:hover {
+  background: #9e9e9e;
+}
+.add_project #upload_files_container .template-upload div.start .PTbutton.delete,
+.add_project #upload_files_container .template-download div.start .PTbutton.delete,
+.add_project #upload_files_container .template-upload div.cancel .PTbutton.delete,
+.add_project #upload_files_container .template-download div.cancel .PTbutton.delete,
+.add_project #upload_files_container .template-upload div.delete .PTbutton.delete,
+.add_project #upload_files_container .template-download div.delete .PTbutton.delete {
+  background: #ef5555;
+  border-bottom-color: #c63838;
+}
+.add_project #upload_files_container .template-upload div.start .PTbutton.delete:hover,
+.add_project #upload_files_container .template-download div.start .PTbutton.delete:hover,
+.add_project #upload_files_container .template-upload div.cancel .PTbutton.delete:hover,
+.add_project #upload_files_container .template-download div.cancel .PTbutton.delete:hover,
+.add_project #upload_files_container .template-upload div.delete .PTbutton.delete:hover,
+.add_project #upload_files_container .template-download div.delete .PTbutton.delete:hover {
+  background: #c63838;
+}
+.add_project #upload_files_container .template-upload .progress,
+.add_project #upload_files_container .template-download .progress {
+  height: 1px;
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  background: #dedede;
+}
+.add_project #upload_files_container .template-upload .progress .bar,
+.add_project #upload_files_container .template-download .progress .bar {
+  position: absolute;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  height: 1px;
+  background: #0099e6;
+}
+.add_project #upload_files_container .template-download {
+  border: 1px solid #dedede;
+}
+.add_project #upload_files_container .template-download .infos {
+  width: 60%;
+}
+.add_project #upload_files_container .error {
+  color: #ef5555;
 }
 /*
    O F F E R S

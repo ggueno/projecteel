@@ -93,19 +93,43 @@
                                 <div class="fileupload-loading"></div>
                                 <br>
                                 <!-- The table listing the files available for upload/download -->
-                                <table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
+                                <ul id="upload_files_container">
+                                </ul>
+
+                                <div class="footer">
+                                    <div class="twocol">Etape 1 sur 2</div>
+                                    <button class="PTbutton next">Etape suivante</button>
+                                </div>
 
 
                             </section> <!-- END TAB -->
 
                             <section id="etape2">
                                 <!-- Vidéo & Image -->
-                                <div>{{ form.images.label }} {{ form.images }}</div>
-                                <div>{{form.participant.label}}{{ form.participant }}</div>
-                                <div>{{form.cadre.label}} {{ form.cadre }}</div>
-                                <div>{{form.state.label}} {{ form.state }}</div>
-                                <div>{{form.period.label}} {{ form.period }}</div>
-                                <div>{{form.location.label}} {{ form.location }}</div>
+                                <div>
+                                    <label for="">{{ form.images.label }}</label>
+                                    {{ form.images }}
+                                </div>
+                                <div>
+                                    <label for="">{{form.participant.label}}</label>
+                                    {{ form.participant }}
+                                </div>
+                                <div>
+                                    <label for="">{{form.cadre.label}}</label>
+                                    {{ form.cadre }}
+                                </div>
+                                <div>
+                                    <label for="">{{form.state.label}}</label>
+                                    {{ form.state }}
+                                </div>
+                                <div>
+                                    <label for="">{{form.period.label}}</label>
+                                    {{ form.period }}
+                                </div>
+                                <div>
+                                    <label for="">{{form.location.label}}</label>
+                                    {{ form.location }}
+                                </div>
 
                                 {{form.tags.label}} {{ form.tags }}
                                 {{form.equipments.label}} {{ form.equipments }}
@@ -139,24 +163,30 @@
 
             });
           return false;
-    });
+        });
 
-    $('#add_video').click(function(){
-        var plop = $(".embeds").children("textarea:last");
-        plop.after(plop.clone(true));
-    });
+        $('#add_video').click(function(){
+            var plop = $(".embeds").children("textarea:last");
+            plop.after(plop.clone(true));
+        });
+
+        //bind step1 button to trigger tab menu click
+        $(".next").on('click',function(e){
+            e.preventDefault();
+            $("ul.tabs a[href=#etape2]").click();
+        });
+
+        $('.PTform select').dropkick();
 
     });
 </script>
-{% upload_js %}
-
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.ui.widget.js"></script>
 <script src="{{ STATIC_URL }}js/tmpl.min.js"></script>
 <script src="{{ STATIC_URL }}js/load-image.min.js"></script>
 <script src="{{ STATIC_URL }}js/canvas-to-blob.min.js"></script>
-<script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-<script src="{{ STATIC_URL }}js/bootstrap-image-gallery.min.js"></script>
+{# <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/bootstrap-image-gallery.min.js"></script> #}
 <script src="{{ STATIC_URL }}js/jquery.iframe-transport.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.fileupload.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.fileupload-fp.js"></script>
