@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from autoslug import AutoSlugField
-from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
+from taggit.models import (TaggedItemBase, GenericTaggedItemBase, ItemBase, TaggedItem,
     TagBase, Tag)
 from taggit_autosuggest.managers import TaggableManager
 from sorl.thumbnail import get_thumbnail, fields
@@ -134,8 +134,9 @@ class CommonTag(TagBase):
     pass
 
 
-class CommonTaggedItem(GenericTaggedItemBase):
+class CommonTaggedItem(ItemBase):
     tag = models.ForeignKey(CommonTag, related_name="common")
+    content_object = models.ForeignKey('Project')
 
 
 class CategoryOffer(models.Model):
@@ -164,7 +165,7 @@ class Offer(models.Model):
     salary = models.IntegerField(blank=True, null=True)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     content = models.TextField()
-    tags = TaggableManager(verbose_name="CommonTag", through=CommonTaggedItem, blank=True)
+    #tags = TaggableManager(verbose_name="CommonTag", through=CommonTaggedItem, blank=True)
     reference = models.CharField(max_length=30, blank=True, null=True)
     category = models.ManyToManyField(CategoryOffer, blank=True, null=True)
 
