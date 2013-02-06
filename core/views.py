@@ -59,6 +59,9 @@ def search_projects2(request):
         if 'location[]' in request.GET:
             q["location__in"] = request.GET.getlist('location[]')
 
+        if 'tags[]' in request.GET:
+            q["tags__name__in"] = request.GET.getlist('tags[]')
+
         q['published'] = True
 
         projects_list = Project.objects.filter(**q)
@@ -117,6 +120,21 @@ def get_locations(request):
     response = JSONResponse(choices, {}, response_mimetype(request))
     response['Content-Disposition'] = 'inline; filename=files.json'
     return response
+
+def get_tags(request):
+    q = ""
+    if 'q' in request.GET:
+        q = request.GET["q"]
+    else:
+        raise
+    tags = CommonTag.objects.filter(name__startswith=q).values_list('name', flat=True)
+
+    choices = [{"name": l, "value": l} for l in tags]
+    response = JSONResponse(choices, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response
+
+
 
 def get_my_profile(request):
     app = Applicant.objects.get(user_id=request.user.id)
