@@ -138,6 +138,17 @@ class CommonTaggedItem(ItemBase):
     tag = models.ForeignKey(CommonTag, related_name="common")
     content_object = models.ForeignKey('Project')
 
+    # Appears one must copy this class method that appears in both TaggedItemBase and GenericTaggedItemBase
+    @classmethod
+    def tags_for(cls, model, instance=None):
+        if instance is not None:
+            return cls.tag_model().objects.filter(**{
+                '%s__content_object' % cls.tag_relname(): instance
+            })
+        return cls.tag_model().objects.filter(**{
+            '%s__content_object__isnull' % cls.tag_relname(): False
+        }).distinct()
+
 
 class CategoryOffer(models.Model):
     name = models.CharField(max_length=100)
@@ -224,8 +235,19 @@ class CategoryTag(TagBase):
         verbose_name_plural = "CategoryTags"
 
 
-class CategoryTaggedItem(GenericTaggedItemBase):
+class CategoryTaggedItem(ItemBase):
     tag = models.ForeignKey(CategoryTag, related_name="categories")
+    content_object = models.ForeignKey('Project')
+
+    @classmethod
+    def tags_for(cls, model, instance=None):
+        if instance is not None:
+            return cls.tag_model().objects.filter(**{
+                '%s__content_object' % cls.tag_relname(): instance
+            })
+        return cls.tag_model().objects.filter(**{
+            '%s__content_object__isnull' % cls.tag_relname(): False
+        }).distinct()
 
 
 class EquipmentTag(TagBase):
@@ -258,7 +280,7 @@ class Project(models.Model):
 
     title = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='title', unique=True, always_update=True)
-    publish_date = models.DateField(auto_now=True, auto_now_add=True)
+    publish_date = models.DateField(auto_now_add=True)
     published = models.BooleanField(default=True)
     content = models.TextField()
     #TO DO : Multiple list
@@ -287,7 +309,7 @@ class Project(models.Model):
 
 
 class Comment(models.Model):
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey(Project, related_name="comments")
     profile = models.ForeignKey(Profile)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     content = models.TextField(validators=[MaxLengthValidator(500)])

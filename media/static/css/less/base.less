@@ -988,9 +988,6 @@ header.menu{
             font-weight: bold;
             .transition(~"background .3s ease");
         }
-        i.icon{
-            margin-left: -10px;
-        }
         .fileinput-button{
             margin: 0 5px 0 0;
         }
@@ -1047,6 +1044,9 @@ header.menu{
             background:#047dba;
             color:#FFF;
         }
+        i.icon{
+            margin-left: -10px;
+        }
     }
     .sublabel{
         color: #777777;
@@ -1059,6 +1059,27 @@ header.menu{
         float: left;
         width: 87%;
         border-color: #e2e2e2;
+    }
+    .footer{
+        border-top: 1px solid #e2e2e2;
+        padding-top: 10px;
+        color: #777777;
+    }
+    div.dk_container {
+        float: none;
+        display: block;
+        margin: 0;
+        width: 100%;
+        div{
+            margin: 0;
+        }
+        .dk_toggle{
+            width: 445px;
+            margin: 0;
+            height: 33px;
+            line-height: 33px;
+            padding: 7px 45px 7px 10px;
+        }
     }
 }
 
@@ -1110,7 +1131,88 @@ header.menu{
             }
         }
     }
+    #upload_files_container{
+        .template-upload, .template-download{
+            overflow: auto;
+            border: 1px solid #dedede;
+            border-bottom: none;
+            margin: 10px 0;
+            padding: 10px;
+            position: relative;
+            div{
+                margin: 5px 0;
+            }
+            .preview{
+                float: left;
+                width: 20%;
+            }
+            .infos{
+                float: left;
+                width:42%;
+                color: #a0a0a0;
+                font-size: .9em;
+                span{
+                    display: block;
+                    &.size{
+                        font-style: italic;
+                    }
+                }
+            }
+            div.start, div.cancel, div.delete{
+                float: left;
+                width: 85px;
+                .PTbutton{
+                    padding: 0;
+                    height: 24px;
+                    width: 80px;
+                    text-transform: none;
+                    margin: 5px 0;
+                    &.cancel{
+                        background: #bfbfbf;
+                        border-bottom-color: #9e9e9e;
+                        &:hover{
+                            background: #9e9e9e;
+                        }
+                    }
+                    &.delete{
+                        background: #ef5555;
+                        border-bottom-color: #c63838;
+                        &:hover{
+                            background: #c63838;
+                        }
+                    }
+                }
+            }
+            .progress{
+                height: 1px;
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                width: 100%;
+                background: #dedede;
+                .bar{
+                    position: absolute;
+                    top: 0;
+                    margin: 0;
+                    padding: 0;
+                    height: 1px;
+                    background: @PTblue;
+                }
+            }
+        }
+        .template-download{
+            border: 1px solid #dedede;
+            .infos{
+                width: 60%;
+            }
+        }
+        .error{
+            color: #ef5555;
+        }
+    }
 }
+
+
 
 /*
    O F F E R S
