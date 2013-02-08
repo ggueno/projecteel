@@ -82,7 +82,7 @@ def search_projects2(request):
             if request.GET['categories'] != 'all':
                 q['categories__name__in'] = [request.GET['categories']]
 
-        if 'when' in request.GET and request.GET['when']!=0:
+        if 'when' in request.GET and int(request.GET['when']) != 0:
             when = int(request.GET['when'])
         else:
             #first day for a project
@@ -90,7 +90,7 @@ def search_projects2(request):
 
         #check if when is a number
         today = datetime.now()
-        start_date = datetime.now() - timedelta(days=when)
+        start_date = datetime.now() - timedelta(days=7)
 
         if 'filter' in request.GET and request.GET['filter'] != 'pushs':
             if request.GET['filter'] == 'comments':
@@ -107,7 +107,6 @@ def search_projects2(request):
                 q['likes__publish_date__range'] = (start_date, today)
             projects_list = Project.objects.annotate(num_like=Count('likes')).filter(**q).order_by('-num_like')
 
-        #order_by
 
         # response = JSONResponse(q, {}, response_mimetype(request))
         # response['Content-Disposition'] = 'inline; filename=files.json'
