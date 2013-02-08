@@ -144,7 +144,7 @@ def get_project(request, slug):
         'user': get_my_self(request),
         'comment_form': comment_form,
         'comments': comments,
-        'push' : push
+        'status' : push
     }
     return render(request, 'project/show_project.html', context)
 
@@ -270,7 +270,8 @@ def like(request, pk):
     profile = Profile.objects.filter(user_id=request.user.id)[0]
     if Like.objects.filter(project=project).filter(profile=profile).count() == 0:
         Like.objects.create(profile=profile, project_id=pk)
-    return get_project(request, project.slug)
+    likes = Like.objects.filter(project=project).count()
+    return HttpResponse(likes)
 
 
 @login_required
@@ -363,7 +364,10 @@ def apply_offer(request, pk):
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
     if ApplicantOffer.objects.filter(offer=offer).filter(applicant=applicant).count() == 0:
         ApplicantOffer.objects.create(applicant=applicant, offer_id=pk)
-    return get_offer(request, offer.slug)
+        msg = "applied"
+    else:
+        msg = ""
+    return HttpResponse(msg)
 
 
 @login_required

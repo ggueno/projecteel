@@ -10,17 +10,16 @@
     <section class="ninecol" id="project">
         <div class="sleekbox">
 
-            <form action="/project/like/{{project.id}}" class="push" method="get">
+            <form action="/project/like/{{project.id}}" class="push" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <h4 class="count-likes">{{project.likes.count}} push</h4>
-                <input class="{{push}}" type="submit" value="push">
+                <button id="btn-push" class="{{status}} PTbutton" name='submit' type="submit" value="push">Push</button>
             </form>
 
             <div class="row project-header">
                 <h1 class="project-title blackTitle">{{ project.title }}</h1>
                 <ul class="project-stats twocol last">
                     <li><span>2316</span>vues</li>
-                    <li><span>26</span>pushs</li>
+                    <li><span class="count-likes">{{project.likes.count}}</span>pushs</li>
                 </ul>
             </div>
 
@@ -166,13 +165,30 @@
 
     <script type="text/javascript">
 
-        $().ready(function(){
-
-            $(".push").click(function() {
-                //$(".push").addClass("pushed");
+        $(document).ready(function(){
+    
+        $(".push").submit( function() {
+            event.preventDefault();
+            var urlSubmit = $(this).attr('action');
+            $.ajax({  
+                type: "POST",
+                url: urlSubmit,
+                success: function(data) {
+                    if ($("#btn-push").hasClass('unpushed'))
+                    {
+                        $("#btn-push").text('PUSHED');
+                        $("#btn-push").toggleClass('unpushed pushed');
+                        $(".count-likes").text(data);
+                    }
+                }
             });
+            return false;
         });
 
+        if ($("#btn-push").hasClass('pushed'))
+            $("#btn-push").text('PUSHED');
+    
+    });
     </script>
 
 {% endblock %}

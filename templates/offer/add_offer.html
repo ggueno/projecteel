@@ -32,8 +32,13 @@
     $().ready(function(){
 
         $('#add-offer').submit(function() {
-            var content = $("#id_content").html();
-            alert(content);            
+
+            /*var tmp = document.createElement("p");
+            tmp.innerHTML = $("#id_content");
+            $("#id_content") = tmp.textContent||tmp.innerText;
+
+            //var content = $("#id_content").html();*/
+            //alert($("#id_content").text());            
         });
 
     });
