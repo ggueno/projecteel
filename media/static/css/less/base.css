@@ -965,9 +965,17 @@ header.menu #menu a:hover {
   position: relative;
 }
 .PTform .file-wrap input[type=file] {
-  visibility: hidden;
-  text-indent: -9999px;
+  left: 0;
+  top: 28px;
+  display: block;
+  width: 100%;
+  height: 48px;
+  z-index: 10;
   position: absolute;
+  filter: alpha(opacity=1);
+  -moz-opacity: 0.01;
+  opacity: 0.01;
+  cursor: pointer;
 }
 .PTform .file-wrap input[type=text] {
   width: 70%;
@@ -999,6 +1007,9 @@ header.menu #menu a:hover {
   right: 0;
 }
 .PTform .file-wrap button:hover {
+  background: #047dba;
+}
+.PTform .file-wrap:hover button {
   background: #047dba;
 }
 .PTform .fileupload-buttonbar .PTbutton {
@@ -1293,6 +1304,9 @@ header.menu #menu a:hover {
 }
 .add_project #upload_files_container .error {
   color: #ef5555;
+}
+.add_project .embeds textarea {
+  margin-bottom: 10px;
 }
 /*
    O F F E R S

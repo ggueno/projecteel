@@ -16,7 +16,8 @@ $(function () {
     'use strict';
 
     // Initialize the jQuery File Upload widget:
-    $('#fileupload').fileupload({
+    $('#add_project').fileupload({
+            url : '/project/add/image/new/',
             paramName: 'image',
             filesContainer: $('#upload_files_container'),
             uploadTemplateId: null,
@@ -37,7 +38,7 @@ $(function () {
                                     '<div class="cancel"><button class="PTbutton cancel">Cancel</button></div>' +
                                     '<div class="progress"><div class="bar" style="width:0%;"></div></div>' +
                                 '</li>');
-                    row.find('.name').text(file.name);
+                    row.find('.name').text(file.name.substring(0,25)+'...');
                     row.find('.size').text(o.formatFileSize(file.size));
 
                     if (file.error) {
@@ -62,7 +63,7 @@ $(function () {
                                     '</div>' +
 
                                     '<div class="delete"><button class="PTbutton delete">Supprimer</button></div>' +
-                                    '<input type="checkbox" name="delete" value="1"></td></tr>' +
+                                    '<input type="checkbox" name="delete" value="1">' +
                                 '</li>');
                     row.find('.size').text(o.formatFileSize(file.size));
                     if (file.error) {

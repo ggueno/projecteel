@@ -23,7 +23,7 @@
                             <li><a href="#etape2"><i class="step-label">2</i>Etape 2</a></li>
                         </ul>
 
-                        <form action="" class="PTform" method="post" id="fileupload" action="/project/add/image/new/" enctype="multipart/form-data">
+                        <form action="" class="PTform" method="post" id="add_project" action="" >
                             {% csrf_token %}
 
                             <!-- TAB -->
@@ -35,8 +35,8 @@
                                 </div>
                                 <div class="file-wrap">
                                     <label>Vignette</label>
-                                    <input type="file" multiple>
-                                    <input type="text" autocomplete="off" disabled>
+                                    <input type="file" name="thumb" id="thumb" tabindex="-1" autocomplete="off">
+                                    <input type="text" class="file-holder" autocomplete="off">
                                     <button type="button"><i class="icon image"></i> Choisir</button>
                                     <p class="annotation">(< 1Mo, > 300x250px)</p>
                                 </div>
@@ -52,9 +52,11 @@
                                     <label for="">Médias</label>
                                     <label class="sublabel">par URL</label>
                                     <hr class="sublabel"/>
-                                    <textarea name="" id="" cols="30" rows="10"></textarea>
-                                    <button class="PTbutton"><i class="icon add"></i>Ajouter</button>
-
+                                   <div class="embeds">
+                                        <textarea name="embed" rows="10" cols="30"></textarea>
+                                    </div>
+                                    <button id="add_video" class="PTbutton" alt="Add Embed Content" /><i class="icon add"></i>Ajouter</button>
+                
                                     <label class="sublabel">par fichier</label>
                                     <hr class="sublabel"/>
                                 </div>
@@ -130,19 +132,16 @@
                                     <label for="">{{form.location.label}}</label>
                                     {{ form.location }}
                                 </div>
-
-                                {{form.tags.label}} {{ form.tags }}
-                                {{form.equipments.label}} {{ form.equipments }}
-
-
-                                <div class="embeds">
-                                    <textarea name="embed"></textarea>
+                                <div>
+                                    <label for="">{{form.tags.label}}</label>    
+                                    {{ form.tags }}
                                 </div>
 
-                                <a id="add_video" href="#" alt="Add Embed Content" />Add Embed Content</a>
-                                <input type="hidden" name="project_id" value="{{ project_id }}" >
-                                <input type="submit" value="Submit">
-
+                                <div class="footer">
+                                    <div class="twocol">Etape 2 sur 2</div>
+                                    <input type="hidden" name="project_id" value="{{ project_id }}" >
+                                    <input type="submit" class="PTbutton" value="Envoyer">
+                                </div>                         
 
                             </section>
 
@@ -165,7 +164,8 @@
           return false;
         });
 
-        $('#add_video').click(function(){
+        $('#add_video').click(function(e){
+            e.preventDefault();s
             var plop = $(".embeds").children("textarea:last");
             plop.after(plop.clone(true));
         });
@@ -176,9 +176,25 @@
             $("ul.tabs a[href=#etape2]").click();
         });
 
+        //custom dropdown
         $('.PTform select').dropkick();
+         
+        //custom input file
+        $('#thumb').bind('change focus click',fileInputs);
 
-    });
+});
+
+var fileInputs = function() {
+  var $this = $(this),
+      $val = $this.val(),
+      valArray = $val.split('\\'),
+      newVal = valArray[valArray.length-1],
+      $button = $this.siblings('button'),
+      $fakeFile = $this.siblings('.file-holder');
+      if(newVal !== '') {
+            $fakeFile.attr('value',newVal);
+      }
+};
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.ui.widget.js"></script>

@@ -10,7 +10,7 @@ class ProjectForm(forms.ModelForm):
         exclude = ('slug', 'publish_date', 'like', 'view', 'published', 'images', 'owner')
         widgets = {
             'skills': TagAutoSuggest(),
-            'participant': forms.TextInput(),
+            'participant': TagAutoSuggest(),
         }
 
 class OfferForm(forms.ModelForm):
