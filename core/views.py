@@ -520,6 +520,9 @@ def get_applicant(request, slug):
     return render(request, 'profile/profile_applicant.html', context)
 
 
+def update_applicant(request):
+    return render(request, 'profile/profile_applicant.html', context)
+
 def get_company(request, slug):
     company = Company.objects.get(slug=slug)
     #TODO : delete slug from view and template
