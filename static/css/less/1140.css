@@ -74,19 +74,22 @@ figure {
 figure img {
   width: 100%;
 }
-/* ==================================================================================================================== */
-/* ! The 1140px Grid V2 by Andy Taylor \ http://cssgrid.net \ http://www.twitter.com/andytlr \ http://www.andytlr.com   */
-/* ==================================================================================================================== */
-.container {
-  padding-left: 20px;
-  padding-right: 20px;
-}
-.row {
-  width: 100%;
-  max-width: 1140px;
-  min-width: 755px;
-  margin: 0 auto;
-  overflow: hidden;
+/**
+ * Gridpak Beta LESS
+ *
+ * Generator - http://gridpak.com/
+ * Created by @erskinedesign
+ */
+/* Reusable column setup */
+.mixin-col {
+  border: 0px solid rgba(0, 0, 0, 0);
+  float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-background-clip: padding-box !important;
+  -webkit-background-clip: padding-box !important;
+  background-clip: padding-box !important;
 }
 .onecol,
 .twocol,
@@ -99,49 +102,141 @@ figure img {
 .ninecol,
 .tencol,
 .elevencol {
-  margin-right: 3.8%;
+  border: 0px solid rgba(0, 0, 0, 0);
   float: left;
-  min-height: 1px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-background-clip: padding-box !important;
+  -webkit-background-clip: padding-box !important;
+  background-clip: padding-box !important;
 }
-.row .onecol {
-  width: 4.85%;
+.mixin-span_last {
+  margin-right: 0;
 }
-.row .twocol {
-  width: 13.45%;
-}
-.row .threecol {
-  width: 22.05%;
-}
-.row .fourcol {
-  width: 30.75%;
-}
-.row .fivecol {
-  width: 39.45%;
-}
-.row .sixcol {
-  width: 48%;
-}
-.row .sevencol {
-  width: 56.75%;
-}
-.row .eightcol {
-  width: 65.4%;
-}
-.row .ninecol {
-  width: 74.05%;
-}
-.row .tencol {
-  width: 82.7%;
-}
-.row .elevencol {
-  width: 91.35%;
-}
-.row .twelvecol {
-  width: 100%;
-  float: left;
-}
-.last {
-  margin-right: 0px;
+/* 1. 12 Column Grid 0px - Infinity 
+    ----------------------------------------------------------------------------- 
+    
+    Span 1:    6.95833333333%
+    Span 2:    15.4166666667%
+    Span 3:    23.875%
+    Span 4:    32.3333333333%
+    Span 5:    40.7916666667%
+    Span 6:    49.25%
+    Span 7:    57.7083333333%
+    Span 8:    66.1666666667%
+    Span 9:    74.625%
+    Span 10:    83.0833333333%
+    Span 11:    91.5416666667%
+    Span 12:    100%
+    
+    ----------------------------------------------------------------------------- */@media screen and (min-width: 0px) {
+  .col {
+    margin-right: 1.5%;
+    padding: 0 0%;
+  }
+  .row {
+    width: 100%;
+    max-width: 1140px;
+    min-width: 755px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  /* --- Gridpak variables ---*//*
+          Add your semantic classnames in alongside their corresponding spans here. e.g.
+          
+          .span_3,
+          .my_semantic_class_name {
+              ...
+          }
+  
+          */
+  .onecol,
+  .span_1 {
+    width: 6.958333333333333%;
+    border-left-width: 0;
+    padding: 0 0%;
+    margin-right: 1.5%;
+  }
+  .twocol,
+  .span_2 {
+    width: 15.416666666666666%;
+    border-left-width: 0;
+    padding: 0 0%;
+    margin-right: 1.5%;
+  }
+  .threecol,
+  .span_3 {
+    width: 23.875%;
+    border-left-width: 0;
+    padding: 0 0%;
+    margin-right: 1.5%;
+  }
+  .fourcol,
+  .span_4 {
+    width: 32.33333333333333%;
+    border-left-width: 0;
+    padding: 0 0%;
+    margin-right: 1.5%;
+  }
+  .fivecol,
+  .span_5 {
+    width: 40.791666666666664%;
+    border-left-width: 0;
+    padding: 0 0%;
+    margin-right: 1.5%;
+  }
+  .sixcol,
+  .span_6 {
+    width: 49.25%;
+    border-left-width: 0;
+    padding: 0 0%;
+    margin-right: 1.5%;
+  }
+  .sevencol,
+  .span_7 {
+    width: 57.70833333333333%;
+    border-left-width: 0;
+    padding: 0 0%;
+    margin-right: 1.5%;
+  }
+  .eightcol,
+  .span_8 {
+    width: 66.16666666666666%;
+    border-left-width: 0;
+    padding: 0 0%;
+    margin-right: 1.5%;
+  }
+  .ninecol,
+  .span_9 {
+    width: 74.625%;
+    border-left-width: 0;
+    padding: 0 0%;
+    margin-right: 1.5%;
+  }
+  .tencol,
+  .span_10 {
+    width: 83.08333333333333%;
+    border-left-width: 0;
+    padding: 0 0%;
+    margin-right: 1.5%;
+  }
+  .evelencol,
+  .span_11 {
+    width: 91.54166666666666%;
+    border-left-width: 0;
+    padding: 0 0%;
+    margin-right: 1.5%;
+  }
+  .twelvecol,
+  .span_12 {
+    margin-right: 0;
+    width: 100%;
+  }
+  .row .col:last-child,
+  .last {
+    margin-right: 0;
+  }
 }
 img,
 object,

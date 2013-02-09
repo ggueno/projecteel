@@ -1,6 +1,7 @@
 {% extends "layout/base.html" %}
 {% load staticfiles %}
 
+
 {% block title %} Projects {% endblock %}
 {% block content %}
 
@@ -13,21 +14,21 @@
             <div class="sleekbox">
                 <h4>Affiner ma recherche</h4>
 
-                <select id="search-categories" name="search-categories">
+                <select class="search-field" id="search-categories" name="search-categories">
                     <option value="all">Tous les catégories</option>
                     {% for categorie in categories %}
                     <option value="{{categorie.slug}}">{{categorie.name}}</option>
                     {% endfor %}
                 </select>
 
-                <select id="search-filter" name="search-filter">
+                <select class="search-field" id="search-filter" name="search-filter">
                     <option value="pushs">Les plus pushés</option>
                     <!-- <option value="views">Les plus vues</option> -->
                     <option value="comments">Les plus commentés</option>
                     <option value="recents">Les plus récents</option>
                 </select>
 
-                <select id="search-when" name="search-when">
+                <select class="search-field" id="search-when" name="search-when">
                     <option value="1">Aujourd'hui</option>
                     <option value="7">Cette semaine</option>
                     <option value="30">Ce mois</option>
@@ -37,14 +38,14 @@
 
 
                 <p>Mots-clés</p>
-                <input type="text" id="search-tags" name="keywords-sorting">
+                <input class="search-field autocomplete" id="search-tags" type="text" name="keywords-sorting">
                 <p>Localisation</p>
-                <input class="search-field" id="search-location" type="text" name="location">
+                <input class="search-field autocomplete" id="search-location" type="text" name="location">
                 <p>Compétences</p>
-                <input type="text" id="search-skills">
+                <input class="search-field autocomplete" type="text" id="search-skills">
                 <p>Durée</p>
-                <input type="text" id="search-durationmin">
-                <input type="text" id="search-durationmax">
+                <input class="search-field range" type="text" id="search-durationmin">
+                <input class="search-field range" type="text" id="search-durationmax">
             </div>
         </div>
 
@@ -85,62 +86,53 @@
                 //foreach search-field
                 var that = this;
 
-                $('#search-categories').change(function(){
-                    that.addToSearch('categories', $(this).val(), true)
-                    return false;
-                });
+                // Parcourir le DOM pour trouver des champs
+                $('.search-field').each(function(index){
+                    var title = $(this).attr('id').replace('search-','');
+                    if( $(this).hasClass('autocomplete') ){
 
-                $('#search-when').change(function(){
-                    that.addToSearch('when', $(this).val(), true)
-                    return false;
-                });
+                        $(this).autoSuggest("/list/"+title+"/",
+                        {
+                            minChars: 2,
+                            matchCase: false,
+                            startText: title,
+                            resultClick: function(elem){ that.addToSearch(title, elem.attributes.name, false); return elem;  },
+                            selectionAdded: function(elem){ return elem;},
+                            selectionRemoved: function(elem){
+                                var id = $(elem).parent().attr('id').replace('as-selections-','');
+                                console.log($("#as-input-"+id).attr('name'));
+                                that.removeFromSearch(title, $(elem).data('value'));
+                                $(elem).remove();
+                            }
+                        });
+                        that.search_datas[title] = new Array();
+                    }
 
-                $('#search-filter').change(function(){
-                    that.addToSearch('filter', $(this).val(), true)
-                    return false;
-                });
+                    else if( $(this).is('select') ){
+                        $('#search-'+title).change(function(){
+                            that.addToSearch(title, $(this).val(), true)
+                            return false;
+                        });
 
-                $("#search-location").autoSuggest("/locations/list/",
-                {
-                    minChars: 2,
-                    matchCase: true,
-                    resultClick: function(elem){ that.addToSearch("location", elem.attributes.name, false); return elem;  },
-                    selectionAdded: function(elem){ return elem;},
-                    selectionRemoved: function(elem){
-                        var id = $(elem).parent().attr('id').replace('as-selections-','');
+                        that.search_datas[title] = $(this).val();
+                    }
 
-                        that.removeFromSearch($("#as-input-"+id).attr('name'), $(elem).data('value'));
-                        $(elem).remove();
+                    else if( $(this).is('input') ){
+                        $(this).keypress(function(e) {
+                            if(e.which == 13) {
+                                that.addToSearch(title,$(this).val(), true);
+                                return false;
+                            }
+                        });
+
+
+
+                        that.search_datas[title] = new Array();
                     }
                 });
 
-                $("#search-skills").autoSuggest("/list/skills/",
-                {
-                    minChars: 2,
-                    matchCase: true,
-                    resultClick: function(elem){ that.addToSearch("skills", elem.attributes.name, false); return elem;  },
-                    selectionAdded: function(elem){ return elem;},
-                    selectionRemoved: function(elem){
-                        var id = $(elem).parent().attr('id').replace('as-selections-','');
 
-                        that.removeFromSearch($("#as-input-"+id).attr('name'), $(elem).data('value'));
-                        $(elem).remove();
-                    }
-                });
 
-                 $("#search-tags").autoSuggest("/tags/list/",
-                {
-                    minChars: 2,
-                    matchCase: true,
-                    resultClick: function(elem){ that.addToSearch("tags", elem.attributes.name); return elem;  },
-                    selectionAdded: function(elem){ return elem;},
-                    selectionRemoved: function(elem){
-                        var id = $(elem).parent().attr('id').replace('as-selections-','');
-
-                        that.removeFromSearch($("#as-input-"+id).attr('name'), $(elem).data('value'));
-                        $(elem).remove();
-                    }
-                });
 
                  $('#search-durationmin').keypress(function(e){
                     if(e.which == 13){
@@ -157,27 +149,14 @@
                     }
                  });
 
-                this.search_datas['location'] = new Array();
-                this.search_datas['tags'] = new Array();
-                this.search_datas['skills'] = new Array();
-                this.search_datas['query'] = new Array();
+
+
                 this.search_datas['durationmin'] = -1;
                 this.search_datas['durationmax'] = -1;
-                this.search_datas['when'] = 0;
-                this.search_datas['filter'] = "pushs";
 
-                $('#search-query').keypress(function(e) {
-                    if(e.which == 13) {
-                        that.addToSearch('query',$(this).val());
-                        return false;
-                    }
-                });
 
-                // $('.project-search').submit(function(){ return false; });
 
-                    //If autocomplete
-
-                    //If unique
+                $('.project-search').submit(function(){ return false; });
             },
 
             addField : function () {},
@@ -197,44 +176,31 @@
                 if(unique){
                     this.search_datas[type].splice(val);
                 }else{
-                    this.search_datas[type] = -1;
+                    this.search_datas[type] = new Array();
                 }
                 this.sendSearch();
             },
 
             sendSearch : function(){
-                var array = new Array;
-                $.each(this.search_datas['location'], function(i, val){
-                    array.push(val);
-                });
 
-                var that = { 
-                    'location[]': this.search_datas['location'], 
-                    'tags[]': this.search_datas['tags'], 
-                    'skills[]': this.search_datas['skills'], 
-                    'query[]': this.search_datas['query'],
-                    'categories' : this.search_datas['categories'],
-                    'when': this.search_datas['when'],
-                    'filter': this.search_datas['filter']
-                };
-
-            
-                if(this.search_datas['durationmin'] > 0){
-                    that['durationmin'] = this.search_datas['durationmin'];;
+                var datas = new Object();
+                for(key in this.search_datas) {
+                    if(this.search_datas[key] != -1){
+                        if(this.search_datas[key] instanceof Array){
+                            datas[key+'[]'] = this.search_datas[key];
+                        }else{
+                            datas[key] = this.search_datas[key];
+                        }
+                    }
                 }
+                console.log(datas);
 
-
-                if(this.search_datas['durationmax'] > 0){
-                    that['durationmax'] = this.search_datas['durationmax'];
-                }
-
-                console.log(that);
                 $.ajax({
                     type: "GET",
                     url : this.search_url,
 
                     traditional: true,
-                    data : that,
+                    data : datas,
                     success:
                         function(result, status){
                             $('.thumb').remove();

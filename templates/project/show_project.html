@@ -1,6 +1,7 @@
 {% extends "layout/base.html" %}
 {% load thumbnail %}
 {% load staticfiles %}
+{% load projects %}
 
 
 {% block title %} Project {{ profile.slug }} {% endblock %}
@@ -27,11 +28,12 @@
                 {% comment %}
                 <div>
                     <a class="push-link" href="/project/like/{{project.id}}" alt="Push Project" />Push this project</a>
-                    <h4 class="count-likes"></h4>
                     <hr/>
                     <br/>
                 </div>{% endcomment %}
-                <h4 class="subline">Graphic Design, Motion graphics, User interface Design  <span>{{ project.publish_date }}</span></h4>
+                {% if categories %}
+                    <h4 class="subline">{% for category in categories %}<a href="/projects/search/?categories={{category.tag.slug}}">{{category.tag}}</a>{% if not forloop.last %},{%endif%} {% endfor %}<span>{{ project.publish_date }}</span></h4>
+                {% endif %}
 
                 <p class="project-content">{{ project.content }}</p>
 
@@ -57,18 +59,19 @@
                 <h3 class="numberComments">{% if commennts%}{{ comments|length }} commentaires{%else%}Pas de commentaire{%endif%}</h3>
                 <ul class="commentList">
                 {% for comment in comments %}
-                    <li>
-                        {% thumbnail comment.profile.avatar "40x40" crop="left" as avat %}
-                        <img src="{{ avat.url }}" class="profilePic" alt="">
-                        {% endthumbnail %}
-                        <span class="name">{{ comment.profile.user.last_name }} {{ comment.profile.user.first_name}}</span>
-                        <span class="commentInfo"> - {{comment.publish_date}}</span>
-                        <p>{{comment.content}}</p>
-                        {% if user.id == comment.profile.user_id %}
-                            <a class="delete-item" href="/comment/delete/{{comment.id}}">X</a>
-                        {% endif %}
-                    </li>
+                    {% comment_template comment user.id %}
                 {% endfor %}
+
+                <script id="templateComment" type="text/x-jquery-tmpl">
+                    <li>
+                        <img src="${ avatar_url }" style="width:40px;" class="profilePic" alt="">
+                        <span class="name">${ name }</span>
+                        <span class="commentInfo"> - ${ publish_date }</span>
+                        <p>${ content }</p>
+                        <a class="delete-item" href="/comment/delete/${ id }">X</a>
+                    </li>
+                </script>
+
                 </ul>
             </div>
         </div>
@@ -106,19 +109,14 @@
             <p class="location"><i class="icon pin"></i> {{ project.owner.search_location }}</p>
             {% endif %}
 
-            {% if project.view %}
-            <h4>Vues</h4>
-            <p> {{ project.view }} mois</p>
-            {% endif %}
-
             {% if project.period %}
             <h4>Temps</h4>
             <p> {{ project.period }} mois</p>
             {% endif %}
 
-            {% if project.period %}
+            {% if project.cadre %}
             <h4>Réalisé dans le cadre</h4>
-            <p> {{ project.cadre }} mois</p>
+            <p> {{ project.cadre }}</p>
             {% endif %}
 
             {% if project.state %}
@@ -126,7 +124,7 @@
             <p> {{ project.get_state_display }}</p>
             {% endif %}
 
-            {% if project.skills %}
+            {% if skills %}
             <h4>Compétences</h4>
             <ul class="tags inline">
             {% for tag in skills %}
@@ -136,7 +134,7 @@
             {% endif %}
 
 
-            {% if project.tags %}
+            {% if tags %}
             <ul class="tags inline">
             {% for tag in tags %}
                 <li> {{ tag.name }} </li>
@@ -145,7 +143,7 @@
             {% endif %}
 
 
-            {% if project.equipments %}
+            {% if equipments %}
             <h4>Equipements</h4>
             <ul class="tags inline">
             {% for tag in equipments %}
@@ -162,15 +160,15 @@
 
 
 {% block js %}
-
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.tmpl.min.js"></script>
     <script type="text/javascript">
 
         $(document).ready(function(){
-    
+
         $(".push").submit( function() {
             event.preventDefault();
             var urlSubmit = $(this).attr('action');
-            $.ajax({  
+            $.ajax({
                 type: "POST",
                 url: urlSubmit,
                 success: function(data) {
@@ -187,7 +185,34 @@
 
         if ($("#btn-push").hasClass('pushed'))
             $("#btn-push").text('PUSHED');
-    
+
+
+
+        $(".comment_form").submit(function(e){
+            var val = $(".comment_form").find("textarea").val();
+            if(val != ''){
+                $.post($(this).attr('action'),$(this).serialize()).done(function(data){
+                    $(".comment_form").find("textarea").val('');
+                    $.tmpl(templateComment,data[0]).appendTo(".commentList");
+                    $('.delete-item').last()
+                });
+            }
+            return false;
+        });
+
+
+        function delete_comment(e){
+            var parent = $(e).parent();
+            $.post($(e).attr('href'),function(data){
+                $(parent).fadeOut();
+            });
+            return false;
+        }
+
+        $(".delete-item").live('click', function(e){
+            return delete_comment(this);
+        });
+
     });
     </script>
 

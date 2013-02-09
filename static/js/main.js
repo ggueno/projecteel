@@ -32,9 +32,9 @@ django.jQuery(function() {
 		      errors: { min: 'Check only <strong>1</strong> option.' }
 		    }
 		},
-		responsiveAt: 100
+		responsiveAt: 50
 	}
-	var $myform = django.jQuery('#my-form, .PTform').idealforms(options).data('idealforms');
+	var $myform = django.jQuery('#my-form').idealforms(options).data('idealforms');
 
 });
 
@@ -63,21 +63,6 @@ $.ajaxSetup({
 });
 
 
-$(".comment_form").submit(function(e){
-		$.post($(this).attr('action'),$(this).serialize()).done(function(data){
-
-        });
-        return false;
-    });
-
-
-$(".delete-comment").click(function(e){
-	var parent = $(this).parent();
-	$.post($(this).attr('href'),function(data){
-		$(parent).fadeOut();
-	});
-	return false;
-});
 
 //Generic tabbed nav fonction
 $('ul.tabs').each(function(){
