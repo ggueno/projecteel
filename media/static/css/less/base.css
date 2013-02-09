@@ -271,6 +271,16 @@ i.icon.delete {
   position: absolute;
   z-index: 99;
 }
+.ui-slider {
+  background: #e2e2e2;
+  width: 100%;
+  height: 12px;
+  display: block;
+  position: relative;
+}
+.ui-slider .ui-slider-handle {
+  widows: ;
+}
 a.buttonAqua {
   line-height: 1.8em;
   display: block;
@@ -958,6 +968,9 @@ header.menu #menu a:hover {
   outline: 0;
   color: #666;
 }
+.PTform input[type=radio] {
+  margin: 10px;
+}
 .PTform textarea {
   height: auto;
 }
@@ -1087,6 +1100,21 @@ header.menu #menu a:hover {
 .PTform .as-selection-item .as-close:hover {
   color: #0099e6;
 }
+.PTform .as-selection-item.hasImage {
+  background-color: #f0f0f0;
+  color: #777777;
+  padding: 5px 30px 5px 5px;
+  position: relative;
+}
+.PTform .as-selection-item.hasImage img {
+  width: 30px;
+  margin-right: 5px;
+}
+.PTform .as-selection-item.hasImage .as-close {
+  position: absolute;
+  top: 0;
+  right: 4px;
+}
 .PTform .as-results {
   border: 1px solid #cdcdcd;
 }
@@ -1190,8 +1218,8 @@ header.menu #menu a:hover {
   font-style: normal;
   border-radius: 10em;
 }
-.add_project #upload_files_container .template-upload,
-.add_project #upload_files_container .template-download {
+.add_project #multiupload .template-upload,
+.add_project #multiupload .template-download {
   overflow: auto;
   border: 1px solid #dedede;
   border-bottom: none;
@@ -1199,87 +1227,88 @@ header.menu #menu a:hover {
   padding: 10px;
   position: relative;
 }
-.add_project #upload_files_container .template-upload div,
-.add_project #upload_files_container .template-download div {
+.add_project #multiupload .template-upload div,
+.add_project #multiupload .template-download div {
   margin: 5px 0;
 }
-.add_project #upload_files_container .template-upload .preview,
-.add_project #upload_files_container .template-download .preview {
+.add_project #multiupload .template-upload .preview,
+.add_project #multiupload .template-download .preview {
   float: left;
   width: 20%;
+  max-height: 80px;
 }
-.add_project #upload_files_container .template-upload .infos,
-.add_project #upload_files_container .template-download .infos {
+.add_project #multiupload .template-upload .infos,
+.add_project #multiupload .template-download .infos {
   float: left;
   width: 42%;
   color: #a0a0a0;
   font-size: .9em;
 }
-.add_project #upload_files_container .template-upload .infos span,
-.add_project #upload_files_container .template-download .infos span {
+.add_project #multiupload .template-upload .infos span,
+.add_project #multiupload .template-download .infos span {
   display: block;
 }
-.add_project #upload_files_container .template-upload .infos span.size,
-.add_project #upload_files_container .template-download .infos span.size {
+.add_project #multiupload .template-upload .infos span.size,
+.add_project #multiupload .template-download .infos span.size {
   font-style: italic;
 }
-.add_project #upload_files_container .template-upload div.start,
-.add_project #upload_files_container .template-download div.start,
-.add_project #upload_files_container .template-upload div.cancel,
-.add_project #upload_files_container .template-download div.cancel,
-.add_project #upload_files_container .template-upload div.delete,
-.add_project #upload_files_container .template-download div.delete {
+.add_project #multiupload .template-upload div.start,
+.add_project #multiupload .template-download div.start,
+.add_project #multiupload .template-upload div.cancel,
+.add_project #multiupload .template-download div.cancel,
+.add_project #multiupload .template-upload div.delete,
+.add_project #multiupload .template-download div.delete {
   float: left;
   width: 85px;
 }
-.add_project #upload_files_container .template-upload div.start .PTbutton,
-.add_project #upload_files_container .template-download div.start .PTbutton,
-.add_project #upload_files_container .template-upload div.cancel .PTbutton,
-.add_project #upload_files_container .template-download div.cancel .PTbutton,
-.add_project #upload_files_container .template-upload div.delete .PTbutton,
-.add_project #upload_files_container .template-download div.delete .PTbutton {
+.add_project #multiupload .template-upload div.start .PTbutton,
+.add_project #multiupload .template-download div.start .PTbutton,
+.add_project #multiupload .template-upload div.cancel .PTbutton,
+.add_project #multiupload .template-download div.cancel .PTbutton,
+.add_project #multiupload .template-upload div.delete .PTbutton,
+.add_project #multiupload .template-download div.delete .PTbutton {
   padding: 0;
   height: 24px;
   width: 80px;
   text-transform: none;
   margin: 5px 0;
 }
-.add_project #upload_files_container .template-upload div.start .PTbutton.cancel,
-.add_project #upload_files_container .template-download div.start .PTbutton.cancel,
-.add_project #upload_files_container .template-upload div.cancel .PTbutton.cancel,
-.add_project #upload_files_container .template-download div.cancel .PTbutton.cancel,
-.add_project #upload_files_container .template-upload div.delete .PTbutton.cancel,
-.add_project #upload_files_container .template-download div.delete .PTbutton.cancel {
+.add_project #multiupload .template-upload div.start .PTbutton.cancel,
+.add_project #multiupload .template-download div.start .PTbutton.cancel,
+.add_project #multiupload .template-upload div.cancel .PTbutton.cancel,
+.add_project #multiupload .template-download div.cancel .PTbutton.cancel,
+.add_project #multiupload .template-upload div.delete .PTbutton.cancel,
+.add_project #multiupload .template-download div.delete .PTbutton.cancel {
   background: #bfbfbf;
   border-bottom-color: #9e9e9e;
 }
-.add_project #upload_files_container .template-upload div.start .PTbutton.cancel:hover,
-.add_project #upload_files_container .template-download div.start .PTbutton.cancel:hover,
-.add_project #upload_files_container .template-upload div.cancel .PTbutton.cancel:hover,
-.add_project #upload_files_container .template-download div.cancel .PTbutton.cancel:hover,
-.add_project #upload_files_container .template-upload div.delete .PTbutton.cancel:hover,
-.add_project #upload_files_container .template-download div.delete .PTbutton.cancel:hover {
+.add_project #multiupload .template-upload div.start .PTbutton.cancel:hover,
+.add_project #multiupload .template-download div.start .PTbutton.cancel:hover,
+.add_project #multiupload .template-upload div.cancel .PTbutton.cancel:hover,
+.add_project #multiupload .template-download div.cancel .PTbutton.cancel:hover,
+.add_project #multiupload .template-upload div.delete .PTbutton.cancel:hover,
+.add_project #multiupload .template-download div.delete .PTbutton.cancel:hover {
   background: #9e9e9e;
 }
-.add_project #upload_files_container .template-upload div.start .PTbutton.delete,
-.add_project #upload_files_container .template-download div.start .PTbutton.delete,
-.add_project #upload_files_container .template-upload div.cancel .PTbutton.delete,
-.add_project #upload_files_container .template-download div.cancel .PTbutton.delete,
-.add_project #upload_files_container .template-upload div.delete .PTbutton.delete,
-.add_project #upload_files_container .template-download div.delete .PTbutton.delete {
+.add_project #multiupload .template-upload div.start .PTbutton.delete,
+.add_project #multiupload .template-download div.start .PTbutton.delete,
+.add_project #multiupload .template-upload div.cancel .PTbutton.delete,
+.add_project #multiupload .template-download div.cancel .PTbutton.delete,
+.add_project #multiupload .template-upload div.delete .PTbutton.delete,
+.add_project #multiupload .template-download div.delete .PTbutton.delete {
   background: #ef5555;
   border-bottom-color: #c63838;
 }
-.add_project #upload_files_container .template-upload div.start .PTbutton.delete:hover,
-.add_project #upload_files_container .template-download div.start .PTbutton.delete:hover,
-.add_project #upload_files_container .template-upload div.cancel .PTbutton.delete:hover,
-.add_project #upload_files_container .template-download div.cancel .PTbutton.delete:hover,
-.add_project #upload_files_container .template-upload div.delete .PTbutton.delete:hover,
-.add_project #upload_files_container .template-download div.delete .PTbutton.delete:hover {
+.add_project #multiupload .template-upload div.start .PTbutton.delete:hover,
+.add_project #multiupload .template-download div.start .PTbutton.delete:hover,
+.add_project #multiupload .template-upload div.cancel .PTbutton.delete:hover,
+.add_project #multiupload .template-download div.cancel .PTbutton.delete:hover,
+.add_project #multiupload .template-upload div.delete .PTbutton.delete:hover,
+.add_project #multiupload .template-download div.delete .PTbutton.delete:hover {
   background: #c63838;
 }
-.add_project #upload_files_container .template-upload .progress,
-.add_project #upload_files_container .template-download .progress {
+.add_project #multiupload .template-upload .progress,
+.add_project #multiupload .template-download .progress {
   height: 1px;
   position: absolute;
   bottom: -5px;
@@ -1287,8 +1316,8 @@ header.menu #menu a:hover {
   width: 100%;
   background: #dedede;
 }
-.add_project #upload_files_container .template-upload .progress .bar,
-.add_project #upload_files_container .template-download .progress .bar {
+.add_project #multiupload .template-upload .progress .bar,
+.add_project #multiupload .template-download .progress .bar {
   position: absolute;
   top: 0;
   margin: 0;
@@ -1296,17 +1325,51 @@ header.menu #menu a:hover {
   height: 1px;
   background: #0099e6;
 }
-.add_project #upload_files_container .template-download {
+.add_project #multiupload .template-download {
   border: 1px solid #dedede;
+  overflow: hidden;
 }
-.add_project #upload_files_container .template-download .infos {
+.add_project #multiupload .template-download .infos {
   width: 60%;
 }
-.add_project #upload_files_container .error {
+.add_project #multiupload .error {
   color: #ef5555;
+}
+.add_project #multiupload .fileupload-progress {
+  margin: 35px 0 10px 0;
+  overflow: auto;
+  display: block;
+  width: 100%;
+  clear: both;
+  float: none;
+}
+.add_project #multiupload .fileupload-progress span {
+  float: left;
+  width: 30%;
+}
+.add_project #multiupload .fileupload-progress .progress-success {
+  width: 65%;
+  border: 1px solid #dedede;
+  overflow: hidden;
+  float: right;
+  margin: 3px 0;
+}
+.add_project #multiupload .fileupload-progress .progress-success .bar {
+  background: #0099e6;
+  width: 50%;
+  padding: 0;
+  margin: 0;
+  height: 1em;
 }
 .add_project .embeds textarea {
   margin-bottom: 10px;
+}
+li.as-result-item {
+  line-height: 30px;
+}
+li.as-result-item img {
+  width: 30px;
+  margin-right: 10px;
 }
 /*
    O F F E R S

@@ -72,8 +72,8 @@ def search_projects2(request):
         if 'durationmin' in request.GET:
             # TODO : check if 'duration-min' is an number
             q["period__gte"] = request.GET['durationmin']
-        
-        
+
+
         if 'durationmax' in request.GET:
             # TODO : check if 'duration-min' is an number
             q["period__lte"] = request.GET['durationmax']
@@ -94,16 +94,16 @@ def search_projects2(request):
 
         if 'filter' in request.GET and request.GET['filter'] != 'pushs':
             if request.GET['filter'] == 'comments':
-                if when != 9999 : 
+                if when != 9999 :
                     q['comments__publish_date__range'] = (start_date, today)
                 projects_list = Project.objects.annotate(num_comment=Count('comments')).filter(**q).order_by('-num_comment')
 
             elif request.GET['filter'] == 'recents':
-                if when != 9999 : 
+                if when != 9999 :
                     q['publish_date__range'] = (start_date, today)
                 projects_list = Project.objects.filter(**q).order_by('-publish_date')
         else:
-            if when != 9999 : 
+            if when != 9999 :
                 q['likes__publish_date__range'] = (start_date, today)
             projects_list = Project.objects.annotate(num_like=Count('likes')).filter(**q).order_by('-num_like')
 
@@ -175,6 +175,21 @@ def get_tags(request):
     response = JSONResponse(choices, {}, response_mimetype(request))
     response['Content-Disposition'] = 'inline; filename=files.json'
     return response
+
+
+def get_participants(request):
+    q = ""
+    if 'q' in request.GET:
+        q = request.GET["q"]
+    else:
+        raise
+    participants = Applicant.objects.filter(name__startswith=q).values_list('name',  'avatar')
+
+    choices = [{"name": l[0], "value": l[0], "avatar": l[1]} for l in participants]
+    response = JSONResponse(choices, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response
+
 
 
 def get_list(request, tag):

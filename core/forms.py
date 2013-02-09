@@ -11,6 +11,7 @@ class ProjectForm(forms.ModelForm):
         widgets = {
             'skills': TagAutoSuggest(),
             'participant': TagAutoSuggest(),
+            'state': forms.RadioSelect(),
         }
 
 class OfferForm(forms.ModelForm):

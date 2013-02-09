@@ -259,6 +259,16 @@ i.icon{
     z-index: 99;
 }
 
+.ui-slider{
+    background:#e2e2e2;
+    width: 100%;
+    height:12px;
+    display: block;
+    position: relative;
+    .ui-slider-handle{
+        widows: ;
+    }
+}
 
 
 a.buttonAqua{
@@ -928,6 +938,9 @@ header.menu{
         outline: 0;
         color: #666;
     }
+    input[type=radio]{
+        margin: 10px;
+    }
     textarea{
         height: auto;
     }
@@ -1038,6 +1051,21 @@ header.menu{
                 color: @PTblue;
             }
         }
+        &.hasImage{
+            background-color: #f0f0f0;
+            color: #777777;
+            padding: 5px 30px 5px 5px;
+            position: relative;
+            img{
+                width: 30px;
+                margin-right: 5px;
+            }
+            .as-close{
+                position: absolute;
+                top: 0;
+                right: 4px;
+            }
+        }
     }
     .as-results{
         border: 1px solid #cdcdcd;
@@ -1145,7 +1173,7 @@ header.menu{
             }
         }
     }
-    #upload_files_container{
+    #multiupload{
         .template-upload, .template-download{
             overflow: auto;
             border: 1px solid #dedede;
@@ -1159,6 +1187,7 @@ header.menu{
             .preview{
                 float: left;
                 width: 20%;
+                max-height: 80px;
             }
             .infos{
                 float: left;
@@ -1216,12 +1245,39 @@ header.menu{
         }
         .template-download{
             border: 1px solid #dedede;
+            overflow: hidden;
             .infos{
                 width: 60%;
             }
         }
         .error{
             color: #ef5555;
+        }
+        .fileupload-progress {
+            margin: 35px 0 10px 0;
+            overflow: auto;
+            display: block;
+            width: 100%;
+            clear: both;
+            float:none;
+            span{
+                float: left;
+                width: 30%;
+            }
+            .progress-success{
+                width: 65%;
+                border: 1px solid #dedede;
+                overflow: hidden;
+                float: right;
+                margin: 3px 0;
+                .bar{
+                    background: @PTblue;
+                    width: 50%;
+                    padding: 0;
+                    margin: 0;
+                    height: 1em;
+                }
+            }
         }
     }
     .embeds{
@@ -1231,7 +1287,14 @@ header.menu{
     }
 }
 
-
+//users autosuggest
+li.as-result-item{
+    line-height: 30px;
+    img{
+        width: 30px;
+        margin-right: 10px;
+    }
+}
 
 /*
    O F F E R S

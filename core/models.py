@@ -278,15 +278,31 @@ class Project(models.Model):
         ('FN', "Termine"),
     )
 
+    PROJECT_CADRE = (
+        ('SCO', "Etudes"),
+        ('PRO', "Professionnel"),
+        ('PER', "Personnel"),
+        ('ASO', "Associatif"),
+    )
+
+    PROJECT_DURATION = (
+        ('1', "1 jour"),
+        ('2', "1 semaine"),
+        ('3', "2 a 3 semaines"),
+        ('4', "1 mois"),
+        ('5', "3 mois"),
+        ('6', "6 mois et plus"),
+    )
+
     title = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='title', unique=True, always_update=True)
     publish_date = models.DateField(auto_now_add=True)
     published = models.BooleanField(default=True)
     content = models.TextField()
     #TO DO : Multiple list
-    period = models.IntegerField(blank=True, null=True)
-    state = models.CharField(blank=True, max_length=2, choices=PROJECT_STATE, default='FINISHED')
-    cadre = models.CharField(blank=True, max_length=100)
+    period = models.IntegerField(blank=True, null=True, choices=PROJECT_DURATION)
+    state = models.CharField(blank=True, max_length=2, choices=PROJECT_STATE, default='')
+    cadre = models.CharField(blank=True, max_length=100, choices=PROJECT_CADRE, default='')
     location = models.CharField(blank=True, max_length=100)
     categories = TaggableManager(verbose_name="Category", through=CategoryTaggedItem, blank=True)
     skills = TaggableManager(verbose_name="Skills", through=SkillsTaggedItem, blank=True)

@@ -16,7 +16,7 @@ $(function () {
     'use strict';
 
     // Initialize the jQuery File Upload widget:
-    $('#add_project').fileupload({
+    $('#multiupload').fileupload({
             url : '/project/add/image/new/',
             paramName: 'image',
             filesContainer: $('#upload_files_container'),
@@ -63,7 +63,6 @@ $(function () {
                                     '</div>' +
 
                                     '<div class="delete"><button class="PTbutton delete">Supprimer</button></div>' +
-                                    '<input type="checkbox" name="delete" value="1">' +
                                 '</li>');
                     row.find('.size').text(o.formatFileSize(file.size));
                     if (file.error) {
@@ -72,11 +71,12 @@ $(function () {
                             locale.fileupload.errors[file.error] || file.error
                         );
                     } else {
-                        row.find('.name a').text(file.name);
+                        row.find('.name').text(file.name);
+                        row.find('.size').text(o.formatFileSize(file.size));
                         if (file.thumbnail_url) {
                             row.find('.preview').append('<a><img></a>')
                                 .find('img').prop('src', file.thumbnail_url);
-                            row.find('a').prop('rel', 'gallery');
+                            row.find('a').prop('target', '_blank');
                         }
                         row.find('a').prop('href', file.url);
                         row.find('.delete button')
