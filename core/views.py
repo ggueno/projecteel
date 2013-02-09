@@ -82,7 +82,7 @@ def search_projects2(request):
             if request.GET['categories'] != 'all':
                 q['categories__name__in'] = [request.GET['categories']]
 
-        if 'when' in request.GET and request.GET['when']!=0:
+        if 'when' in request.GET and int(request.GET['when']) != 0:
             when = int(request.GET['when'])
         else:
             #first day for a project
@@ -90,7 +90,7 @@ def search_projects2(request):
 
         #check if when is a number
         today = datetime.now()
-        start_date = datetime.now() - timedelta(days=when)
+        start_date = datetime.now() - timedelta(days=7)
 
         if 'filter' in request.GET and request.GET['filter'] != 'pushs':
             if request.GET['filter'] == 'comments':
@@ -107,7 +107,6 @@ def search_projects2(request):
                 q['likes__publish_date__range'] = (start_date, today)
             projects_list = Project.objects.annotate(num_like=Count('likes')).filter(**q).order_by('-num_like')
 
-        #order_by
 
         # response = JSONResponse(q, {}, response_mimetype(request))
         # response['Content-Disposition'] = 'inline; filename=files.json'
@@ -144,7 +143,7 @@ def get_project(request, slug):
         'user': get_my_self(request),
         'comment_form': comment_form,
         'comments': comments,
-        'push' : push
+        'status' : push
     }
     return render(request, 'project/show_project.html', context)
 
@@ -270,7 +269,8 @@ def like(request, pk):
     profile = Profile.objects.filter(user_id=request.user.id)[0]
     if Like.objects.filter(project=project).filter(profile=profile).count() == 0:
         Like.objects.create(profile=profile, project_id=pk)
-    return get_project(request, project.slug)
+    likes = Like.objects.filter(project=project).count()
+    return HttpResponse(likes)
 
 
 @login_required
@@ -363,7 +363,10 @@ def apply_offer(request, pk):
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
     if ApplicantOffer.objects.filter(offer=offer).filter(applicant=applicant).count() == 0:
         ApplicantOffer.objects.create(applicant=applicant, offer_id=pk)
-    return get_offer(request, offer.slug)
+        msg = "applied"
+    else:
+        msg = ""
+    return HttpResponse(msg)
 
 
 @login_required

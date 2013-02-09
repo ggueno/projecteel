@@ -7,9 +7,9 @@
     {% if offer %}
 
 <div class="row">
-    <form action="/offer/apply/{{offer.id}}" class="apply" method="get">
+    <form action="/offer/apply/{{ offer.id }}" class="apply" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <input class="{{status}} PTbutton" type="submit" value="Apply for this offer">
+        <button id="btn-apply" class="{{status}} PTbutton" name='submit' type="submit" value="apply">Postuler</button>
     </form>
 </div>
 
@@ -57,5 +57,33 @@
 {% endblock %}
 
 {% block js %}
+
+<script type="text/javascript">
+   
+    $(document).ready(function(){
+    
+        $(".apply").submit( function() {
+            event.preventDefault();
+            var urlSubmit = $(this).attr('action');
+            $.ajax({  
+                type: "POST",
+                url: urlSubmit,
+                data      : $(this).serializeArray(),
+                success: function(data) {
+                    if ($("#btn-apply").hasClass('nonapplied'))
+                    {
+                        $("#btn-apply").text('A POSTULE');
+                        $("#btn-apply").toggleClass('nonapplied applied');
+                    }
+                }
+            });
+            return false;
+        });
+
+        if ($("#btn-apply").hasClass('applied'))
+            $("#btn-apply").text('A POSTULE');
+    
+    });
+</script>
 
 {% endblock %}

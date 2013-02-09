@@ -8,31 +8,34 @@
         <h1 class="heading">Projects</h1>
 
         <div class="sorting threecol">
-            <select id="search-categories" name="search-categories">
-                <option value="all">Tous les catégories</option>
-                {% for categorie in categories %}
-                <option value="{{categorie.slug}}">{{categorie.name}}</option>
-                {% endfor %}
-            </select>
-
-            <select id="search-filter" name="search-filter">
-                <option value="pushs">Les plus pushés</option>
-                <!-- <option value="views">Les plus vues</option> -->
-                <option value="comments">Les plus commentés</option>
-                <option value="recents">Les plus récents</option>
-            </select>
-
-            <select id="search-when" name="search-when">
-                <option value="1">Aujourd'hui</option>
-                <option value="7">Cette semaine</option>
-                <option value="30">Ce mois</option>
-                <option value="0" selected>Toujours</option>
-            </select>
-
 
 
             <div class="sleekbox">
                 <h4>Affiner ma recherche</h4>
+
+                <select id="search-categories" name="search-categories">
+                    <option value="all">Tous les catégories</option>
+                    {% for categorie in categories %}
+                    <option value="{{categorie.slug}}">{{categorie.name}}</option>
+                    {% endfor %}
+                </select>
+
+                <select id="search-filter" name="search-filter">
+                    <option value="pushs">Les plus pushés</option>
+                    <!-- <option value="views">Les plus vues</option> -->
+                    <option value="comments">Les plus commentés</option>
+                    <option value="recents">Les plus récents</option>
+                </select>
+
+                <select id="search-when" name="search-when">
+                    <option value="1">Aujourd'hui</option>
+                    <option value="7">Cette semaine</option>
+                    <option value="30">Ce mois</option>
+                    <option value="0" selected>Toujours</option>
+                </select>
+
+
+
                 <p>Mots-clés</p>
                 <input type="text" id="search-tags" name="keywords-sorting">
                 <p>Localisation</p>
