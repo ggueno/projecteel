@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     url(r'^projects/search/$', views.search_projects2, {}, 'project-search'),
     url(r'^project/add/$', views.add_project),
     url(r'^project/add/image/$', views.add_project_image),
+    url(r'^project/edit/(?P<pk>\d+)$', views.edit_project),
 
     url(r'^project/add/image/new/$', views.ImageProjectCreateView.as_view(), {}, 'upload-new'),
     url(r'^project/add/image/delete/(?P<pk>\d+)$', views.ImageProjectDeleteView.as_view(), {}, 'upload-delete'),

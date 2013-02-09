@@ -1,0 +1,199 @@
+{% extends "layout/base.html" %}
+{% load upload_tags %}
+
+{% block title %} Project {{ slug }} {% endblock %}
+
+
+{% block content %}
+    <section class="row add_project">
+        <div class="sleekbox">
+            <div class="content">
+                <h1 class="heading">Modifier votre projet</h1>
+                {% if form.errors %}
+                    <p style="color: red;">
+                        Please correct the error{{ form.errors|pluralize }} below.
+                    </p>
+                {% endif %}
+
+                <div class="row">
+                    <div class="sixcol">
+                        <!-- <a id="remove" href="/project/remove/{{project_id}}" alt="Remove Project" />Remove</a> -->
+                        <ul class="tabs">
+                            <li><a href="#etape1"><i class="step-label">1</i>Etape 1</a></li>
+                            <li><a href="#etape2"><i class="step-label">2</i>Etape 2</a></li>
+                        </ul>
+
+                        <form action="" class="PTform" method="post" id="fileupload" action="/project/add/image/new/" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <!-- TAB -->
+                            <section id="etape1">
+                                <!-- Heading -->
+                                <div>
+                                    <label for="">{{form.title.label}}</label>
+                                    {{ form.title }}
+                                </div>
+                                <div class="file-wrap">
+                                    <label>Vignette</label>
+                                    <input type="file" multiple>
+                                    <input type="text" autocomplete="off" disabled>
+                                    <button type="button"><i class="icon image"></i> Choisir</button>
+                                    <p class="annotation">(< 1Mo, > 300x250px)</p>
+                                </div>
+                                <div>
+                                    <label for="">{{form.categories.label}}</label>
+                                    {{ form.categories }}
+                                </div>
+                                <div>
+                                    <label for="">{{form.content.label}}</label>
+                                    {{ form.content }}
+                                </div>
+                                <div>
+                                    <label for="">Médias</label>
+                                    <label class="sublabel">par URL</label>
+                                    <hr class="sublabel"/>
+                                    <textarea name="" id="" cols="30" rows="10"></textarea>
+                                    <button class="PTbutton"><i class="icon add"></i>Ajouter</button>
+
+                                    <label class="sublabel">par fichier</label>
+                                    <hr class="sublabel"/>
+                                </div>
+                                <div class="row fileupload-buttonbar">
+                                    <div class="span7">
+                                        <span class="btn btn-primary fileinput-button">
+                                            <span class="PTbutton"><i class="icon add"></i>Ajouter</span>
+                                            <input type="hidden" name="project_id" value="{{ project_id }}" >
+                                            <input type="file" name="file" multiple>
+                                        </span>
+                                        <button type="submit" class="btn btn-success start PTbutton">
+                                            <i class="icon send"></i>
+                                            <span>Envoyer</span>
+                                        </button>
+                                        <button type="reset" class="btn btn-warning cancel PTbutton">
+                                            <i class="icon cancel"></i>
+                                            <span>Annuler</span>
+                                        </button>
+                                        <button type="button" class="btn btn-danger delete PTbutton">
+                                            <i class="icon delete"></i>
+                                            <span>Supprimer</span>
+                                        </button>
+                                        <input type="checkbox" class="toggle">
+                                    </div>
+                                    <!-- The global progress information -->
+                                    <div class="span5 fileupload-progress fade">
+                                        <!-- The global progress bar -->
+                                        <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                            <div class="bar" style="width:0%;"></div>
+                                        </div>
+                                        <!-- The extended global progress information -->
+                                        <div class="progress-extended">&nbsp;</div>
+                                    </div>
+                                </div>
+                                <!-- The loading indicator is shown during file processing -->
+                                <div class="fileupload-loading"></div>
+                                <br>
+                                <!-- The table listing the files available for upload/download -->
+                                <ul id="upload_files_container">
+                                </ul>
+
+                                <div class="footer">
+                                    <div class="twocol">Etape 1 sur 2</div>
+                                    <button class="PTbutton next">Etape suivante</button>
+                                </div>
+
+
+                            </section> <!-- END TAB -->
+
+                            <section id="etape2">
+                                <!-- Vidéo & Image -->
+                                <div>
+                                    <label for="">{{ form.images.label }}</label>
+                                    {{ form.images }}
+                                </div>
+                                <div>
+                                    <label for="">{{form.participant.label}}</label>
+                                    {{ form.participant }}
+                                </div>
+                                <div>
+                                    <label for="">{{form.cadre.label}}</label>
+                                    {{ form.cadre }}
+                                </div>
+                                <div>
+                                    <label for="">{{form.state.label}}</label>
+                                    {{ form.state }}
+                                </div>
+                                <div>
+                                    <label for="">{{form.period.label}}</label>
+                                    {{ form.period }}
+                                </div>
+                                <div>
+                                    <label for="">{{form.location.label}}</label>
+                                    {{ form.location }}
+                                </div>
+
+                                {{form.tags.label}} {{ form.tags }}
+                                {{form.equipments.label}} {{ form.equipments }}
+
+
+                                <div class="embeds">
+                                    <textarea name="embed"></textarea>
+                                </div>
+
+                                <a id="add_video" href="#" alt="Add Embed Content" />Add Embed Content</a>
+                                <input type="hidden" name="project_id" value="{{ project_id }}" >
+                                <input type="submit" value="Submit">
+
+
+                            </section>
+
+                        </form>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </section>
+<script>
+    $().ready(function(){
+        $("#remove").click(function(){
+          $.get($(this).attr("href"), function(data) {
+              alert(data);
+
+            });
+          return false;
+        });
+
+        $('#add_video').click(function(){
+            var plop = $(".embeds").children("textarea:last");
+            plop.after(plop.clone(true));
+        });
+
+        //bind step1 button to trigger tab menu click
+        $(".next").on('click',function(e){
+            e.preventDefault();
+            $("ul.tabs a[href=#etape2]").click();
+        });
+
+        $('.PTform select').dropkick();
+
+    });
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.ui.widget.js"></script>
+<script src="{{ STATIC_URL }}js/tmpl.min.js"></script>
+<script src="{{ STATIC_URL }}js/load-image.min.js"></script>
+<script src="{{ STATIC_URL }}js/canvas-to-blob.min.js"></script>
+{# <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/bootstrap-image-gallery.min.js"></script> #}
+<script src="{{ STATIC_URL }}js/jquery.iframe-transport.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.fileupload.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.fileupload-fp.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.fileupload-ui.js"></script>
+<script src="{{ STATIC_URL }}js/locale.js"></script>
+<script src="{{ STATIC_URL }}js/upload.js"></script>
+<script src="{{ STATIC_URL }}js/csrf.js"></script>
+{% endblock %}
+
+

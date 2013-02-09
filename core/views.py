@@ -230,6 +230,36 @@ def add_project_image(request):
 
 
 @login_required
+def edit_project(request, pk):
+    try:
+        applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+        project = Project.objects.get(id=pk, owner=applicant)
+    except Applicant.DoesNotExist:
+        HttpResponseRedirect('/projects/')
+    except Project.DoesNotExist:
+        HttpResponseRedirect('/projects/')
+
+
+    if project.owner == applicant:
+        project = Project.objects.get(id=pk)
+        if request.method == 'POST':
+            form = ProjectForm(request.POST)
+            if form.is_valid():
+                form = ProjectForm(request.POST, request.FILES, instance=project)
+                form.save()
+                slug = project.slug
+                HttpResponseRedirect('/projects/')
+
+        else:
+            form = ProjectForm(instance=project)
+            # thumbnails =
+            return render(request,'project/edit_project.html', {'form': form,})
+
+    else:
+        HttpResponseRedirect('/projects/')
+
+
+@login_required
 def remove_project(request, pk):
     try:
         applicant = Applicant.objects.filter(user_id=request.user.id)[0]
