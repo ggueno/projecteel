@@ -57,8 +57,6 @@ def search_projects2(request):
     if(request.method == 'GET'):
         q['published'] = True
 
-        if 'query[]' in request.GET:
-            q['title__icontains'] = request.GET.getlist('query[]')[0]
 
         if 'location[]' in request.GET:
             q["location__in"] = request.GET.getlist('location[]')
@@ -73,14 +71,13 @@ def search_projects2(request):
             # TODO : check if 'duration-min' is an number
             q["period__gte"] = request.GET['durationmin']
 
-
         if 'durationmax' in request.GET:
             # TODO : check if 'duration-min' is an number
             q["period__lte"] = request.GET['durationmax']
 
-        if 'categories' in request.GET :
+        if 'categories' in request.GET:
             if request.GET['categories'] != 'all':
-                q['categories__name__in'] = [request.GET['categories']]
+                q['categories__slug__in'] = [request.GET['categories']]
 
         if 'when' in request.GET and int(request.GET['when']) != 0:
             when = int(request.GET['when'])
@@ -91,26 +88,17 @@ def search_projects2(request):
         #check if when is a number
         today = datetime.now()
         start_date = datetime.now() - timedelta(days=7)
+        if when != 9999:
+            q['publish_date__range'] = (start_date, today)
 
-        if 'filter' in request.GET and request.GET['filter'] != 'pushs':
-            if request.GET['filter'] == 'comments':
-                if when != 9999 :
-                    q['comments__publish_date__range'] = (start_date, today)
-                projects_list = Project.objects.annotate(num_comment=Count('comments')).filter(**q).order_by('-num_comment')
-
-            elif request.GET['filter'] == 'recents':
-                if when != 9999 :
-                    q['publish_date__range'] = (start_date, today)
-                projects_list = Project.objects.filter(**q).order_by('-publish_date')
+        if 'filter' in request.GET and request.GET['filter'] in ['comments', 'pushs']:
+            filtre = request.GET['filter']
+            if filtre == 'pushs':
+                filtre = 'likes'
+            projects_list = Project.objects.annotate(num=Count('comments')).filter(**q).order_by('-num')
         else:
-            if when != 9999 :
-                q['likes__publish_date__range'] = (start_date, today)
-            projects_list = Project.objects.annotate(num_like=Count('likes')).filter(**q).order_by('-num_like')
+            projects_list = Project.objects.filter(**q).order_by('-publish_date')
 
-
-        # response = JSONResponse(q, {}, response_mimetype(request))
-        # response['Content-Disposition'] = 'inline; filename=files.json'
-        # return response
         return projects(request, projects_list)
     # except KeyError:
     #     return render_to_response('search/results.html')
@@ -143,7 +131,7 @@ def get_project(request, slug):
         'user': get_my_self(request),
         'comment_form': comment_form,
         'comments': comments,
-        'status' : push
+        'status': push
     }
     return render(request, 'project/show_project.html', context)
 
@@ -162,6 +150,7 @@ def get_locations(request):
     response = JSONResponse(choices, {}, response_mimetype(request))
     response['Content-Disposition'] = 'inline; filename=files.json'
     return response
+
 
 def get_tags(request):
     q = ""
@@ -211,10 +200,10 @@ def get_list(request, tag):
     return response
 
 
-
 def get_my_profile(request):
     app = Applicant.objects.get(user_id=request.user.id)
     return get_applicant(request, app.slug)
+
 
 @login_required
 def add_project(request):
@@ -236,8 +225,6 @@ def add_project(request):
                 embed = request.POST.getlist('embed')
                 for embed in embed:
                     EmbedContent.objects.create(title=project.title, content=embed, project=project)
-
-                cd = form.cleaned_data
                 project_save = form.save(commit=False)
                 project_save.published = True
                 project_save.save()
@@ -256,6 +243,36 @@ def add_project(request):
 def add_project_image(request):
     # user = User.objects.get(id=request.user.id)
     return render(request, 'project/add_images.html')
+
+
+@login_required
+def edit_project(request, pk):
+    try:
+        applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+        project = Project.objects.get(id=pk, owner=applicant)
+    except Applicant.DoesNotExist:
+        HttpResponseRedirect('/projects/')
+    except Project.DoesNotExist:
+        HttpResponseRedirect('/projects/')
+
+
+    if project.owner == applicant:
+        project = Project.objects.get(id=pk)
+        if request.method == 'POST':
+            form = ProjectForm(request.POST)
+            if form.is_valid():
+                form = ProjectForm(request.POST, request.FILES, instance=project)
+                form.save()
+                slug = project.slug
+                HttpResponseRedirect('/projects/')
+
+        else:
+            form = ProjectForm(instance=project)
+            # thumbnails =
+            return render(request,'project/edit_project.html', {'form': form,})
+
+    else:
+        HttpResponseRedirect('/projects/')
 
 
 @login_required
@@ -291,8 +308,8 @@ def like(request, pk):
 @login_required
 def follow(request, pk):
     myself = get_my_self(request)
-    if request.user.id == pk :
-        result=False
+    if request.user.id == pk:
+        result = False
     else:
         try:
             Follow.objects.get(follower_id=myself.id, following_id=pk)
@@ -307,14 +324,14 @@ def follow(request, pk):
         return response
     else:
         profile = Profile.objects.get(id=pk)
-        return HttpResponseRedirect('/profile/'+profile.slug)
+        return HttpResponseRedirect('/profile/' + profile.slug)
 
 
 @login_required
 def unfollow(request, pk):
     myself = get_my_self(request)
-    if request.user.id == pk :
-        result=False
+    if request.user.id == pk:
+        result = False
     else:
         try:
             Follow.objects.get(follower_id=myself.id, following_id=pk).delete()
@@ -532,7 +549,7 @@ def get_applicant(request, slug):
     # myself = get_my_self(request)
 
     profile = Applicant.objects.get(slug=slug)
-    projects = Project.objects.filter(Q(owner=profile.user) | Q(participant__in=[profile]))
+    projects = Project.objects.filter(Q(owner=profile.user, published=True) | Q(participant__in=[profile], published=True))
     following = Follow.objects.filter(follower__user_id=request.user.id)
     formEducation = EducationForm()
     formExperience = ExperienceForm()
@@ -548,6 +565,9 @@ def get_applicant(request, slug):
     }
     return render(request, 'profile/profile_applicant.html', context)
 
+
+def update_applicant(request):
+    return render(request, 'profile/profile_applicant.html', context)
 
 def get_company(request, slug):
     company = Company.objects.get(slug=slug)
@@ -581,12 +601,14 @@ def add_comment(request):
                 cd = form.cleaned_data
                 data = cd
                 project = Project.objects.get(id=int(request.POST['project_id']))
-                Comment.objects.create(project=project, profile=applicant, content=cd['content'])
+                comment = Comment.objects.create(project=project, profile=applicant, content=cd['content'])
 
                 data = [{
-                    'name': applicant.name,
+                    'id': comment.id,
+                    'name': applicant.user.first_name + " " + applicant.user.last_name,
                     'content': cd['content'],
-                    'avatar_url': '',
+                    'avatar_url': applicant.avatar.url,
+                    'publish_date': comment.publish_date.strftime('%Y-%m-%d'),
                     'delete_url': '',
                     'delete_type': "DELETE"
                 }]
@@ -599,6 +621,8 @@ def add_comment(request):
             response = JSONResponse(data, {}, response_mimetype(request))
             response['Content-Disposition'] = 'inline; filename=files.json'
             return response
+        else:
+            return HttpResponseRedirect('/project/' + request.POST['project_id'])
 
     except Project.DoesNotExist:
         response = JSONResponse(request, {}, response_mimetype(request))

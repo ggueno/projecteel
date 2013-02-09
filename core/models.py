@@ -234,6 +234,10 @@ class CategoryTag(TagBase):
         verbose_name = "CategoryTag"
         verbose_name_plural = "CategoryTags"
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('project-search')
+
 
 class CategoryTaggedItem(ItemBase):
     tag = models.ForeignKey(CategoryTag, related_name="categories")
