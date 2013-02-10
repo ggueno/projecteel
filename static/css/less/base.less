@@ -259,6 +259,16 @@ i.icon{
     z-index: 99;
 }
 
+.ui-slider{
+    background:#e2e2e2;
+    width: 100%;
+    height:12px;
+    display: block;
+    position: relative;
+    .ui-slider-handle{
+        widows: ;
+    }
+}
 
 
 a.buttonAqua{
@@ -653,7 +663,7 @@ a.delete-item{
                 display: block;
                 background: transparent;
                 &:hover,&:focus{
-                    background-color: #4fbaea;
+                    background-color: @PTblue;
                     color:#FFF;
                 }
 
@@ -785,9 +795,12 @@ header.menu{
                 float: left;
             }
             .PTbutton{
-                margin-top:9px;
+                margin-top:7px;
                 float: left;
                 display: block;
+                height: 20px;
+                width: auto;
+                line-height: 1.6em;
             }
             .profile_stats{
                 list-style-type: none;
@@ -928,15 +941,26 @@ header.menu{
         outline: 0;
         color: #666;
     }
+    input[type=radio]{
+        margin: 10px;
+    }
     textarea{
         height: auto;
     }
     .file-wrap{
         position: relative;
         input[type=file]{
-            visibility: hidden;
-            text-indent: -9999px;
+            left: 0;
+            top:28px;
+            display: block;
+            width: 100%;
+            height: 48px;
+            z-index: 10;
             position: absolute;
+            filter: alpha(opacity=1);
+            -moz-opacity: 0.01;
+            opacity: 0.01;
+            cursor: pointer;
         }
         input[type=text]{
             width: 70%;
@@ -951,7 +975,13 @@ header.menu{
             font-size: 1em;
             right: 0;
         }
+        &:hover{
+            button{
+                background: #047dba;
+            }
+        }
     }
+
     .fileupload-buttonbar{
         .PTbutton{
             margin:0 5px;
@@ -1022,6 +1052,21 @@ header.menu{
             cursor: pointer;
             &:hover{
                 color: @PTblue;
+            }
+        }
+        &.hasImage{
+            background-color: #f0f0f0;
+            color: #777777;
+            padding: 5px 30px 5px 5px;
+            position: relative;
+            img{
+                width: 30px;
+                margin-right: 5px;
+            }
+            .as-close{
+                position: absolute;
+                top: 0;
+                right: 4px;
             }
         }
     }
@@ -1131,7 +1176,7 @@ header.menu{
             }
         }
     }
-    #upload_files_container{
+    #multiupload{
         .template-upload, .template-download{
             overflow: auto;
             border: 1px solid #dedede;
@@ -1145,6 +1190,7 @@ header.menu{
             .preview{
                 float: left;
                 width: 20%;
+                max-height: 80px;
             }
             .infos{
                 float: left;
@@ -1202,6 +1248,7 @@ header.menu{
         }
         .template-download{
             border: 1px solid #dedede;
+            overflow: hidden;
             .infos{
                 width: 60%;
             }
@@ -1209,19 +1256,137 @@ header.menu{
         .error{
             color: #ef5555;
         }
+        .fileupload-progress {
+            margin: 35px 0 10px 0;
+            overflow: auto;
+            display: block;
+            width: 100%;
+            clear: both;
+            float:none;
+            span{
+                float: left;
+                width: 30%;
+            }
+            .progress-success{
+                width: 65%;
+                border: 1px solid #dedede;
+                overflow: hidden;
+                float: right;
+                margin: 3px 0;
+                .bar{
+                    background: @PTblue;
+                    width: 50%;
+                    padding: 0;
+                    margin: 0;
+                    height: 1em;
+                }
+            }
+        }
+    }
+    .embeds{
+        textarea{
+            margin-bottom: 10px;
+        }
     }
 }
 
+//users autosuggest
+li.as-result-item{
+    line-height: 30px;
+    img{
+        width: 30px;
+        margin-right: 10px;
+    }
+}
 
+#projects{
+    .sixcol{
+        margin: 0;
+    }
+    .dropfilters{
+        overflow: visible;
+        height: 70px;
+        .dk_toggle{
+            width: 87.8%;
+            padding: 7px 10% 7px 2%;
+        }
+    }
+    .sorting{
+        .PTform{
+            input[type=text]{
+                border-left:0;
+                border-right:0;
+            }
+        }
+    }
+}
 
 /*
    O F F E R S
    ========================================================================== */
 
 #list_offers{
-    .blackTitle{
-        margin-top: 15px;
+    .search{
+        width:84%;
     }
+    .thumb-offer{
+        margin-bottom: 10px;
+        height: 118px;
+        width: 100%;
+        p{
+            padding:0px;
+        }
+        .header-offer{
+            text-align:center;
+            width:95%;
+            height: 45px;
+            margin: 0 auto;
+            line-height: 48px;
+            border-bottom:1px solid #d2d2d2;
+            .blackTitle{
+                text-align:left;
+                padding: 0px;
+                width:65%;
+                position:absolute;
+            }
+            .profile_pic{
+                float:right;
+                margin: 0;
+                img{
+                    .border-radius(20px);
+                }
+            }
+        }
+        .content {
+            padding-top: 8px;
+            p {
+                padding-bottom: 10px;
+            }
+            span {
+                color:@PTblue;
+                font-weight: 700;
+            }
+            .left {
+                float: left;
+                .tags-offer{
+                    display: inline;
+                    li{
+                        .tag();
+                        float: none;
+                        display: inline;
+                    }
+                }
+            }
+            .right {
+                float: right;
+                text-align: right;
+                .publish-date {
+                    font-style:italic;
+                }
+            }
+        }
+    }
+
 }
 
 

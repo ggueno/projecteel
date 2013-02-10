@@ -5,57 +5,74 @@
 {% block title %} Projects {% endblock %}
 {% block content %}
 
-    <div class="row wrapper">
+    <div class="row wrapper" id="projects">
         <h1 class="heading">Projects</h1>
 
-        <div class="sorting threecol">
-
-
-            <div class="sleekbox">
-                <h4>Affiner ma recherche</h4>
-
+        <div class="row PTform dropfilters">
+            <div class="sixcol">
                 <select class="search-field" id="search-categories" name="search-categories">
                     <option value="all">Tous les catégories</option>
                     {% for categorie in categories %}
                     <option value="{{categorie.slug}}">{{categorie.name}}</option>
                     {% endfor %}
                 </select>
-
+            </div>
+            <div class="sixcol last">
                 <select class="search-field" id="search-filter" name="search-filter">
                     <option value="pushs">Les plus pushés</option>
                     <!-- <option value="views">Les plus vues</option> -->
                     <option value="comments">Les plus commentés</option>
                     <option value="recents">Les plus récents</option>
                 </select>
-
-                <select class="search-field" id="search-when" name="search-when">
-                    <option value="1">Aujourd'hui</option>
-                    <option value="7">Cette semaine</option>
-                    <option value="30">Ce mois</option>
-                    <option value="0" selected>Toujours</option>
-                </select>
-
-
-
-                <p>Mots-clés</p>
-                <input class="search-field autocomplete" id="search-tags" type="text" name="keywords-sorting">
-                <p>Localisation</p>
-                <input class="search-field autocomplete" id="search-location" type="text" name="location">
-                <p>Compétences</p>
-                <input class="search-field autocomplete" type="text" id="search-skills">
-                <p>Durée</p>
-                <input class="search-field range" type="text" id="search-durationmin">
-                <input class="search-field range" type="text" id="search-durationmax">
             </div>
         </div>
 
-        <div class="list-offers eightcol">
 
-            <form action="/projects/search/" class="project-search" method="get">
+        <div class="sorting threecol">
+
+
+            <div class="sleekbox PTform">
+
+                <form action="/projects/search/" class="project-search" method="get">
                 {% csrf_token %}
-                <input class="search-field" id="search-query" type="text" name="query">
-                <input type="submit">
-            </form>
+                <ul class="filters">
+                    <li>
+                        <input class="search-field" id="search-query" type="text" name="query" placeholder="Recherche...">
+                    </li>
+                </ul>
+                </form>
+
+                <form action="" id="projectFilters">
+                    <ul class="filters">
+                        <li class="tag">
+                            <input class="search-field autocomplete" id="search-tags" type="text" name="keywords-sorting">
+                        </li>
+                        <li class="region">
+                            <input class="search-field autocomplete" id="search-location" type="text" name="location">
+                        </li>
+                        <li class="tag">
+                            <input class="search-field range" type="text" id="search-durationmin">
+                            <input class="search-field range" type="text" id="search-durationmax">
+                        </li>
+                        <li>
+                            <select class="search-field" id="search-when" name="search-when">
+                                <option value="1">Aujourd'hui</option>
+                                <option value="7">Cette semaine</option>
+                                <option value="30">Ce mois</option>
+                                <option value="0" selected>Toujours</option>
+                            </select>
+                        </li>
+                        <li class="tag">
+                            <input class="search-field autocomplete" type="text" id="search-skills" >
+                        </li>
+                    </ul>
+
+            </div>
+        </div>
+
+        <div class="list-projects ninecol last">
+
+
 
             {% include endless_part %}
 
@@ -203,8 +220,7 @@
                     data : datas,
                     success:
                         function(result, status){
-                            $('.thumb').remove();
-                            $(result).insertAfter(".project-search");
+                            $('.list-projects').empty().append(result);
                         },
                 });
             }

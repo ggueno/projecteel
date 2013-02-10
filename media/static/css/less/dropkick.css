@@ -35,7 +35,6 @@
   border: 1px solid #cdcdcd;
   background-color: #fcfcfc;
   color: #333;
-  text-shadow: #fff 1px 1px 0;
   -webkit-transition: border-color 0.5s;
   -moz-transition: border-color 0.5s;
   -o-transition: border-color 0.5s;
@@ -47,11 +46,6 @@
 /* Applied when the dropdown is focused */
 .dk_focus .dk_toggle {
   border-color: #40b5e2;
-}
-.dk_focus .dk_toggle {
-  box-shadow: 0 0 5px #40b5e2;
-  -moz-box-shadow: 0 0 5px #40b5e2;
-  -webkit-box-shadow: 0 0 5px #40b5e2;
 }
 /* Applied whenever the dropdown is open */
 .dk_open {
@@ -70,7 +64,6 @@
 /* The outer container of the options */
 .dk_options a {
   background-color: #fcfcfc;
-  border-bottom: 1px solid #999;
   font-weight: normal;
   padding: 8px 10px;
   height: 28px;
@@ -82,16 +75,15 @@
 .dk_options a:hover,
 .dk_option_current a {
   background-color: #0084c7;
-  border-bottom-color: #004c72;
+  border: none;
   color: #fff;
   text-decoration: none;
-  text-shadow: rgba(0, 0, 0, 0.5) 0 1px 0;
 }
 /* Inner container for options, this is what makes the scrollbar possible. */
 .dk_options_inner {
-  border: 1px solid #8c8c8e;
+  border: 1px solid #cdcdcd;
   border-bottom-width: 2px;
-  border-bottom-color: #999;
+  border-bottom-color: #cdcdcd;
   color: #333;
   max-height: 250px;
 }

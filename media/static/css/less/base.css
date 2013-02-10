@@ -683,7 +683,7 @@ a.delete-item:hover {
 }
 .sleekbox ul.filters li input:hover,
 .sleekbox ul.filters li input:focus {
-  background-color: #4fbaea;
+  background-color: #0099e6;
   color: #FFF;
 }
 .sleekbox p {
@@ -1163,6 +1163,8 @@ header.menu #menu a:hover {
   display: block;
   margin: 0;
   width: 100%;
+  font-weight: normal;
+  font-size: 15px;
 }
 .PTform div.dk_container div {
   margin: 0;
@@ -1173,6 +1175,9 @@ header.menu #menu a:hover {
   height: 33px;
   line-height: 33px;
   padding: 7px 45px 7px 10px;
+}
+.PTform div.dk_container .dk_options li {
+  border: none;
 }
 .add_project .content {
   padding: 40px 60px;
@@ -1374,9 +1379,53 @@ li.as-result-item img {
   width: 30px;
   margin-right: 10px;
 }
+#projects .sixcol {
+  margin: 0;
+}
+#projects .dropfilters {
+  overflow: visible;
+  height: 70px;
+}
+#projects .dropfilters .dk_toggle {
+  border: none;
+  width: 88%;
+  padding: 7px 10% 7px 2%;
+}
+#projects .dropfilters .dk_options {
+  border: none;
+}
+#projects .sorting .PTform input[type=text] {
+  border-left: 0;
+  border-right: 0;
+}
+#projects .sorting .PTform #search-query {
+  background-image: url(../img/loupe.png);
+  background-repeat: no-repeat;
+  background-position: 11px center;
+  width: 78%;
+  margin: 0;
+  padding: 5% 8% 5% 14%;
+}
+#projects .sorting .PTform ul.as-selections li.as-selection-item {
+  padding: 2px 5px;
+  margin: 10px 5px 0 5px;
+}
+#projects .sorting .PTform .as-results {
+  margin: 0;
+  background: #fafafa;
+  border: none;
+}
+#projects .sorting .PTform .dk_toggle {
+  border: none;
+  width: 82%;
+  padding: 7px 10% 7px 8%;
+}
 /*
    O F F E R S
    ========================================================================== */
+#list_offers .search {
+  width: 84%;
+}
 #list_offers .thumb-offer {
   margin-bottom: 10px;
   height: 118px;
@@ -1396,7 +1445,7 @@ li.as-result-item img {
 #list_offers .thumb-offer .header-offer .blackTitle {
   text-align: left;
   padding: 0px;
-  width: 90%;
+  width: 65%;
   position: absolute;
 }
 #list_offers .thumb-offer .header-offer .profile_pic {
