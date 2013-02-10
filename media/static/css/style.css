@@ -3350,8 +3350,74 @@ li.as-result-item img {
 /*
    O F F E R S
    ========================================================================== */
-#list_offers .blackTitle {
-  margin-top: 15px;
+#list_offers .thumb-offer {
+  margin-bottom: 10px;
+  height: 118px;
+  width: 100%;
+}
+#list_offers .thumb-offer p {
+  padding: 0px;
+}
+#list_offers .thumb-offer .header-offer {
+  text-align: center;
+  width: 95%;
+  height: 45px;
+  margin: 0 auto;
+  line-height: 48px;
+  border-bottom: 1px solid #d2d2d2;
+}
+#list_offers .thumb-offer .header-offer .blackTitle {
+  text-align: left;
+  padding: 0px;
+  width: 90%;
+  position: absolute;
+}
+#list_offers .thumb-offer .header-offer .profile_pic {
+  float: right;
+  margin: 0;
+}
+#list_offers .thumb-offer .header-offer .profile_pic img {
+  -webkit-border-radius: 20px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 20px;
+  -moz-background-clip: padding;
+  border-radius: 20px;
+  background-clip: padding-box;
+}
+#list_offers .thumb-offer .content {
+  padding-top: 8px;
+}
+#list_offers .thumb-offer .content p {
+  padding-bottom: 10px;
+}
+#list_offers .thumb-offer .content span {
+  color: #0099e6;
+  font-weight: 700;
+}
+#list_offers .thumb-offer .content .left {
+  float: left;
+}
+#list_offers .thumb-offer .content .left .tags-offer {
+  display: inline;
+}
+#list_offers .thumb-offer .content .left .tags-offer li {
+  background: #c0c0c0;
+  padding: 2px 5px;
+  display: block;
+  float: left;
+  color: #FFF;
+  font-size: 1em;
+  margin: 5px 10px 5px 0;
+  border-bottom: 1px;
+  float: none;
+  display: inline;
+}
+#list_offers .thumb-offer .content .right {
+  float: right;
+  text-align: right;
+}
+#list_offers .thumb-offer .content .right .publish-date {
+  font-style: italic;
 }
 /* ==========================================================================
    Helper classes
