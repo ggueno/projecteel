@@ -164,7 +164,7 @@
         });
 
         $('#add_video').click(function(e){
-            e.preventDefault();s
+            e.preventDefault();
             var plop = $(".embeds").children("textarea:last");
             plop.after(plop.clone(true));
         });
@@ -210,7 +210,6 @@
                     queryParam: 'q',
                     retrieveLimit: 20,
                     minChars: 1,
-                    neverSubmit: true,
                     showResultList : true,
                     resultsHighlight : true,
                     retrieveComplete: function(data){
@@ -237,7 +236,7 @@
                 p.after(container);
 
 
-            });
+            })
         })(django.jQuery);
 
 

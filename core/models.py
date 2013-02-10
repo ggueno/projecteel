@@ -169,6 +169,8 @@ class Offer(models.Model):
     slug = AutoSlugField(populate_from='title', unique=True)
     company = models.ForeignKey(Company)
     location = models.CharField(max_length=100, blank=False, null=False)
+    start = models.DateField(blank=True, null=True)
+    duration = models.IntegerField(blank=True, null=True)
     contract = models.CharField(max_length=10, choices=OFFER_TYPE, default='CDI', blank=True)
     salary = models.IntegerField(blank=True, null=True)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)

@@ -2,7 +2,7 @@
 
 {% block title %} Offers {% endblock %}
 {% block content %}
-    
+
     <div class="row wrapper">
         <h1 class="heading">Offers</h1>
         <div class="threecol">
@@ -10,34 +10,54 @@
                 <h4>Affiner ma recherche</h4>
                 <form action="" id="projectFilters">
                     <ul class="filters">
+
+                        <li class="categories">
+                          <span class="ideal-field">
+                            <select class="search-field" id="search-categories" name="search-categories">
+                                <option value="all">Tous les catégories</option>
+                                {% for categorie in categories %}
+                                <option value="{{categorie.slug}}">{{categorie.name}}</option>
+                                {% endfor %}
+                            </select>
+                          </span>
+                        </li>
+
+
                         <li class="tag">
                             <span class="ideal-field">
-                                <input type="text" name="keywords-sorting" placeholder="mots-cles">
+                               <input class="search-field autocomplete" id="search-tags" type="text" name="keywords-sorting" placeholder="tags">
                             </span>
                         </li>
+
                         <li class="region">
-                                   <span class="ideal-field">
-                              <input type="text" name="keywords-sorting" placeholder="localisation">
+                                   <span  class="ideal-field">
+                              <input class="search-field autocomplete" id="search-location" type="text" name="location" placeholder="location">
                           </span>
                         </li>
-                        <li class="tag">
-                          <span class="ideal-field">
-                              <input type="text" name="keywords-sorting" placeholder="secteur d'activite">
+
+
+                        <li class="duration">
+                            <span  class="ideal-field">
+                                <input class="search-field range" type="text" id="search-durationmin" placeholder="durée min">
+                                <input class="search-field range" type="text" id="search-durationmax" placeholder="durée max">
                           </span>
                         </li>
+
+
                     </ul>
-        	       <p>Secteur d'activité</p>
+<!--         	       <p>Secteur d'activité</p>
         	       <p>Type de contrat</p>
-        	       <p>Durée</p>
+        	       <p>Durée</p> -->
                 </form>
             </div>
         </div>
         <div class="ninecol last" id="list_offers">
             <div class="PTform inline">
-                <form action="">
-                   	<input class="sixcol" type="text" name="search">
-            		<button type="submit">Recherche</button>
-    	        </form>
+                <form action="/offers/search/" class="search-form offers-search" method="get">
+                    {% csrf_token %}
+                    <input class="search-field" id="search-query" type="text" name="query">
+                    <input type="submit">
+                </form>
             </div>
             {% include endless_part %}
         </div>
@@ -48,11 +68,17 @@
 
 {% block js %}
     {{ block.super }}
+    <script src="{{ STATIC_URL }}js/jquery.autoSuggest.minified.js"></script>
     <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
+    <script src="{{ STATIC_URL }}js/search-engine.js"></script>
     <script>
         $.endlessPaginate({
             paginateOnScroll: true,
             paginateOnScrollMargin: 30
+        });
+
+        $().ready(function(){
+            searchEngine.init();
         });
     </script>
 {% endblock %}

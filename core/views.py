@@ -57,6 +57,8 @@ def search_projects2(request):
     if(request.method == 'GET'):
         q['published'] = True
 
+        if 'query' in request.GET:
+            q['title__icontains'] = request.GET['query']
 
         if 'location[]' in request.GET:
             q["location__in"] = request.GET.getlist('location[]')
@@ -100,6 +102,42 @@ def search_projects2(request):
             projects_list = Project.objects.filter(**q).order_by('-publish_date')
 
         return projects(request, projects_list)
+
+
+def search_offers(request):
+
+    q = {}
+
+    if(request.method == 'GET'):
+
+        if 'query' in request.GET:
+            q['title__icontains'] = request.GET['query']
+
+        if 'location[]' in request.GET:
+            q["location__in"] = request.GET.getlist('location[]')
+
+        if 'tags[]' in request.GET:
+            q["tags__name__in"] = request.GET.getlist('tags[]')
+
+        if 'categories' in request.GET:
+            if request.GET['categories'] != 'all':
+                q['categories__slug__in'] = [request.GET['categories']]
+
+        # if 'when' in request.GET and int(request.GET['when']) != 0:
+        #     when = int(request.GET['when'])
+        # else:
+        #     #first day for a project
+        #     when = 9999
+
+        #check if when is a number
+        # today = datetime.now()
+        # start_date = datetime.now() - timedelta(days=7)
+        # # if when != 9999:
+        # #     q['publish_date__range'] = (start_date, today)
+
+        offers_list = Offer.objects.filter(**q).order_by('-publish_date')
+
+        return offers(request, offers_list)
     # except KeyError:
     #     return render_to_response('search/results.html')
 
@@ -348,16 +386,20 @@ def unfollow(request, pk):
         return HttpResponseRedirect('/profile/'+profile.slug)
 
 
-def offers(request):
+def offers(request, list_offers):
     template = 'offer/list_offers.html'
     endless_part = 'offer/endless_part.html'
     context = {
-        'offers': Offer.objects.all(),
+        'offers': list_offers,
         'endless_part': endless_part,
     }
     if request.is_ajax():
         template = endless_part
     return render_to_response(template, context, context_instance=RequestContext(request))
+
+def offers_all(request):
+    return offers(request, Offer.objects.all)
+
 
 
 def get_offer(request, slug):

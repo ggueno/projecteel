@@ -12,12 +12,11 @@ urlpatterns = patterns('',
     url(r'^project/add/image/new/$', views.ImageProjectCreateView.as_view(), {}, 'upload-new'),
     url(r'^project/add/image/delete/(?P<pk>\d+)$', views.ImageProjectDeleteView.as_view(), {}, 'upload-delete'),
     url(r'^project/remove/(?P<pk>\d+)$', views.remove_project),
-    url(r'^locations/list/$', views.get_locations),
-    url(r'^tags/list/$', views.get_tags),
-    url(r'^skills/list/$', views.get_tags),
+
     url(r'^taggit_autosuggest/list/participant/$', views.get_participants),
     url(r'^taggit_autosuggest/list/location/$', views.get_locations),
-    # url(r'^list/location/$', views.get_locations),
+
+    url(r'^list/location/$', views.get_locations),
     url(r'^list/(?P<tag>[^\.]+)/$', views.get_list),
 
 
@@ -27,8 +26,9 @@ urlpatterns = patterns('',
     url(r'^project/like/(?P<pk>\d+)$', views.like),
 
 
-    url(r'^offers/$', views.offers),
+    url(r'^offers/$', views.offers_all),
     url(r'^offer/add/$', views.add_offer),
+    url(r'^offers/search/$', views.search_offers, {}, 'offers-search'),
     url(r'^offer/posted_offers/$', views.posted_offers),
     url(r'^offer/(?P<slug>[^\.]+)/$', views.get_offer, name="offer_view"),
     url(r'^offer/apply/(?P<pk>\d+)$', views.apply_offer),
