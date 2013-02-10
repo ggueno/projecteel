@@ -11,8 +11,7 @@
         <div class="sorting threecol">
 
 
-            <div class="sleekbox">
-                <h4>Affiner ma recherche</h4>
+            <div class="sleekbox PTform">
 
                 <select class="search-field" id="search-categories" name="search-categories">
                     <option value="all">Tous les catégories</option>
@@ -35,27 +34,43 @@
                     <option value="0" selected>Toujours</option>
                 </select>
 
+                <form action="/projects/search/" class="project-search" method="get">
+                {% csrf_token %}
+                <input class="search-field" id="search-query" type="text" name="query">
+                <input type="submit">
+                </form>
 
+                <form action="" id="projectFilters">
+                    <ul class="filters">
+                        <li class="tag">
+                            <span class="ideal-field">
+                            <input class="search-field autocomplete" id="search-tags" type="text" name="keywords-sorting">
+                            </span>
+                        </li>
+                        <li class="region">
+                            <span class="ideal-field">
+                            <input class="search-field autocomplete" id="search-location" type="text" name="location">
+                            </span>
+                        </li>
+                        <li class="tag">
+                            <span class="ideal-field">
+                            <input class="search-field range" type="text" id="search-durationmin">
+                            <input class="search-field range" type="text" id="search-durationmax">
+                            </span>
+                        </li>
+                        <li class="tag">
+                            <span class="ideal-field">
+                            <input class="search-field autocomplete" type="text" id="search-skills" >
+                            </span>
+                        </li>
+                    </ul>
 
-                <p>Mots-clés</p>
-                <input class="search-field autocomplete" id="search-tags" type="text" name="keywords-sorting">
-                <p>Localisation</p>
-                <input class="search-field autocomplete" id="search-location" type="text" name="location">
-                <p>Compétences</p>
-                <input class="search-field autocomplete" type="text" id="search-skills">
-                <p>Durée</p>
-                <input class="search-field range" type="text" id="search-durationmin">
-                <input class="search-field range" type="text" id="search-durationmax">
             </div>
         </div>
 
         <div class="list-offers eightcol">
 
-            <form action="/projects/search/" class="project-search" method="get">
-                {% csrf_token %}
-                <input class="search-field" id="search-query" type="text" name="query">
-                <input type="submit">
-            </form>
+
 
             {% include endless_part %}
 
