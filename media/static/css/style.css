@@ -3350,6 +3350,9 @@ li.as-result-item img {
 /*
    O F F E R S
    ========================================================================== */
+#list_offers .search {
+  width: 84%;
+}
 #list_offers .thumb-offer {
   margin-bottom: 10px;
   height: 118px;
@@ -3369,7 +3372,7 @@ li.as-result-item img {
 #list_offers .thumb-offer .header-offer .blackTitle {
   text-align: left;
   padding: 0px;
-  width: 90%;
+  width: 65%;
   position: absolute;
 }
 #list_offers .thumb-offer .header-offer .profile_pic {
