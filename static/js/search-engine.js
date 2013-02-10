@@ -5,7 +5,7 @@ var searchEngine = {
     container : "",
 
     init : function(){
-        this.search_url = $(".project-search").attr('action');
+        this.search_url = $(".search-form").attr('action');
         this.search_datas = new Array();
 
         //foreach search-field

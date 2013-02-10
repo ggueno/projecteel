@@ -1,7 +1,7 @@
 {% load thumbnail %}
 {% if project %}
     <div class="thumb {{nb_col}} {% if last %}last{%endif%}">
-            
+
                 {% thumbnail project.thumbnail "210x166" crop="center" as im %}
                 <a href="{{ project.get_absolute_url }}"><img src="{{ im.url }}" alt="" /></a>
                 {% endthumbnail %}

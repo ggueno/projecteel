@@ -1486,7 +1486,7 @@ li.as-result-item img {
     background: transparent !important;
     color: #000 !important;
     /* Black prints faster: h5bp.com/s */
-  
+
     box-shadow: none !important;
     text-shadow: none !important;
   }
@@ -1516,7 +1516,7 @@ li.as-result-item img {
   thead {
     display: table-header-group;
     /* h5bp.com/t */
-  
+
   }
   tr,
   img {
