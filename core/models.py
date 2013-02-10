@@ -86,9 +86,6 @@ class School(Profile):
         return "%s" % (self.name)
 
 
-
-
-
 class Applicant(Profile):
     slug = AutoSlugField(populate_from=lambda instance: u'%s' % (instance.name), unique=True, always_update=True)
     profession = models.CharField(max_length=100, blank=False, null=False)

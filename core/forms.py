@@ -1,5 +1,5 @@
 from django import forms
-from core.models import Project, Offer, Education, Experience, Comment
+from core.models import Project, Offer, Education, Experience, Comment, Applicant
 from taggit_autosuggest.widgets import TagAutoSuggest
 
 
@@ -44,3 +44,12 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         exclude = ('profile', 'publish_date', 'project')
+
+
+class ApplicantForm(forms.ModelForm):
+    class Meta:
+        model = Applicant
+        exclude = ('user', 'educations', 'experiences', 'description')
+        widgets = {
+            'social_network': forms.TextInput(),
+        }

@@ -10,7 +10,7 @@ from django.conf import settings
 from django.db.models import Q, Count
 
 from core.models import *
-from forms import ProjectForm, OfferForm, EducationForm, ExperienceForm, CommentForm
+from forms import ProjectForm, ApplicantForm, OfferForm, EducationForm, ExperienceForm, CommentForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -19,7 +19,7 @@ def home(request):
 
 
 def get_my_self(request):
-    return Profile.objects.filter(user_id=request.user.id)[0]
+    return Applicant.objects.filter(user_id=request.user.id)[0]
 
 
 def projects(request, projects):
@@ -567,7 +567,22 @@ def get_applicant(request, slug):
 
 
 def update_applicant(request):
-    return render(request, 'profile/profile_applicant.html', context)
+    myself = get_my_self(request)
+
+    if request.method == 'POST':
+        formApplicant = ApplicantForm(request.POST, instance=myself)
+
+        if formApplicant.is_valid():
+            formApplicant.save()
+            return HttpResponseRedirect('/profile/')
+    else:
+        formApplicant = ApplicantForm(instance=myself)
+
+    context = {
+        'profile': myself,
+        'formApplicant': formApplicant,
+    }
+    return render(request, 'profile/profile_applicant_update.html', context)
 
 def get_company(request, slug):
     company = Company.objects.get(slug=slug)

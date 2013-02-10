@@ -40,7 +40,7 @@
                         <li class="last"><a href="#" title=""><i class="icon twitter"></i> @hPoulpe</a></li>
                     </ul>
                 </div>
-                <img class="profile_pic" src="{{ profile.avatar.url }}" alt="">
+                {% if profile.avatar %}<img class="profile_pic" src="{{ profile.avatar.url }}" alt="">{% endif %}
             </div>
 
             <div class="row profile_menubar">
@@ -159,12 +159,12 @@
             return false;
         });
 
-        $("#add-education").click(function(e){            
+        $("#add-education").click(function(e){
             $("#add-education-form").slideToggle();
             e.preventDefault();
         });
 
-        $("#add-experience").click(function(e){            
+        $("#add-experience").click(function(e){
             $("#add-experience-form").slideToggle();
             e.preventDefault();
         });
@@ -172,14 +172,14 @@
         $("#add-education-form form, #add-experience-form form").submit(function(e){
             e.preventDefault();
             var data = $(this).serialize();
-            var cur = $(this);     
+            var cur = $(this);
             $.post($(this).attr("action"),data).done(function(data){
 
                 if(data[0]==true){
                     console.log("TRUE");
                     edu = data[1];
                     cur.parent().prev().before(edu.data);
-                    
+
                     cur.find("ul.errorlist").each(function(){
                         $(this).remove();
                     });
@@ -191,7 +191,7 @@
                 }
             });
         });
-        
+
         // $(".following").hover(function(){
         //     $(this).html("Ne plus suivre");
         // }, function(){
