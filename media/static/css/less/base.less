@@ -663,7 +663,7 @@ a.delete-item{
                 display: block;
                 background: transparent;
                 &:hover,&:focus{
-                    background-color: #4fbaea;
+                    background-color: @PTblue;
                     color:#FFF;
                 }
 
@@ -795,9 +795,12 @@ header.menu{
                 float: left;
             }
             .PTbutton{
-                margin-top:9px;
+                margin-top:7px;
                 float: left;
                 display: block;
+                height: 20px;
+                width: auto;
+                line-height: 1.6em;
             }
             .profile_stats{
                 list-style-type: none;
@@ -1112,6 +1115,8 @@ header.menu{
         display: block;
         margin: 0;
         width: 100%;
+        font-weight: normal;
+        font-size: 15px;
         div{
             margin: 0;
         }
@@ -1121,6 +1126,11 @@ header.menu{
             height: 33px;
             line-height: 33px;
             padding: 7px 45px 7px 10px;
+        }
+        .dk_options{
+            li{
+                border:none;
+            }
         }
     }
 }
@@ -1296,6 +1306,56 @@ li.as-result-item{
     }
 }
 
+#projects{
+    .sixcol{
+        margin: 0;
+    }
+    .dropfilters{
+        overflow: visible;
+        height: 70px;
+        .dk_toggle{
+            border: none;
+            width: 88%;
+            padding: 7px 10% 7px 2%;
+        }
+        .dk_options{
+            border: none;
+        }
+    }
+    .sorting{
+        .PTform{
+            input[type=text]{
+                border-left:0;
+                border-right:0;
+            }
+            #search-query{
+                background-image: url(../img/loupe.png);
+                background-repeat: no-repeat;
+                background-position: 11px center;
+                width: 78%;
+                margin: 0;
+                padding: 5% 8% 5% 14%;
+            }
+            ul.as-selections {
+                li.as-selection-item{
+                    padding: 2px 5px;
+                    margin: 10px 5px 0 5px;
+                }
+            }
+            .as-results{
+                margin: 0;
+                background: #fafafa;
+                border: none;
+            }
+            .dk_toggle{
+                border: none;
+                width: 82%;
+                padding: 7px 10% 7px 8%;
+            }
+        }
+    }
+}
+
 /*
    O F F E R S
    ========================================================================== */
@@ -1361,7 +1421,7 @@ li.as-result-item{
             }
         }
     }
-    
+
 }
 
 

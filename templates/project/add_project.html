@@ -10,11 +10,17 @@
             <div class="content">
                 <h1 class="heading">Ajouter projet</h1>
                 {% if form.errors %}
-                    <p style="color: red;">
-                        Please correct the error{{ form.errors|pluralize }} below.
-                    </p>
+                <div id="form-error" style="color: red;">
+                    <p>The operation could not be performed because one or more error(s) occurred.<br />Please resubmit the form after making the following changes:</p>
+                    <ul>
+                    {% for field in form %}
+                        {% if field.errors%}
+                            <li>{{field.name}} {{ field.errors|striptags }}</li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </div>
                 {% endif %}
-
                 <div class="row">
                     <div class="sixcol">
                         <!-- <a id="remove" href="/project/remove/{{project_id}}" alt="Remove Project" />Remove</a> -->
@@ -33,12 +39,14 @@
                                     <label for="">{{form.title.label}}</label>
                                     {{ form.title }}
                                 </div>
+                                {{ form.thumbnail }}
                                 <div class="file-wrap">
                                     <label>Vignette</label>
-                                    <input type="file" name="thumb" id="thumb" tabindex="-1" autocomplete="off">
-                                    <input type="text" class="file-holder" autocomplete="off">
+
+                                    <!--<input type="file" name="thumbnail" id="thumbnail" autocomplete="off">
+                                    <input type="text" class="file-holder" autocomplete="off" disabled>
                                     <button type="button"><i class="icon image"></i> Choisir</button>
-                                    <p class="annotation">(< 1Mo, > 300x250px)</p>
+                                    <p class="annotation">(< 1Mo, > 300x250px)</p>-->
                                 </div>
                                 <div>
                                     <label for="">{{form.categories.label}}</label>
@@ -175,14 +183,21 @@
             $("ul.tabs a[href=#etape2]").click();
         });
 
-        //custom dropdown
-        $('.PTform select').dropkick();
+        window.onbeforeunload = function (e) {
+                var e = e || window.event;
+                var msg = 'Vos modifications du projet seront perdues.';
+
+                // For IE and Firefox
+                if (e) {
+                    e.returnValue = msg;
+                }
+
+                // For Safari / chrome
+                return msg;
+        }
 
         //custom input file
-        $('#thumb').bind('change focus click',fileInputs);
-
-        //autosuggest Location
-        // $("#id_location").autoSuggest("taggit_autosuggest/list/location/", {minChars: 1, matchCase: false});
+        // $('#id_thumbnail').bind('change focus click',fileInputs);
         //slider for period
         // var slider = $('<div id="period_slider"></div>').slider({
         //   value:3,
@@ -198,11 +213,11 @@
 
             $(document).ready(function (){
                 var p = $("#id_location");
-                var container = $('<div></div>').addClass('as-results');
-                var list = $('<ul></ul>').addClass('as-list');
+                // var container = $('<div></div>').addClass('as-results');
+                // var list = $('<ul></ul>').addClass('as-list');
 
-                p.autoSuggest("/taggit_autosuggest/list/location", {
-                    asHtmlID: "id_categories__tagautosuggest",
+                p.autoSuggest("/list/location", {
+                    asHtmlID: "id_location__tagautosuggest",
                     startText: "Tapez un lieu ici",
                     emptyText: "Aucun résultat",
                     limitText: "Vous ne pouvez plus ajouter de lieu",
@@ -212,28 +227,17 @@
                     minChars: 1,
                     showResultList : true,
                     resultsHighlight : true,
-                    retrieveComplete: function(data){
-                        container.show();
-                        list.empty();
-                        if(data.length > 0){
-                            for(i in data){
-                                var item = $('<li></li>').addClass('as-result-item').html(data[i].value);
-                                item.click(function(){
-                                    p.val($(this).text());
-                                    container.hide();
-                                })
-                                list.append(item);
-                            }
-                        }else{
-                            var item = $('<li></li>').addClass('as-result-item').html("Aucun résultat");
-                            list.append(item);
-                        }
-                        return data;
+                    selectionAdded: function(elem){
+                        elem.hide();
                     },
+                    resultClick: function(data){
+                       p.val(data.attributes.value)
+                   },
+
                 });
 
-                container.append(list).hide();
-                p.after(container);
+                // container.append(list).hide();
+                // p.after(container);
 
 
             })
