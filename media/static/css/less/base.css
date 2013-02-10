@@ -818,9 +818,12 @@ header.menu #menu a:hover {
   float: left;
 }
 .profile .profile_cover .profile_cover_infobar .PTbutton {
-  margin-top: 9px;
+  margin-top: 7px;
   float: left;
   display: block;
+  height: 20px;
+  width: auto;
+  line-height: 1.6em;
 }
 .profile .profile_cover .profile_cover_infobar .profile_stats {
   list-style-type: none;

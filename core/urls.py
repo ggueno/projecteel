@@ -16,8 +16,7 @@ urlpatterns = patterns('',
     url(r'^tags/list/$', views.get_tags),
     url(r'^skills/list/$', views.get_tags),
     url(r'^taggit_autosuggest/list/participant/$', views.get_participants),
-    url(r'^taggit_autosuggest/list/location/$', views.get_locations),
-    # url(r'^list/location/$', views.get_locations),
+    url(r'^list/location/$', views.get_locations),
     url(r'^list/(?P<tag>[^\.]+)/$', views.get_list),
 
 

@@ -289,14 +289,14 @@ class Project(models.Model):
         ('ASO', "Associatif"),
     )
 
-    PROJECT_DURATION = (
-        ('1', "1 jour"),
-        ('2', "1 semaine"),
-        ('3', "2 a 3 semaines"),
-        ('4', "1 mois"),
-        ('5', "3 mois"),
-        ('6', "6 mois et plus"),
-    )
+    PROJECT_DURATION = [
+        (1, "1 jour"),
+        (2, "1 semaine"),
+        (3, "2 a 3 semaines"),
+        (4, "1 mois"),
+        (5, "3 mois"),
+        (6, "6 mois et plus"),
+    ]
 
     title = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='title', unique=True, always_update=True)

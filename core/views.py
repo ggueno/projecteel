@@ -229,8 +229,10 @@ def add_project(request):
                 project_save.published = True
                 project_save.save()
                 form.save_m2m()
-
-            return get_project(request, project_save.slug)
+                return get_project(request, project_save.slug)
+            else:
+                # form = ProjectForm(instance=project)
+                return render(request, 'project/add_project.html', {'form': form, 'project_id': project.id})
     else:
         p = Project(title="Untitled", content="  ", owner=applicant, published=False)
         p.save()
@@ -558,8 +560,8 @@ def get_applicant(request, slug):
         'profile': profile,
         'following': following,
         'projects': projects,
-        'formEducation' : formEducation,
-        'formExperience' : formExperience,
+        'formEducation': formEducation,
+        'formExperience': formExperience,
         # 'pushs': Applicant.objects.push_user()
         'pushs': Project.objects.push_user(profile.user_id)
     }
@@ -569,10 +571,20 @@ def get_applicant(request, slug):
 def update_applicant(request):
     return render(request, 'profile/profile_applicant.html', context)
 
+
 def get_company(request, slug):
-    company = Company.objects.get(slug=slug)
+    profile = Company.objects.get(slug=slug)
+    offers = Offer.objects.filter(Q(company=profile))
+    following = Follow.objects.filter(follower__user_id=request.user.id)
     #TODO : delete slug from view and template
-    return render_to_response('profile/profile_company.html', {'profile': company, 'slug': slug})
+    context = {
+        'profile': profile,
+        'following': following,
+        'offers': offers,
+        # 'pushs': Applicant.objects.push_user()
+        # 'pushs': Offer.objects.push_user(profile.user_id)
+    }
+    return render_to_response('profile/profile_company.html', context)
 
 
 def get_school(request, slug):

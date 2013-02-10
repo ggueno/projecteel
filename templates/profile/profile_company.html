@@ -1,24 +1,150 @@
 {% extends "layout/base.html" %}
+{% load staticfiles %}
+{% load projects %}
 
-
-
-{% block title %} {{ profile.slug }}'s profile. {% endblock %}
+{% block title %} {{ profile.slug }}'s profile{% endblock %}
 
 {% block content %}
     {% if profile %}
-        <h2> {{ profile.name }} </h1>
-        <h3> {{ profile.profession }}</h3>
-        <h4> {{ profile.search_location }}</h4>
-        <br/>
-        <p>
-            {% for social_network in profile.social_network.all %}
-                <a href="{{ social_network.url }}" title="{{ profile.name }} on {{ social_network.name }}"> {{ social_network.name }} </a>
-            {% empty %}
-                <p> {{ profile.first_name }} {{ profile.last_name }} n'aime pas vraiment les reseaux sociaux </p>
+        <section class="row profile">
+            <div class="sleekbox">
+                <div class="profile_cover">
+                    <img src="{% static "img/profile_cover.jpg" %}" alt="Cover image">
+                    <div class="profile_cover_infobar row">
 
+                        <h1 id="name" class="blackTitle">{{ profile.name }}</h1>
+
+                        {% if profile.user.id != request.user.id %}
+                            {% if following %}
+                                 <a class="PTbutton following follow" href="/profile/unfollow/{{profile.id}}/">Suivi</a>
+                            {%else%}
+                                 <a class="PTbutton not-following follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
+                            {% endif %}
+
+
+                        {% endif %}
+
+                        <ul class="fourcol last profile_stats">
+                            <li><span>2316</span>vues</li>
+                            <li><span>{% if pushs == 0 %}0{%else%}{{pushs}}{%endif%}</span>push</li>
+                            <li><span>23</span>followers</li>
+                            <li><span>9</span>following</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="profile_secondbar">
+                    <ul>
+                        <li><i class="icon pin"></i> {{ profile.address.name }}</li>
+                        <li><i class="icon job"></i> {{ profile.profession }}</li>
+                        <li class="last"><a href="{{ profile.url }}" target="_blank" title=""><i class="icon web"></i> {{ profile.url }}</a></li>
+                        <li class="last"><a href="#" title=""><i class="icon twitter"></i> @hPoulpe</a></li>
+                    </ul>
+                </div>
+                <img class="profile_pic" src="{{ profile.avatar.url }}" alt="">
+            </div>
+
+            <div class="row profile_menubar">
+                    <ul class="profile_menu fourcol tabs">
+                        <li><a class="active">Offres</a></li>
+                    </ul>
+                    <ul class="tags">
+                        <li>photoshop</li>
+                        <li>php</li>
+                        <li>html5</li>
+                        <li>django</li>
+                    </ul>
+                </div>
+        </section>
+
+
+        <!-- TODO : Template Project -->
+        {% if offers %}
+        <section class="row offers" id="offers">
+            {% for offer in offers %}
+                {% offer_mini offer forloop.counter|divisibleby:"2" "sixcol" %}
             {% endfor %}
-        </p>
+        </section>
+        {% endif %}
+
     {% else %}
         <h1> Profile unfound. <h1>
     {% endif %}
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function(){
+
+        $(".follow").click(function(){
+            var follow_button = this;
+            $.post($(this).attr('href'),function(data){
+                if(data==true)
+                    if($(follow_button).hasClass('not-following')){
+                        var link = $(follow_button).attr('href').replace('follow','unfollow');
+                        $(follow_button).attr('href',link)
+                        $(follow_button).removeClass('not-following');
+                        $(follow_button).addClass('following');
+                        $(follow_button).html("Suivi");
+                    }else{
+                        var link = $(follow_button).attr('href').replace('unfollow','follow');
+                        $(follow_button).attr('href',link)
+                        $(follow_button).addClass('not-following');
+                        $(follow_button).removeClass('following');
+                        $(follow_button).html("Suivre");
+                    }
+            });
+            return false;
+        });
+
+        $("#infos_profile").on('click','a.delete-item',function(e){
+            var parent = $(this).parent();
+            $.post($(this).attr('href'),function(data){
+                $(parent).fadeOut(function(){
+                    $(this).remove();
+                });
+            });
+            return false;
+        });
+
+        $("#add-education").click(function(e){
+            $("#add-education-form").slideToggle();
+            e.preventDefault();
+        });
+
+        $("#add-experience").click(function(e){
+            $("#add-experience-form").slideToggle();
+            e.preventDefault();
+        });
+
+        $("#add-education-form form, #add-experience-form form").submit(function(e){
+            e.preventDefault();
+            var data = $(this).serialize();
+            var cur = $(this);
+            $.post($(this).attr("action"),data).done(function(data){
+
+                if(data[0]==true){
+                    console.log("TRUE");
+                    edu = data[1];
+                    cur.parent().prev().before(edu.data);
+
+                    cur.find("ul.errorlist").each(function(){
+                        $(this).remove();
+                    });
+                    cur.clearForm();
+                }else if(data[0]==false){
+                    console.log("FALSE");
+                    form = data[1];
+                    cur.find('.form-content').html(form.data);
+                }
+            });
+        });
+
+        // $(".following").hover(function(){
+        //     $(this).html("Ne plus suivre");
+        // }, function(){
+        //     $(this).html("Suivre");
+        // }
+        // );
+    });
+</script>
 {% endblock %}

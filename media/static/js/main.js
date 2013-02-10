@@ -63,6 +63,9 @@ $.ajaxSetup({
 });
 
 
+//custom dropdown
+$('.PTform select').dropkick();
+
 
 //Generic tabbed nav fonction
 $('ul.tabs').each(function(){

@@ -17,10 +17,10 @@
 
          <!-- <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css"> -->
         <!-- Generic page styles -->
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+        {# <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css"> #}
         <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
          <!-- <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-image-gallery.min.css"> -->
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.fileupload-ui.css">
+        <link rel="stylesheet" href="{% static "css/jquery.fileupload-ui.css" %}">
 
         <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.8.3.min.js" %}"><\/script>')</script>
         <script src="{% static "js/vendor/modernizr-2.6.2.min.js" %}"></script>
