@@ -129,7 +129,7 @@ var searchEngine = {
             success:
                 function(result, status){
                     $('.thumb').remove();
-                    $(result).insertAfter(".project-search");
+                    $(result).insertAfter(".list-projects form");
                 },
         });
     }
