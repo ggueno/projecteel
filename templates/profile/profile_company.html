@@ -34,7 +34,7 @@
                 </div>
                 <div class="profile_secondbar">
                     <ul>
-                        <li><i class="icon pin"></i> {{ profile.address.name }}</li>
+                        <li><i class="icon pin"></i> {{ profile.address.values.0.city }}, {{ profile.address.values.0.country_id}}</li>
                         <li><i class="icon job"></i> {{ profile.profession }}</li>
                         <li class="last"><a href="{{ profile.url }}" target="_blank" title=""><i class="icon web"></i> {{ profile.url }}</a></li>
                         <li class="last"><a href="#" title=""><i class="icon twitter"></i> @hPoulpe</a></li>
@@ -59,7 +59,7 @@
 
         <!-- TODO : Template Project -->
         {% if offers %}
-        <section class="row offers" id="offers">
+        <section class="row offers" id="list_offers">
             {% for offer in offers %}
                 {% offer_mini offer forloop.counter|divisibleby:"2" "sixcol" %}
             {% endfor %}

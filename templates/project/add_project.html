@@ -183,6 +183,19 @@
             $("ul.tabs a[href=#etape2]").click();
         });
 
+        window.onbeforeunload = function (e) {
+                var e = e || window.event;
+                var msg = 'Vos modifications du projet seront perdues.';
+
+                // For IE and Firefox
+                if (e) {
+                    e.returnValue = msg;
+                }
+
+                // For Safari / chrome
+                return msg;
+        }
+
         //custom input file
         // $('#id_thumbnail').bind('change focus click',fileInputs);
         //slider for period
