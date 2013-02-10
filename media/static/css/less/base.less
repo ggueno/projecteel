@@ -1301,9 +1301,64 @@ li.as-result-item{
    ========================================================================== */
 
 #list_offers{
-    .blackTitle{
-        margin-top: 15px;
+    .thumb-offer{
+        margin-bottom: 10px;
+        height: 118px;
+        width: 100%;
+        p{
+            padding:0px;
+        }
+        .header-offer{
+            text-align:center;
+            width:95%;
+            height: 45px;
+            margin: 0 auto;
+            line-height: 48px;
+            border-bottom:1px solid #d2d2d2;
+            .blackTitle{
+                text-align:left;
+                padding: 0px;
+                width:90%;
+                position:absolute;
+            }
+            .profile_pic{
+                float:right;
+                margin: 0;
+                img{
+                    .border-radius(20px);
+                }
+            }
+        }
+        .content {
+            padding-top: 8px;
+            p {
+                padding-bottom: 10px;
+            }
+            span {
+                color:@PTblue;
+                font-weight: 700;
+            }
+            .left {
+                float: left;
+                .tags-offer{
+                    display: inline;
+                    li{
+                        .tag();
+                        float: none;
+                        display: inline;
+                    }
+                }
+            }
+            .right {
+                float: right;
+                text-align: right;
+                .publish-date {
+                    font-style:italic;
+                }
+            }
+        }
     }
+    
 }
 
 
