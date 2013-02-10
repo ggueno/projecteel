@@ -1,17 +1,32 @@
 {% load thumbnail %}
 {% if offer %}
-    <h1 class="blackTitle"><a href="{{ offer.get_absolute_url }}">{{ offer.title }}</a></h1>
-    <div class="sleekbox header">
-        <h4>{{ offer.company }}</h4>
-        <p>{{ offer.location }}</p>
-        {% if offer.tags %}
-            <ul class="tags inline">
-                {% for tag in offer.tags.all %}
-                    <li>{{ tag.name }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-        <h4>{{ offer.contract }}</h4>
-        <p>{{ offer.publish_date }}</p>
+    <div class="sleekbox header thumb-offer">
+        <div class="header-offer">
+            <h3 class="blackTitle"><a href="{{ offer.get_absolute_url }}">{{ offer.title }}</a></h3>
+            <a class="profile_pic" href="/profile/{{ offer.company.profile.slug }}">
+                {% thumbnail offer.company.avatar "25x25" crop="left" as im %}
+                <img src="{{im.url}}" alt="{{offer.company.profile.avatar}}"/>
+                {% endthumbnail %}
+            </a>
+        </div>
+        <div class="content">
+            <div class="left">
+                <p><span class="company-name">{{ offer.company.name }}</span>,{{ offer.location }}</p>
+                <!--{% if offer.tags %}
+                    <ul class="tags inline">
+                        {% for tag in offer.tags.all %}
+                            <li>{{ tag.name }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}-->
+                <ul class="tags-offer">
+                    <li>Photoshop</li>
+                </ul>
+            </div>
+            <div class="right">
+                <p class="publish-date">{{ offer.publish_date }}</p>
+                <span>{{ offer.contract }}</span>
+            </div>
+        </div>
     </div>
 {% endif %}
