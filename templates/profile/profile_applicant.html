@@ -16,9 +16,9 @@
 
                         {% if profile.user.id != request.user.id %}
                             {% if following %}
-                                 <a class="PTbutton following follow" href="/profile/unfollow/{{profile.id}}/">Suivi</a>
+                                 <a class="PTbutton active follow" href="/profile/unfollow/{{profile.id}}/">Suivi</a>
                             {%else%}
-                                 <a class="PTbutton not-following follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
+                                 <a class="PTbutton unactive follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
                             {% endif %}
 
 
@@ -160,26 +160,7 @@
 <script>
     $(document).ready(function(){
 
-        $(".follow").click(function(){
-            var follow_button = this;
-            $.post($(this).attr('href'),function(data){
-                if(data==true)
-                    if($(follow_button).hasClass('not-following')){
-                        var link = $(follow_button).attr('href').replace('follow','unfollow');
-                        $(follow_button).attr('href',link)
-                        $(follow_button).removeClass('not-following');
-                        $(follow_button).addClass('following');
-                        $(follow_button).html("Suivi");
-                    }else{
-                        var link = $(follow_button).attr('href').replace('unfollow','follow');
-                        $(follow_button).attr('href',link)
-                        $(follow_button).addClass('not-following');
-                        $(follow_button).removeClass('following');
-                        $(follow_button).html("Suivre");
-                    }
-            });
-            return false;
-        });
+        follow_button();
 
         $("#infos_profile").on('click','a.delete-item',function(e){
             var parent = $(this).parent();

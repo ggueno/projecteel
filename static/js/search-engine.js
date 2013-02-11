@@ -4,9 +4,10 @@ var searchEngine = {
     search_datas : "",
     container : "",
 
-    init : function(){
+    init : function(container){
         this.search_url = $(".search-form").attr('action');
         this.search_datas = new Array();
+        this.container = container;
 
         //foreach search-field
         var that = this;
@@ -120,6 +121,8 @@ var searchEngine = {
         }
         console.log(datas);
 
+        var that = this;
+
         $.ajax({
             type: "GET",
             url : this.search_url,
@@ -128,8 +131,7 @@ var searchEngine = {
             data : datas,
             success:
                 function(result, status){
-                    $('.thumb').remove();
-                    $(result).insertAfter(".project-search");
+                    $(that.container).html(result);
                 },
         });
     }

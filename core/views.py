@@ -149,6 +149,8 @@ def search_offers(request):
 def get_project(request, slug):
     project = Project.objects.get(slug=slug)
 
+    following = Follow.objects.filter(follower__user_id=request.user.id, following__user_id=project.owner.user_id)
+
     # get all tags for project
     categoriesList = CategoryTaggedItem.objects.filter(content_object=project.id)
     skillsList = project.skills.get_query_set()
@@ -165,6 +167,7 @@ def get_project(request, slug):
 
     context = {
         'project': project,
+        'following': following,
         'tags': tagsList,
         'categories': categoriesList,
         'skills': skillsList,
@@ -597,7 +600,7 @@ def get_applicant(request, slug):
 
     profile = Applicant.objects.get(slug=slug)
     projects = Project.objects.filter(Q(owner=profile, published=True) | Q(participant__in=[profile], published=True))
-    following = Follow.objects.filter(following__user_id=request.user.id)
+    following = Follow.objects.filter(follower__user_id=request.user.id, following__user_id=profile.user_id)
     followingNb = Follow.objects.filter(following__id=profile.id).count()
     followersNb = Follow.objects.filter(follower__id=profile.id).count()
     pushs = Like.objects.filter(Q(project__owner=profile.user) | Q(project__participant__in=[profile])).count()

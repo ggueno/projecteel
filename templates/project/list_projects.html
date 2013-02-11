@@ -63,15 +63,14 @@
         </div>
 
         <div class="list-projects ninecol last">
-            <form action="/projects/search/" class="search-form project-search" method="get">
-                {% csrf_token %}
-                <input class="search-field" id="search-query" type="text" name="query">
-                <input type="submit">
-            </form>
-
-
-            {% include endless_part %}
-
+            <div class="PTform inline">
+                    <form action="/projects/search/" class="search-form project-search" method="get">
+                    {% csrf_token %}
+                    <input class="search-field" id="search-query" type="text" name="query">
+                    <input type="submit">
+                </form>
+            </div>
+            <div id="list-content">{% include endless_part %}</div>
         </div>
     </div>
 {% endblock %}
@@ -88,7 +87,7 @@
 
 
         $().ready(function(){
-            searchEngine.init();
+            searchEngine.init($('#list-content'));
         });
 
     </script>
