@@ -2,7 +2,7 @@
 {% load thumbnail %}
 {% load staticfiles %}
 {% load projects %}
-
+    {% load hitcount_tags %}
 
 {% block title %} Project {{ profile.slug }} {% endblock %}
 {% block content %}
@@ -19,7 +19,7 @@
             <div class="row project-header">
                 <h1 class="project-title blackTitle">{{ project.title }}</h1>
                 <ul class="project-stats twocol last">
-                    <li><span>2316</span>vues</li>
+                    <li><span>{{ project.views }}</span>vues</li>
                     <li><span class="count-likes">{{project.likes.count}}</span>pushs</li>
                 </ul>
             </div>
@@ -161,7 +161,9 @@
 
 {% block js %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.tmpl.min.js"></script>
+
     <script type="text/javascript">
+        {% get_hit_count_javascript for project %}
 
         $(document).ready(function(){
 

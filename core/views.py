@@ -2,12 +2,13 @@ from django.shortcuts import render_to_response, render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import CreateView, DeleteView
 from django.template import RequestContext
+
 from datetime import datetime, timedelta
 
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Sum
 
 from core.models import *
 from forms import ProjectForm, ApplicantForm, OfferForm, EducationForm, ExperienceForm, CommentForm
@@ -88,8 +89,8 @@ def search_projects2(request):
             when = 9999
 
         #check if when is a number
-        today = datetime.now()
-        start_date = datetime.now() - timedelta(days=7)
+        today = datetime.datetime.now()
+        start_date = datetime.datetime.now() - timedelta(days=7)
         if when != 9999:
             q['publish_date__range'] = (start_date, today)
 
@@ -97,7 +98,9 @@ def search_projects2(request):
             filtre = request.GET['filter']
             if filtre == 'pushs':
                 filtre = 'likes'
-            projects_list = Project.objects.annotate(num=Count('comments')).filter(**q).order_by('-num')
+            projects_list = Project.objects.annotate(num=Count(filtre)).filter(**q).order_by('-num')
+        elif 'filter' in request.GET and request.GET['filter'] in ['views']:
+            projects_list = Project.objects.filter(**q).order_by('hits')
         else:
             projects_list = Project.objects.filter(**q).order_by('-publish_date')
 
@@ -593,14 +596,20 @@ def get_applicant(request, slug):
     # myself = get_my_self(request)
 
     profile = Applicant.objects.get(slug=slug)
-    projects = Project.objects.filter(Q(owner=profile.user, published=True) | Q(participant__in=[profile], published=True))
-    following = Follow.objects.filter(follower__user_id=request.user.id)
+    projects = Project.objects.filter(Q(owner=profile, published=True) | Q(participant__in=[profile], published=True))
+    following = Follow.objects.filter(following__user_id=request.user.id)
+    followingNb = Follow.objects.filter(following__id=profile.id).count()
+    followersNb = Follow.objects.filter(follower__id=profile.id).count()
+    pushs = Like.objects.filter(Q(project__owner=profile.user) | Q(project__participant__in=[profile])).count()
+    views = HitCount.objects.filter(content_type=ContentType.objects.get_for_model(projects[0]), object_pk__in=projects.values_list('pk', flat=True)).aggregate(hits=Sum('hits'))
+    tags = SkillsTag.objects.filter(Q(skills__content_object__owner=profile)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')[:3]
     formEducation = EducationForm()
     formExperience = ExperienceForm()
     #TODO : delete slug from view and template
     context = {
         'profile': profile,
         'following': following,
+        'stats': {'followers': followersNb, 'following': followingNb, 'pushs': pushs, 'tags': tags, 'views': views },
         'projects': projects,
         'formEducation': formEducation,
         'formExperience': formExperience,

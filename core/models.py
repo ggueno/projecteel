@@ -8,6 +8,7 @@ from sorl.thumbnail import get_thumbnail, fields
 from django.core.files.base import ContentFile
 from django.core.validators import MaxLengthValidator
 # from utils import Address, Country
+from hitcount.models import *
 
 
 class Country(models.Model):
@@ -223,8 +224,19 @@ class SkillsTag(TagBase):
     pass
 
 
-class SkillsTaggedItem(GenericTaggedItemBase):
+class SkillsTaggedItem(ItemBase):
     tag = models.ForeignKey(SkillsTag, related_name="skills")
+    content_object = models.ForeignKey('Project')
+
+    @classmethod
+    def tags_for(cls, model, instance=None):
+        if instance is not None:
+            return cls.tag_model().objects.filter(**{
+                '%s__content_object' % cls.tag_relname(): instance
+            })
+        return cls.tag_model().objects.filter(**{
+            '%s__content_object__isnull' % cls.tag_relname(): False
+        }).distinct()
 
 
 class CategoryTag(TagBase):
@@ -259,9 +271,19 @@ class EquipmentTag(TagBase):
         verbose_name_plural = "EquipmentTags"
 
 
-class EquipmentTaggedItem(GenericTaggedItemBase):
+class EquipmentTaggedItem(ItemBase):
     tag = models.ForeignKey(EquipmentTag, related_name="equipments")
+    content_object = models.ForeignKey('Project')
 
+    @classmethod
+    def tags_for(cls, model, instance=None):
+        if instance is not None:
+            return cls.tag_model().objects.filter(**{
+                '%s__content_object' % cls.tag_relname(): instance
+            })
+        return cls.tag_model().objects.filter(**{
+            '%s__content_object__isnull' % cls.tag_relname(): False
+        }).distinct()
 
 class ProjectManager(models.Manager):
     def like_count(self):
@@ -313,6 +335,7 @@ class Project(models.Model):
     equipments = TaggableManager(verbose_name="Equipments", through=EquipmentTaggedItem, blank=True)
     thumbnail = fields.ImageField(upload_to='upload/images/project', blank=True, null=True)
     view = models.IntegerField(blank=False, null=False, default=0)
+    hits = generic.GenericRelation(HitCount, content_type_field='content_type', object_id_field="object_pk")
 
     owner = models.ForeignKey(Applicant, related_name="project_owner")
     participant = models.ManyToManyField(Applicant, blank=True, null=True)
@@ -321,6 +344,21 @@ class Project(models.Model):
 
     def __unicode__(self):
         return "%s" % (self.title)
+
+    def save(self):
+        new = False
+        if self.pk is None:
+            new = True
+        super(Project, self).save()
+        if new == True:
+            t1 = HitCount(content_object=self, object_pk=self.pk)
+            t1.save()
+
+    @property
+    def views(self):
+        return self.hits.all()[0].hits
+        return HitCount.objects.get(content_type=ContentType.objects.get_for_model(self), object_pk=self.id).hits
+
 
     @models.permalink
     def get_absolute_url(self):

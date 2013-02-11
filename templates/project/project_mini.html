@@ -7,7 +7,7 @@
                 {% endthumbnail %}
 
                 <div class="project_infos">
-                    <div class="project_views"><span class="label_views"></span>{{ project.view }}</div>
+                    <div class="project_views"><span class="label_views"></span>{{ project.views }}</div>
                     <div class="project_pushs"><span class="label_pushs"></span>{{ project.likes.count }}</div>
                 </div>
                 <h3><a href="{{ project.get_absolute_url }}">{{ project.title }}</a></h3>

@@ -3,11 +3,18 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 import settings
 
+from hitcount.views import update_hit_count_ajax
+
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
     url(r'', include('core.urls')),
+    url(r'^ajax/hit/$', # you can change this url if you would like
+        update_hit_count_ajax,
+        name='hitcount_update_ajax'), # keep this name the same
+
     # url(r'^$', 'projecteel.views.home', name='home'),
     # url(r'^projecteel/', include('projecteel.foo.urls')),
     (r'^accounts/', include('registration.urls')),
