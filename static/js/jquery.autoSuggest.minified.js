@@ -55,7 +55,11 @@
             }, //callback function
             beforeRetrieve: function(string){ return string; },
             retrieveComplete: function(data){ return data; },
+<<<<<<< HEAD
+            resultClick: function(data){console.log(data)},
+=======
             resultClick: function(data){},
+>>>>>>> 715e8bdabcf1a584a17125ed79a4fbf2c32ee9a1
             resultsComplete: function(){}
         };
         var opts = $.extend(defaults, options);

@@ -1,7 +1,15 @@
 from django import forms
-from core.models import Project, Offer, Education, Experience, Comment
+from django.db import models
+from core.models import Project, Offer, Education, Experience, Comment, Applicant
 from taggit_autosuggest.widgets import TagAutoSuggest
 
+
+def make_custom_datefield(f):
+    formfield = f.formfield()
+    if isinstance(f, models.DateField):
+        formfield.widget.format = '%m/%d/%Y'
+        formfield.widget.attrs.update({'class':'datePicker', 'readonly':'true'})
+    return formfield
 
 class ProjectForm(forms.ModelForm):
 
@@ -15,32 +23,36 @@ class ProjectForm(forms.ModelForm):
         }
 
 class OfferForm(forms.ModelForm):
+    formfield_callback = make_custom_datefield
     class Meta:
         model = Offer
         exclude = ('slug', 'company')
 
 
 class EducationForm(forms.ModelForm):
+    formfield_callback = make_custom_datefield
     class Meta:
         model = Education
         exclude = ('owner')
-        widgets = {
-            'start': forms.DateInput(),
-            'end': forms.DateInput(),
-        }
 
 
 class ExperienceForm(forms.ModelForm):
+    formfield_callback = make_custom_datefield
     class Meta:
         model = Experience
         exclude = ('owner')
-        widgets = {
-            'start': forms.DateInput(),
-            'end': forms.DateInput(),
-        }
 
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         exclude = ('profile', 'publish_date', 'project')
+
+
+class ApplicantForm(forms.ModelForm):
+    class Meta:
+        model = Applicant
+        exclude = ('user', 'educations', 'experiences', 'description')
+        widgets = {
+            'social_network': forms.TextInput(),
+        }

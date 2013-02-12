@@ -2,15 +2,16 @@ from django.shortcuts import render_to_response, render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import CreateView, DeleteView
 from django.template import RequestContext
+
 from datetime import datetime, timedelta
 
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Sum
 
 from core.models import *
-from forms import ProjectForm, OfferForm, EducationForm, ExperienceForm, CommentForm
+from forms import ProjectForm, ApplicantForm, OfferForm, EducationForm, ExperienceForm, CommentForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -19,7 +20,7 @@ def home(request):
 
 
 def get_my_self(request):
-    return Profile.objects.filter(user_id=request.user.id)[0]
+    return Applicant.objects.filter(user_id=request.user.id)[0]
 
 
 def projects(request, projects):
@@ -57,6 +58,8 @@ def search_projects2(request):
     if(request.method == 'GET'):
         q['published'] = True
 
+        if 'query' in request.GET:
+            q['title__icontains'] = request.GET['query']
 
         if 'location[]' in request.GET:
             q["location__in"] = request.GET.getlist('location[]')
@@ -86,8 +89,8 @@ def search_projects2(request):
             when = 9999
 
         #check if when is a number
-        today = datetime.now()
-        start_date = datetime.now() - timedelta(days=7)
+        today = datetime.datetime.now()
+        start_date = datetime.datetime.now() - timedelta(days=7)
         if when != 9999:
             q['publish_date__range'] = (start_date, today)
 
@@ -95,11 +98,49 @@ def search_projects2(request):
             filtre = request.GET['filter']
             if filtre == 'pushs':
                 filtre = 'likes'
-            projects_list = Project.objects.annotate(num=Count('comments')).filter(**q).order_by('-num')
+            projects_list = Project.objects.annotate(num=Count(filtre)).filter(**q).order_by('-num')
+        elif 'filter' in request.GET and request.GET['filter'] in ['views']:
+            projects_list = Project.objects.filter(**q).order_by('hits')
         else:
             projects_list = Project.objects.filter(**q).order_by('-publish_date')
 
         return projects(request, projects_list)
+
+
+def search_offers(request):
+
+    q = {}
+
+    if(request.method == 'GET'):
+
+        if 'query' in request.GET:
+            q['title__icontains'] = request.GET['query']
+
+        if 'location[]' in request.GET:
+            q["location__in"] = request.GET.getlist('location[]')
+
+        if 'tags[]' in request.GET:
+            q["tags__name__in"] = request.GET.getlist('tags[]')
+
+        if 'categories' in request.GET:
+            if request.GET['categories'] != 'all':
+                q['categories__slug__in'] = [request.GET['categories']]
+
+        # if 'when' in request.GET and int(request.GET['when']) != 0:
+        #     when = int(request.GET['when'])
+        # else:
+        #     #first day for a project
+        #     when = 9999
+
+        #check if when is a number
+        # today = datetime.now()
+        # start_date = datetime.now() - timedelta(days=7)
+        # # if when != 9999:
+        # #     q['publish_date__range'] = (start_date, today)
+
+        offers_list = Offer.objects.filter(**q).order_by('-publish_date')
+
+        return offers(request, offers_list)
     # except KeyError:
     #     return render_to_response('search/results.html')
 
@@ -107,6 +148,8 @@ def search_projects2(request):
 
 def get_project(request, slug):
     project = Project.objects.get(slug=slug)
+
+    following = Follow.objects.filter(follower__user_id=request.user.id, following__user_id=project.owner.user_id)
 
     # get all tags for project
     categoriesList = CategoryTaggedItem.objects.filter(content_object=project.id)
@@ -124,6 +167,7 @@ def get_project(request, slug):
 
     context = {
         'project': project,
+        'following': following,
         'tags': tagsList,
         'categories': categoriesList,
         'skills': skillsList,
@@ -298,13 +342,56 @@ def remove_project(request, pk):
         return HttpResponseRedirect('/projects/')
 
 
-def like(request, pk):
+def like2(request, pk):
     project = Project.objects.get(id=pk)
     profile = Profile.objects.filter(user_id=request.user.id)[0]
     if Like.objects.filter(project=project).filter(profile=profile).count() == 0:
         Like.objects.create(profile=profile, project_id=pk)
     likes = Like.objects.filter(project=project).count()
     return HttpResponse(likes)
+
+
+def like(request, pk):
+    project = Project.objects.get(id=pk)
+    myself = get_my_self(request)
+    if request.user.id == project.owner.user_id:
+        result = False
+    else:
+        try:
+            Like.objects.get(project_id=pk, profile__user=request.user)
+            result = False
+        except Like.DoesNotExist:
+            Like.objects.create(project_id=pk, profile=myself)
+            result = True
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        profile = Profile.objects.get(id=pk)
+        return HttpResponseRedirect('/profile/' + profile.slug)
+
+
+
+def unlike(request, pk):
+    project = Project.objects.get(id=pk)
+    myself = get_my_self(request)
+    if request.user.id == project.owner.user_id:
+        result = False
+    else:
+        try:
+            Like.objects.get(project_id=pk, profile__user_id=request.user.id).delete()
+            result = True
+        except Like.DoesNotExist:
+            result = False
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        return HttpResponseRedirect('/project/' + project.slug)
 
 
 @login_required
@@ -350,16 +437,20 @@ def unfollow(request, pk):
         return HttpResponseRedirect('/profile/'+profile.slug)
 
 
-def offers(request):
+def offers(request, list_offers):
     template = 'offer/list_offers.html'
     endless_part = 'offer/endless_part.html'
     context = {
-        'offers': Offer.objects.all(),
+        'offers': list_offers,
         'endless_part': endless_part,
     }
     if request.is_ajax():
         template = endless_part
     return render_to_response(template, context, context_instance=RequestContext(request))
+
+def offers_all(request):
+    return offers(request, Offer.objects.all)
+
 
 
 def get_offer(request, slug):
@@ -551,14 +642,20 @@ def get_applicant(request, slug):
     # myself = get_my_self(request)
 
     profile = Applicant.objects.get(slug=slug)
-    projects = Project.objects.filter(Q(owner=profile.user, published=True) | Q(participant__in=[profile], published=True))
-    following = Follow.objects.filter(follower__user_id=request.user.id)
+    projects = Project.objects.filter(Q(owner=profile, published=True) | Q(participant__in=[profile], published=True))
+    following = Follow.objects.filter(follower__user_id=request.user.id, following__user_id=profile.user_id)
+    followingNb = Follow.objects.filter(following__id=profile.id).count()
+    followersNb = Follow.objects.filter(follower__id=profile.id).count()
+    pushs = Like.objects.filter(Q(project__owner=profile.user) | Q(project__participant__in=[profile])).count()
+    views = HitCount.objects.filter(content_type=ContentType.objects.get_for_model(projects[0]), object_pk__in=projects.values_list('pk', flat=True)).aggregate(hits=Sum('hits'))
+    tags = SkillsTag.objects.filter(Q(skills__content_object__owner=profile)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')[:3]
     formEducation = EducationForm()
     formExperience = ExperienceForm()
     #TODO : delete slug from view and template
     context = {
         'profile': profile,
         'following': following,
+        'stats': {'followers': followersNb, 'following': followingNb, 'pushs': pushs, 'tags': tags, 'views': views },
         'projects': projects,
         'formEducation': formEducation,
         'formExperience': formExperience,
@@ -569,7 +666,22 @@ def get_applicant(request, slug):
 
 
 def update_applicant(request):
-    return render(request, 'profile/profile_applicant.html', context)
+    myself = get_my_self(request)
+
+    if request.method == 'POST':
+        formApplicant = ApplicantForm(request.POST, instance=myself)
+
+        if formApplicant.is_valid():
+            formApplicant.save()
+            return HttpResponseRedirect('/profile/')
+    else:
+        formApplicant = ApplicantForm(instance=myself)
+
+    context = {
+        'profile': myself,
+        'formApplicant': formApplicant,
+    }
+    return render(request, 'profile/profile_applicant_update.html', context)
 
 
 def get_company(request, slug):

@@ -829,7 +829,6 @@ img {
   border: 1px solid #cdcdcd;
   background-color: #fcfcfc;
   color: #333;
-  text-shadow: #fff 1px 1px 0;
   -webkit-transition: border-color 0.5s;
   -moz-transition: border-color 0.5s;
   -o-transition: border-color 0.5s;
@@ -841,11 +840,6 @@ img {
 /* Applied when the dropdown is focused */
 .dk_focus .dk_toggle {
   border-color: #40b5e2;
-}
-.dk_focus .dk_toggle {
-  box-shadow: 0 0 5px #40b5e2;
-  -moz-box-shadow: 0 0 5px #40b5e2;
-  -webkit-box-shadow: 0 0 5px #40b5e2;
 }
 /* Applied whenever the dropdown is open */
 .dk_open {
@@ -864,7 +858,6 @@ img {
 /* The outer container of the options */
 .dk_options a {
   background-color: #fcfcfc;
-  border-bottom: 1px solid #999;
   font-weight: normal;
   padding: 8px 10px;
   height: 28px;
@@ -876,16 +869,15 @@ img {
 .dk_options a:hover,
 .dk_option_current a {
   background-color: #0084c7;
-  border-bottom-color: #004c72;
+  border: none;
   color: #fff;
   text-decoration: none;
-  text-shadow: rgba(0, 0, 0, 0.5) 0 1px 0;
 }
 /* Inner container for options, this is what makes the scrollbar possible. */
 .dk_options_inner {
-  border: 1px solid #8c8c8e;
+  border: 1px solid #cdcdcd;
   border-bottom-width: 2px;
-  border-bottom-color: #999;
+  border-bottom-color: #cdcdcd;
   color: #333;
   max-height: 250px;
 }
@@ -3139,6 +3131,8 @@ header.menu #menu a:hover {
   display: block;
   margin: 0;
   width: 100%;
+  font-weight: normal;
+  font-size: 15px;
 }
 .PTform div.dk_container div {
   margin: 0;
@@ -3149,6 +3143,9 @@ header.menu #menu a:hover {
   height: 33px;
   line-height: 33px;
   padding: 7px 45px 7px 10px;
+}
+.PTform div.dk_container .dk_options li {
+  border: none;
 }
 .add_project .content {
   padding: 40px 60px;
@@ -3358,12 +3355,38 @@ li.as-result-item img {
   height: 70px;
 }
 #projects .dropfilters .dk_toggle {
-  width: 87.8%;
+  border: none;
+  width: 88%;
   padding: 7px 10% 7px 2%;
+}
+#projects .dropfilters .dk_options {
+  border: none;
 }
 #projects .sorting .PTform input[type=text] {
   border-left: 0;
   border-right: 0;
+}
+#projects .sorting .PTform #search-query {
+  background-image: url(../img/loupe.png);
+  background-repeat: no-repeat;
+  background-position: 11px center;
+  width: 78%;
+  margin: 0;
+  padding: 5% 8% 5% 14%;
+}
+#projects .sorting .PTform ul.as-selections li.as-selection-item {
+  padding: 2px 5px;
+  margin: 10px 5px 0 5px;
+}
+#projects .sorting .PTform .as-results {
+  margin: 0;
+  background: #fafafa;
+  border: none;
+}
+#projects .sorting .PTform .dk_toggle {
+  border: none;
+  width: 82%;
+  padding: 7px 10% 7px 8%;
 }
 /*
    O F F E R S
@@ -3439,6 +3462,19 @@ li.as-result-item img {
 }
 #list_offers .thumb-offer .content .right .publish-date {
   font-style: italic;
+}
+/* ==========================================================================
+   Common  classes
+   ========================================================================== */
+.PTbutton.unactive {
+  background-color: #0099e6;
+}
+.PTbutton.active {
+  background-color: #004d00;
+}
+.PTbutton.active:hover {
+  background-color: red;
+  color: white;
 }
 /* ==========================================================================
    Helper classes

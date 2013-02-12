@@ -148,6 +148,7 @@ INSTALLED_APPS = (
     'registration',
     'sorl.thumbnail',
     'taggit',
+    'hitcount',
     'taggit_autosuggest',
     'sorl.thumbnail',
     'core',
@@ -199,3 +200,8 @@ DEFAULT_FROM_EMAIL = 'testing@example.com'
 FIXTURE_DIRS = (
     os.path.join(PROJECT_PATH, 'fixtures/'),
 )
+
+
+HITCOUNT_KEEP_HIT_ACTIVE = {'seconds': 1}
+HITCOUNT_HITS_PER_IP_LIMIT = 0
+HITCOUNT_EXCLUDE_USER_GROUP = ()

@@ -1,13 +1,16 @@
 {% load thumbnail %}
+{% load staticfiles %}
 {% if project %}
     <div class="thumb {{nb_col}} {% if last %}last{%endif%}">
-            
-                {% thumbnail project.thumbnail "210x166" crop="center" as im %}
-                <a href="{{ project.get_absolute_url }}"><img src="{{ im.url }}" alt="" /></a>
-                {% endthumbnail %}
-
+                {% if project.thumbnail %}
+                    {% thumbnail project.thumbnail "210x166" crop="center" as im %}
+                    <a href="{{ project.get_absolute_url }}"><img src="{{ im.url }}" alt="" /></a>
+                    {% endthumbnail %}
+                {% else %}
+                    <a href="{{ project.get_absolute_url }}"><img src="{% static 'img/default_project.jpg' %}" alt="" /></a>
+                {% endif %}
                 <div class="project_infos">
-                    <div class="project_views"><span class="label_views"></span>{{ project.view }}</div>
+                    <div class="project_views"><span class="label_views"></span>{{ project.views }}</div>
                     <div class="project_pushs"><span class="label_pushs"></span>{{ project.likes.count }}</div>
                 </div>
                 <h3><a href="{{ project.get_absolute_url }}">{{ project.title }}</a></h3>

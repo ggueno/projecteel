@@ -17,6 +17,7 @@
             <form id="add-offer" action="" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
+                <input id="datee" type="text" />
                 <input type="submit" value="Submit">
             </form>
 
@@ -38,14 +39,16 @@
             $("#id_content") = tmp.textContent||tmp.innerText;
 
             //var content = $("#id_content").html();*/
-            //alert($("#id_content").text());            
+            //alert($("#id_content").text());
         });
 
     });
 
+
+
     bkLib.onDomLoaded(function() {
         new nicEditor({buttonList : ['bold','italic','underline','fontSize','strikeThrough', 'link', 'ul', 'html','image']}).panelInstance('id_content');
     });
-    
+
     </script>
 {% endblock %}
