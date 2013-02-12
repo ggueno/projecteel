@@ -24,6 +24,7 @@ urlpatterns = patterns('',
 
     url(r'^project/(?P<slug>[^\.]+)/$', views.get_project, name="project_view"),
     url(r'^project/like/(?P<pk>\d+)$', views.like),
+    url(r'^project/unlike/(?P<pk>\d+)$', views.unlike),
 
 
     url(r'^offers/$', views.offers_all),

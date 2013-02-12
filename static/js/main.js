@@ -102,3 +102,28 @@ $('ul.tabs').each(function(){
         e.preventDefault();
     });
 });
+
+function follow_button(){
+    $(".follow").click(function(){
+        var follow_button = this;
+        $.post($(this).attr('href'),function(data){
+            if(data==true)
+                if($(follow_button).hasClass('unactive')){
+                    var link = $(follow_button).attr('href').replace('follow','unfollow');
+                    $(follow_button).attr('href',link)
+                    $(follow_button).removeClass('unactive');
+                    $(follow_button).addClass('active');
+                    $(follow_button).html("Suivi");
+                }else{
+                    var link = $(follow_button).attr('href').replace('unfollow','follow');
+                    $(follow_button).attr('href',link)
+                    $(follow_button).addClass('unactive');
+                    $(follow_button).removeClass('active');
+                    $(follow_button).html("Suivre");
+                }
+        });
+        return false;
+    });
+}
+
+$( ".datePicker" ).datepicker();

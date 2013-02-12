@@ -3466,15 +3466,21 @@ li.as-result-item img {
 /* ==========================================================================
    Common  classes
    ========================================================================== */
-.unactive {
+.PTbutton.unactive {
   background-color: #0099e6;
 }
-.active {
+.PTbutton.active {
   background-color: #004d00;
 }
-.active:hover {
+.PTbutton.active:hover {
   background-color: red;
   color: white;
+}
+#btn-push {
+  width: 40px;
+  height: 30px;
+  padding: 3px 2px;
+  margin: 0;
 }
 /* ==========================================================================
    Helper classes
@@ -3681,7 +3687,7 @@ p.location {
 }
 .project-header .project-stats li {
   float: left;
-  width: 49%;
+  width: 33%;
   text-align: center;
   line-height: 1.1;
   font-size: .8em;

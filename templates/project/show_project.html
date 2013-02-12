@@ -11,16 +11,19 @@
     <section class="ninecol" id="project">
         <div class="sleekbox">
 
-            <form action="/project/like/{{project.id}}" class="push" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <button id="btn-push" class="{{status}} PTbutton" name='submit' type="submit" value="push">Push</button>
-            </form>
-
             <div class="row project-header">
                 <h1 class="project-title blackTitle">{{ project.title }}</h1>
-                <ul class="project-stats twocol last">
+
+                <ul class="project-stats threecol last">
                     <li><span>{{ project.views }}</span>vues</li>
                     <li><span class="count-likes">{{project.likes.count}}</span>pushs</li>
+                    <li>
+                        {% if status == 'pushed' %}
+                        <a href="/project/unlike/{{project.id}}" id="push" class="active PTbutton">Pushé</a>
+                        {% else %}
+                        <a href="/project/like/{{project.id}}" id="push" class="unactive PTbutton">Push</a>
+                        {% endif %}
+                    </li>
                 </ul>
             </div>
 
@@ -86,12 +89,15 @@
 
                     <h3>{{project.owner.user.first_name}} {{project.owner.user.last_name}}</h3>
                     <span class="profession">{{project.owner.profession}}</span>
+                    {% if request.user.id != project.owner.user.id %}
                     {% if following %}
                          <a class="PTbutton active follow" href="/profile/unfollow/{{project.owner.id}}/">Suivi</a>
                     {%else%}
                          <a class="PTbutton unactive follow" href="/profile/follow/{{project.owner.id}}/">Suivre</a>
                     {% endif %}
+
                     <a href="#" class="PTbutton"><i class="icon message"></i></a>
+                    {% endif %}
                 </a>
             </div>
 
@@ -173,7 +179,9 @@
 
         $(document).ready(function(){
 
-            follow_button();
+
+            onoff_button('.follow', 'follow', "Suivi", "Suivre");
+            onoff_button('#push', 'like', "Pushé", "Push");
 
             $(".push").submit( function() {
                 event.preventDefault();

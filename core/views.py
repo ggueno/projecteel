@@ -342,13 +342,56 @@ def remove_project(request, pk):
         return HttpResponseRedirect('/projects/')
 
 
-def like(request, pk):
+def like2(request, pk):
     project = Project.objects.get(id=pk)
     profile = Profile.objects.filter(user_id=request.user.id)[0]
     if Like.objects.filter(project=project).filter(profile=profile).count() == 0:
         Like.objects.create(profile=profile, project_id=pk)
     likes = Like.objects.filter(project=project).count()
     return HttpResponse(likes)
+
+
+def like(request, pk):
+    project = Project.objects.get(id=pk)
+    myself = get_my_self(request)
+    if request.user.id == project.owner.user_id:
+        result = False
+    else:
+        try:
+            Like.objects.get(project_id=pk, profile__user=request.user)
+            result = False
+        except Like.DoesNotExist:
+            Like.objects.create(project_id=pk, profile=myself)
+            result = True
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        profile = Profile.objects.get(id=pk)
+        return HttpResponseRedirect('/profile/' + profile.slug)
+
+
+
+def unlike(request, pk):
+    project = Project.objects.get(id=pk)
+    myself = get_my_self(request)
+    if request.user.id == project.owner.user_id:
+        result = False
+    else:
+        try:
+            Like.objects.get(project_id=pk, profile__user_id=request.user.id).delete()
+            result = True
+        except Like.DoesNotExist:
+            result = False
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        return HttpResponseRedirect('/project/' + project.slug)
 
 
 @login_required
