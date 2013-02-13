@@ -11,7 +11,7 @@ from django.conf import settings
 from django.db.models import Q, Count, Sum
 
 from core.models import *
-from forms import ProjectForm, ApplicantForm, OfferForm, EducationForm, ExperienceForm, CommentForm
+from forms import *
 from django.contrib.auth.decorators import login_required
 
 
@@ -461,7 +461,7 @@ def get_offer(request, slug):
     else:
         status = "applied"
     #TODO : delete slug from view and template
-    return render_to_response('offer/show_offer.html', {'offer': offer, 'slug': slug, 'user': applicant, 'status': status})
+    return render(request, 'offer/show_offer.html', {'offer': offer, 'apply_form': ApplyForm(),'slug': slug, 'user': applicant, 'status': status})
 
 
 @login_required
@@ -483,15 +483,45 @@ def add_offer(request):
     return render(request, 'offer/add_offer.html', {'form': form})
 
 @login_required
-def apply_offer(request, pk):
-    offer = Offer.objects.get(id=pk)
+def apply_offer(request):
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
-    if ApplicantOffer.objects.filter(offer=offer).filter(applicant=applicant).count() == 0:
-        ApplicantOffer.objects.create(applicant=applicant, offer_id=pk)
-        msg = "applied"
+
+    try:
+        if request.method == 'POST':
+
+            form = ApplyForm(request.POST)
+
+            if form.is_valid():
+                cd = form.cleaned_data
+                data = cd
+                offer = Offer.objects.get(id=int(request.POST['offer_id']))
+                applyOffer = ApplicantOffer.objects.create(offer=offer, applicant=applicant, content=cd['content'])
+
+                data = [{
+                    'state': True,
+                    'id': applyOffer.id,
+                    'content': cd['content']
+                }]
+            else:
+                data = request.POST
+        else:
+            data = False
+
+    except Offer.DoesNotExist:
+        data = False
+
+    if request.is_ajax():
+        response = JSONResponse(data, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
     else:
-        msg = ""
-    return HttpResponse(msg)
+        #TODO : urls /offer/<id>
+        if data != False:
+            return HttpResponseRedirect('/offer/' + offer.slug)
+        else:
+            return HttpResponseRedirect('/offers/')
+
+
 
 
 @login_required

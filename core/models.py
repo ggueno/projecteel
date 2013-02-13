@@ -356,7 +356,7 @@ class Project(models.Model):
 
     @property
     def views(self):
-        return self.hits.all()[0].hits
+        # return self.hits.all()[0].hits
         return HitCount.objects.get(content_type=ContentType.objects.get_for_model(self), object_pk=self.id).hits
 
 

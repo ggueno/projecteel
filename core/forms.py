@@ -1,6 +1,6 @@
 from django import forms
 from django.db import models
-from core.models import Project, Offer, Education, Experience, Comment, Applicant
+from core.models import Project, Offer, Education, Experience, Comment, Applicant, ApplicantOffer
 from taggit_autosuggest.widgets import TagAutoSuggest
 
 
@@ -56,3 +56,9 @@ class ApplicantForm(forms.ModelForm):
         widgets = {
             'social_network': forms.TextInput(),
         }
+
+
+class ApplyForm(forms.ModelForm):
+    class Meta:
+        model = ApplicantOffer
+        exclude = ('applicant', 'publish_date', 'offer')
