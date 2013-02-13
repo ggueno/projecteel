@@ -6,21 +6,25 @@
 
     {% if offer %}
 
-<div class="row">
-    <form action="/offer/apply/{{ offer.id }}" class="apply" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <button id="btn-apply" class="{{status}} PTbutton" name='submit' type="submit" value="apply">Postuler</button>
-    </form>
-</div>
 
 <div class="row wrapper">
     <section id="project" class="ninecol">
         <div class="sleekbox">
             <div class="row project-header">
                 <h1 class="project-title blackTitle">{{ offer.title }}</h1>
+                <ul class="project-stats threecol last">
+                    <li>
+                        {% if status == 'applied' %}
+                        <a href="/offer/unapply/{{offer.id}}" id="apply" class="active PTbutton">A Postulé</a>
+                        {% else %}
+                        <a href="/offer/apply/{{offer.id}}" id="apply" class="unactive PTbutton">Postuler</a>
+                        {% endif %}
+                    </li>
+                </ul>
+
             </div>
             <h4 class="subline"><span>Postée le {{ offer.publish_date }}</span></h4>
-            <p class="project-content">{{ offer.content|safe }}</p>  
+            <p class="project-content">{{ offer.content|safe }}</p>
         </div>
     </section>
 
@@ -59,13 +63,15 @@
 {% block js %}
 
 <script type="text/javascript">
-   
+
     $(document).ready(function(){
-    
+        onoff_button('#apply', 'apply', "A Postulé", "Postuler");
+
+
         $(".apply").submit( function() {
             event.preventDefault();
             var urlSubmit = $(this).attr('action');
-            $.ajax({  
+            $.ajax({
                 type: "POST",
                 url: urlSubmit,
                 data      : $(this).serializeArray(),
@@ -82,7 +88,7 @@
 
         if ($("#btn-apply").hasClass('applied'))
             $("#btn-apply").text('A POSTULE');
-    
+
     });
 </script>
 
