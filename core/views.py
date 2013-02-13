@@ -30,6 +30,7 @@ def projects(request, projects):
         'projects': projects,
         'categories': CategoryTag.objects.all(),
         'endless_part': endless_part,
+        'tags': Project.tags.most_common()
     }
     if request.is_ajax():
         template = endless_part

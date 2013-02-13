@@ -114,6 +114,7 @@ function follow_button(){
                     $(follow_button).removeClass('unactive');
                     $(follow_button).addClass('active');
                     $(follow_button).html("Suivi");
+
                 }else{
                     var link = $(follow_button).attr('href').replace('unfollow','follow');
                     $(follow_button).attr('href',link)
@@ -125,5 +126,31 @@ function follow_button(){
         return false;
     });
 }
+
+
+function onoff_button(target, name, active, unactive){
+    $(target).click(function(){
+        var button = this;
+        $.post($(this).attr('href'),function(data){
+            if(data==true)
+                if($(button).hasClass('unactive')){
+                    var link = $(button).attr('href').replace(name,'un'+name);
+                    $(button).attr('href',link);
+                    $(button).removeClass('unactive');
+                    $(button).addClass('active');
+                    $(button).html(active);
+                    //TODO : Add Unfollow hover
+                }else{
+                    var link = $(button).attr('href').replace('un'+name,name);
+                    $(button).attr('href',link);
+                    $(button).addClass('unactive');
+                    $(button).removeClass('active');
+                    $(button).html(unactive);
+                }
+        });
+        return false;
+    });
+}
+
 
 $( ".datePicker" ).datepicker();
