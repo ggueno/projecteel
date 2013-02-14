@@ -15,16 +15,13 @@
             <div class="content">
                 <div class="left">
                     <p><span class="company-name">{{ offer.company.name }}</span>, {{ offer.location }}</p>
-                    <!--{% if offer.tags %}
-                        <ul class="tags inline">
+                    {% if offer.tags %}
+                        <ul class="tags-offer">
                             {% for tag in offer.tags.all %}
-                                <li>{{ tag.name }}</li>
+                                <li><a href="/offers/search/?tags[]={{tag.slug}}">{{ tag.name }}</a></li>
                             {% endfor %}
                         </ul>
-                    {% endif %}-->
-                    <ul class="tags-offer">
-                        <li>Photoshop</li>
-                    </ul>
+                    {% endif %}
                 </div>
                 <div class="right">
                     <p class="publish-date">{{ offer.publish_date }}</p>

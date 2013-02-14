@@ -107,7 +107,7 @@ function follow_button(){
     $(".follow").click(function(){
         var follow_button = this;
         $.post($(this).attr('href'),function(data){
-            if(data==true)
+            if(data==true )
                 if($(follow_button).hasClass('unactive')){
                     var link = $(follow_button).attr('href').replace('follow','unfollow');
                     $(follow_button).attr('href',link)
@@ -132,7 +132,7 @@ function onoff_button(target, name, active, unactive){
     $(target).click(function(){
         var button = this;
         $.post($(this).attr('href'),function(data){
-            if(data==true)
+            if(data==true || data.state == true)
                 if($(button).hasClass('unactive')){
                     var link = $(button).attr('href').replace(name,'un'+name);
                     $(button).attr('href',link);
