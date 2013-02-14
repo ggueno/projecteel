@@ -14,10 +14,20 @@
                 <h1 class="project-title blackTitle">{{ offer.title }}</h1>
                 <ul class="project-stats threecol last">
                     <li>
+
                         {% if status == 'applied' %}
                         <a href="#postApply" id="apply" class="active PTbutton">A Postulé</a>
+
                         {% else %}
                         <a href="#postApply" id="apply" class="unactive PTbutton">Postuler</a>
+                        {% endif %}
+                    </li>
+
+                    <li>
+                        {% if status.bookmark %}
+                        <a href="/offer/bookmark/unadd/{{offer.id}}" id="bookmark" class="active PTbutton">Favorisé</a>
+                        {% else %}
+                        <a href="/offer/bookmark/add/{{offer.id}}" id="bookmark" class="unactive PTbutton">Favoris</a>
                         {% endif %}
                     </li>
                 </ul>
@@ -81,7 +91,7 @@
 
     $(document).ready(function(){
 
-        // onoff_button('#apply', 'apply', "A Postulé", "Postuler");
+        onoff_button('#bookmark', 'add', "Favorisé", "Favoris");
 
         if ($("#btn-apply").hasClass('applied'))
             $("#btn-apply").text('A POSTULE');

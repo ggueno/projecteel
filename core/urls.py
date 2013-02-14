@@ -28,6 +28,7 @@ urlpatterns = patterns('',
 
 
     url(r'^offers/$', views.offers_all),
+    url(r'^offer/bookmark/(?P<state>[^\.]+)/(?P<pk>\d+)$', views.bookmark),
     url(r'^offer/add/$', views.add_offer),
     url(r'^offers/search/$', views.search_offers, {}, 'offers-search'),
     url(r'^offer/posted_offers/$', views.posted_offers),

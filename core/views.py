@@ -232,6 +232,8 @@ def get_list(request, tag):
         objectKind = SkillsTag
     elif tag == 'tags':
         objectKind = CommonTag
+    elif tag == 'offerTag':
+        objectKind = OfferTag
 
     if 'q' in request.GET:
         q = request.GET["q"]
@@ -351,6 +353,32 @@ def like2(request, pk):
     likes = Like.objects.filter(project=project).count()
     return HttpResponse(likes)
 
+def bookmark(request, state, pk):
+    try:
+        offer = Offer.objects.get(id=pk)
+        myself = Applicant.objects.get(user_id=request.user.id)
+        if state == 'add':
+            myself.bookmarks.add(offer)
+        else:
+            myself.bookmarks.remove(offer)
+        myself.save()
+        result = {'state': True }
+    except Applicant.DoesNotExist:
+        result = { 'state': False, 'message': 'Applicant DoesNotExist'}
+
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        if result['state']:
+            return HttpResponseRedirect('/offer/'+offer.slug)
+        else:
+            #404
+            return HttpResponseNotFound('404.html')
+ 
+
 
 def like(request, pk):
     project = Project.objects.get(id=pk)
@@ -457,10 +485,16 @@ def offers_all(request):
 def get_offer(request, slug):
     offer = Offer.objects.get(slug=slug)
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+    status = {}
     if ApplicantOffer.objects.filter(offer=offer).filter(applicant=applicant).count() == 0:
-        status = "nonapplied"
+        status['apply'] =  "nonapplied"
     else:
-        status = "applied"
+        status['apply'] = "applied"
+
+    if applicant.bookmarks.filter(id=offer.id):
+        status['bookmark'] = True
+    else:
+        status['bookmark'] = False
     #TODO : delete slug from view and template
     return render(request, 'offer/show_offer.html', {'offer': offer, 'apply_form': ApplyForm(),'slug': slug, 'user': applicant, 'status': status})
 

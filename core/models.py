@@ -94,6 +94,7 @@ class Applicant(Profile):
     social_network = models.ManyToManyField(SocialNetwork, blank=True, null=True)
     educations = models.ManyToManyField('Education', blank=True, null=True)
     experiences = models.ManyToManyField('Experience', blank=True, null=True)
+    bookmarks = models.ManyToManyField('Offer', blank=True, null=True)
 
     def __unicode__(self):
         return "%s, %s" % (self.name, self.profession)
@@ -126,6 +127,27 @@ class Education(models.Model):
 
     def __unicode__(self):
         return "%s %s %s" % (self.title, str(self.school), str(self.start))
+
+
+class OfferTag(TagBase):
+    pass
+
+class OfferTaggedItem(ItemBase):
+    tag = models.ForeignKey(OfferTag, related_name="offerTags")
+    content_object = models.ForeignKey('Offer')
+
+    # Appears one must copy this class method that appears in both TaggedItemBase and GenericTaggedItemBase
+    @classmethod
+    def tags_for(cls, model, instance=None):
+        if instance is not None:
+            return cls.tag_model().objects.filter(**{
+                '%s__content_object' % cls.tag_relname(): instance
+            })
+        return cls.tag_model().objects.filter(**{
+            '%s__content_object__isnull' % cls.tag_relname(): False
+        }).distinct()
+
+
 
 
 class CommonTag(TagBase):
@@ -176,7 +198,7 @@ class Offer(models.Model):
     salary = models.IntegerField(blank=True, null=True)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     content = models.TextField()
-    #tags = TaggableManager(verbose_name="CommonTag", through=CommonTaggedItem, blank=True)
+    tags = TaggableManager(verbose_name="Tag", through=OfferTaggedItem, blank=True)
     reference = models.CharField(max_length=30, blank=True, null=True)
     category = models.ManyToManyField(CategoryOffer, blank=True, null=True)
 
