@@ -2912,15 +2912,18 @@ header.menu #menu a:hover {
 .errorlist {
   color: #F00;
 }
-label {
+.PTform label {
   display: block;
   padding: 5px 0;
   font-weight: 800;
 }
-input[type=text],
-input[type=password],
-input[type=email],
-textarea {
+.PTform div {
+  margin: 15px 0;
+}
+.PTform input[type=text],
+.PTform input[type=password],
+.PTform input[type=email],
+.PTform textarea {
   height: 25px;
   width: 96%;
   font-size: 15px;
@@ -2930,16 +2933,32 @@ textarea {
   outline: 0;
   color: #666;
 }
-input[type=radio] {
+.PTform input[type=radio] {
   margin: 10px;
 }
-textarea {
+.PTform textarea {
   height: auto;
 }
-input[type=text] {
+.PTform .file-wrap {
+  position: relative;
+}
+.PTform .file-wrap input[type=file] {
+  left: 0;
+  top: 28px;
+  display: block;
+  width: 100%;
+  height: 48px;
+  z-index: 10;
+  position: absolute;
+  filter: alpha(opacity=1);
+  -moz-opacity: 0.01;
+  opacity: 0.01;
+  cursor: pointer;
+}
+.PTform .file-wrap input[type=text] {
   width: 70%;
 }
-button {
+.PTform .file-wrap button {
   border: none;
   border-bottom: 1px solid #007cbb;
   background: #0099e6;
@@ -2965,36 +2984,17 @@ button {
   font-size: 1em;
   right: 0;
 }
-button:hover {
+.PTform .file-wrap button:hover {
   background: #047dba;
 }
-button:hover {
+.PTform .file-wrap button:hover {
   background: #047dba;
 }
-button:hover {
+.PTform .file-wrap button:hover {
   background: #047dba;
 }
-:hover button {
+.PTform .file-wrap:hover button {
   background: #047dba;
-}
-.PTform .file-wrap {
-  position: relative;
-}
-.PTform .file-wrap input[type=file] {
-  left: 0;
-  top: 28px;
-  display: block;
-  width: 100%;
-  height: 48px;
-  z-index: 10;
-  position: absolute;
-  filter: alpha(opacity=1);
-  -moz-opacity: 0.01;
-  opacity: 0.01;
-  cursor: pointer;
-}
-.PTform div {
-  margin: 15px 0;
 }
 .PTform .fileupload-buttonbar .PTbutton {
   margin: 0 5px;
@@ -3464,25 +3464,6 @@ li.as-result-item img {
   font-style: italic;
 }
 /* ==========================================================================
-   Common  classes
-   ========================================================================== */
-.PTbutton.unactive {
-  background-color: #0099e6;
-}
-.PTbutton.active {
-  background-color: #004d00;
-}
-.PTbutton.active:hover {
-  background-color: red;
-  color: white;
-}
-#btn-push {
-  width: 40px;
-  height: 30px;
-  padding: 3px 2px;
-  margin: 0;
-}
-/* ==========================================================================
    Helper classes
    ========================================================================== */
 /*
@@ -3643,6 +3624,25 @@ li.as-result-item img {
   h3 {
     page-break-after: avoid;
   }
+}
+/* ==========================================================================
+   Common  classes
+   ========================================================================== */
+.PTbutton.unactive {
+  background-color: #0099e6;
+}
+.PTbutton.active {
+  background-color: #004d00;
+}
+.PTbutton.active:hover {
+  background-color: red;
+  color: white;
+}
+#btn-push {
+  width: 40px;
+  height: 30px;
+  padding: 3px 2px;
+  margin: 0;
 }
 #project h4.subline {
   font-size: 14px;

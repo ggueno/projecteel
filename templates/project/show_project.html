@@ -104,7 +104,7 @@
 
 
              <div class="participants">
-                {% if project.participant|length < 1 %}
+                {% if project.participant %}
                 <span>avec</span>
                 {% for profile in project.participant.all %}
                 {% thumbnail profile.avatar "50x50" crop="left" as im %}

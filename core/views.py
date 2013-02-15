@@ -267,6 +267,10 @@ def add_project(request):
         # form = ProjectForm(request.POST)
         if project.owner == applicant:
             form = ProjectForm(request.POST, request.FILES, instance=project)
+            # response = JSONResponse(request.POST, {}, response_mimetype(request))
+            # response['Content-Disposition'] = 'inline; filename=files.json'
+            # return response
+
 
             if form.is_valid():
                 embed = request.POST.getlist('embed')
@@ -377,7 +381,7 @@ def bookmark(request, state, pk):
         else:
             #404
             return HttpResponseNotFound('404.html')
- 
+
 
 
 def like(request, pk):
