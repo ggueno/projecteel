@@ -13,7 +13,7 @@ from django.db.models import Q, Count, Sum
 from core.models import *
 from forms import *
 from django.contrib.auth.decorators import login_required
-
+from django.template.defaultfilters import removetags
 
 def home(request):
     return render_to_response('index.html')
@@ -508,6 +508,7 @@ def add_offer(request):
         if form.is_valid():
             cd = form.cleaned_data
             offer = form.save(commit=False)
+            offer.content = removetags(offer.content, 'style script img iframe')
             offer.company = company
             offer.save()
             form.save_m2m()
