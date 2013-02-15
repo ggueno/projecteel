@@ -14,10 +14,12 @@
                 <h1 class="project-title blackTitle">{{ offer.title }}</h1>
                 <ul class="project-stats threecol last">
                     <li>
-                        {% if status.apply == 'applied' %}
-                        <a href="/offer/unapply/{{offer.id}}" id="apply" class="active PTbutton">A Postulé</a>
+
+                        {% if status == 'applied' %}
+                        <a href="#postApply" id="apply" class="active PTbutton">A Postulé</a>
+
                         {% else %}
-                        <a href="/offer/apply/{{offer.id}}" id="apply" class="unactive PTbutton">Postuler</a>
+                        <a href="#postApply" id="apply" class="unactive PTbutton">Postuler</a>
                         {% endif %}
                     </li>
 
@@ -36,8 +38,8 @@
 
 
             {% if status != 'applied'%}
-            <div class="offerApply">
-                <h3 class="postApply">Postuler</h3>
+            <div class="offerApply" id="test">
+                <h3 class="postApply" id="postApply">Postuler</h3>
                 <form class="apply_form" action="/offer/apply/" method="post">
                     {% csrf_token %}
                     {{ apply_form.content }}
@@ -78,6 +80,8 @@
 
     </div>
 
+
+    <div id="test"></div>
     {% endif %}
 {% endblock %}
 
@@ -87,26 +91,7 @@
 
     $(document).ready(function(){
 
-        onoff_button('#apply', 'apply', "A Postulé", "Postuler");
         onoff_button('#bookmark', 'add', "Favorisé", "Favoris");
-
-        $(".apply").submit( function() {
-            event.preventDefault();
-            var urlSubmit = $(this).attr('action');
-            $.ajax({
-                type: "POST",
-                url: urlSubmit,
-                data      : $(this).serializeArray(),
-                success: function(data) {
-                    if ($("#btn-apply").hasClass('nonapplied'))
-                    {
-                        $("#btn-apply").text('A POSTULE');
-                        $("#btn-apply").toggleClass('nonapplied applied');
-                    }
-                }
-            });
-            return false;
-        });
 
         if ($("#btn-apply").hasClass('applied'))
             $("#btn-apply").text('A POSTULE');

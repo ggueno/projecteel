@@ -11,16 +11,43 @@ def make_custom_datefield(f):
         formfield.widget.attrs.update({'class':'datePicker', 'readonly':'true'})
     return formfield
 
+
 class ProjectForm(forms.ModelForm):
+    as_values_participant = forms.fields.CharField(required=False, widget=forms.TextInput())
 
     class Meta:
         model = Project
         exclude = ('slug', 'publish_date', 'like', 'view', 'published', 'images', 'owner')
         widgets = {
             'skills': TagAutoSuggest(),
-            'participant': TagAutoSuggest(),
             'state': forms.RadioSelect(),
+            'participant': forms.TextInput(),
         }
+
+    def clean_as_values_participant(self):
+        data = self.cleaned_data
+        participant_list = data.get('as_values_participant', None)
+        if participant_list is not None:
+            for participant_name in participant_list.split(','):
+                # raise forms.ValidationError('Applicanttt does --%s--  not exist' % str(participant_name))
+                try:
+                    participant = Applicant.objects.get(name="francoise")
+                except Applicant.DoesNotExist:
+                    raise forms.ValidationError('Applicant %s does not exist' % participant_name)
+        return participant_list
+
+    def save(self, commit=True):
+        mminstance = super(ProjectForm, self).save(commit=commit)
+        participant_list = self.cleaned_data.get('as_values_participant', None)
+        if participant_list is not None:
+            for participant_name in participant_list.split(","):
+                participant = Applicant.objects.get(name="francoise")
+                mminstance.participant.add(participant)
+
+        mminstance.save()
+        return mminstance
+
+
 
 class OfferForm(forms.ModelForm):
     formfield_callback = make_custom_datefield

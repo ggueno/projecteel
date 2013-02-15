@@ -36,6 +36,12 @@
 
                 <form action="" id="projectFilters">
                     <ul class="filters">
+                        <ul class="tags inline">
+                        {% for tag in tags %}
+                            <li><a href="/projects/search/?tags[]={{tag.slug}}"> {{ tag.name }} </a></li>
+                        {% endfor %}
+                        </ul>
+
                         <li class="tag">
                             <input class="search-field autocomplete" id="search-tags" type="text" name="keywords-sorting">
                         </li>

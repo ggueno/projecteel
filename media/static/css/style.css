@@ -3464,25 +3464,6 @@ li.as-result-item img {
   font-style: italic;
 }
 /* ==========================================================================
-   Common  classes
-   ========================================================================== */
-.PTbutton.unactive {
-  background-color: #0099e6;
-}
-.PTbutton.active {
-  background-color: #004d00;
-}
-.PTbutton.active:hover {
-  background-color: red;
-  color: white;
-}
-#btn-push {
-  width: 40px;
-  height: 30px;
-  padding: 3px 2px;
-  margin: 0;
-}
-/* ==========================================================================
    Helper classes
    ========================================================================== */
 /*
@@ -3643,6 +3624,25 @@ li.as-result-item img {
   h3 {
     page-break-after: avoid;
   }
+}
+/* ==========================================================================
+   Common  classes
+   ========================================================================== */
+.PTbutton.unactive {
+  background-color: #0099e6;
+}
+.PTbutton.active {
+  background-color: #004d00;
+}
+.PTbutton.active:hover {
+  background-color: red;
+  color: white;
+}
+#btn-push {
+  width: 40px;
+  height: 30px;
+  padding: 3px 2px;
+  margin: 0;
 }
 #project h4.subline {
   font-size: 14px;
