@@ -10,7 +10,7 @@
             <div class="content">
                 <h1 class="heading">Ajouter projet</h1>
                 {% if form.errors %}
-                <div id="form-error" style="color: red;">
+                <!-- <div id="form-error" style="color: red;">
                     <p>The operation could not be performed because one or more error(s) occurred.<br />Please resubmit the form after making the following changes:</p>
                     <ul>
                     {% for field in form %}
@@ -19,7 +19,7 @@
                         {% endif %}
                     {% endfor %}
                     </ul>
-                </div>
+                </div> -->
                 {% endif %}
                 <div class="row">
                     <div class="sixcol">
@@ -29,7 +29,7 @@
                             <li><a href="#etape2"><i class="step-label">2</i>Etape 2</a></li>
                         </ul>
 
-                        <form action="" class="PTform" method="post" id="add_project" action="" >
+                        <form action="" class="PTform" method="post" id="add_project" action="" enctype="multipart/form-data">
                             {% csrf_token %}
 
                             <!-- TAB -->
@@ -38,6 +38,7 @@
                                 <div>
                                     <label for="">{{form.title.label}}</label>
                                     {{ form.title }}
+                                    {{ form.title.errors }}
                                 </div>
                                 {{ form.thumbnail }}
                                 <div class="file-wrap">
@@ -51,10 +52,12 @@
                                 <div>
                                     <label for="">{{form.categories.label}}</label>
                                     {{ form.categories }}
+                                    {{ form.categories.errors }}
                                 </div>
                                 <div>
                                     <label for="">{{form.content.label}}</label>
                                     {{ form.content }}
+                                    {{ form.content.errors }}
                                 </div>
                                 <div>
                                     <label for="">Médias</label>
@@ -80,27 +83,32 @@
 
                                 <div>
                                     <label for="">{{form.participant.label}}</label>
-                                    {{ form.participant }}
+                                    <input type="text" id="participant_input" />
                                 </div>
                                 <div>
                                     <label for="">{{form.cadre.label}}</label>
                                     {{ form.cadre }}
+                                    {{ form.cadre.errors }}
                                 </div>
                                 <div>
                                     <label for="">{{form.state.label}}</label>
                                     {{ form.state }}
+                                    {{ form.state.errors }}
                                 </div>
                                 <div>
                                     <label for="">{{form.period.label}}</label>
                                     {{ form.period }}
+                                    {{ form.period.errors }}
                                 </div>
                                 <div>
                                     <label for="">{{form.location.label}}</label>
                                     {{ form.location }}
+                                    {{ form.location.errors }}
                                 </div>
                                 <div>
                                     <label for="">{{form.tags.label}}</label>
                                     {{ form.tags }}
+                                    {{ form.tags.errors }}
                                 </div>
 
                                 <div class="footer">
@@ -240,10 +248,31 @@
 
                 });
 
-                $('#id_participant').autoSuggest('/taggit_autosuggest/list/participant/', {
+                var data = "{{ form.as_values_participant.value }}";
+                var datas = [{ 'value' : "1", 'name': 'ggueno', "avatar": "upload/images/avatar/0f747c7cf4f59dce5d5ccf7951c3c3a2.jpg"}];
+
+                $('#participant_input').autoSuggest('/taggit_autosuggest/list/participant/', {
                     asHtmlID: "participant",
                     startText: "Entrez le nom d'un participant",
-                    emptyText: "Aucun résultat"
+                    emptyText: "Aucun résultat",
+                    preFill: datas,
+                    minChars: 3,
+                    searchObjProps: "name",
+                    selectedItemProp: "name",
+                    selectedValuesProp: "value",
+                    neverTab: true,
+                    retrieveComplete: function(data){ return data; },
+                    selectionAdded: function(elem){ elem.fadeTo("slow", 0.33); },
+                    resultClick: function(data){ console.log(data); },
+                    formatList: function(data, elem){
+                        if(data.avatar){
+                            var avatar = new Image();
+                            avatar.src = '/media/'+data.avatar;
+                        }
+                        elem.prepend(avatar);
+                        elem.append(data.name);
+                        return elem;
+                    }
                 });
 
                 // container.append(list).hide();

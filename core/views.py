@@ -5,6 +5,7 @@ from django.template import RequestContext
 
 from datetime import datetime, timedelta
 
+
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -211,7 +212,7 @@ def get_tags(request):
     return response
 
 
-def get_participants(request):
+def get_participants2(request):
     q = ""
     if 'q' in request.GET:
         q = request.GET["q"]
@@ -225,6 +226,19 @@ def get_participants(request):
     return response
 
 
+
+def get_participants(request):
+    q = ""
+    if 'q' in request.GET:
+        q = request.GET["q"]
+    else:
+        raise
+    participants = Applicant.objects.filter(Q(user__first_name__startswith=q) | Q(user__last_name__startswith=q)).values_list('id','user__first_name', 'user__last_name', 'avatar')
+
+    choices = [{"value": str(l[0]), "name": l[1]+ " "+l[2], "avatar": l[3]} for l in participants]
+    response = JSONResponse(choices, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response
 
 def get_list(request, tag):
     q = ""
