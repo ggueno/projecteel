@@ -66,6 +66,12 @@ $.ajaxSetup({
 //custom dropdown
 $('.PTform select').dropkick();
 
+//close dropdown on click
+$(window).on('click',function(){
+    console.log("DKLKICJ");
+    $('.dk_open').removeClass('dk_open');
+});
+
 
 //Generic tabbed nav fonction
 $('ul.tabs').each(function(){
