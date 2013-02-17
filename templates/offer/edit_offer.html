@@ -1,0 +1,72 @@
+{% extends "layout/base.html" %}
+
+{% block title %} {{ slug }} {% endblock %}
+
+{% block content %}
+    
+    <section class="row add_project">
+        <div class="sleekbox">
+            <div class="content">
+                <h1 class="heading">Modifier votre offre</h1>
+                {% if form.errors %}
+                    <p style="color: red;">
+                        Please correct the error{{ form.errors|pluralize }} below.
+                    </p>
+                {% endif %}
+
+                <div class="row">
+                    <div class="sixcol">
+                        <form action="" class="PTform" method="post" action="/offer/edit/" enctype="multipart/form-data">
+                        {% csrf_token %}
+                            <div>
+                                <label for="">{{form.title.label}}</label>{{ form.title }}
+                            </div>
+                            <div>
+                                <label for="">{{form.location.label}}</label>{{form.location}}
+                            </div>
+                            <div>
+                                <label for="">{{form.start.label}}</label>{{form.start}}
+                            </div>
+                            <div>
+                                <label for="">{{form.duration.label}}</label>{{form.duration}}
+                            </div>
+                            <div>
+                                <label for="">{{form.contract.label}}</label>{{form.contract}}
+                            </div>
+                            <div>
+                                <label for="">{{form.salary.label}}</label>{{form.salary}}
+                            </div>
+                            <div>
+                                <label for="">{{form.content.label}}</label>{{form.content}}
+                            </div>
+                            <div>
+                                <label for="">{{form.tags.label}}</label>{{ form.tags }}
+                            </div>
+                            <div>
+                                <label for="">{{form.reference.label}}</label>{{ form.reference }}
+                            </div>
+                            <div>
+                                <label for="">{{form.category.label}}</label>{{ form.category }}
+                            </div>
+                            <input class="PTbutton" type="submit" value="Submit">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
+{% block js %}
+<script src="{{ STATIC_URL }}js/nicEdit.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function(){
+
+    });
+
+    bkLib.onDomLoaded(function() {
+        new nicEditor({buttonList : ['bold','italic','underline','fontSize','strikeThrough', 'link', 'ul', 'html','image']}).panelInstance('id_content');
+    });
+</script>
+{% endblock %}

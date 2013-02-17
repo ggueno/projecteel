@@ -3,27 +3,27 @@
 {% block title %} Ajouter une offre {% endblock %}
 {% block content %}
 
-    <section class="row profile">
+    <section class="row add_project">
+        <div class="sleekbox">
+            <div class="content">
+                <h1 class="heading">Ajouter une offre</h1>
+                {% if form.errors %}
+                    <p style="color: red;">
+                        Please correct the error{{ form.errors|pluralize }} below.
+                    </p>
+                {% endif %}
 
-        <div class="sleekbox ideal-wrap ideal-hidden">
+                <div class="row">
+                    <div class="sixcol">
+                        <form id="add-offer" action="" method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <!--<input id="datee" type="text" />-->
+                            <input class="PTbutton" type="submit" value="Submit">
+                        </form>
+                    </div>
+                </div>
 
-            <h1>Ajouter une offre</h1>
-            {% if form.errors %}
-                <p style="color: red;">
-                    Please correct the error{{ form.errors|pluralize }} below.
-                </p>
-            {% endif %}
-
-            <form id="add-offer" action="" method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input id="datee" type="text" />
-                <input type="submit" value="Submit">
-            </form>
-
-        </div>
-
-    </section>
 {% endblock %}
 
 {% block js %}
@@ -36,9 +36,9 @@
 
             /*var tmp = document.createElement("p");
             tmp.innerHTML = $("#id_content");
-            $("#id_content") = tmp.textContent||tmp.innerText;
+            $("#id_content") = tmp.textContent||tmp.innerText;*/
 
-            //var content = $("#id_content").html();*/
+            //var content = $("#id_content").html();
             //alert($("#id_content").text());
         });
 
