@@ -1374,6 +1374,8 @@ li.as-result-item img {
   width: 30px;
   margin-right: 10px;
 }
+<<<<<<< HEAD
+=======
 #projects .sixcol {
   margin: 0;
 }
@@ -1389,6 +1391,7 @@ li.as-result-item img {
   border-left: 0;
   border-right: 0;
 }
+>>>>>>> 715e8bdabcf1a584a17125ed79a4fbf2c32ee9a1
 /*
    O F F E R S
    ========================================================================== */
@@ -1573,7 +1576,7 @@ li.as-result-item img {
     background: transparent !important;
     color: #000 !important;
     /* Black prints faster: h5bp.com/s */
-  
+
     box-shadow: none !important;
     text-shadow: none !important;
   }
@@ -1603,7 +1606,7 @@ li.as-result-item img {
   thead {
     display: table-header-group;
     /* h5bp.com/t */
-  
+
   }
   tr,
   img {

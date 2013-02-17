@@ -16,19 +16,40 @@
 
                         {% if profile.user.id != request.user.id %}
                             {% if following %}
-                                 <a class="PTbutton following follow" href="/profile/unfollow/{{profile.id}}/">Suivi</a>
+                                 <a class="PTbutton active follow" href="/profile/unfollow/{{profile.id}}/">Suivi</a>
                             {%else%}
-                                 <a class="PTbutton not-following follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
+                                 <a class="PTbutton unactive follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
                             {% endif %}
 
 
                         {% endif %}
 
                         <ul class="fourcol last profile_stats">
-                            <li><span>2316</span>vues</li>
-                            <li><span>{% if pushs == 0 %}0{%else%}{{pushs}}{%endif%}</span>push</li>
-                            <li><span>23</span>followers</li>
-                            <li><span>9</span>following</li>
+                            <li><span>{{stats.views.hits}}</span>vue{{stats.views.hits|pluralize}}</li>
+                            <li>
+                                <span>
+                                    {% if stats.pushs == 0 %}
+                                        0
+                                    {%else%}
+                                        {{stats.pushs}}
+                                    {%endif%}
+                                </span>
+                                push
+                            </li>
+
+                            {% if stats.followers %}
+                            <li>
+                                <span>{{ stats.followers }}</span>
+                                followers
+                            </li>
+                            {% endif %}
+
+                            {% if stats.following %}
+                            <li>
+                                <span>{{ stats.following }}</span>
+                                following
+                            </li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
@@ -37,24 +58,33 @@
                         <li><i class="icon pin"></i> {{ profile.search_location }}</li>
                         <li><i class="icon job"></i> {{ profile.profession }}</li>
                         <li class="last"><a href="{{ profile.url }}" target="_blank" title=""><i class="icon web"></i> {{ profile.url }}</a></li>
-                        <li class="last"><a href="#" title=""><i class="icon twitter"></i> @hPoulpe</a></li>
+
+
+                        {% if profile.social_network %}
+                        <li class="last">
+                        {% for sn in profile.social_network.all %}
+                        <a href="{{sn.url}}" title=""><i class="icon {{sn.name}}"></i>{{sn.name}}</a>
+                        {% endfor %}
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
-                <img class="profile_pic" src="{{ profile.avatar.url }}" alt="">
+                {% if profile.avatar %}<img class="profile_pic" src="{{ profile.avatar.url }}" alt="">{% endif %}
             </div>
 
             <div class="row profile_menubar">
-                    <ul class="profile_menu fourcol tabs">
-                        <li><a href="#projects" class="active">Projets</a></li>
-                        <li><a href="#infos_profile">Parcours</a></li>
-                    </ul>
-                    <ul class="tags">
-                        <li>photoshop</li>
-                        <li>php</li>
-                        <li>html5</li>
-                        <li>django</li>
-                    </ul>
-                </div>
+                <ul class="profile_menu fourcol tabs">
+                    <li><a href="#projects" class="active">Projets</a></li>
+                    <li><a href="#infos_profile">Parcours</a></li>
+                </ul>
+                <ul class="tags">
+                    {% if stats.tags %}
+                    {% for tag in stats.tags %}
+                        <li>{{tag.name}}</li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
         </section>
 
 
@@ -64,6 +94,8 @@
             {% for project in projects %}
                 {% project_mini project forloop.counter|divisibleby:"4" "threecol" %}
             {% endfor %}
+
+
         </section>
         {% endif %}
 
@@ -73,7 +105,7 @@
             {% for education in profile.education.all %}
                 {% include "profile/education.html" %}
             {% endfor %}
-            {% if user.id == profile.id %}
+            {% if user.id == profile.user_id %}
             <a href="#" id="add-education">Ajouter une formation</a>
             <div id="add-education-form">
                 {% if formEducation.errors %}
@@ -98,7 +130,7 @@
             {% for experience in profile.experience.all %}
                 {% include "profile/experience.html" %}
             {% endfor %}
-            {% if user.id == profile.id %}
+            {% if user.id == profile.user_id %}
             <a href="#" id="add-experience">Ajouter une formation</a>
             <div id="add-experience-form">
                 {% if formExperience.errors %}
@@ -128,26 +160,7 @@
 <script>
     $(document).ready(function(){
 
-        $(".follow").click(function(){
-            var follow_button = this;
-            $.post($(this).attr('href'),function(data){
-                if(data==true)
-                    if($(follow_button).hasClass('not-following')){
-                        var link = $(follow_button).attr('href').replace('follow','unfollow');
-                        $(follow_button).attr('href',link)
-                        $(follow_button).removeClass('not-following');
-                        $(follow_button).addClass('following');
-                        $(follow_button).html("Suivi");
-                    }else{
-                        var link = $(follow_button).attr('href').replace('unfollow','follow');
-                        $(follow_button).attr('href',link)
-                        $(follow_button).addClass('not-following');
-                        $(follow_button).removeClass('following');
-                        $(follow_button).html("Suivre");
-                    }
-            });
-            return false;
-        });
+        onoff_button('.follow', 'follow', "Suivi", "Suivre");
 
         $("#infos_profile").on('click','a.delete-item',function(e){
             var parent = $(this).parent();

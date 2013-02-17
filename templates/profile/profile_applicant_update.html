@@ -1,0 +1,28 @@
+{% extends "layout/base.html" %}
+{% load staticfiles %}
+{% load projects %}
+
+{% block title %} {{ profile.slug }}'s profile{% endblock %}
+
+{% block content %}
+    <form action="/profile/update/" method="post">
+        {% csrf_token %}
+        {{ formApplicant.errors }}
+        {{ formApplicant.name.label }} : {{ formApplicant.name }}
+        {{ formApplicant.avatar.label }}
+        <img src="{{profile.avatar.url }}" alt="{{ profile.name }}">
+        {{ formApplicant.avatar }}
+
+        {{ formApplicant.url.label }} : {{ formApplicant.url }}
+        {{ formApplicant.profession.label }} : {{ formApplicant.profession }}
+        {{ formApplicant.search_location.label }} : {{ formApplicant.search_location }}
+        <input type="submit">
+    </form>
+{% endblock %}
+{% block js %}
+<script>
+    $(document).ready(function(){
+
+    });
+</script>
+{% endblock %}

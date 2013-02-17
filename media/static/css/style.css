@@ -3625,6 +3625,25 @@ li.as-result-item img {
     page-break-after: avoid;
   }
 }
+/* ==========================================================================
+   Common  classes
+   ========================================================================== */
+.PTbutton.unactive {
+  background-color: #0099e6;
+}
+.PTbutton.active {
+  background-color: #004d00;
+}
+.PTbutton.active:hover {
+  background-color: red;
+  color: white;
+}
+#btn-push {
+  width: 40px;
+  height: 30px;
+  padding: 3px 2px;
+  margin: 0;
+}
 #project h4.subline {
   font-size: 14px;
   color: #787878;
@@ -3668,7 +3687,7 @@ p.location {
 }
 .project-header .project-stats li {
   float: left;
-  width: 49%;
+  width: 33%;
   text-align: center;
   line-height: 1.1;
   font-size: .8em;

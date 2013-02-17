@@ -2,24 +2,26 @@ from django.shortcuts import render_to_response, render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import CreateView, DeleteView
 from django.template import RequestContext
+
 from datetime import datetime, timedelta
+
 
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Sum
 
 from core.models import *
-from forms import ProjectForm, OfferForm, EducationForm, ExperienceForm, CommentForm
+from forms import *
 from django.contrib.auth.decorators import login_required
-
+from django.template.defaultfilters import removetags
 
 def home(request):
     return render_to_response('index.html')
 
 
 def get_my_self(request):
-    return Profile.objects.filter(user_id=request.user.id)[0]
+    return Applicant.objects.filter(user_id=request.user.id)[0]
 
 
 def projects(request, projects):
@@ -29,6 +31,7 @@ def projects(request, projects):
         'projects': projects,
         'categories': CategoryTag.objects.all(),
         'endless_part': endless_part,
+        'tags': Project.tags.most_common()
     }
     if request.is_ajax():
         template = endless_part
@@ -57,6 +60,8 @@ def search_projects2(request):
     if(request.method == 'GET'):
         q['published'] = True
 
+        if 'query' in request.GET:
+            q['title__icontains'] = request.GET['query']
 
         if 'location[]' in request.GET:
             q["location__in"] = request.GET.getlist('location[]')
@@ -86,8 +91,8 @@ def search_projects2(request):
             when = 9999
 
         #check if when is a number
-        today = datetime.now()
-        start_date = datetime.now() - timedelta(days=7)
+        today = datetime.datetime.now()
+        start_date = datetime.datetime.now() - timedelta(days=7)
         if when != 9999:
             q['publish_date__range'] = (start_date, today)
 
@@ -95,11 +100,49 @@ def search_projects2(request):
             filtre = request.GET['filter']
             if filtre == 'pushs':
                 filtre = 'likes'
-            projects_list = Project.objects.annotate(num=Count('comments')).filter(**q).order_by('-num')
+            projects_list = Project.objects.annotate(num=Count(filtre)).filter(**q).order_by('-num')
+        elif 'filter' in request.GET and request.GET['filter'] in ['views']:
+            projects_list = Project.objects.filter(**q).order_by('hits')
         else:
             projects_list = Project.objects.filter(**q).order_by('-publish_date')
 
         return projects(request, projects_list)
+
+
+def search_offers(request):
+
+    q = {}
+
+    if(request.method == 'GET'):
+
+        if 'query' in request.GET:
+            q['title__icontains'] = request.GET['query']
+
+        if 'location[]' in request.GET:
+            q["location__in"] = request.GET.getlist('location[]')
+
+        if 'tags[]' in request.GET:
+            q["tags__name__in"] = request.GET.getlist('tags[]')
+
+        if 'categories' in request.GET:
+            if request.GET['categories'] != 'all':
+                q['categories__slug__in'] = [request.GET['categories']]
+
+        # if 'when' in request.GET and int(request.GET['when']) != 0:
+        #     when = int(request.GET['when'])
+        # else:
+        #     #first day for a project
+        #     when = 9999
+
+        #check if when is a number
+        # today = datetime.now()
+        # start_date = datetime.now() - timedelta(days=7)
+        # # if when != 9999:
+        # #     q['publish_date__range'] = (start_date, today)
+
+        offers_list = Offer.objects.filter(**q).order_by('-publish_date')
+
+        return offers(request, offers_list)
     # except KeyError:
     #     return render_to_response('search/results.html')
 
@@ -107,6 +150,8 @@ def search_projects2(request):
 
 def get_project(request, slug):
     project = Project.objects.get(slug=slug)
+
+    following = Follow.objects.filter(follower__user_id=request.user.id, following__user_id=project.owner.user_id)
 
     # get all tags for project
     categoriesList = CategoryTaggedItem.objects.filter(content_object=project.id)
@@ -124,6 +169,7 @@ def get_project(request, slug):
 
     context = {
         'project': project,
+        'following': following,
         'tags': tagsList,
         'categories': categoriesList,
         'skills': skillsList,
@@ -166,7 +212,7 @@ def get_tags(request):
     return response
 
 
-def get_participants(request):
+def get_participants2(request):
     q = ""
     if 'q' in request.GET:
         q = request.GET["q"]
@@ -181,12 +227,27 @@ def get_participants(request):
 
 
 
+def get_participants(request):
+    q = ""
+    if 'q' in request.GET:
+        q = request.GET["q"]
+    else:
+        raise
+    participants = Applicant.objects.filter(Q(user__first_name__startswith=q) | Q(user__last_name__startswith=q)).values_list('id','user__first_name', 'user__last_name', 'avatar')
+
+    choices = [{"value": str(l[0]), "name": l[1]+ " "+l[2], "avatar": l[3]} for l in participants]
+    response = JSONResponse(choices, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response
+
 def get_list(request, tag):
     q = ""
     if tag == 'skills':
         objectKind = SkillsTag
     elif tag == 'tags':
         objectKind = CommonTag
+    elif tag == 'offerTag':
+        objectKind = OfferTag
 
     if 'q' in request.GET:
         q = request.GET["q"]
@@ -220,6 +281,10 @@ def add_project(request):
         # form = ProjectForm(request.POST)
         if project.owner == applicant:
             form = ProjectForm(request.POST, request.FILES, instance=project)
+            # response = JSONResponse(request.POST, {}, response_mimetype(request))
+            # response['Content-Disposition'] = 'inline; filename=files.json'
+            # return response
+
 
             if form.is_valid():
                 embed = request.POST.getlist('embed')
@@ -298,13 +363,82 @@ def remove_project(request, pk):
         return HttpResponseRedirect('/projects/')
 
 
-def like(request, pk):
+def like2(request, pk):
     project = Project.objects.get(id=pk)
     profile = Profile.objects.filter(user_id=request.user.id)[0]
     if Like.objects.filter(project=project).filter(profile=profile).count() == 0:
         Like.objects.create(profile=profile, project_id=pk)
     likes = Like.objects.filter(project=project).count()
     return HttpResponse(likes)
+
+def bookmark(request, state, pk):
+    try:
+        offer = Offer.objects.get(id=pk)
+        myself = Applicant.objects.get(user_id=request.user.id)
+        if state == 'add':
+            myself.bookmarks.add(offer)
+        else:
+            myself.bookmarks.remove(offer)
+        myself.save()
+        result = {'state': True }
+    except Applicant.DoesNotExist:
+        result = { 'state': False, 'message': 'Applicant DoesNotExist'}
+
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        if result['state']:
+            return HttpResponseRedirect('/offer/'+offer.slug)
+        else:
+            #404
+            return HttpResponseNotFound('404.html')
+
+
+
+def like(request, pk):
+    project = Project.objects.get(id=pk)
+    myself = get_my_self(request)
+    if request.user.id == project.owner.user_id:
+        result = False
+    else:
+        try:
+            Like.objects.get(project_id=pk, profile__user=request.user)
+            result = False
+        except Like.DoesNotExist:
+            Like.objects.create(project_id=pk, profile=myself)
+            result = True
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        profile = Profile.objects.get(id=pk)
+        return HttpResponseRedirect('/profile/' + profile.slug)
+
+
+
+def unlike(request, pk):
+    project = Project.objects.get(id=pk)
+    myself = get_my_self(request)
+    if request.user.id == project.owner.user_id:
+        result = False
+    else:
+        try:
+            Like.objects.get(project_id=pk, profile__user_id=request.user.id).delete()
+            result = True
+        except Like.DoesNotExist:
+            result = False
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        return HttpResponseRedirect('/project/' + project.slug)
 
 
 @login_required
@@ -350,27 +484,37 @@ def unfollow(request, pk):
         return HttpResponseRedirect('/profile/'+profile.slug)
 
 
-def offers(request):
+def offers(request, list_offers):
     template = 'offer/list_offers.html'
     endless_part = 'offer/endless_part.html'
     context = {
-        'offers': Offer.objects.all(),
+        'offers': list_offers,
         'endless_part': endless_part,
     }
     if request.is_ajax():
         template = endless_part
     return render_to_response(template, context, context_instance=RequestContext(request))
 
+def offers_all(request):
+    return offers(request, Offer.objects.all)
+
+
 
 def get_offer(request, slug):
     offer = Offer.objects.get(slug=slug)
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+    status = {}
     if ApplicantOffer.objects.filter(offer=offer).filter(applicant=applicant).count() == 0:
-        status = "nonapplied"
+        status['apply'] =  "nonapplied"
     else:
-        status = "applied"
+        status['apply'] = "applied"
+
+    if applicant.bookmarks.filter(id=offer.id):
+        status['bookmark'] = True
+    else:
+        status['bookmark'] = False
     #TODO : delete slug from view and template
-    return render_to_response('offer/show_offer.html', {'offer': offer, 'slug': slug, 'user': applicant, 'status': status})
+    return render(request, 'offer/show_offer.html', {'offer': offer, 'apply_form': ApplyForm(),'slug': slug, 'user': applicant, 'status': status})
 
 
 @login_required
@@ -383,6 +527,7 @@ def add_offer(request):
         if form.is_valid():
             cd = form.cleaned_data
             offer = form.save(commit=False)
+            offer.content = removetags(offer.content, 'style script img iframe')
             offer.company = company
             offer.save()
             form.save_m2m()
@@ -392,15 +537,45 @@ def add_offer(request):
     return render(request, 'offer/add_offer.html', {'form': form})
 
 @login_required
-def apply_offer(request, pk):
-    offer = Offer.objects.get(id=pk)
+def apply_offer(request):
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
-    if ApplicantOffer.objects.filter(offer=offer).filter(applicant=applicant).count() == 0:
-        ApplicantOffer.objects.create(applicant=applicant, offer_id=pk)
-        msg = "applied"
+
+    try:
+        if request.method == 'POST':
+
+            form = ApplyForm(request.POST)
+
+            if form.is_valid():
+                cd = form.cleaned_data
+                data = cd
+                offer = Offer.objects.get(id=int(request.POST['offer_id']))
+                applyOffer = ApplicantOffer.objects.create(offer=offer, applicant=applicant, content=cd['content'])
+
+                data = [{
+                    'state': True,
+                    'id': applyOffer.id,
+                    'content': cd['content']
+                }]
+            else:
+                data = request.POST
+        else:
+            data = False
+
+    except Offer.DoesNotExist:
+        data = False
+
+    if request.is_ajax():
+        response = JSONResponse(data, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
     else:
-        msg = ""
-    return HttpResponse(msg)
+        #TODO : urls /offer/<id>
+        if data != False:
+            return HttpResponseRedirect('/offer/' + offer.slug)
+        else:
+            return HttpResponseRedirect('/offers/')
+
+
 
 
 @login_required
@@ -551,14 +726,20 @@ def get_applicant(request, slug):
     # myself = get_my_self(request)
 
     profile = Applicant.objects.get(slug=slug)
-    projects = Project.objects.filter(Q(owner=profile.user, published=True) | Q(participant__in=[profile], published=True))
-    following = Follow.objects.filter(follower__user_id=request.user.id)
+    projects = Project.objects.filter(Q(owner=profile, published=True) | Q(participant__in=[profile], published=True))
+    following = Follow.objects.filter(follower__user_id=request.user.id, following__user_id=profile.user_id)
+    followingNb = Follow.objects.filter(following__id=profile.id).count()
+    followersNb = Follow.objects.filter(follower__id=profile.id).count()
+    pushs = Like.objects.filter(Q(project__owner=profile.user) | Q(project__participant__in=[profile])).count()
+    views = HitCount.objects.filter(content_type=ContentType.objects.get_for_model(projects[0]), object_pk__in=projects.values_list('pk', flat=True)).aggregate(hits=Sum('hits'))
+    tags = SkillsTag.objects.filter(Q(skills__content_object__owner=profile)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')[:3]
     formEducation = EducationForm()
     formExperience = ExperienceForm()
     #TODO : delete slug from view and template
     context = {
         'profile': profile,
         'following': following,
+        'stats': {'followers': followersNb, 'following': followingNb, 'pushs': pushs, 'tags': tags, 'views': views },
         'projects': projects,
         'formEducation': formEducation,
         'formExperience': formExperience,
@@ -569,7 +750,22 @@ def get_applicant(request, slug):
 
 
 def update_applicant(request):
-    return render(request, 'profile/profile_applicant.html', context)
+    myself = get_my_self(request)
+
+    if request.method == 'POST':
+        formApplicant = ApplicantForm(request.POST, instance=myself)
+
+        if formApplicant.is_valid():
+            formApplicant.save()
+            return HttpResponseRedirect('/profile/')
+    else:
+        formApplicant = ApplicantForm(instance=myself)
+
+    context = {
+        'profile': myself,
+        'formApplicant': formApplicant,
+    }
+    return render(request, 'profile/profile_applicant_update.html', context)
 
 
 def get_company(request, slug):

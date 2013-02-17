@@ -40,6 +40,7 @@
             neverSubmit: false,
             selectionLimit: false,
             showResultList: true,
+            neverTab: false,
             start: function(){},
             selectionClick: function(elem){},
             selectionAdded: function(elem){},
@@ -74,7 +75,7 @@
                 if(!opts.asHtmlID){
                     x = x+""+Math.floor(Math.random()*100); //this ensures there will be unique IDs on the page if autoSuggest() is called multiple times
                     var x_id = "as-input-"+x;
-                } else {
+                } else {    
                     x = opts.asHtmlID;
                     var x_id = x;
                 }
@@ -192,19 +193,21 @@
                             }
                             break;
                         case 9: case 188: case 13: // tab or comma, or return in the text box
-                            if (active.length == 0) {
-                                tab_press = true;
-                                var i_input = input.val().replace(/(,)/g, "");
-                                e.preventDefault(); // Always prevent the default to avoid accidental submission
-                                if(i_input != "" && (!item_exists(i_input)) && i_input.length >= opts.minChars){
-                                    var n_data = {};
-                                    n_data[opts.selectedItemProp] = i_input;
-                                    n_data[opts.selectedValuesProp] = i_input;
-                                    var lis = $("li", selections_holder).length;
-                                    add_selected_item(n_data, "00"+(lis+1));
-                                    input.val("");
+                            if(!opts.neverTab){
+                                if (active.length == 0) {
+                                    tab_press = true;
+                                    var i_input = input.val().replace(/(,)/g, "");
+                                    e.preventDefault(); // Always prevent the default to avoid accidental submission
+                                    if(i_input != "" && (!item_exists(i_input)) && i_input.length >= opts.minChars){
+                                        var n_data = {};
+                                        n_data[opts.selectedItemProp] = i_input;
+                                        n_data[opts.selectedValuesProp] = i_input;
+                                        var lis = $("li", selections_holder).length;
+                                        add_selected_item(n_data, "00"+(lis+1));
+                                        input.val("");
+                                    }
+                                    break;
                                 }
-                                break;
                             }
                         case 13: // return in the dropdown
                             tab_press = false;
@@ -360,14 +363,7 @@
                             input.focus();
                             return false;
                         });
-                    //projecteel modification for image support
-                    if(data.avatar){
-                        var av = new Image();
-                        av.src = '/media/' + data.avatar;
-                        var content = item.html(data[opts.selectedItemProp]).prepend(av).prepend(close).addClass("hasImage");
-                        org_li.before(content);
-                    }else
-                        org_li.before(item.html(data[opts.selectedItemProp]).prepend(close));
+                    org_li.before(item.html(data[opts.selectedItemProp]).prepend(close));
                     opts.selectionAdded.call(this, org_li.prev());
                 }
 

@@ -2,7 +2,7 @@
 {% load thumbnail %}
 {% load staticfiles %}
 {% load projects %}
-
+    {% load hitcount_tags %}
 
 {% block title %} Project {{ profile.slug }} {% endblock %}
 {% block content %}
@@ -11,16 +11,19 @@
     <section class="ninecol" id="project">
         <div class="sleekbox">
 
-            <form action="/project/like/{{project.id}}" class="push" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <button id="btn-push" class="{{status}} PTbutton" name='submit' type="submit" value="push">Push</button>
-            </form>
-
             <div class="row project-header">
                 <h1 class="project-title blackTitle">{{ project.title }}</h1>
-                <ul class="project-stats twocol last">
-                    <li><span>2316</span>vues</li>
+
+                <ul class="project-stats threecol last">
+                    <li><span>{{ project.views }}</span>vues</li>
                     <li><span class="count-likes">{{project.likes.count}}</span>pushs</li>
+                    <li>
+                        {% if status == 'pushed' %}
+                        <a href="/project/unlike/{{project.id}}" id="push" class="active PTbutton">Pushé</a>
+                        {% else %}
+                        <a href="/project/like/{{project.id}}" id="push" class="unactive PTbutton">Push</a>
+                        {% endif %}
+                    </li>
                 </ul>
             </div>
 
@@ -56,7 +59,7 @@
                     <input type="submit">
                 </form>
 
-                <h3 class="numberComments">{% if commennts%}{{ comments|length }} commentaires{%else%}Pas de commentaire{%endif%}</h3>
+                <h3 class="numberComments">{% if comments%}<span id="numberComments">{{ comments|length }}</span> commentaires{%else%}Pas de commentaire{%endif%}</h3>
                 <ul class="commentList">
                 {% for comment in comments %}
                     {% comment_template comment user.id %}
@@ -86,14 +89,22 @@
 
                     <h3>{{project.owner.user.first_name}} {{project.owner.user.last_name}}</h3>
                     <span class="profession">{{project.owner.profession}}</span>
-                    <a href="#" class="PTbutton">SUIVRE</a>
+                    {% if request.user.id != project.owner.user.id %}
+                    {% if following %}
+                         <a class="PTbutton active follow" href="/profile/unfollow/{{project.owner.id}}/">Suivi</a>
+                    {%else%}
+                         <a class="PTbutton unactive follow" href="/profile/follow/{{project.owner.id}}/">Suivre</a>
+                    {% endif %}
+
                     <a href="#" class="PTbutton"><i class="icon message"></i></a>
+                    {% endif %}
                 </a>
             </div>
 
 
-            {% if project.participant %}
+
              <div class="participants">
+                {% if project.participant %}
                 <span>avec</span>
                 {% for profile in project.participant.all %}
                 {% thumbnail profile.avatar "50x50" crop="left" as im %}
@@ -102,8 +113,9 @@
                 </a>
                 {% endthumbnail %}
                 {% endfor %}
+                {% endif %}
             </div>
-            {% endif %}
+
 
             {% if project.owner.search_location %}
             <p class="location"><i class="icon pin"></i> {{ project.owner.search_location }}</p>
@@ -128,7 +140,7 @@
             <h4>Compétences</h4>
             <ul class="tags inline">
             {% for tag in skills %}
-                <li> {{ tag.name }} </li>
+                <li><a href="/projects/search/?skills[]={{tag.slug}}"> {{ tag.name }}</a></li>
             {% endfor %}
             </ul>
             {% endif %}
@@ -137,7 +149,7 @@
             {% if tags %}
             <ul class="tags inline">
             {% for tag in tags %}
-                <li> {{ tag.name }} </li>
+                <li><a href="/projects/search/?tags[]={{tag.slug}}"> {{ tag.name }} </a></li>
             {% endfor %}
             </ul>
             {% endif %}
@@ -161,57 +173,69 @@
 
 {% block js %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.tmpl.min.js"></script>
+
     <script type="text/javascript">
+        {% get_hit_count_javascript for project %}
 
         $(document).ready(function(){
 
-        $(".push").submit( function() {
-            event.preventDefault();
-            var urlSubmit = $(this).attr('action');
-            $.ajax({
-                type: "POST",
-                url: urlSubmit,
-                success: function(data) {
-                    if ($("#btn-push").hasClass('unpushed'))
-                    {
-                        $("#btn-push").text('PUSHED');
-                        $("#btn-push").toggleClass('unpushed pushed');
-                        $(".count-likes").text(data);
+
+            onoff_button('.follow', 'follow', "Suivi", "Suivre");
+            onoff_button('#push', 'like', "Pushé", "Push");
+
+            $(".push").submit( function() {
+                event.preventDefault();
+                var urlSubmit = $(this).attr('action');
+                $.ajax({
+                    type: "POST",
+                    url: urlSubmit,
+                    success: function(data) {
+                        if ($("#btn-push").hasClass('unpushed'))
+                        {
+                            $("#btn-push").removeClass('unactive');
+                            $("#btn-push").addClass('active');
+                            $("#btn-push").text('PUSHED');
+                            $("#btn-push").toggleClass('unpushed pushed');
+                            $(".count-likes").text(data);
+                        }
                     }
-                }
-            });
-            return false;
-        });
-
-        if ($("#btn-push").hasClass('pushed'))
-            $("#btn-push").text('PUSHED');
-
-
-
-        $(".comment_form").submit(function(e){
-            var val = $(".comment_form").find("textarea").val();
-            if(val != ''){
-                $.post($(this).attr('action'),$(this).serialize()).done(function(data){
-                    $(".comment_form").find("textarea").val('');
-                    $.tmpl(templateComment,data[0]).appendTo(".commentList");
-                    $('.delete-item').last()
                 });
-            }
-            return false;
-        });
-
-
-        function delete_comment(e){
-            var parent = $(e).parent();
-            $.post($(e).attr('href'),function(data){
-                $(parent).fadeOut();
+                return false;
             });
-            return false;
-        }
 
-        $(".delete-item").live('click', function(e){
-            return delete_comment(this);
-        });
+            if ($("#btn-push").hasClass('pushed'))
+                $("#btn-push").text('PUSHED');
+
+
+
+            $(".comment_form").submit(function(e){
+                var val = $(".comment_form").find("textarea").val();
+                if(val != ''){
+                    $.post($(this).attr('action'),$(this).serialize()).done(function(data){
+                        $(".comment_form").find("textarea").val('');
+                        $.tmpl(templateComment,data[0]).appendTo(".commentList");
+                        $('.delete-item').last();
+                        var nbComment = parseInt($('#numberComments').html());
+                        $('#numberComments').html(nbComment+1);
+                    });
+                }
+                return false;
+            });
+
+
+            function delete_comment(e){
+                var parent = $(e).parent();
+                $.post($(e).attr('href'),function(data){
+                    var nbComment = parseInt($('#numberComments').html());
+                    $('#numberComments').html(nbComment-1);
+                    $(parent).fadeOut();
+                });
+                return false;
+            }
+
+            $(".delete-item").live('click', function(e){
+                return delete_comment(this);
+            });
 
     });
     </script>

@@ -6,22 +6,49 @@
 
     {% if offer %}
 
-<div class="row">
-    <form action="/offer/apply/{{ offer.id }}" class="apply" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <button id="btn-apply" class="{{status}} PTbutton" name='submit' type="submit" value="apply">Postuler</button>
-    </form>
-</div>
 
 <div class="row wrapper">
     <section id="project" class="ninecol">
         <div class="sleekbox">
             <div class="row project-header">
                 <h1 class="project-title blackTitle">{{ offer.title }}</h1>
+                <ul class="project-stats threecol last">
+                    <li>
+
+                        {% if status == 'applied' %}
+                        <a href="#postApply" id="apply" class="active PTbutton">A Postulé</a>
+
+                        {% else %}
+                        <a href="#postApply" id="apply" class="unactive PTbutton">Postuler</a>
+                        {% endif %}
+                    </li>
+
+                    <li>
+                        {% if status.bookmark %}
+                        <a href="/offer/bookmark/unadd/{{offer.id}}" id="bookmark" class="active PTbutton">Favorisé</a>
+                        {% else %}
+                        <a href="/offer/bookmark/add/{{offer.id}}" id="bookmark" class="unactive PTbutton">Favoris</a>
+                        {% endif %}
+                    </li>
+                </ul>
+
             </div>
             <h4 class="subline"><span>Postée le {{ offer.publish_date }}</span></h4>
-            <p class="project-content">{{ offer.content|safe }}</p>  
-        </div>
+            <p class="project-content">{{ offer.content  }}</p>
+
+
+            {% if status != 'applied'%}
+            <div class="offerApply" id="test">
+                <h3 class="postApply" id="postApply">Postuler</h3>
+                <form class="apply_form" action="/offer/apply/" method="post">
+                    {% csrf_token %}
+                    {{ apply_form.content }}
+                    <input type="hidden" name="offer_id" value="{{ offer.id }}">
+                    <input type="submit">
+                </form>
+            </div>
+            {% endif %}
+      </div>
     </section>
 
     <section id="project-author" class="threecol last">
@@ -53,36 +80,22 @@
 
     </div>
 
+
+    <div id="test"></div>
     {% endif %}
 {% endblock %}
 
 {% block js %}
 
 <script type="text/javascript">
-   
+
     $(document).ready(function(){
-    
-        $(".apply").submit( function() {
-            event.preventDefault();
-            var urlSubmit = $(this).attr('action');
-            $.ajax({  
-                type: "POST",
-                url: urlSubmit,
-                data      : $(this).serializeArray(),
-                success: function(data) {
-                    if ($("#btn-apply").hasClass('nonapplied'))
-                    {
-                        $("#btn-apply").text('A POSTULE');
-                        $("#btn-apply").toggleClass('nonapplied applied');
-                    }
-                }
-            });
-            return false;
-        });
+
+        onoff_button('#bookmark', 'add', "Favorisé", "Favoris");
 
         if ($("#btn-apply").hasClass('applied'))
             $("#btn-apply").text('A POSTULE');
-    
+
     });
 </script>
 
