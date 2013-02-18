@@ -65,9 +65,8 @@ class EducationForm(forms.ModelForm):
     class Meta:
         model = Education
 
-        widgets = {
-            'school': forms.InputText(),
-        }
+        # school.widgets = forms.TextInput()
+        
         exclude = ('owner')
 
 
