@@ -15,14 +15,56 @@
 
                 <div class="row">
                     <div class="sixcol">
-                        <form id="add-offer" action="" method="post">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <!--<input id="datee" type="text" />-->
+                        <form action="" class="PTform" method="post" id="add-offer" enctype="multipart/form-data">
+                        {% csrf_token %}
+                            <div>
+                                <label for="">{{form.title.label}}</label>{{ form.title }}
+                                {{ form.title.errors }}
+                            </div>
+                            <div>
+                                <label for="">{{form.location.label}}</label>{{form.location}}
+                                {{ form.location.errors }}
+                            </div>
+                            <div>
+                                <label for="">{{form.start.label}}</label>{{form.start}}
+                                {{ form.start.errors }}
+                            </div>
+                            <div>
+                                <label for="">{{form.duration.label}}</label>{{form.duration}}
+                                {{ form.duration.errors }}
+                            </div>
+                            <div>
+                                <label for="">{{form.contract.label}}</label>{{form.contract}}
+                                {{ form.contract.errors }}
+                            </div>
+                            <div>
+                                <label for="">{{form.salary.label}}</label>{{form.salary}}
+                                {{ form.salary.errors }}
+                            </div>
+                            <div>
+                                <label for="">{{form.content.label}}</label>{{form.content}}
+                                {{ form.content.errors }}
+                            </div>
+                            <div>
+                                <label for="">{{form.tags.label}}</label>{{ form.tags }}
+                                {{ form.tags.errors }}
+                            </div>
+                            <div>
+                                <label for="">{{form.reference.label}}</label>{{ form.reference }}
+                                {{ form.refenence.errors }}
+                            </div>
+                            <div>
+                                <label for="">{{form.category.label}}</label>{{ form.category }}
+                                {{ form.category.errors }}
+                            </div>
                             <input class="PTbutton" type="submit" value="Submit">
                         </form>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
 
 {% endblock %}
 
