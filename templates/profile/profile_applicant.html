@@ -114,7 +114,7 @@
                     </p>
                 {% endif %}
 
-                <form action="/education/add/" method="post">
+                <form action="/education/add/" method="post" class="">
                     {% csrf_token %}
                     <div class="form-content">
                         {{ formEducation.as_p }}

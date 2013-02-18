@@ -7,7 +7,7 @@ from taggit_autosuggest.widgets import TagAutoSuggest
 def make_custom_datefield(f):
     formfield = f.formfield()
     if isinstance(f, models.DateField):
-        formfield.widget.format = '%m/%d/%Y'
+        formfield.widget.input_formats = '%d/%m/%y'
         formfield.widget.attrs.update({'class':'datePicker', 'readonly':'true'})
     return formfield
 
@@ -64,6 +64,10 @@ class EducationForm(forms.ModelForm):
     formfield_callback = make_custom_datefield
     class Meta:
         model = Education
+
+        widgets = {
+            'school': forms.InputText(),
+        }
         exclude = ('owner')
 
 
