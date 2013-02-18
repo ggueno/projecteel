@@ -14,8 +14,8 @@
 			<p>{{ offers.count }} offres postées</p>
 				
 				{% for offer in offers %}
-				<h1><a href="{{ offer.get_absolute_url }}">{{ offer.title }}</a></h1>
-				<div class="sleekbox">
+				<div class="sleekbox header thumb-offer">
+					<h3 class="blackTitle"><a href="/offer/edit/{{ offer.id }}">{{ offer.title }}</a></h3>
 					<p>{{ offer.location }}</p>
 			        {% if offer.tags %}
 			            <ul class="tags inline">

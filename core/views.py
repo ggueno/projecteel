@@ -612,6 +612,29 @@ def posted_offers(request):
     }
     return render(request, 'offer/posted_offers.html', context)
 
+@login_required
+def edit_offer(request, pk):
+    try:
+        company = Company.objects.filter(user_id=request.user.id)[0]
+        offer = Offer.objects.get(id=pk, company=company)
+    except Company.DoesNotExist:
+        HttpResponseRedirect('/offers/')
+    except Offer.DoesNotExist:
+        HttpResponseRedirect('/offers/')
+
+    offer = Offer.objects.get(id=pk)
+    if request.method == 'POST':
+        form = OfferForm(request.POST)
+        if form.is_valid():
+            form = OfferForm(request.POST, request.FILES, instance=offer)
+            form.save()
+            slug = offer.slug
+            return get_offer(request, slug)
+
+    else:
+        form = OfferForm(instance=offer)
+        return render(request,'offer/edit_offer.html', {'form': form,})
+
 
 @login_required
 def add_education(request):
