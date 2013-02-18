@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^taggit_autosuggest/list/location/$', views.get_locations),
 
     url(r'^list/location/$', views.get_locations),
+    url(r'^list/profile/(?P<type_profile>[^\.]+)/$', views.get_profile),
     url(r'^list/(?P<tag>[^\.]+)/$', views.get_list),
 
 
@@ -33,6 +34,7 @@ urlpatterns = patterns('',
     url(r'^offers/search/$', views.search_offers, {}, 'offers-search'),
     url(r'^offer/posted_offers/$', views.posted_offers),
     url(r'^offer/apply/$', views.apply_offer),
+    url(r'^offer/edit/(?P<pk>[^\.]+)/$', views.edit_offer),
     url(r'^offer/(?P<slug>[^\.]+)/$', views.get_offer, name="offer_view"),
 
 

@@ -159,4 +159,4 @@ function onoff_button(target, name, active, unactive){
 }
 
 
-$( ".datePicker" ).datepicker();
+$( ".datePicker" ).datepicker({ dateFormat: "dd/mm/yy" });
