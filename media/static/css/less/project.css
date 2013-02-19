@@ -41,7 +41,7 @@ p.location {
 }
 .project-header .project-stats li {
   float: left;
-  width: 49%;
+  width: 33%;
   text-align: center;
   line-height: 1.1;
   font-size: .8em;
@@ -53,6 +53,10 @@ p.location {
 .project-header .project-stats li span {
   display: block;
   font-size: 1.7em;
+}
+.project-header .PTbutton {
+  position: relative;
+  top: 3px;
 }
 .image-title {
   padding-bottom: 0;
