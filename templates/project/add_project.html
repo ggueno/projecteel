@@ -207,6 +207,10 @@
 //                 return msg;
 //         }
 
+        $('#add_project').submit(function(){
+           window.onbeforeunload = false; 
+        });
+
         //custom input file
         // $('#id_thumbnail').bind('change focus click',fileInputs);
         //slider for period

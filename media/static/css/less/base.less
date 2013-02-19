@@ -73,6 +73,10 @@ ul{
     list-style-type: none;
 }
 
+h1,h2,h3,h4,h5,h6{
+    text-transform: uppercase;
+}
+
 /*
  * Remove default fieldset styles.
  */
@@ -118,9 +122,14 @@ body{
     background:#e5e5e5;
     font-family: 'OpenSans', sans-serif;
     -webkit-font-smoothing: antialiased;
-    -webkit-text-stroke-width: 0.1px;
     font-size: 10pt;
     overflow-y:scroll;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    body{
+        text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+        -webkit-text-stroke-width: 0.01px;
+    }
 }
 
 html,
@@ -142,12 +151,6 @@ textarea {
 ::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
 ::selection { background: #fe57a1; color: #fff; text-shadow: none; }
 
-.whitediv{
-    .whiteBox;
-    &.header{
-        .border-radius(0px 0px 3px 3px);
-    }
-}
 
 i.icon{
     background:url(../img/PTicons.png) no-repeat 0 0;
@@ -175,12 +178,18 @@ i.icon{
     padding: 0 20px;
     font-size:1.4em;
     font-weight: 400;
-    text-transform:uppercase;
 }
 
 .subline{
     font-size:12pt;
     font-weight:300;
+}
+
+#btn-push{
+    width: 40px;
+    height: 30px;
+    padding: 3px 2px;
+    margin: 0;
 }
 
 .PTbutton{
@@ -195,10 +204,55 @@ i.icon{
     font-weight:400;
     line-height:2em;
     text-transform:uppercase;
-    .transition(~"background .3s ease");
+    .transition(~"background,border-color .3s ease");
     &:hover{
-        background:#FFF;
-        color:@PTblue;
+        background:darken(#047dba,10%);
+    }
+
+    &.start{
+        background: #5e5e5e;
+        border-bottom-color: #3b3b3b;
+        &:hover{
+            background: #3b3b3b;
+        }
+    }
+
+    &.cancel{
+        background: #bfbfbf;
+        border-bottom-color: #9e9e9e;
+        &:hover{
+            background: #9e9e9e;
+        }
+    }
+
+    &.delete{
+        background: #ef5555;
+        border-bottom-color: #c63838;
+        &:hover{
+            background: #c63838;
+        }
+    }
+
+    &.unactive{
+        background-color: @PTblue;
+        border-color: darken(@PTblue, 10%);
+        &:hover{
+            background-color: #047dba;
+        }
+    }
+
+    &.active{
+        background-color: green;
+        border-color: darken(green, 10%);
+        &:hover{
+            background-color: red;
+            border-color: darken(red, 10%);
+            color: white;
+        }
+    }
+
+    i.icon{
+        margin-left: -10px;
     }
 }
 
@@ -276,7 +330,6 @@ a.buttonAqua{
     display:block;
 }
 .messageBox{
-    .whiteBox;
     position:relative;
     h4{
         margin-bottom:15px;
@@ -398,64 +451,21 @@ a.buttonAqua{
     float:left;
 }
 
-
-// .filters{
-//     list-style-type:none;
-//     li{
-//         border-bottom:1px solid #d2d2d2;
-//         padding:10px 0 10px 40px;
-//         overflow:auto;
-//         &:last-child{
-//             border-bottom:none;
-//         }
-//         input, select, option{
-//             .greyInput;
-//             float:right;
-//             clear:both;
-//         }
-//         input{
-//             width:96%;
-//         }
-//         &.tag{
-//             background: url(../img/filters_pictos.png) no-repeat 5px 10px;
-//         }
-//         &.push{
-//             background: url(../img/filters_pictos.png) no-repeat 5px -43px;
-//         }
-//         &.date{
-//             background: url(../img/filters_pictos.png) no-repeat 5px -98px;
-//         }
-//         &.region{
-//             background: url(../img/filters_pictos.png) no-repeat 5px -147px;
-//         }
-//         &.category{
-//             background: url(../img/filters_pictos.png) no-repeat 5px -200px;
-//         }
-//     }
-// }
-
 .tags{
-    margin:0;
+    margin:0 0 0 20px;
     overflow:auto;
     li{
         .tag();
 
         a.delete{
-            margin-left:3px;
-            padding:4px 7px 4px 7px;
+            margin-left:4px;
             text-align:center;
             font-size:.8em;
             font-weight:800;
-            .box-shadow(~"inset 0 0 5px rgba(255,255,255,.5)");
-            .transition(~"box-shadow .2s ease");
-            &:hover{
-                .box-shadow(~"inset 0 0 5px rgba(255,255,255,1)");
+            .transition(~"color .2s ease");
+            &:hover,&:active{
+                color: @PTblue;
             }
-        }
-    }
-    &.inline{
-        li{
-            padding-right:4px;
         }
     }
 }
@@ -631,7 +641,7 @@ a.delete-item{
         border-top: 1px solid #e6e6e6;
         li{
             display: block;
-            padding: 0;
+            // padding: 0;
             border-bottom: 1px solid #e6e6e6;
             &:focus,&:hover{
                 ::-webkit-input-placeholder {
@@ -669,45 +679,48 @@ a.delete-item{
 
             }
         }
+        ul.tags{
+            padding: 10px 0;
+        }
     }
     p{
         padding: 20px;
     }
 
-    ul.tags{
-        padding: 20px;
-        border-top: none;
-        li{
-            padding: 3px 9px;
-            position: relative;
-            background: #F1F1F7;
-            -webkit-border-radius: 2px;
-            -moz-border-radius: 2px;
-            -ms-border-radius: 2px;
-            -o-border-radius: 2px;
-            border-radius: 2px;
-            border: 0;
-            height: 21px;
-            line-height: 21px;
-            -webkit-box-shadow: 0 1px 0 #CECED8;
-            -moz-box-shadow: 0 1px 0 #ceced8;
-            box-shadow: 0 1px 0 #CECED8;
-            margin-right: 4px;
-            display: -moz-inline-box;
-            -moz-box-orient: vertical;
-            display: inline-block;
-            vertical-align: middle;
-            color: #4E4E4E;
-        }
-        .delete{
-            .box-shadow(~"none");
-            padding: 2px;
-            &:hover{
-                .box-shadow(~"none");
-                color: #4fbaea;
-            }
-        }
-    }
+    // ul.tags{
+    //     padding: 20px;
+    //     border-top: none;
+    //     li{
+    //         padding: 3px 9px;
+    //         position: relative;
+    //         background: #F1F1F7;
+    //         -webkit-border-radius: 2px;
+    //         -moz-border-radius: 2px;
+    //         -ms-border-radius: 2px;
+    //         -o-border-radius: 2px;
+    //         border-radius: 2px;
+    //         border: 0;
+    //         height: 21px;
+    //         line-height: 21px;
+    //         -webkit-box-shadow: 0 1px 0 #CECED8;
+    //         -moz-box-shadow: 0 1px 0 #ceced8;
+    //         box-shadow: 0 1px 0 #CECED8;
+    //         margin-right: 4px;
+    //         display: -moz-inline-box;
+    //         -moz-box-orient: vertical;
+    //         display: inline-block;
+    //         vertical-align: middle;
+    //         color: #4E4E4E;
+    //     }
+    //     .delete{
+    //         .box-shadow(~"none");
+    //         padding: 2px;
+    //         &:hover{
+    //             .box-shadow(~"none");
+    //             color: #4fbaea;
+    //         }
+    //     }
+    // }
 
     ::-webkit-input-placeholder {
        color: #777;
@@ -877,7 +890,7 @@ header.menu{
             li{
                 float: none;
                 display: inline;
-                margin:5px 0 5px 10px;
+                margin:5px 0 5px 5px;
             }
         }
     }
@@ -981,52 +994,6 @@ header.menu{
             }
         }
     }
-
-    .fileupload-buttonbar{
-        .PTbutton{
-            margin:0 5px;
-            float: left;
-            &.start{
-                background: #5e5e5e;
-                border-bottom-color: #3b3b3b;
-                &:hover{
-                    background: #3b3b3b;
-                }
-            }
-            &.cancel{
-                background: #bfbfbf;
-                border-bottom-color: #9e9e9e;
-                &:hover{
-                    background: #9e9e9e;
-                }
-            }
-            &.delete{
-                background: #ef5555;
-                border-bottom-color: #c63838;
-                &:hover{
-                    background: #c63838;
-                }
-            }
-        }
-        span.PTbutton{
-            line-height: 2.6em;
-            padding: 3px 6px;
-            height: 31px;
-            margin: 0;
-            display: block;
-            float: left;
-            font-weight: bold;
-            .transition(~"background .3s ease");
-        }
-        .fileinput-button{
-            margin: 0 5px 0 0;
-        }
-        .fileinput-button:hover{
-            span{
-                background:#047dba;
-            }
-        }
-    }
     &.inline{
         input[type=text]{
             height: 33px;
@@ -1089,9 +1056,6 @@ header.menu{
             background:#047dba;
             color:#FFF;
         }
-        i.icon{
-            margin-left: -10px;
-        }
     }
     .sublabel{
         color: #777777;
@@ -1110,30 +1074,41 @@ header.menu{
         padding-top: 10px;
         color: #777777;
     }
-    div.dk_container {
-        float: none;
-        display: block;
+    .dropdown{
         margin: 0;
-        width: 100%;
-        font-weight: normal;
-        font-size: 15px;
-        div{
-            margin: 0;
-        }
-        .dk_toggle{
-            width: 445px;
-            margin: 0;
-            height: 33px;
-            line-height: 33px;
-            padding: 7px 45px 7px 10px;
-        }
-        .dk_options{
-            li{
-                border:none;
-            }
+        .dropdown-toggle{
+            padding:15px 20px;
+            font-size: 14px;
+            font-weight: 500;
         }
     }
 }
+
+.fileupload-buttonbar{
+    .PTbutton{
+        margin:0 5px;
+        float: left;
+    }
+    span.PTbutton{
+        line-height: 2.6em;
+        padding: 3px 6px;
+        height: 31px;
+        margin: 0;
+        display: block;
+        float: left;
+        font-weight: bold;
+        .transition(~"background .3s ease");
+    }
+    .fileinput-button{
+        margin: 0 5px 0 0;
+    }
+    .fileinput-button:hover{
+        span{
+            background:#047dba;
+        }
+    }
+}
+
 
 .add_project{
     .content{
@@ -1313,14 +1288,6 @@ li.as-result-item{
     .dropfilters{
         overflow: visible;
         height: 70px;
-        .dk_toggle{
-            border: none;
-            width: 88%;
-            padding: 7px 10% 7px 2%;
-        }
-        .dk_options{
-            border: none;
-        }
     }
     .sorting{
         .PTform{
@@ -1346,11 +1313,6 @@ li.as-result-item{
                 margin: 0;
                 background: #fafafa;
                 border: none;
-            }
-            .dk_toggle{
-                border: none;
-                width: 82%;
-                padding: 7px 10% 7px 8%;
             }
         }
     }
@@ -1626,29 +1588,5 @@ li.as-result-item{
 
 
 
-/* ==========================================================================
-   Common  classes
-   ========================================================================== */
 
-
-.PTbutton.unactive{
-    background-color: @PTblue;
-}
-
-.PTbutton.active{
-    background-color: darken(green, 10%);
-}
-
-.PTbutton.active:hover{
-    background-color: red;
-    color: white;
-}
-
-
-#btn-push{
-    width: 40px;
-    height: 30px;
-    padding: 3px 2px;
-    margin: 0;
-}
 
