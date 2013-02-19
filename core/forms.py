@@ -2,6 +2,7 @@ from django import forms
 from django.db import models
 from core.models import Project, Offer, Education, Experience, Comment, Applicant, ApplicantOffer
 from taggit_autosuggest.widgets import TagAutoSuggest
+from tinymce.widgets import TinyMCE
 
 
 def make_custom_datefield(f):
@@ -55,6 +56,7 @@ class ProjectForm(forms.ModelForm):
 
 class OfferForm(forms.ModelForm):
     formfield_callback = make_custom_datefield
+    content = forms.CharField(widget=TinyMCE)
     class Meta:
         model = Offer
         exclude = ('slug', 'company')

@@ -3,6 +3,10 @@
 {% block title %} Ajouter une offre {% endblock %}
 {% block content %}
 
+<head>
+    {{ form.media }}
+</head>
+
     <section class="row add_project">
         <div class="sleekbox">
             <div class="content">
@@ -69,7 +73,6 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{{ STATIC_URL }}js/nicEdit.js" type="text/javascript"></script>
     <script type="text/javascript">
 
     $().ready(function(){
@@ -81,16 +84,10 @@
             $("#id_content") = tmp.textContent||tmp.innerText;*/
 
             //var content = $("#id_content").html();
-            //alert($("#id_content").text());
+            //console.log($("#id_content").text());
+            //alert("knckjwnkcjnkj");
         });
 
     });
-
-
-
-    bkLib.onDomLoaded(function() {
-        new nicEditor({buttonList : ['bold','italic','underline','fontSize','strikeThrough', 'link', 'ul', 'html','image']}).panelInstance('id_content');
-    });
-
     </script>
 {% endblock %}
