@@ -12,4 +12,19 @@ import warnings
 warnings.warn("include('registration.urls') is deprecated; use include('registration.backends.default.urls') instead.",
               PendingDeprecationWarning)
 
+from django.conf.urls.defaults import *
 from registration.backends.default.urls import *
+from registration.forms import UserRegistrationForm
+
+urlpatterns += patterns('',
+
+    #customize user registration form
+    url(r'^register/$', 'registration.views.register',
+        {
+            'backend': 'registration.regbackend.Backend',
+            'form_class' : UserRegistrationForm
+        },
+        name='registration_register'
+    ),
+
+)
