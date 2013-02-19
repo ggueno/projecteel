@@ -152,6 +152,7 @@ INSTALLED_APPS = (
     'taggit_autosuggest',
     'sorl.thumbnail',
     'core',
+    'tinymce',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -205,3 +206,10 @@ FIXTURE_DIRS = (
 HITCOUNT_KEEP_HIT_ACTIVE = {'seconds': 1}
 HITCOUNT_HITS_PER_IP_LIMIT = 0
 HITCOUNT_EXCLUDE_USER_GROUP = ()
+
+
+TINYMCE_JS_URL = os.path.join(PROJECT_PATH, '/media/static/js/tiny_mce/tiny_mce.js')
+#TINYMCE_DEFAULT_CONFIG = {
+#    'plugins': "table,spellchecker,paste,searchreplace",
+#    'theme': "advanced",
+#}
