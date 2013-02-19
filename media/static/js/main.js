@@ -3,41 +3,6 @@ var django = {
     "jQuery": jQuery
 };
 
-django.jQuery(function() {
-
-	var options = {
-		inputs: {
-		    'username': {
-		      filters: 'required username exclude',
-		      data: { exclude: ['user', 'username', 'admin'] }
-		    },
-		    'date': { filters: 'date' },
-		    'comments': {
-		      filters: 'min max',
-		      data: { min: 50, max: 200 }
-		    },
-		    'colors': {
-		      filters: 'exclude',
-		      data: { exclude: ['default'] },
-		      errors: { exclude: 'Choisissez une couleur de la liste' }
-		    },
-		    'langs[]': {
-		      filters: 'min',
-		      data: { min: 2 },
-		      errors: { min: 'Check at least <strong>2</strong> languages.' }
-		    },
-		    'options': {
-		      filters: 'min',
-		      data: { min: 1 },
-		      errors: { min: 'Check only <strong>1</strong> option.' }
-		    }
-		},
-		responsiveAt: 50
-	}
-	var $myform = django.jQuery('#my-form').idealforms(options).data('idealforms');
-
-});
-
 $.ajaxSetup({
      beforeSend: function(xhr, settings) {
          function getCookie(name) {
@@ -60,16 +25,6 @@ $.ajaxSetup({
              xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
          }
      }
-});
-
-
-//custom dropdown
-$('.PTform select').dropkick();
-
-//close dropdown on click
-$(window).on('click',function(){
-    console.log("DKLKICJ");
-    $('.dk_open').removeClass('dk_open');
 });
 
 

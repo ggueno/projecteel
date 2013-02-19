@@ -8,23 +8,26 @@
     <div class="row wrapper" id="projects">
         <h1 class="heading">Projects</h1>
 
-        <div class="row PTform dropfilters">
+        <div class="row dropfilters">
             <div class="sixcol">
-                <select class="search-field" id="search-categories" name="search-categories">
-                    <option value="all">Tous les catégories</option>
-                    {% for categorie in categories %}
-                    <option value="{{categorie.slug}}">{{categorie.name}}</option>
-                    {% endfor %}
-                </select>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown trigger</a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        {% for categorie in categories %}
+                        <li><a href="#" title="" data-value="{{categorie.slug}}">{{categorie.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
             <div class="sixcol last">
-                <select class="search-field" id="search-filter" name="search-filter">
-                    <option value="pushs">Les plus pushés</option>
-                    <!-- <option value="views">Les plus vues</option> -->
-                    <option value="comments">Les plus commentés</option>
-                    <option value="recents">Les plus récents</option>
-                    <option value="views">Les plus vues</option>
-                </select>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" data-value="pushs" href="#">Les plus pushés</a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li><a href="#" title="" data-value="comments">Les plus commentés</a></li>
+                        <li><a href="#" title="" data-value="recents">Les plus récents</a></li>
+                        <li><a href="#" title="" data-value="views">Les plus vus</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -48,17 +51,15 @@
                         <li class="region">
                             <input class="search-field autocomplete" id="search-location" type="text" name="location">
                         </li>
-                        <li class="tag">
-                          <!--  <input class="search-field range" type="text" id="search-durationmin">
-                            <input class="search-field range" type="text" id="search-durationmax">-->
-                        </li>
                         <li>
-                            <select class="search-field" id="search-when" name="search-when">
-                                <option value="1">Aujourd'hui</option>
-                                <option value="7">Cette semaine</option>
-                                <option value="30">Ce mois</option>
-                                <option value="0" selected>Toujours</option>
-                            </select>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" data-value="0" href="#">Toujours</a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li><a href="#" title="" data-value="1">Aujourd'hui</a></li>
+                                    <li><a href="#" title="" data-value="7">Cette semaine</a></li>
+                                    <li><a href="#" title="" data-value="30">Ce mois</a></li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="tag">
                             <input class="search-field autocomplete" type="text" id="search-skills" >
