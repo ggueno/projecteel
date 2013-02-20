@@ -34,7 +34,7 @@
 
             </div>
             <h4 class="subline"><span>Postée le {{ offer.publish_date }}</span></h4>
-            <p class="project-content">{{ offer.content  }}</p>
+            <p class="project-content">{{ offer.content }}</p>
 
 
             {% if status != 'applied'%}
@@ -90,6 +90,9 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
+
+        //ar regex = s/<[&lt;\/][^>]*>/g;
+        //alert($("project-content"));
 
         onoff_button('#bookmark', 'add', "Favorisé", "Favoris");
 

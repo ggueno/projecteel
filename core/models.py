@@ -9,6 +9,7 @@ from django.core.files.base import ContentFile
 from django.core.validators import MaxLengthValidator
 # from utils import Address, Country
 from hitcount.models import *
+from tinymce import models as tinymce_models
 
 
 class Country(models.Model):
@@ -198,7 +199,7 @@ class Offer(models.Model):
     contract = models.CharField(max_length=10, choices=OFFER_TYPE, default='CDI', blank=True)
     salary = models.IntegerField(blank=True, null=True)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
-    content = models.TextField()
+    content = tinymce_models.HTMLField()
     tags = TaggableManager(verbose_name="Tag", through=OfferTaggedItem, blank=True)
     reference = models.CharField(max_length=30, blank=True, null=True)
     category = models.ManyToManyField(CategoryOffer, blank=True, null=True)

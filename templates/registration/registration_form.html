@@ -18,13 +18,6 @@
       <form method="post" action="" class="wide">
     	{% csrf_token %}
         <p>
-          <label for="id_username">Username:</label>
-          {% if form.username.errors %}
-            <p class="errors">{{ form.username.errors.as_text }}</p>
-          {% endif %}
-          {{ form.username }}
-        </p>
-        <p>
           <label for="id_email">Email address:</label>
           {% if form.email.errors %}
             <p class="errors">{{ form.email.errors.as_text }}</p>
@@ -47,7 +40,7 @@
         </p>
         <p class="submit"><input type="submit" value="Register &rarr;"></p>
       </form>
-      
+
     {% endblock %}
 
     {% block content-related %}
