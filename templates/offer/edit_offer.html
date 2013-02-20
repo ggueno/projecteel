@@ -78,20 +78,22 @@
 {% endblock %}
 {% block js %}
 <script>
+
+    tinyMCE.init({
+        removeformat_selector : 'style,script,img,html,iframe'
+
+        /*onvert_newlines_to_brs : true,
+        fix_list_elements : true,
+        protect: [
+            /\<\/?(if|endif)\>/g, // Protect <if> & </endif>
+            /\<xsl\:[^>]+\>/g, // Protect <xsl:...>
+            /<\?php.*?\?>/g // Protect php code
+        ],
+        valid_elements : "em/i,strike,u,strong/b,div[align],br,#p[align],-ol[type|compact],-ul[type|compact],-li"*/
+    });
+
+
     $(document).ready(function(){
-
-        tinyMCE.init({
-            verify_html : true,
-            removeformat_selector : 'style,script,img,html,iframe',
-            convert_newlines_to_brs : true,
-            fix_list_elements : true,
-            protect: [
-                /\<\/?(if|endif)\>/g, // Protect <if> & </endif>
-                /\<xsl\:[^>]+\>/g, // Protect <xsl:...>
-                /<\?php.*?\?>/g // Protect php code
-            ]
-        });
-
 
         $('.edit-offer').submit(function() {
 

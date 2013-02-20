@@ -16,6 +16,7 @@ from forms import *
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import removetags
 
+
 def home(request):
     return render_to_response('index.html')
 
@@ -617,6 +618,7 @@ def edit_offer(request, model=None, pk=None):
                 return get_offer(request, slug)
         else:
             form = OfferForm(instance=offer)
+        return render(request, 'offer/edit_offer.html', {'form': form, 'model': model})
 
     elif pk is None :
         if model == u"add":
@@ -626,6 +628,7 @@ def edit_offer(request, model=None, pk=None):
                 if form.is_valid():
                     cd = form.cleaned_data
                     offer = form.save(commit=False)
+                    #force_unicode(offer.content).replace('&lt;', '').replace('&gt;', '>')
                     #offer.content = removetags(offer.content, 'style script img iframe')
                     offer.company = company
                     offer.save()
@@ -633,7 +636,10 @@ def edit_offer(request, model=None, pk=None):
                     return get_offer(request, offer.slug)
             else:
                 form = OfferForm()
-    return render(request, 'offer/edit_offer.html', {'form': form, 'model': model})
+        return render(request, 'offer/edit_offer.html', {'form': form, 'model': model})
+    else :
+        get_offer(request, model)
+    
 
 
 @login_required
