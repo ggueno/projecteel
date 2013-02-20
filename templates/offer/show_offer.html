@@ -34,7 +34,7 @@
 
             </div>
             <h4 class="subline"><span>Postée le {{ offer.publish_date }}</span></h4>
-            <p class="project-content">{{ offer.content }}</p>
+            <p class="project-content">{{ offer.content|safe }}</p>
 
 
             {% if status != 'applied'%}
