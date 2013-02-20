@@ -522,6 +522,9 @@ a.delete-item {
 a.delete-item:hover {
   color: #0099e6;
 }
+.illustration {
+  text-align: center;
+}
 .lastProjects {
   list-style-type: none;
   overflow: auto;
