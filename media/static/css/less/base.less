@@ -205,7 +205,7 @@ i.icon{
     line-height:2em;
     text-transform:uppercase;
     .transition(~"background,border-color .3s ease");
-    &:hover{
+    &:hover,&:active,&:focus{
         background:darken(#047dba,10%);
     }
 
@@ -253,6 +253,13 @@ i.icon{
 
     i.icon{
         margin-left: -10px;
+    }
+    &.fluid{
+        display: inline;
+        padding: 2%;
+        height: auto;
+        line-height: inherit;
+        width:auto;
     }
 }
 
@@ -324,59 +331,12 @@ i.icon{
     }
 }
 
-
-a.buttonAqua{
-    line-height:1.8em;
-    display:block;
-}
-.messageBox{
-    position:relative;
-    h4{
-        margin-bottom:15px;
-        font-size:1.05em;
-    }
-    .closeBtn{
-        width:15px;
-        height:15px;
-        padding:1px;
-        display:block;
-        position:absolute;
-        top:10px;
-        right:10px;
-        text-align:center;
-        .border-radius(3px);
-        border:1px solid #BBB;
-        font-weight:800;
-        color:#AAA;
-        font-size:.8em;
-        line-height:15px;
-        background:#dddddd;
-        &:hover{
-            color:#666;
-        }
-    }
-    .row{
-        min-width:0;
-    }
-    .buttonAqua{
-        position: absolute;
-        bottom:10px;
-        right: 10px;
-    }
-}
-
 .heading{
     font-size:2em;
     text-transform:uppercase;
     padding:20px 0;
     font-weight: 400;
 }
-
-
-// .wrapper{
-//     padding:5px;
-//     width:1130px;
-// }
 
 .content{
     padding: 20px;
@@ -465,6 +425,17 @@ a.buttonAqua{
             .transition(~"color .2s ease");
             &:hover,&:active{
                 color: @PTblue;
+            }
+        }
+        &.selected{
+            background-color: darken(#c0c0c0,20%);
+        }
+    }
+    &.inline{
+        li{
+            .transition(~"background .2s ease");
+            &:hover{
+                background:@PTblue;
             }
         }
     }
@@ -604,24 +575,6 @@ a.delete-item{
     }
 }
 
-.ideal-form{
-    padding: 10px 20px;
-    background:transparent;
-    .ideal-label{
-        width: 100px;
-    }
-    .ideal-heading{
-        background:transparent;
-    }
-    .ideal-field{
-        background:transparent;
-        border:none;
-        padding:0;
-    }
-}
-
-
-
 .sleekbox{
     width: 100%;
     background: #FFFFFF;
@@ -686,41 +639,6 @@ a.delete-item{
     p{
         padding: 20px;
     }
-
-    // ul.tags{
-    //     padding: 20px;
-    //     border-top: none;
-    //     li{
-    //         padding: 3px 9px;
-    //         position: relative;
-    //         background: #F1F1F7;
-    //         -webkit-border-radius: 2px;
-    //         -moz-border-radius: 2px;
-    //         -ms-border-radius: 2px;
-    //         -o-border-radius: 2px;
-    //         border-radius: 2px;
-    //         border: 0;
-    //         height: 21px;
-    //         line-height: 21px;
-    //         -webkit-box-shadow: 0 1px 0 #CECED8;
-    //         -moz-box-shadow: 0 1px 0 #ceced8;
-    //         box-shadow: 0 1px 0 #CECED8;
-    //         margin-right: 4px;
-    //         display: -moz-inline-box;
-    //         -moz-box-orient: vertical;
-    //         display: inline-block;
-    //         vertical-align: middle;
-    //         color: #4E4E4E;
-    //     }
-    //     .delete{
-    //         .box-shadow(~"none");
-    //         padding: 2px;
-    //         &:hover{
-    //             .box-shadow(~"none");
-    //             color: #4fbaea;
-    //         }
-    //     }
-    // }
 
     ::-webkit-input-placeholder {
        color: #777;
@@ -953,6 +871,10 @@ header.menu{
         background: #fcfcfc;
         outline: 0;
         color: #666;
+        .transition(~"border .2s ease");
+        &:focus{
+            border-color:@PTblue;
+        }
     }
     input[type=radio]{
         margin: 10px;
@@ -992,14 +914,6 @@ header.menu{
             button{
                 background: #047dba;
             }
-        }
-    }
-    &.inline{
-        input[type=text]{
-            height: 33px;
-        }
-        .ideal-field{
-
         }
     }
     p.annotation{
@@ -1046,15 +960,6 @@ header.menu{
                 color: #FFF;
                 cursor: pointer;
             }
-        }
-    }
-    .PTbutton{
-        margin: 10px 0 10px auto;
-        float: none;
-        display: block;
-        &:hover{
-            background:#047dba;
-            color:#FFF;
         }
     }
     .sublabel{
@@ -1108,6 +1013,10 @@ header.menu{
         }
     }
 }
+
+/*
+   A D D   N E W   P R O J E C T
+   ========================================================================== */
 
 
 .add_project{
@@ -1270,6 +1179,15 @@ header.menu{
             margin-bottom: 10px;
         }
     }
+    .PTform .PTbutton{
+        margin: 10px 0 10px auto;
+        float: none;
+        display: block;
+        &:hover{
+            background:#047dba;
+            color:#FFF;
+        }
+    }
 }
 
 //users autosuggest
@@ -1280,6 +1198,10 @@ li.as-result-item{
         margin-right: 10px;
     }
 }
+
+/*
+   L I S T   P R O J E C T S
+   ========================================================================== */
 
 #projects{
     .sixcol{
@@ -1295,14 +1217,6 @@ li.as-result-item{
                 border-left:0;
                 border-right:0;
             }
-            #search-query{
-                background-image: url(../img/loupe.png);
-                background-repeat: no-repeat;
-                background-position: 11px center;
-                width: 78%;
-                margin: 0;
-                padding: 5% 8% 5% 14%;
-            }
             ul.as-selections {
                 li.as-selection-item{
                     padding: 2px 5px;
@@ -1316,15 +1230,41 @@ li.as-result-item{
             }
         }
     }
+    .PTform{
+        overflow: auto;
+    }
 }
+
+.search-form{
+        div{
+            margin-top: 0;
+        }
+        #search-query{
+            height: auto;
+            line-height: 2em;
+        }
+        .PTbutton{
+            margin-top: 1px;
+            background-image: url(../img/loupe.png);
+            background-repeat: no-repeat;
+            text-indent: -9999px;
+            background-position: center center;
+            height: auto;
+            font-size:13px;
+            float: right;
+            line-height: 2em;
+            padding: 2%;
+            width: 6.5%;
+        }
+    }
 
 /*
    O F F E R S
    ========================================================================== */
 
 #list_offers{
-    .search{
-        width:84%;
+    .PTform{
+        overflow: auto;
     }
     .thumb-offer{
         margin-bottom: 10px;

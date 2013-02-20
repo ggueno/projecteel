@@ -74,8 +74,10 @@
             <div class="PTform inline">
                     <form action="/projects/search/" class="search-form project-search" method="get">
                     {% csrf_token %}
-                    <input class="search-field" id="search-query" type="text" name="query">
-                    <input type="submit">
+                    <div class="elevencol">
+                        <input class="search-field" id="search-query" type="text" name="query" placeholder="Rechercher un projet...">
+                    </div>
+                    <input type="submit" class="PTbutton onecol">
                 </form>
             </div>
             <div id="list-content">{% include endless_part %}</div>
