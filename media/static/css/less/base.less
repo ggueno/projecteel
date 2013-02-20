@@ -204,7 +204,7 @@ i.icon{
     font-weight:400;
     line-height:2em;
     text-transform:uppercase;
-    .transition(~"background,border-color .3s ease");
+    .transition(~"all .3s ease");
     &:hover,&:active,&:focus{
         background:darken(#047dba,10%);
     }
@@ -468,9 +468,9 @@ i.icon{
             padding:10px;
         }
         input{
-            .blueButton;
-            display: block;
             margin:10px 0 10px auto;
+            display: block;
+            float: none;
         }
     }
     .commentList{
@@ -1231,7 +1231,7 @@ li.as-result-item{
         }
     }
     .PTform{
-        overflow: auto;
+        // overflow: auto;
     }
 }
 
@@ -1261,6 +1261,25 @@ li.as-result-item{
 /*
    O F F E R S
    ========================================================================== */
+#offers{
+    margin-top: 30px;
+}
+
+.offer-controls{
+   li{
+        float: left;
+        margin:5px 7px;
+   }
+}
+
+.apply_form{
+    padding: 0 20px 20px 20px;
+    .PTbutton{
+        margin:10px 0 10px auto;
+        display: block;
+        float: none;
+    }
+}
 
 #list_offers{
     .PTform{
@@ -1272,6 +1291,9 @@ li.as-result-item{
         width: 100%;
         p{
             padding:0px;
+        }
+        a{
+            .PTlink();
         }
         .header-offer{
             text-align:center;

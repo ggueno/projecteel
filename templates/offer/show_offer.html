@@ -12,7 +12,7 @@
         <div class="sleekbox">
             <div class="row project-header">
                 <h1 class="project-title blackTitle">{{ offer.title }}</h1>
-                <ul class="project-stats threecol last">
+                <ul class="offer-controls threecol last">
                     <li>
 
                         {% if status == 'applied' %}
@@ -39,12 +39,12 @@
 
             {% if status != 'applied'%}
             <div class="offerApply" id="test">
-                <h3 class="postApply" id="postApply">Postuler</h3>
-                <form class="apply_form" action="/offer/apply/" method="post">
+                <h3 class="postApply" id="postApply">Postuler à l'offre</h3>
+                <form class="apply_form PTform" action="/offer/apply/" method="post">
                     {% csrf_token %}
                     {{ apply_form.content }}
                     <input type="hidden" name="offer_id" value="{{ offer.id }}">
-                    <input type="submit">
+                    <input type="submit" class="PTbutton">
                 </form>
             </div>
             {% endif %}
