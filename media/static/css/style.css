@@ -560,9 +560,9 @@ figure img {
 .mixin-span_last {
   margin-right: 0;
 }
-/* 1. 12 Column Grid 0px - Infinity 
-    ----------------------------------------------------------------------------- 
-    
+/* 1. 12 Column Grid 0px - Infinity
+    -----------------------------------------------------------------------------
+
     Span 1:    6.95833333333%
     Span 2:    15.4166666667%
     Span 3:    23.875%
@@ -575,8 +575,9 @@ figure img {
     Span 10:    83.0833333333%
     Span 11:    91.5416666667%
     Span 12:    100%
-    
-    ----------------------------------------------------------------------------- */@media screen and (min-width: 0px) {
+
+    ----------------------------------------------------------------------------- */
+@media screen and (min-width: 0px) {
   .col {
     margin-right: 1.5%;
     padding: 0 0%;
@@ -588,9 +589,10 @@ figure img {
     margin: 0 auto;
     overflow: hidden;
   }
-  /* --- Gridpak variables ---*//*
+  /* --- Gridpak variables ---*/
+  /*
           Add your semantic classnames in alongside their corresponding spans here. e.g.
-          
+  
           .span_3,
           .my_semantic_class_name {
               ...
@@ -667,7 +669,7 @@ figure img {
     padding: 0 0%;
     margin-right: 1.5%;
   }
-  .evelencol,
+  .elevencol,
   .span_11 {
     width: 91.54166666666666%;
     border-left-width: 0;
@@ -1230,7 +1232,9 @@ i.icon.delete {
 .PTbutton:hover {
   background: #047dba;
 }
-.PTbutton:hover {
+.PTbutton:hover,
+.PTbutton:active,
+.PTbutton:focus {
   background: #035b88;
 }
 .PTbutton.start {
@@ -1272,6 +1276,13 @@ i.icon.delete {
 }
 .PTbutton i.icon {
   margin-left: -10px;
+}
+.PTbutton.fluid {
+  display: inline;
+  padding: 2%;
+  height: auto;
+  line-height: inherit;
+  width: auto;
 }
 .titleU {
   padding: 5px 0;
@@ -1332,50 +1343,6 @@ i.icon.delete {
 }
 .ui-slider .ui-slider-handle {
   widows: ;
-}
-a.buttonAqua {
-  line-height: 1.8em;
-  display: block;
-}
-.messageBox {
-  position: relative;
-}
-.messageBox h4 {
-  margin-bottom: 15px;
-  font-size: 1.05em;
-}
-.messageBox .closeBtn {
-  width: 15px;
-  height: 15px;
-  padding: 1px;
-  display: block;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  text-align: center;
-  -webkit-border-radius: 3px;
-  -webkit-background-clip: padding-box;
-  -moz-border-radius: 3px;
-  -moz-background-clip: padding;
-  border-radius: 3px;
-  background-clip: padding-box;
-  border: 1px solid #BBB;
-  font-weight: 800;
-  color: #AAA;
-  font-size: .8em;
-  line-height: 15px;
-  background: #dddddd;
-}
-.messageBox .closeBtn:hover {
-  color: #666;
-}
-.messageBox .row {
-  min-width: 0;
-}
-.messageBox .buttonAqua {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
 }
 .heading {
   font-size: 2em;
@@ -1478,6 +1445,19 @@ a.buttonAqua {
 .tags li a.delete:hover,
 .tags li a.delete:active {
   color: #0099e6;
+}
+.tags li.selected {
+  background-color: #8d8d8d;
+}
+.tags.inline li {
+  -webkit-transition: background .2s ease;
+  -moz-transition: background .2s ease;
+  -o-transition: background .2s ease;
+  -ms-transition: background .2s ease;
+  transition: background .2s ease;
+}
+.tags.inline li:hover {
+  background: #0099e6;
 }
 .projectContent img {
   display: block;
@@ -1633,21 +1613,6 @@ a.delete-item:hover {
 .offer .tags.inline {
   padding: 0;
   margin: 0;
-}
-.ideal-form {
-  padding: 10px 20px;
-  background: transparent;
-}
-.ideal-form .ideal-label {
-  width: 100px;
-}
-.ideal-form .ideal-heading {
-  background: transparent;
-}
-.ideal-form .ideal-field {
-  background: transparent;
-  border: none;
-  padding: 0;
 }
 .sleekbox {
   width: 100%;
@@ -1965,6 +1930,17 @@ header.menu #menu a:hover {
   background: #fcfcfc;
   outline: 0;
   color: #666;
+  -webkit-transition: border .2s ease;
+  -moz-transition: border .2s ease;
+  -o-transition: border .2s ease;
+  -ms-transition: border .2s ease;
+  transition: border .2s ease;
+}
+.PTform input[type=text]:focus,
+.PTform input[type=password]:focus,
+.PTform input[type=email]:focus,
+.PTform textarea:focus {
+  border-color: #0099e6;
 }
 .PTform input[type=radio] {
   margin: 10px;
@@ -2037,9 +2013,6 @@ header.menu #menu a:hover {
 .PTform .file-wrap:hover button {
   background: #047dba;
 }
-.PTform.inline input[type=text] {
-  height: 33px;
-}
 .PTform p.annotation {
   margin: 0;
   font-style: italic;
@@ -2093,15 +2066,6 @@ header.menu #menu a:hover {
   color: #FFF;
   cursor: pointer;
 }
-.PTform .PTbutton {
-  margin: 10px 0 10px auto;
-  float: none;
-  display: block;
-}
-.PTform .PTbutton:hover {
-  background: #047dba;
-  color: #FFF;
-}
 .PTform .sublabel {
   color: #777777;
   font-size: .9em;
@@ -2151,6 +2115,9 @@ header.menu #menu a:hover {
 .fileupload-buttonbar .fileinput-button:hover span {
   background: #047dba;
 }
+/*
+   A D D   N E W   P R O J E C T
+   ========================================================================== */
 .add_project .content {
   padding: 40px 60px;
 }
@@ -2344,6 +2311,15 @@ header.menu #menu a:hover {
 .add_project .embeds textarea {
   margin-bottom: 10px;
 }
+.add_project .PTform .PTbutton {
+  margin: 10px 0 10px auto;
+  float: none;
+  display: block;
+}
+.add_project .PTform .PTbutton:hover {
+  background: #047dba;
+  color: #FFF;
+}
 li.as-result-item {
   line-height: 30px;
 }
@@ -2351,6 +2327,9 @@ li.as-result-item img {
   width: 30px;
   margin-right: 10px;
 }
+/*
+   L I S T   P R O J E C T S
+   ========================================================================== */
 #projects .sixcol {
   margin: 0;
 }
@@ -2362,14 +2341,6 @@ li.as-result-item img {
   border-left: 0;
   border-right: 0;
 }
-#projects .sorting .PTform #search-query {
-  background-image: url(../img/loupe.png);
-  background-repeat: no-repeat;
-  background-position: 11px center;
-  width: 78%;
-  margin: 0;
-  padding: 5% 8% 5% 14%;
-}
 #projects .sorting .PTform ul.as-selections li.as-selection-item {
   padding: 2px 5px;
   margin: 10px 5px 0 5px;
@@ -2379,11 +2350,34 @@ li.as-result-item img {
   background: #fafafa;
   border: none;
 }
+#projects .PTform {
+  overflow: auto;
+}
+.search-form div {
+  margin-top: 0;
+}
+.search-form #search-query {
+  height: auto;
+  line-height: 2em;
+}
+.search-form .PTbutton {
+  margin-top: 1px;
+  background-image: url(../img/loupe.png);
+  background-repeat: no-repeat;
+  text-indent: -9999px;
+  background-position: center center;
+  height: auto;
+  font-size: 13px;
+  float: right;
+  line-height: 2em;
+  padding: 2%;
+  width: 6.5%;
+}
 /*
    O F F E R S
    ========================================================================== */
-#list_offers .search {
-  width: 84%;
+#list_offers .PTform {
+  overflow: auto;
 }
 #list_offers .thumb-offer {
   margin-bottom: 10px;

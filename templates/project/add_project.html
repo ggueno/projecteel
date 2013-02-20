@@ -40,14 +40,14 @@
                                     {{ form.title }}
                                     {{ form.title.errors }}
                                 </div>
-                                {{ form.thumbnail }}
+
                                 <div class="file-wrap">
                                     <label>Vignette</label>
 
-                                    <!--<input type="file" name="thumbnail" id="thumbnail" autocomplete="off">
+                                   {{ form.thumbnail }}
                                     <input type="text" class="file-holder" autocomplete="off" disabled>
                                     <button type="button"><i class="icon image"></i> Choisir</button>
-                                    <p class="annotation">(< 1Mo, > 300x250px)</p>-->
+                                    <p class="annotation">(< 1Mo, > 300x250px)</p>
                                 </div>
                                 <div>
                                     <label for="">{{form.categories.label}}</label>
@@ -208,19 +208,11 @@
 //         }
 
         $('#add_project').submit(function(){
-           window.onbeforeunload = false; 
+           window.onbeforeunload = false;
         });
 
         //custom input file
-        // $('#id_thumbnail').bind('change focus click',fileInputs);
-        //slider for period
-        // var slider = $('<div id="period_slider"></div>').slider({
-        //   value:3,
-        //   min: 1,
-        //   max: 52,
-        //   step: 1,
-        // });
-        // $("#id_period").after(slider);
+        $('#id_thumbnail').bind('change focus click',fileInputs);
 
 });
 
