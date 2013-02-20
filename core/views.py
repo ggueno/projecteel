@@ -539,25 +539,6 @@ def get_offer(request, slug):
 
 
 @login_required
-def add_offer(request):
-    form = {}
-
-    company = Company.objects.filter(user_id=request.user.id)[0]
-    if request.method == 'POST':
-        form = OfferForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            offer = form.save(commit=False)
-            offer.content = removetags(offer.content, 'style script img iframe')
-            offer.company = company
-            offer.save()
-            form.save_m2m()
-            return render(request, 'offer/show_offer.html', {'offer': offer, 'slug': offer.slug})
-    else:
-        form = OfferForm()
-    return render(request, 'offer/add_offer.html', {'form': form})
-
-@login_required
 def apply_offer(request):
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
 
@@ -613,27 +594,46 @@ def posted_offers(request):
     return render(request, 'offer/posted_offers.html', context)
 
 @login_required
-def edit_offer(request, pk):
+def edit_offer(request, model=None, pk=None):
+
     try:
         company = Company.objects.filter(user_id=request.user.id)[0]
-        offer = Offer.objects.get(id=pk, company=company)
     except Company.DoesNotExist:
         HttpResponseRedirect('/offers/')
-    except Offer.DoesNotExist:
-        HttpResponseRedirect('/offers/')
 
-    offer = Offer.objects.get(id=pk)
-    if request.method == 'POST':
-        form = OfferForm(request.POST)
-        if form.is_valid():
-            form = OfferForm(request.POST, request.FILES, instance=offer)
-            form.save()
-            slug = offer.slug
-            return get_offer(request, slug)
+    if model == u"edit":
+        try:
+            offer = Offer.objects.get(id=pk, company=company)
+        except Offer.DoesNotExist:
+            HttpResponseRedirect('/offers/')
 
-    else:
-        form = OfferForm(instance=offer)
-        return render(request,'offer/edit_offer.html', {'form': form,})
+        offer = Offer.objects.get(id=pk)
+        if request.method == 'POST':
+            form = OfferForm(request.POST)
+            if form.is_valid():
+                form = OfferForm(request.POST, request.FILES, instance=offer)
+                form.save()
+                slug = offer.slug
+                return get_offer(request, slug)
+        else:
+            form = OfferForm(instance=offer)
+
+    elif pk is None :
+        if model == u"add":
+            form = {}
+            if request.method == 'POST':
+                form = OfferForm(request.POST)
+                if form.is_valid():
+                    cd = form.cleaned_data
+                    offer = form.save(commit=False)
+                    #offer.content = removetags(offer.content, 'style script img iframe')
+                    offer.company = company
+                    offer.save()
+                    form.save_m2m()
+                    return get_offer(request, offer.slug)
+            else:
+                form = OfferForm()
+    return render(request, 'offer/edit_offer.html', {'form': form, 'model': model})
 
 
 @login_required

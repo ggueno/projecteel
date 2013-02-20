@@ -209,7 +209,3 @@ HITCOUNT_EXCLUDE_USER_GROUP = ()
 
 
 TINYMCE_JS_URL = os.path.join(PROJECT_PATH, '/media/static/js/tiny_mce/tiny_mce.js')
-#TINYMCE_DEFAULT_CONFIG = {
-#    'plugins': "table,spellchecker,paste,searchreplace",
-#    'theme': "advanced",
-#}
