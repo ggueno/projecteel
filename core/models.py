@@ -203,6 +203,7 @@ class Offer(models.Model):
     tags = TaggableManager(verbose_name="Tag", through=OfferTaggedItem, blank=True)
     reference = models.CharField(max_length=30, blank=True, null=True)
     category = models.ManyToManyField(CategoryOffer, blank=True, null=True)
+    vacancy = models.BooleanField(default=True)
 
     def __unicode__(self):
         return "%s %s %s" % (self.title, self.company, self.location)

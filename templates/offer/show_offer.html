@@ -72,8 +72,8 @@
                         <li>{{ tag.name }}</li>
                     {% endfor %}
                 </ul>
-                <p><span>Référence : </span>{{ offer.reference }}</p>
-                <p><span>Salaire : </span>{{  offer.salary }} €</p>
+                {% if offer.reference %}<p><span>Référence : </span>{{ offer.reference }}</p>{% endif %}
+                {% if offer.salary %}<p><span>Salaire : </span>{{  offer.salary }} €</p>{% endif %}
             {% endif %}
         </div>
     </section>
