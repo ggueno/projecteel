@@ -1420,6 +1420,9 @@ i.icon.delete {
   display: block;
   float: left;
 }
+.endless_container {
+  float: left;
+}
 .tags {
   margin: 0 0 0 20px;
   overflow: auto;
@@ -1805,6 +1808,22 @@ header.menu #menu a:hover {
 }
 .profile .profile_secondbar ul li.last {
   float: right;
+}
+.profile .profile_secondbar a {
+  -webkit-transition: color .15s ease;
+  -moz-transition: color .15s ease;
+  -o-transition: color .15s ease;
+  -ms-transition: color .15s ease;
+  transition: color .15s ease;
+}
+.profile .profile_secondbar a:hover {
+  color: #0099e6;
+}
+.profile .profile_secondbar a:hover {
+  color: #0099e6;
+}
+.profile .profile_secondbar a:hover {
+  color: #0099e6;
 }
 .profile .profile_pic {
   position: absolute;
