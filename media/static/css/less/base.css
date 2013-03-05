@@ -209,16 +209,18 @@ i.icon.delete {
   font-weight: 400;
   line-height: 2em;
   text-transform: uppercase;
-  -webkit-transition: background -webkit-border-color .3s ease;
-  -moz-transition: background -moz-border-color .3s ease;
-  -o-transition: background border-color .3s ease;
-  -ms-transition: background border-color .3s ease;
-  transition: background border-color .3s ease;
+  -webkit-transition: all .3s ease;
+  -moz-transition: all .3s ease;
+  -o-transition: all .3s ease;
+  -ms-transition: all .3s ease;
+  transition: all .3s ease;
 }
 .PTbutton:hover {
   background: #047dba;
 }
-.PTbutton:hover {
+.PTbutton:hover,
+.PTbutton:active,
+.PTbutton:focus {
   background: #035b88;
 }
 .PTbutton.start {
@@ -260,6 +262,13 @@ i.icon.delete {
 }
 .PTbutton i.icon {
   margin-left: -10px;
+}
+.PTbutton.fluid {
+  display: inline;
+  padding: 2%;
+  height: auto;
+  line-height: inherit;
+  width: auto;
 }
 .titleU {
   padding: 5px 0;
@@ -320,50 +329,6 @@ i.icon.delete {
 }
 .ui-slider .ui-slider-handle {
   widows: ;
-}
-a.buttonAqua {
-  line-height: 1.8em;
-  display: block;
-}
-.messageBox {
-  position: relative;
-}
-.messageBox h4 {
-  margin-bottom: 15px;
-  font-size: 1.05em;
-}
-.messageBox .closeBtn {
-  width: 15px;
-  height: 15px;
-  padding: 1px;
-  display: block;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  text-align: center;
-  -webkit-border-radius: 3px;
-  -webkit-background-clip: padding-box;
-  -moz-border-radius: 3px;
-  -moz-background-clip: padding;
-  border-radius: 3px;
-  background-clip: padding-box;
-  border: 1px solid #BBB;
-  font-weight: 800;
-  color: #AAA;
-  font-size: .8em;
-  line-height: 15px;
-  background: #dddddd;
-}
-.messageBox .closeBtn:hover {
-  color: #666;
-}
-.messageBox .row {
-  min-width: 0;
-}
-.messageBox .buttonAqua {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
 }
 .heading {
   font-size: 2em;
@@ -438,6 +403,9 @@ a.buttonAqua {
   display: block;
   float: left;
 }
+.endless_container {
+  float: left;
+}
 .tags {
   margin: 0 0 0 20px;
   overflow: auto;
@@ -467,6 +435,19 @@ a.buttonAqua {
 .tags li a.delete:active {
   color: #0099e6;
 }
+.tags li.selected {
+  background-color: #8d8d8d;
+}
+.tags.inline li {
+  -webkit-transition: background .2s ease;
+  -moz-transition: background .2s ease;
+  -o-transition: background .2s ease;
+  -ms-transition: background .2s ease;
+  transition: background .2s ease;
+}
+.tags.inline li:hover {
+  background: #0099e6;
+}
 .projectContent img {
   display: block;
   margin: 5px auto;
@@ -493,28 +474,9 @@ a.buttonAqua {
   padding: 10px;
 }
 .projectComments form input {
-  border: none;
-  border-bottom: 1px solid #007cbb;
-  background: #0099e6;
-  width: 115px;
-  height: 26px;
-  color: #FFF;
-  margin: 5px 0;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: -0.05em;
-  font-weight: 200;
-  font-size: 12px;
-  -webkit-transition: background .3s ease;
-  -moz-transition: background .3s ease;
-  -o-transition: background .3s ease;
-  -ms-transition: background .3s ease;
-  transition: background .3s ease;
-  display: block;
   margin: 10px 0 10px auto;
-}
-.projectComments form input:hover {
-  background: #047dba;
+  display: block;
+  float: none;
 }
 .projectComments .commentList {
   padding-bottom: 20px;
@@ -562,6 +524,9 @@ a.delete-item {
 }
 a.delete-item:hover {
   color: #0099e6;
+}
+.illustration {
+  text-align: center;
 }
 .lastProjects {
   list-style-type: none;
@@ -618,21 +583,6 @@ a.delete-item:hover {
 .offer .tags.inline {
   padding: 0;
   margin: 0;
-}
-.ideal-form {
-  padding: 10px 20px;
-  background: transparent;
-}
-.ideal-form .ideal-label {
-  width: 100px;
-}
-.ideal-form .ideal-heading {
-  background: transparent;
-}
-.ideal-form .ideal-field {
-  background: transparent;
-  border: none;
-  padding: 0;
 }
 .sleekbox {
   width: 100%;
@@ -842,6 +792,16 @@ header.menu #menu a:hover {
 .profile .profile_secondbar ul li.last {
   float: right;
 }
+.profile .profile_secondbar a {
+  -webkit-transition: color .15s ease;
+  -moz-transition: color .15s ease;
+  -o-transition: color .15s ease;
+  -ms-transition: color .15s ease;
+  transition: color .15s ease;
+}
+.profile .profile_secondbar a:hover {
+  color: #0099e6;
+}
 .profile .profile_pic {
   position: absolute;
   left: 50%;
@@ -950,12 +910,34 @@ header.menu #menu a:hover {
   background: #fcfcfc;
   outline: 0;
   color: #666;
+  -webkit-transition: border .2s ease;
+  -moz-transition: border .2s ease;
+  -o-transition: border .2s ease;
+  -ms-transition: border .2s ease;
+  transition: border .2s ease;
+}
+.PTform input[type=text]:focus,
+.PTform input[type=password]:focus,
+.PTform input[type=email]:focus,
+.PTform textarea:focus {
+  border-color: #0099e6;
 }
 .PTform input[type=radio] {
   margin: 10px;
 }
 .PTform textarea {
   height: auto;
+}
+.PTform select,
+.PTform select[type="multiple"] {
+  height: 48px;
+  width: 100%;
+  font-size: 15px;
+  padding: 2%;
+  border: 1px solid #cdcdcd;
+  background: #fcfcfc;
+  outline: 0;
+  color: #666;
 }
 .PTform .file-wrap {
   position: relative;
@@ -1007,9 +989,6 @@ header.menu #menu a:hover {
 }
 .PTform .file-wrap:hover button {
   background: #047dba;
-}
-.PTform.inline input[type=text] {
-  height: 33px;
 }
 .PTform p.annotation {
   margin: 0;
@@ -1064,15 +1043,6 @@ header.menu #menu a:hover {
   color: #FFF;
   cursor: pointer;
 }
-.PTform .PTbutton {
-  margin: 10px 0 10px auto;
-  float: none;
-  display: block;
-}
-.PTform .PTbutton:hover {
-  background: #047dba;
-  color: #FFF;
-}
 .PTform .sublabel {
   color: #777777;
   font-size: .9em;
@@ -1122,6 +1092,9 @@ header.menu #menu a:hover {
 .fileupload-buttonbar .fileinput-button:hover span {
   background: #047dba;
 }
+/*
+   A D D   N E W   P R O J E C T
+   ========================================================================== */
 .add_project .content {
   padding: 40px 60px;
 }
@@ -1315,6 +1288,15 @@ header.menu #menu a:hover {
 .add_project .embeds textarea {
   margin-bottom: 10px;
 }
+.add_project .PTform .PTbutton {
+  margin: 10px 0 10px auto;
+  float: none;
+  display: block;
+}
+.add_project .PTform .PTbutton:hover {
+  background: #047dba;
+  color: #FFF;
+}
 li.as-result-item {
   line-height: 30px;
 }
@@ -1322,6 +1304,9 @@ li.as-result-item img {
   width: 30px;
   margin-right: 10px;
 }
+/*
+   L I S T   P R O J E C T S
+   ========================================================================== */
 #projects .sixcol {
   margin: 0;
 }
@@ -1333,14 +1318,6 @@ li.as-result-item img {
   border-left: 0;
   border-right: 0;
 }
-#projects .sorting .PTform #search-query {
-  background-image: url(../img/loupe.png);
-  background-repeat: no-repeat;
-  background-position: 11px center;
-  width: 78%;
-  margin: 0;
-  padding: 5% 8% 5% 14%;
-}
 #projects .sorting .PTform ul.as-selections li.as-selection-item {
   padding: 2px 5px;
   margin: 10px 5px 0 5px;
@@ -1350,11 +1327,46 @@ li.as-result-item img {
   background: #fafafa;
   border: none;
 }
+.search-form div {
+  margin-top: 0;
+}
+.search-form #search-query {
+  height: auto;
+  line-height: 2em;
+}
+.search-form .PTbutton {
+  margin-top: 1px;
+  background-image: url(../img/loupe.png);
+  background-repeat: no-repeat;
+  text-indent: -9999px;
+  background-position: center center;
+  height: auto;
+  font-size: 13px;
+  float: right;
+  line-height: 2em;
+  padding: 2%;
+  width: 6.5%;
+}
 /*
    O F F E R S
    ========================================================================== */
-#list_offers .search {
-  width: 84%;
+#offers {
+  margin-top: 30px;
+}
+.offer-controls li {
+  float: left;
+  margin: 5px 7px;
+}
+.apply_form {
+  padding: 0 20px 20px 20px;
+}
+.apply_form .PTbutton {
+  margin: 10px 0 10px auto;
+  display: block;
+  float: none;
+}
+#list_offers .PTform {
+  overflow: auto;
 }
 #list_offers .thumb-offer {
   margin-bottom: 10px;
@@ -1363,6 +1375,16 @@ li.as-result-item img {
 }
 #list_offers .thumb-offer p {
   padding: 0px;
+}
+#list_offers .thumb-offer a {
+  -webkit-transition: color .15s ease;
+  -moz-transition: color .15s ease;
+  -o-transition: color .15s ease;
+  -ms-transition: color .15s ease;
+  transition: color .15s ease;
+}
+#list_offers .thumb-offer a:hover {
+  color: #0099e6;
 }
 #list_offers .thumb-offer .header-offer {
   text-align: center;
@@ -1424,6 +1446,15 @@ li.as-result-item img {
 }
 #list_offers .thumb-offer .content .right .publish-date {
   font-style: italic;
+}
+.ui-datepicker {
+  background-color: #FFF;
+  border: 1px solid #999;
+}
+.edit-offer .comments {
+  color: #7e7e7e;
+  font-style: italic;
+  padding: 0;
 }
 /* ==========================================================================
    Helper classes

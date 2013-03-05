@@ -35,12 +35,12 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,addre
 .mixin-span_last {
     margin-right:0;
 }
- 
- 
 
-    /* 1. 12 Column Grid 0px - Infinity 
-    ----------------------------------------------------------------------------- 
-    
+
+
+    /* 1. 12 Column Grid 0px - Infinity
+    -----------------------------------------------------------------------------
+
     Span 1:    6.95833333333%
     Span 2:    15.4166666667%
     Span 3:    23.875%
@@ -53,11 +53,11 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,addre
     Span 10:    83.0833333333%
     Span 11:    91.5416666667%
     Span 12:    100%
-    
-    ----------------------------------------------------------------------------- */	
-    
+
+    ----------------------------------------------------------------------------- */
+
 	@media screen and (min-width: 0px) {
-        
+
         .col {
             margin-right:1.5%;
             padding:0 0%;
@@ -71,17 +71,17 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,addre
 			margin: 0 auto;
 			overflow: hidden;
         }
-        
-        /* --- Gridpak variables ---*/ 
+
+        /* --- Gridpak variables ---*/
         @max_columns: 12;
         @padding: 0 0%;
         @gutter_px: 0;
         @gutter_pc: 1.5%;
-        
+
 
         /*
         Add your semantic classnames in alongside their corresponding spans here. e.g.
-        
+
         .span_3,
         .my_semantic_class_name {
             ...
@@ -118,7 +118,7 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,addre
         .tencol, .span_10 {
             .mixin-span(10, @gutter_pc, @gutter_px, @padding, @max_columns);
         }
-        .evelencol, .span_11 {
+        .elevencol, .span_11 {
             .mixin-span(11, @gutter_pc, @gutter_px, @padding, @max_columns);
         }
         .twelvecol, .span_12 {
@@ -131,7 +131,7 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,addre
         .row .col:last-child, .last {
             .mixin-span_last;
         }
-        
+
 
 
     }
@@ -154,7 +154,7 @@ img {
 	font-size: 0.8em;
 	line-height: 1.5em;
 	}
-	
+
 	}
 
 
@@ -166,7 +166,7 @@ img {
 	font-size: 16px;
 	-webkit-text-size-adjust: none;
 	}
-	
+
 	.row, body, .container {
 	width: 100%;
 	min-width: 0;
@@ -175,7 +175,7 @@ img {
 	padding-left: 0px;
 	padding-right: 0px;
 	}
-	
+
 	.row .onecol, .row .twocol, .row .threecol, .row .fourcol, .row .fivecol, .row .sixcol, .row .sevencol, .row .eightcol, .row .ninecol, .row .tencol, .row .elevencol, .row .twelvecol {
 	width: auto;
 	float: none;

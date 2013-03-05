@@ -56,7 +56,7 @@
                     {% csrf_token %}
                     {{ comment_form.content }}
                     <input type="hidden" name="project_id" value="{{ project.id }}">
-                    <input type="submit">
+                    <input type="submit" class="PTbutton">
                 </form>
 
                 <h3 class="numberComments">{% if comments%}<span id="numberComments">{{ comments|length }}</span> commentaires{%else%}Pas de commentaire{%endif%}</h3>

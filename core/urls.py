@@ -29,10 +29,13 @@ urlpatterns = patterns('',
 
     url(r'^offers/$', views.offers_all),
     url(r'^offer/bookmark/(?P<state>[^\.]+)/(?P<pk>\d+)$', views.bookmark),
-    url(r'^offer/add/$', views.add_offer),
     url(r'^offers/search/$', views.search_offers, {}, 'offers-search'),
     url(r'^offer/posted_offers/$', views.posted_offers),
     url(r'^offer/apply/$', views.apply_offer),
+
+    url(r'^offer/(?P<model>\w+)/$', views.edit_offer),
+    url(r'^offer/(?P<model>\w+)/(?P<pk>\d+)/$', views.edit_offer),
+
     url(r'^offer/(?P<slug>[^\.]+)/$', views.get_offer, name="offer_view"),
 
 

@@ -6,26 +6,37 @@
 {% block content %}
 
     <div class="row wrapper" id="projects">
-        <h1 class="heading">Projects</h1>
+        <!--<h1 class="heading">Projects</h1>-->
 
         <div class="row dropfilters">
-            <div class="sixcol">
-                <div class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown trigger</a>
+            <div class="fourcol">
+                <div class="dropdown search-field dropdown-search" id="search-categories">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Catégorie</a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         {% for categorie in categories %}
-                        <li><a href="#" title="" data-value="{{categorie.slug}}">{{categorie.name}}</a></li>
+                        <li><a id="" href="#" title="" data-value="{{categorie.slug}}">{{categorie.name}}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
-            <div class="sixcol last">
-                <div class="dropdown">
+            <div class="fourcol">
+                <div class="dropdown search-field dropdown-search" id="search-filter">
                     <a class="dropdown-toggle" data-toggle="dropdown" data-value="pushs" href="#">Les plus pushés</a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         <li><a href="#" title="" data-value="comments">Les plus commentés</a></li>
                         <li><a href="#" title="" data-value="recents">Les plus récents</a></li>
                         <li><a href="#" title="" data-value="views">Les plus vus</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="fourcol last">
+                <div class="dropdown search-field dropdown-search" id="search-when">
+                    <a class="dropdown-toggle" data-toggle="dropdown" data-value="0" href="#">Toujours</a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li><a href="#" title="" data-value="1">Aujourd'hui</a></li>
+                        <li><a href="#" title="" data-value="7">Cette semaine</a></li>
+                        <li><a href="#" title="" data-value="30">Ce mois</a></li>
                     </ul>
                 </div>
             </div>
@@ -51,16 +62,6 @@
                         <li class="region">
                             <input class="search-field autocomplete" id="search-location" type="text" name="location">
                         </li>
-                        <li>
-                            <div class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" data-value="0" href="#">Toujours</a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                    <li><a href="#" title="" data-value="1">Aujourd'hui</a></li>
-                                    <li><a href="#" title="" data-value="7">Cette semaine</a></li>
-                                    <li><a href="#" title="" data-value="30">Ce mois</a></li>
-                                </ul>
-                            </div>
-                        </li>
                         <li class="tag">
                             <input class="search-field autocomplete" type="text" id="search-skills" >
                         </li>
@@ -73,8 +74,10 @@
             <div class="PTform inline">
                     <form action="/projects/search/" class="search-form project-search" method="get">
                     {% csrf_token %}
-                    <input class="search-field" id="search-query" type="text" name="query">
-                    <input type="submit">
+                    <div class="elevencol">
+                        <input class="search-field" id="search-query" type="text" name="query" placeholder="Rechercher un projet...">
+                    </div>
+                    <input type="submit" class="PTbutton onecol">
                 </form>
             </div>
             <div id="list-content">{% include endless_part %}</div>
@@ -95,6 +98,23 @@
 
         $().ready(function(){
             searchEngine.init($('#list-content'));
+
+
+            // $('.drowpdown .dropdown-menu a').click(function(e){
+            //     e.preventDefault();
+            //     var toogle = $(this).parents('.dropdown-toogle');
+            //     var value = $(toogle).data('value');
+            //     var title = $(toogle).html();
+
+            //     console.log(value+ " " +title);
+
+            //     $(toogle).data('value',$(this).data('value'));
+            //     $(toogle).html($(this).html());
+
+            //     $(this).data('value',value);
+            //     $(this).html(title);
+
+            // });
         });
 
     </script>

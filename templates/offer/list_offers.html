@@ -3,23 +3,23 @@
 {% block title %} Offers {% endblock %}
 {% block content %}
 
-    <div class="row wrapper">
-        <h1 class="heading">Offers</h1>
+    <div class="row wrapper" id="offers">
+        <!--<h1 class="heading">Offers</h1>-->
         <div class="threecol">
             <div class="sleekbox filters">
                 <h4>Affiner ma recherche</h4>
-                <form action="" id="projectFilters">
+                <form action="" class="PTform" id="projectFilters">
                     <ul class="filters">
 
                         <li class="categories">
-                          <span class="ideal-field">
-                            <select class="search-field" id="search-categories" name="search-categories">
-                                <option value="all">Tous les catégories</option>
-                                {% for categorie in categories %}
-                                <option value="{{categorie.slug}}">{{categorie.name}}</option>
-                                {% endfor %}
-                            </select>
-                          </span>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Catégories</a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    {% for categorie in categories %}
+                                    <li><a href="#" title="" data-value="{{categorie.slug}}">{{categorie.name}}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </li>
 
 
@@ -53,10 +53,12 @@
         </div>
         <div class="ninecol last" id="list_offers">
             <div class="PTform inline">
-                <form action="/offers/search/" class="search-form offers-search" method="get">
+                    <form action="/offers/search/" class="search-form offers-search" method="get">
                     {% csrf_token %}
-                    <input class="search-field" id="search-query" type="text" name="query">
-                    <input type="submit">
+                    <div class="elevencol">
+                        <input class="search-field" id="search-query" type="text" name="query" placeholder="Rechercher une offre...">
+                    </div>
+                    <input type="submit" class="PTbutton onecol">
                 </form>
             </div>
             <div id="list-content">{% include endless_part %}</div>

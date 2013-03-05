@@ -207,7 +207,6 @@ HITCOUNT_KEEP_HIT_ACTIVE = {'seconds': 1}
 HITCOUNT_HITS_PER_IP_LIMIT = 0
 HITCOUNT_EXCLUDE_USER_GROUP = ()
 
-
 TINYMCE_JS_URL = os.path.join(PROJECT_PATH, '/media/static/js/tiny_mce/tiny_mce.js')
 #TINYMCE_DEFAULT_CONFIG = {
 #    'plugins': "table,spellchecker,paste,searchreplace",
