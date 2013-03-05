@@ -16,7 +16,7 @@ from django.utils.translation import ugettext_lazy as _
 attrs_dict = {'class': 'required'}
 
 
-class zRegistrationForm(forms.Form):
+class RegistrationForm(forms.Form):
     """
     Form for registering a new user account.
 
