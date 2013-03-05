@@ -4,47 +4,61 @@
 {% block title %} Mes offres {% endblock %}
 {% block content %}
 
-	<div class="row wrapper">
-		<h1>Mes offres</h1>
+<div class="row">
+	<h1 class="heading">Mes offres</h1>
 
-		<div class="twelvecol last">
+	{% if offers %}
 
-			{% if offers %}
-
+		{% if offers.count > 1 %}
 			<p>{{ offers.count }} offres postées</p>
-				
-				{% for offer in offers %}
-				<div class="sleekbox header thumb-offer">
-					<h3 class="blackTitle"><a href="/offer/edit/{{ offer.id }}">{{ offer.title }}</a></h3>
-					<p>{{ offer.location }}</p>
-			        {% if offer.tags %}
-			            <ul class="tags inline">
-			                {% for tag in offer.tags.all %}
-			                    <li>{{ tag.name }}</li>
-			                {% endfor %}
-			            </ul>
-			        {% endif %}
-			        <h4>{{ offer.contract }}</h4>
-			        {% if applicants %}
-				        {% for applicantoffer in applicants %}
-				        	{% if applicantoffer.offer == offer %}
-					            {% thumbnail applicantoffer.applicant.avatar "50x50" crop="left" as im %}
-					            <a href="/profile/{{ applicantoffer.applicant.slug }}" data-tooltip="{{ applicantoffer.applicant.user.first_name}} {{profile.user.last_name}}" class="tooltip">
-			                    	<img src="{{im.url}}" alt="{{ applicantoffer.applicant.name }}"/>
-			                	</a>
-					            {% endthumbnail %}
-					        {% endif %}
-			            {% endfor %}
-			        {% endif %}
+		{% else %}
+			<p>{{ offers.count }} offre postée</p>
+		{% endif %}
 
-				</div>
-				{% endfor %}
-				
+	{% for offer in offers %}
 
-			{% endif %}
-		
-		</div>
 
-	</div>
+
+    <div class="twelvecol last posted_offers" id="list_offers">
+
+        <div class="sleekbox header thumb-offer">
+            <div class="content">
+                <div class="left">
+                    <h3><a href="/offer/edit/{{ offer.id }}">{{ offer.title }}</a></h3>
+                    <p class="publish-date">{{ offer.publish_date }}</p>
+                    <span>{{ offer.contract }}</span>
+                    {% if offer.tags %}
+                        <ul class="tags-offer">
+                            {% for tag in offer.tags.all %}
+                                <li><a href="/offers/search/?tags[]={{tag.slug}}">{{ tag.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% if offer.vacancy == 0 %}
+                        <p>Offre pourvue</p>
+                    {% endif %}
+                </div>
+                <div class="right">
+                    <h3>Etudiants ayant postulés</h3>
+                    {% if applicants %}
+                        {% for applicantoffer in applicants %} 
+                            {% if applicantoffer.offer == offer %}
+                            {% thumbnail applicantoffer.applicant.avatar "50x50" crop="left" as im %}
+                                <a href="/profile/{{ applicantoffer.applicant.slug }}" data-tooltip="{{ applicantoffer.applicant.user}}" class="tooltip">
+                                <img src="{{im.url}}" alt="{{ applicantoffer.applicant.name }}"/>
+                                </a>
+                            {% endthumbnail %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            
+        </div>
+        {% endfor %}
+    </div>
+
+    {% endif %}
+</div>
 
 {% endblock %}

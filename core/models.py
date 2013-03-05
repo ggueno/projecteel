@@ -203,6 +203,7 @@ class Offer(models.Model):
     tags = TaggableManager(verbose_name="Tag", through=OfferTaggedItem, blank=True)
     reference = models.CharField(max_length=30, blank=True, null=True)
     category = models.ManyToManyField(CategoryOffer, blank=True, null=True)
+    vacancy = models.BooleanField(default=True)
 
     def __unicode__(self):
         return "%s %s %s" % (self.title, self.company, self.location)
@@ -400,10 +401,18 @@ class Comment(models.Model):
 
 
 class ApplicantOffer(models.Model):
+    APPLICANTOFFER_STATE = (
+        ('POST', "Postulee"),
+        ('READ', "Lue"),
+        ('SAVE', "Retenue"),
+        ('FAIL', "Rejetee"),
+    )
+
     applicant = models.ForeignKey(Applicant)
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
     content = models.TextField(max_length=500)
     offer = models.ForeignKey(Offer)
+    state = models.CharField(blank=True, max_length=100, choices=APPLICANTOFFER_STATE, default='POST')
 
 
 class Like(models.Model):

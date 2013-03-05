@@ -73,6 +73,17 @@ img.project-content {
   padding: 30px 4%;
   text-align: center;
 }
+#project-author .applicant-mini a {
+  color: inherit;
+  -webkit-transition: color .15s ease;
+  -moz-transition: color .15s ease;
+  -o-transition: color .15s ease;
+  -ms-transition: color .15s ease;
+  transition: color .15s ease;
+}
+#project-author .applicant-mini a:hover {
+  color: #0099e6;
+}
 #project-author .applicant-mini img#profile_pic {
   margin: 0 auto 10px auto;
   -webkit-border-radius: 40px;
@@ -99,6 +110,9 @@ img.project-content {
   text-transform: uppercase;
   font-weight: 400;
   padding: 5px;
+}
+#project-author .applicant-mini i.icon {
+  margin-left: 0;
 }
 #project-author .participants {
   background: #f6f6f6;

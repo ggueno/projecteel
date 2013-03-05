@@ -1220,11 +1220,14 @@ i.icon.delete {
   font-weight: 400;
   line-height: 2em;
   text-transform: uppercase;
-  -webkit-transition: background -webkit-border-color .3s ease;
-  -moz-transition: background -moz-border-color .3s ease;
-  -o-transition: background border-color .3s ease;
-  -ms-transition: background border-color .3s ease;
-  transition: background border-color .3s ease;
+  -webkit-transition: all .3s ease;
+  -moz-transition: all .3s ease;
+  -o-transition: all .3s ease;
+  -ms-transition: all .3s ease;
+  transition: all .3s ease;
+}
+.PTbutton:hover {
+  background: #047dba;
 }
 .PTbutton:hover {
   background: #047dba;
@@ -1417,6 +1420,9 @@ i.icon.delete {
   display: block;
   float: left;
 }
+.endless_container {
+  float: left;
+}
 .tags {
   margin: 0 0 0 20px;
   overflow: auto;
@@ -1485,31 +1491,9 @@ i.icon.delete {
   padding: 10px;
 }
 .projectComments form input {
-  border: none;
-  border-bottom: 1px solid #007cbb;
-  background: #0099e6;
-  width: 115px;
-  height: 26px;
-  color: #FFF;
-  margin: 5px 0;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: -0.05em;
-  font-weight: 200;
-  font-size: 12px;
-  -webkit-transition: background .3s ease;
-  -moz-transition: background .3s ease;
-  -o-transition: background .3s ease;
-  -ms-transition: background .3s ease;
-  transition: background .3s ease;
-  display: block;
   margin: 10px 0 10px auto;
-}
-.projectComments form input:hover {
-  background: #047dba;
-}
-.projectComments form input:hover {
-  background: #047dba;
+  display: block;
+  float: none;
 }
 .projectComments .commentList {
   padding-bottom: 20px;
@@ -1557,6 +1541,9 @@ a.delete-item {
 }
 a.delete-item:hover {
   color: #0099e6;
+}
+.illustration {
+  text-align: center;
 }
 .lastProjects {
   list-style-type: none;
@@ -1822,6 +1809,22 @@ header.menu #menu a:hover {
 .profile .profile_secondbar ul li.last {
   float: right;
 }
+.profile .profile_secondbar a {
+  -webkit-transition: color .15s ease;
+  -moz-transition: color .15s ease;
+  -o-transition: color .15s ease;
+  -ms-transition: color .15s ease;
+  transition: color .15s ease;
+}
+.profile .profile_secondbar a:hover {
+  color: #0099e6;
+}
+.profile .profile_secondbar a:hover {
+  color: #0099e6;
+}
+.profile .profile_secondbar a:hover {
+  color: #0099e6;
+}
 .profile .profile_pic {
   position: absolute;
   left: 50%;
@@ -2003,6 +2006,9 @@ header.menu #menu a:hover {
   text-transform: none;
   font-size: 1em;
   right: 0;
+}
+.PTform .file-wrap button:hover {
+  background: #047dba;
 }
 .PTform .file-wrap button:hover {
   background: #047dba;
@@ -2350,9 +2356,6 @@ li.as-result-item img {
   background: #fafafa;
   border: none;
 }
-#projects .PTform {
-  overflow: auto;
-}
 .search-form div {
   margin-top: 0;
 }
@@ -2376,6 +2379,21 @@ li.as-result-item img {
 /*
    O F F E R S
    ========================================================================== */
+#offers {
+  margin-top: 30px;
+}
+.offer-controls li {
+  float: left;
+  margin: 5px 7px;
+}
+.apply_form {
+  padding: 0 20px 20px 20px;
+}
+.apply_form .PTbutton {
+  margin: 10px 0 10px auto;
+  display: block;
+  float: none;
+}
 #list_offers .PTform {
   overflow: auto;
 }
@@ -2386,6 +2404,22 @@ li.as-result-item img {
 }
 #list_offers .thumb-offer p {
   padding: 0px;
+}
+#list_offers .thumb-offer a {
+  -webkit-transition: color .15s ease;
+  -moz-transition: color .15s ease;
+  -o-transition: color .15s ease;
+  -ms-transition: color .15s ease;
+  transition: color .15s ease;
+}
+#list_offers .thumb-offer a:hover {
+  color: #0099e6;
+}
+#list_offers .thumb-offer a:hover {
+  color: #0099e6;
+}
+#list_offers .thumb-offer a:hover {
+  color: #0099e6;
 }
 #list_offers .thumb-offer .header-offer {
   text-align: center;
@@ -2456,6 +2490,21 @@ li.as-result-item img {
   color: #7e7e7e;
   font-style: italic;
   padding: 0;
+}
+/*
+   P O S T E D   O F F E R S
+   ========================================================================== */
+.posted_offers .left {
+  padding: 17px 20px;
+  width: 60%;
+  height: 90%;
+  border-right: 1px solid #d2d2d2;
+}
+.posted_offers .left h3 {
+  padding: 0;
+}
+.posted_offers .right {
+  text-align: left;
 }
 /* ==========================================================================
    Helper classes
@@ -2695,6 +2744,24 @@ img.project-content {
   text-align: center;
 }
 .applicant-mini img#profile_pic {
+=======
+#project-author .applicant-mini a {
+  -webkit-transition: color .15s ease;
+  -moz-transition: color .15s ease;
+  -o-transition: color .15s ease;
+  -ms-transition: color .15s ease;
+  transition: color .15s ease;
+}
+#project-author .applicant-mini a:hover {
+  color: #0099e6;
+}
+#project-author .applicant-mini a:hover {
+  color: #0099e6;
+}
+#project-author .applicant-mini a:hover {
+  color: #0099e6;
+}
+#project-author .applicant-mini img#profile_pic {
   margin: 0 auto 10px auto;
   -webkit-border-radius: 40px;
   -webkit-background-clip: padding-box;
@@ -2720,6 +2787,9 @@ img.project-content {
   text-transform: uppercase;
   font-weight: 400;
   padding: 5px;
+}
+#project-author .applicant-mini i.icon {
+  margin-left: 0;
 }
 #project-author .participants {
   background: #f6f6f6;
