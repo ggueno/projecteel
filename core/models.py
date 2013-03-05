@@ -413,6 +413,6 @@ class Like(models.Model):
 
 
 class Follow(models.Model):
-    follower = models.ForeignKey(Profile, related_name="follower")
+    follower = models.ForeignKey(Profile, related_name="followers")
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
-    following = models.ForeignKey(Profile, related_name="following")
+    following = models.ForeignKey(Profile, related_name="followings")
