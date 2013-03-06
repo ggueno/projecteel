@@ -64,6 +64,24 @@ $('ul.tabs').each(function(){
     });
 });
 
+//Switch options on dropdown click
+$('.dropdown-menu a').click(function(e){
+    e.preventDefault();
+
+    var toggle = $(this).parents('.dropdown-menu').prev();
+    var value = $(toggle).data('value');
+    var label = $(toggle).html();
+
+    console.log(toggle, value, label);
+
+    $(toggle).data('value',$(this).data('value'));
+    $(toggle).html($(this).html());
+
+    $(this).data('value',value);
+    $(this).html(label);
+
+});
+
 function follow_button(){
     $(".follow").click(function(){
         var follow_button = this;
@@ -113,5 +131,8 @@ function onoff_button(target, name, active, unactive){
     });
 }
 
+function initDatePicker(){
+    $( ".datePicker" ).datepicker({ dateFormat: "dd/mm/yy" });
+}
 
-$( ".datePicker" ).datepicker({ dateFormat: "dd/mm/yy" });
+initDatePicker();

@@ -276,6 +276,7 @@ i.icon{
 
 .alignRight{
     margin:0 0 0 auto;
+    display: block;
 }
 .ideal-wrap.alignRight{
     float:right;
@@ -517,8 +518,29 @@ a.delete-item{
     position:absolute;
     top: 20px;
     right:20px;
+    -webkit-transition: opacity .25s ease;
+       -moz-transition: opacity .25s ease;
+        -ms-transition: opacity .25s ease;
+         -o-transition: opacity .25s ease;
+            transition: opacity .25s ease;
     &:hover{
-        color:@PTblue;
+        opacity: .5;
+        filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+    }
+}
+
+a.edit-item{
+    position:absolute;
+    top: 20px;
+    right:40px;
+    -webkit-transition: opacity .25s ease;
+       -moz-transition: opacity .25s ease;
+        -ms-transition: opacity .25s ease;
+         -o-transition: opacity .25s ease;
+            transition: opacity .25s ease;
+    &:hover{
+        opacity: .5;
+        filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
     }
 }
 
@@ -838,11 +860,11 @@ header.menu{
         position: relative;
         &:hover{
             background: #CCC;
-            a.delete-item{
+            a.delete-item, a.edit-item{
                 display: block;
             }
         }
-        a.delete-item{
+        a.delete-item, a.edit-item{
             display: none;
         }
     }
