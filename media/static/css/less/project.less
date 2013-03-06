@@ -1,4 +1,6 @@
 @import "lesshat.less";
+@import "mixins.less";
+@PTblue : #0099e6;
 
 #project{
     h4.subline{
@@ -81,10 +83,15 @@ img.project-content{
 }
 
 #project-author{
+
     .applicant-mini{
         overflow: hidden;
         padding: 30px 4%;
         text-align:center;
+
+        a{
+            .PTlink();
+        }
 
         img#profile_pic{
             margin: 0 auto 10px auto;
@@ -109,6 +116,10 @@ img.project-content{
             font-weight: 400;
             padding: 5px;
         }
+        i.icon{
+            margin-left: 0;
+        }
+
     }
     .participants{
         background: #f6f6f6;

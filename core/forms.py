@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django.db import models
 from core.models import Project, Offer, Education, Experience, Comment, Applicant, ApplicantOffer
@@ -60,6 +62,15 @@ class OfferForm(forms.ModelForm):
     class Meta:
         model = Offer
         exclude = ('slug', 'company')
+
+    def save(self, commit=True):
+        data = self.cleaned_data
+        content = data.get('content')
+        pattern = re.compile(r'&lt;/?[a-z]*&gt;')
+        content = pattern.sub(r"", content)
+        self.instance.content = content
+        offerInstance = super(OfferForm, self).save(commit=commit)
+        return offerInstance
 
 
 class EducationForm(forms.ModelForm):

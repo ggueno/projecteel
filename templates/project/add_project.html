@@ -1,4 +1,5 @@
 {% extends "layout/base.html" %}
+{% load staticfiles %}
 {% load upload_tags %}
 
 {% block title %} Project {{ slug }} {% endblock %}
@@ -164,6 +165,10 @@
                             </ul>
                         </div>
                         </form>
+                    </div>
+
+                    <div class="sixcol last illustration">
+                        <img src="{% static "img/osez.png" %}" alt="Osez">
                     </div>
                 </div>
 

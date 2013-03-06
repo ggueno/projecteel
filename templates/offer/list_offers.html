@@ -3,23 +3,23 @@
 {% block title %} Offers {% endblock %}
 {% block content %}
 
-    <div class="row wrapper">
-        <h1 class="heading">Offers</h1>
+    <div class="row wrapper" id="offers">
+        <!--<h1 class="heading">Offers</h1>-->
         <div class="threecol">
             <div class="sleekbox filters">
                 <h4>Affiner ma recherche</h4>
-                <form action="" id="projectFilters">
+                <form action="" class="PTform" id="projectFilters">
                     <ul class="filters">
 
                         <li class="categories">
-                          <span class="ideal-field">
-                            <select class="search-field" id="search-categories" name="search-categories">
-                                <option value="all">Tous les catégories</option>
-                                {% for categorie in categories %}
-                                <option value="{{categorie.slug}}">{{categorie.name}}</option>
-                                {% endfor %}
-                            </select>
-                          </span>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Catégories</a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    {% for categorie in categories %}
+                                    <li><a href="#" title="" data-value="{{categorie.slug}}">{{categorie.name}}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </li>
 
 
@@ -42,12 +42,7 @@
                                 <input class="search-field range" type="text" id="search-durationmax" placeholder="durée max">
                           </span>
                         </li>
-
-
                     </ul>
-<!--         	       <p>Secteur d'activité</p>
-        	       <p>Type de contrat</p>
-        	       <p>Durée</p> -->
                 </form>
             </div>
         </div>
