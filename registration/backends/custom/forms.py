@@ -6,11 +6,13 @@ Forms and validation code for user registration.
 
 from django.contrib.auth.models import User
 from django import forms
+from django.forms.fields import ChoiceField, MultipleChoiceField
+from django.forms.widgets import RadioSelect, CheckboxSelectMultiple
 from django.utils.translation import ugettext_lazy as _
 
 
 # I put this on all required fields, because it's easier to pick up
-# on them with CSS or JavaScript if they have a class of "required"
+# on them with CSS or JavaScript if they have a class of "required"a
 # in the HTML. Your mileage may vary. If/when Django ticket #3515
 # lands in trunk, this will no longer be necessary.
 attrs_dict = {'class': 'required'}
@@ -78,17 +80,19 @@ class Email(forms.EmailField):
             return value
 
 
-# class UserRegistrationForm(forms.Form):
-#     password1 = forms.CharField(widget=forms.PasswordInput(), label="Password")
-#     password2 = forms.CharField(widget=forms.PasswordInput(), label="Repeat your password")
-#     email = Email()
-#     CATEGORY_USER = ('Ecole', 'Entreprise', 'Etudiant')
-#     user_category = forms.MultipleChoiceField(required=False, widget=CheckboxSelectMultiple, choice=CATEGORY_USER)
+class UserRegistrationForm(forms.Form):
+    password1 = forms.CharField(widget=forms.PasswordInput(), label="Password")
+    password2 = forms.CharField(widget=forms.PasswordInput(), label="Repeat your password")
+    email = Email()
+    USER_CATEGORY = [('ecole', 'Ecole'),
+                        ('entreprise', 'Entreprise'),
+                        ('etudiant', 'Etudiant')]
+    user_category = forms.ChoiceField(required=True, widget=forms.RadioSelect(), choices=USER_CATEGORY)
 
-#     def clean_password(self):
-#         if self.data['password1'] != self.data['password2']:
-#             raise forms.ValidationError('Passwords are not the same')
-#         return self.data['password1']
+    def clean_password(self):
+        if self.data['password1'] != self.data['password2']:
+            raise forms.ValidationError('Passwords are not the same')
+        return self.data['password1']
 
 
 class RegistrationFormTermsOfService(RegistrationForm):
