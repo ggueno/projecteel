@@ -952,6 +952,23 @@ def delete_comment(request, pk):
     #TO DO : Not Ajax Response
 
 
+def get_followers(request, slug):
+    feedbacks = list(Follow.objects.filter(following__name=slug).values_list('id', flat=True))
+    profiles = Profile.objects.filter(pk__in=feedbacks)
+    
+    template = 'network/followers.html'
+    endless_part = 'network/endless_followers.html'
+    context = {
+        'profiles': profiles,
+        'endless_part': endless_part,
+    }
+
+    if request.is_ajax():
+        template = endless_part
+
+    return render_to_response(template, context, context_instance=RequestContext(request))
+
+
 
 class ImageProjectCreateView(CreateView):
     model = ImageProject

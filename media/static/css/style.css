@@ -2973,6 +2973,21 @@ li.as-result-item img {
   font-style: italic;
   padding: 0;
 }
+/*
+   P O S T E D   O F F E R S
+   ========================================================================== */
+.posted_offers .left {
+  padding: 17px 20px;
+  width: 60%;
+  height: 90%;
+  border-right: 1px solid #d2d2d2;
+}
+.posted_offers .left h3 {
+  padding: 0;
+}
+.posted_offers .right {
+  text-align: left;
+}
 /* ==========================================================================
    Helper classes
    ========================================================================== */
@@ -3205,11 +3220,13 @@ img.project-content {
   display: block;
   margin: 0 auto;
 }
-#project-author .applicant-mini {
+.applicant-mini {
   overflow: hidden;
   padding: 30px 4%;
   text-align: center;
 }
+.applicant-mini img#profile_pic {
+=======
 #project-author .applicant-mini a {
   -webkit-transition: color .15s ease;
   -moz-transition: color .15s ease;
@@ -3235,20 +3252,20 @@ img.project-content {
   border-radius: 40px;
   background-clip: padding-box;
 }
-#project-author .applicant-mini span.profession {
+.applicant-mini span.profession {
   display: block;
   color: #777777;
   font-style: italic;
   margin-bottom: 15px;
 }
-#project-author .applicant-mini a.PTbutton {
+.applicant-mini a.PTbutton {
   margin: 0 3px;
 }
-#project-author .applicant-mini a.PTbutton:hover {
+.applicant-mini a.PTbutton:hover {
   background: #007ab8;
   color: #FFF;
 }
-#project-author .applicant-mini h3 {
+.applicant-mini h3 {
   text-transform: uppercase;
   font-weight: 400;
   padding: 5px;
