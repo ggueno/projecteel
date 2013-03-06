@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^project/edit/(?P<pk>\d+)$', views.edit_project),
 
     url(r'^project/add/image/new/$', views.ImageProjectCreateView.as_view(), {}, 'upload-new'),
+    url(r'^project/add/image/new/$', views.ImageProjectCreateView.as_view(), {}, 'upload-new'),
     url(r'^project/add/image/delete/(?P<pk>\d+)$', views.ImageProjectDeleteView.as_view(), {}, 'upload-delete'),
     url(r'^project/remove/(?P<pk>\d+)$', views.remove_project),
 
@@ -43,6 +44,8 @@ urlpatterns = patterns('',
     url(r'^profile/unfollow/(?P<pk>\d+)/$', views.unfollow),
     url(r'^profile/company/(?P<slug>[^\.]+)/$', views.get_company),
     url(r'^profile/school/(?P<slug>[^\.]+)/$', views.get_school),
+    url(r'^profile/(?P<slug>[^\.]+)/followers/$', views.get_followers),
+    url(r'^profile/(?P<slug>[^\.]+)/following/$', views.get_followers),
     url(r'^profile/(?P<slug>[^\.]+)/$', views.get_applicant, name="profile_view"),
     url(r'^profile/$', views.get_my_profile),
 
