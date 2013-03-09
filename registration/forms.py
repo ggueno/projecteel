@@ -78,17 +78,17 @@ class Email(forms.EmailField):
             return value
 
 
-# class UserRegistrationForm(forms.Form):
-#     password1 = forms.CharField(widget=forms.PasswordInput(), label="Password")
-#     password2 = forms.CharField(widget=forms.PasswordInput(), label="Repeat your password")
-#     email = Email()
-#     CATEGORY_USER = ('Ecole', 'Entreprise', 'Etudiant')
-#     user_category = forms.MultipleChoiceField(required=False, widget=CheckboxSelectMultiple, choice=CATEGORY_USER)
+class UserRegistrationForm(forms.Form):
+    password1 = forms.CharField(widget=forms.PasswordInput(), label="Password")
+    password2 = forms.CharField(widget=forms.PasswordInput(), label="Repeat your password")
+    email = Email()
+    CATEGORY_USER = ('Ecole', 'Entreprise', 'Etudiant')
+    #user_category = forms.MultipleChoiceField(required=False, widget=CheckboxSelectMultiple, choice=CATEGORY_USER)
 
-#     def clean_password(self):
-#         if self.data['password1'] != self.data['password2']:
-#             raise forms.ValidationError('Passwords are not the same')
-#         return self.data['password1']
+    def clean_password(self):
+        if self.data['password1'] != self.data['password2']:
+            raise forms.ValidationError('Passwords are not the same')
+        return self.data['password1']
 
 
 class RegistrationFormTermsOfService(RegistrationForm):
