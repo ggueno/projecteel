@@ -107,7 +107,7 @@ class Applicant(Profile):
 
 class Experience(models.Model):
     company_profile = models.ForeignKey(Company, blank=True, null=True)
-    company = models.TextField(blank=False, null=False)
+    company = models.TextField(blank=True, null=True)
     title = models.CharField(max_length=150)
     city = models.CharField(max_length=100)
     start = models.DateField(blank=False, null=False)
@@ -422,6 +422,6 @@ class Like(models.Model):
 
 
 class Follow(models.Model):
-    follower = models.ForeignKey(Profile, related_name="follower")
+    follower = models.ForeignKey(Profile, related_name="followers")
     publish_date = models.DateField(auto_now=True, auto_now_add=True)
-    following = models.ForeignKey(Profile, related_name="following")
+    following = models.ForeignKey(Profile, related_name="followings")

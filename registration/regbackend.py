@@ -3,7 +3,7 @@ from django.contrib.sites.models import RequestSite
 from django.contrib.sites.models import Site
 
 from registration import signals
-from registration.forms import RegistrationForm
+from registration.backends.custom.forms import RegistrationForm, UserRegistrationForm
 from registration.models import RegistrationProfile
 
 from registration.backends import default
@@ -12,7 +12,7 @@ from registration.backends import default
 
 class Backend(default.DefaultBackend):
     def register(self, request, **kwargs):
-        email, password = kwargs['email'], kwargs['password1']
+        email, password, user_category = kwargs['email'], kwargs['password1'], kwargs['user_category']
         username = email
         if Site._meta.installed:
             site = Site.objects.get_current()

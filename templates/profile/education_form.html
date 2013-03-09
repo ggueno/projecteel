@@ -1,0 +1,16 @@
+                    {% if formEducation.errors %}
+                        <p style="color: red;">
+                            Please correct the error{{ formEducation.errors|pluralize }} below.
+                        </p>
+                    {% endif %}
+
+                    <form action="/education/add/" class="PTform" method="post" class="">
+                        {% csrf_token %}
+                        {% if education.pk %}
+                            <input type="hidden" value="{{education.pk}}" name="id">
+                        {% endif %}
+                        <div class="form-content">
+                            {{ formEducation.as_p }}
+                        </div>
+                        <input type="submit" class="PTbutton alignRight" value="Submit">
+                    </form>

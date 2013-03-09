@@ -1,15 +1,21 @@
+import re
+
 from django import forms
 from django.db import models
 from core.models import Project, Offer, Education, Experience, Comment, Applicant, ApplicantOffer
 from taggit_autosuggest.widgets import TagAutoSuggest
 from tinymce.widgets import TinyMCE
+import random, string
 
+def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for x in range(size))
+    
 
 def make_custom_datefield(f):
     formfield = f.formfield()
     if isinstance(f, models.DateField):
         formfield.widget.input_formats = '%d/%m/%y'
-        formfield.widget.attrs.update({'class':'datePicker', 'readonly':'true'})
+        formfield.widget.attrs.update({'class':'datePicker', 'readonly':'true', 'id': id_generator()})
     return formfield
 
 
@@ -60,6 +66,15 @@ class OfferForm(forms.ModelForm):
     class Meta:
         model = Offer
         exclude = ('slug', 'company')
+
+    def save(self, commit=True):
+        data = self.cleaned_data
+        content = data.get('content')
+        pattern = re.compile(r'&lt;/?[a-z]*&gt;')
+        content = pattern.sub(r"", content)
+        self.instance.content = content
+        offerInstance = super(OfferForm, self).save(commit=commit)
+        return offerInstance
 
 
 class EducationForm(forms.ModelForm):

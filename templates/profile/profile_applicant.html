@@ -107,20 +107,10 @@
             {% endfor %}
             {% if user.id == profile.user_id %}
             <a href="#" id="add-education">Ajouter une formation</a>
-            <div id="add-education-form">
-                {% if formEducation.errors %}
-                    <p style="color: red;">
-                        Please correct the error{{ formEducation.errors|pluralize }} below.
-                    </p>
-                {% endif %}
-
-                <form action="/education/add/" method="post" class="">
-                    {% csrf_token %}
-                    <div class="form-content">
-                        {{ formEducation.as_p }}
-                    </div>
-                    <input type="submit" value="Submit">
-                </form>
+            <div id="add-education-form" class="row">
+                <div class="sixcol">
+                    {% include "profile/education_form.html" %}
+                </div>
             </div>
             {% endif %}
         {% endif %}
@@ -132,20 +122,10 @@
             {% endfor %}
             {% if user.id == profile.user_id %}
             <a href="#" id="add-experience">Ajouter une formation</a>
-            <div id="add-experience-form">
-                {% if formExperience.errors %}
-                    <p style="color: red;">
-                        Please correct the error{{ formExperience.errors|pluralize }} below.
-                    </p>
-                {% endif %}
-
-                <form action="/experience/add/" method="post">
-                    {% csrf_token %}
-                    <div class="form-content">
-                        {{ formExperience.as_p }}
-                    </div>
-                    <input type="submit" value="Submit">
-                </form>
+            <div id="add-experience-form" class="row">
+                <div class="sixcol">
+                    {% include "profile/experience_form.html" %}
+                </div>
             </div>
             {% endif %}
         {% endif %}
@@ -164,10 +144,21 @@
 
         $("#infos_profile").on('click','a.delete-item',function(e){
             var parent = $(this).parent();
+            $.post($(this).attr('href'),function(data){ 
+                if(data == true){
+                    $(parent).fadeOut(function(){
+                        $(this).remove();
+                    });
+                }
+            });
+            return false;
+        });
+
+        $("#infos_profile").on('click','a.edit-item',function(e){
+            var parent = $(this).parent();
             $.post($(this).attr('href'),function(data){
-                $(parent).fadeOut(function(){
-                    $(this).remove();
-                });
+                parent.find(".edit-form .sixcol").append(data);
+                initDatePicker();
             });
             return false;
         });
@@ -189,14 +180,35 @@
             $.post($(this).attr("action"),data).done(function(data){
 
                 if(data[0]==true){
-                    console.log("TRUE");
+                    console.log("TRUEEEE");
                     edu = data[1];
-                    cur.parent().prev().before(edu.data);
+                    cur.parents('#add-education-form, #add-experience-form').prev().before(edu.data);
 
                     cur.find("ul.errorlist").each(function(){
                         $(this).remove();
                     });
                     cur.clearForm();
+                    cur.parents('#add-education-form, #add-experience-form').slideToggle();
+                }else if(data[0]==false){
+                    console.log("FALSE");
+                    form = data[1];
+                    cur.find('.form-content').html(form.data);
+                }
+            });
+        });
+
+        $(".education form, .experience form").live('submit', function(e){
+            e.preventDefault();
+            var data = $(this).serialize();
+            var cur = $(this);
+            $.post($(this).attr("action"),data).done(function(data){
+
+                if(data[0]==true){
+                    console.log("TRUE");
+                    edu = data[1];
+                    $temp = $('<div></div>').html(edu.data);
+                    cur.parents(".edit-form").parent().html($temp.find("> div").html());
+                    initDatePicker();
                 }else if(data[0]==false){
                     console.log("FALSE");
                     form = data[1];
