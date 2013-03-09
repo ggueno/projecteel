@@ -935,7 +935,6 @@ def add_comment(request):
         return response
 
 def delete_comment(request, pk):
-
     try:
         comment = Comment.objects.get(id=pk)
 
@@ -952,14 +951,19 @@ def delete_comment(request, pk):
     #TO DO : Not Ajax Response
 
 
-def get_followers(request, slug):
-    feedbacks = list(Follow.objects.filter(following__name=slug).values_list('id', flat=True))
+def get_follow_profiles(request, slug, type_url='followers'):
+    if type_url == 'followers':
+        feedbacks = list(Follow.objects.filter(follower__name=slug).values_list('id', flat=True))
+    else:
+        feedbacks = list(Follow.objects.filter(following__name=slug).values_list('id', flat=True))
+
     profiles = Profile.objects.filter(pk__in=feedbacks)
     
     template = 'network/followers.html'
     endless_part = 'network/endless_followers.html'
     context = {
         'profiles': profiles,
+        'slug': slug,
         'endless_part': endless_part,
     }
 

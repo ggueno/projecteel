@@ -5,11 +5,22 @@
 {% block title %} Projects {% endblock %}
 {% block content %}
 
-    <div class="row wrapper" id="projects">
+    <div>
         <!--<h1 class="heading">Projects</h1>-->
 
         <div class="row dropfilters">
-            <div class="fourcol">
+
+            <div class="PTform inline threecol">
+                    <form action="/projects/search/" class="search-form project-search" method="get">
+                    {% csrf_token %}
+                    <div class="elevencol">
+                        <input class="search-field" id="search-query" type="text" name="query" placeholder="Rechercher un projet...">
+                    </div>
+                    <input type="submit" class="PTbutton onecol">
+                </form>
+            </div>
+
+            <div class="threecol">
                 <div class="dropdown search-field dropdown-search" id="search-categories">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Catégorie</a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -19,7 +30,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="fourcol">
+            <div class="threecol">
                 <div class="dropdown search-field dropdown-search" id="search-filter">
                     <a class="dropdown-toggle" data-toggle="dropdown" data-value="pushs" href="#">Les plus pushés</a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -30,7 +41,7 @@
                 </div>
             </div>
 
-            <div class="fourcol last">
+            <div class="threecol last">
                 <div class="dropdown search-field dropdown-search" id="search-when">
                     <a class="dropdown-toggle" data-toggle="dropdown" data-value="0" href="#">Toujours</a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -41,8 +52,9 @@
                 </div>
             </div>
         </div>
+    </div>
 
-
+    <div class="row wrapper" id="projects">
         <div class="sorting threecol">
 
 
@@ -71,15 +83,7 @@
         </div>
 
         <div class="list-projects ninecol last">
-            <div class="PTform inline">
-                    <form action="/projects/search/" class="search-form project-search" method="get">
-                    {% csrf_token %}
-                    <div class="elevencol">
-                        <input class="search-field" id="search-query" type="text" name="query" placeholder="Rechercher un projet...">
-                    </div>
-                    <input type="submit" class="PTbutton onecol">
-                </form>
-            </div>
+            
             <div id="list-content">{% include endless_part %}</div>
         </div>
     </div>
