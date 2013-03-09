@@ -2,7 +2,7 @@ import re
 
 from django import forms
 from django.db import models
-from core.models import Project, Offer, Education, Experience, Comment, Applicant, ApplicantOffer
+from core.models import Project, Offer, Education, Experience, Comment, Applicant, ApplicantOffer, Profile
 from taggit_autosuggest.widgets import TagAutoSuggest
 from tinymce.widgets import TinyMCE
 
@@ -55,6 +55,11 @@ class ProjectForm(forms.ModelForm):
         return mminstance
 
 
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ('user', 'date_signin', 'avatar')
+
 
 class OfferForm(forms.ModelForm):
     formfield_callback = make_custom_datefield
@@ -79,7 +84,7 @@ class EducationForm(forms.ModelForm):
         model = Education
 
         # school.widgets = forms.TextInput()
-        
+
         exclude = ('owner')
 
 
