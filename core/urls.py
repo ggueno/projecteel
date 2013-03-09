@@ -51,7 +51,9 @@ urlpatterns = patterns('',
 
     url(r'^education/add/$', views.add_education),
     url(r'^education/delete/(?P<pk>\d+)$', views.delete_education),
+    url(r'^education/edit/(?P<pk>\d+)$', views.edit_education),
     url(r'^experience/add/$', views.add_experience),
     url(r'^experience/delete/(?P<pk>\d+)$', views.delete_experience),
+    url(r'^experience/edit/(?P<pk>\d+)$', views.edit_experience),
     url(r'^$', views.home),
 )

@@ -1,0 +1,16 @@
+                    {% if formExperience.errors %}
+                        <p style="color: red;">
+                            Please correct the error{{ formExperience.errors|pluralize }} below.
+                        </p>
+                    {% endif %}
+
+                    <form action="/experience/add/" class="PTform" method="post">
+                        {% csrf_token %}
+                        {% if experience.pk %}
+                            <input type="hidden" value="{{experience.pk}}" name="id">
+                        {% endif %}
+                        <div class="form-content">
+                            {{ formExperience.as_p }}
+                        </div>
+                        <input type="submit" value="Submit" class="PTbutton alignRight">
+                    </form>

@@ -105,7 +105,7 @@ class Applicant(Profile):
 
 class Experience(models.Model):
     company_profile = models.ForeignKey(Company, blank=True, null=True)
-    company = models.TextField(blank=False, null=False)
+    company = models.TextField(blank=True, null=True)
     title = models.CharField(max_length=150)
     city = models.CharField(max_length=100)
     start = models.DateField(blank=False, null=False)

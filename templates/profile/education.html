@@ -6,6 +6,10 @@
 
                     <p> {{ education.description }} </p>
                     {% if user.id == education.owner.id %}
-                            <a class="delete-item" href="/education/delete/{{education.id}}">X</a>
+                            <a class="delete-item" href="/education/delete/{{education.id}}"><i class="ico-remove"></i></a>
+                            <a class="edit-item" href="/education/edit/{{education.id}}"><i class="ico-pencil"></i></a>
                     {% endif %}
+                    <div class="row edit-form">
+                        <div class="sixcol"></div>
+                    </div>
                 </div>
