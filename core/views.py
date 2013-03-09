@@ -673,6 +673,8 @@ def add_education(request):
             education = form.save(commit=False)
             # Education.create(school=education.school, start=education.start, end=education.end, title=education.title, description=education.description, owner=applicant)
             education.owner = applicant
+            if "id" in request.POST:
+                education.id = request.POST.get("id")
             education.save()
             # form.save_m2m()
             if request.is_ajax():
@@ -703,6 +705,27 @@ def add_education(request):
         form = EducationForm()
         return render(request, 'education/add_education.html', {'form': form})
 
+
+@login_required
+def edit_education(request, pk):
+
+    try:
+        applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+        education = Education.objects.get(id=pk)
+        form = EducationForm(instance=education)
+        # print form
+        state = False
+    except Education.DoesNotExist:
+        response = JSONResponse(False, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+
+    if request.is_ajax():
+        return render(request, 'profile/education_form.html', {'formEducation': form, 'education': education})
+    else:
+        return HttpResponseRedirect('/profile/')
+
+
 @login_required
 def delete_education(request, pk):
     try:
@@ -731,7 +754,6 @@ def add_experience(request):
 
     applicant = Applicant.objects.filter(user_id=request.user.id)[0]
     if request.method == 'POST':
-        # company = Company.objects.get(slug=request.POST['company'])[0]
 
         form = ExperienceForm(request.POST)
         if form.is_valid():
@@ -739,11 +761,16 @@ def add_experience(request):
             experience = form.save(commit=False)
             experience.owner = applicant
             # applicant.experiences.create(company=experience.company, title=experience.title, city=experience.city, start=experience.start, end=experience.end, details=experience.details)
+            if "id" in request.POST:
+                experience.id = request.POST.get("id")
             experience.save()
+
+            experience.company_profile = Company.objects.get(id=request.POST['company_profile'])
+
             # form.save_m2m()
             if request.is_ajax():
                 formData = {
-                    'company' : experience.company.name,
+                    'company' : experience.company_profile.name,
                     'city' : experience.city,
                     'title' : experience.title,
                     'start' : experience.start.strftime("%d %B %Y"),
@@ -767,6 +794,26 @@ def add_experience(request):
     else:
         form = ExperienceForm()
     return render(request, 'experience/add_experience.html', {'form': form})
+
+
+@login_required
+def edit_experience(request, pk):
+
+    try:
+        applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+        experience = Experience.objects.get(id=pk)
+        form = ExperienceForm(instance=experience)
+        # print form
+        state = False
+    except Experience.DoesNotExist:
+        response = JSONResponse(False, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+
+    if request.is_ajax():
+        return render(request, 'profile/experience_form.html', {'formExperience': form, 'experience': experience})
+    else:
+        return HttpResponseRedirect('/profile/')
 
 
 @login_required
@@ -907,7 +954,6 @@ def add_comment(request):
         return response
 
 def delete_comment(request, pk):
-
     try:
         comment = Comment.objects.get(id=pk)
 
@@ -924,14 +970,19 @@ def delete_comment(request, pk):
     #TO DO : Not Ajax Response
 
 
-def get_followers(request, slug):
-    feedbacks = list(Follow.objects.filter(following__name=slug).values_list('id', flat=True))
+def get_follow_profiles(request, slug, type_url='followers'):
+    if type_url == 'followers':
+        feedbacks = list(Follow.objects.filter(follower__name=slug).values_list('id', flat=True))
+    else:
+        feedbacks = list(Follow.objects.filter(following__name=slug).values_list('id', flat=True))
+
     profiles = Profile.objects.filter(pk__in=feedbacks)
 
     template = 'network/followers.html'
     endless_part = 'network/endless_followers.html'
     context = {
         'profiles': profiles,
+        'slug': slug,
         'endless_part': endless_part,
     }
 

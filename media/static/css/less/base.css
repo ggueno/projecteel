@@ -282,6 +282,7 @@ i.icon.delete {
 }
 .alignRight {
   margin: 0 0 0 auto;
+  display: block;
 }
 .ideal-wrap.alignRight {
   float: right;
@@ -521,9 +522,29 @@ a.delete-item {
   position: absolute;
   top: 20px;
   right: 20px;
+  -webkit-transition: opacity .25s ease;
+  -moz-transition: opacity .25s ease;
+  -ms-transition: opacity .25s ease;
+  -o-transition: opacity .25s ease;
+  transition: opacity .25s ease;
 }
 a.delete-item:hover {
-  color: #0099e6;
+  opacity: .5;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+}
+a.edit-item {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  -webkit-transition: opacity .25s ease;
+  -moz-transition: opacity .25s ease;
+  -ms-transition: opacity .25s ease;
+  -o-transition: opacity .25s ease;
+  transition: opacity .25s ease;
+}
+a.edit-item:hover {
+  opacity: .5;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
 }
 .illustration {
   text-align: center;
@@ -866,11 +887,15 @@ header.menu #menu a:hover {
   background: #CCC;
 }
 #infos_profile .experience:hover a.delete-item,
-#infos_profile .education:hover a.delete-item {
+#infos_profile .education:hover a.delete-item,
+#infos_profile .experience:hover a.edit-item,
+#infos_profile .education:hover a.edit-item {
   display: block;
 }
 #infos_profile .experience a.delete-item,
-#infos_profile .education a.delete-item {
+#infos_profile .education a.delete-item,
+#infos_profile .experience a.edit-item,
+#infos_profile .education a.edit-item {
   display: none;
 }
 #infos_profile #add-experience,
