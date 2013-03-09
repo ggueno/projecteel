@@ -464,6 +464,25 @@ def unlike(request, pk):
 
 
 @login_required
+def make_profil(request):
+
+    form = {}
+    user = User.objects.get(id=request.user.id)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = user
+            profile.save()
+            HttpResponseRedirect('/projects')
+
+    else:
+        form = ProfileForm()
+        return render(request, 'profile/make_profile.html', {'form': form})
+
+
+@login_required
 def follow(request, pk):
     myself = get_my_self(request)
     if request.user.id == pk:
@@ -639,7 +658,7 @@ def edit_offer(request, model=None, pk=None):
         return render(request, 'offer/edit_offer.html', {'form': form, 'model': model})
     else :
         get_offer(request, model)
-    
+
 
 
 @login_required
@@ -958,7 +977,7 @@ def get_follow_profiles(request, slug, type_url='followers'):
         feedbacks = list(Follow.objects.filter(following__name=slug).values_list('id', flat=True))
 
     profiles = Profile.objects.filter(pk__in=feedbacks)
-    
+
     template = 'network/followers.html'
     endless_part = 'network/endless_followers.html'
     context = {

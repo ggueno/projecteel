@@ -1,0 +1,25 @@
+{% extends "layout/base.html" %}
+{% load staticfiles %}
+{% load projects %}
+
+{% block title %} {{ profile.slug }}'s profile{% endblock %}
+
+{% block content %}
+    <form action="/profile/make/" method="post">
+        {% csrf_token %}
+        {{ form.errors }}
+        {{ form.name.label }} : {{ form.name }}
+        {{ form.avatar.label }}
+        {{ form.avatar }}
+        {{ form.url.label }} : {{ form.url }}
+        {{ form.description.label }} : {{ form.description }}
+        <input type="submit">
+    </form>
+{% endblock %}
+{% block js %}
+<script>
+    $(document).ready(function(){
+
+    });
+</script>
+{% endblock %}
