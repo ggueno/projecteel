@@ -39,15 +39,19 @@
 
                             {% if stats.followers %}
                             <li>
-                                <span>{{ stats.followers }}</span>
-                                followers
+                                <a href="/profile/{{profile.slug}}/followers/">
+                                    <span>{{ stats.followers }}</span>
+                                    followers
+                                </a>
                             </li>
                             {% endif %}
 
                             {% if stats.following %}
                             <li>
-                                <span>{{ stats.following }}</span>
-                                following
+                                <a href="/profile/{{profile.slug}}/following/">
+                                    <span>{{ stats.following }}</span>
+                                    following
+                                </a>
                             </li>
                             {% endif %}
                         </ul>
