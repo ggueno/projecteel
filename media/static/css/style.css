@@ -2979,7 +2979,6 @@ li.as-result-item img {
 .posted_offers .left {
   padding: 17px 20px;
   width: 60%;
-  height: 90%;
   border-right: 1px solid #d2d2d2;
 }
 .posted_offers .left h3 {
@@ -3220,13 +3219,11 @@ img.project-content {
   display: block;
   margin: 0 auto;
 }
-.applicant-mini {
+#project-author .applicant-mini {
   overflow: hidden;
   padding: 30px 4%;
   text-align: center;
 }
-.applicant-mini img#profile_pic {
-=======
 #project-author .applicant-mini a {
   -webkit-transition: color .15s ease;
   -moz-transition: color .15s ease;
@@ -3252,20 +3249,20 @@ img.project-content {
   border-radius: 40px;
   background-clip: padding-box;
 }
-.applicant-mini span.profession {
+#project-author .applicant-mini span.profession {
   display: block;
   color: #777777;
   font-style: italic;
   margin-bottom: 15px;
 }
-.applicant-mini a.PTbutton {
+#project-author .applicant-mini a.PTbutton {
   margin: 0 3px;
 }
-.applicant-mini a.PTbutton:hover {
+#project-author .applicant-mini a.PTbutton:hover {
   background: #007ab8;
   color: #FFF;
 }
-.applicant-mini h3 {
+#project-author .applicant-mini h3 {
   text-transform: uppercase;
   font-weight: 400;
   padding: 5px;
@@ -3297,4 +3294,18 @@ img.project-content {
   font-weight: 400;
   font-size: 1.2em;
   padding: 20px 20px 5px 20px;
+}
+.container-filter {
+  height: 34px;
+  width: 100%;
+  background-color: white;
+}
+.container-filter .row {
+  overflow: visible;
+}
+.container-filter .dropfilters {
+  height: 34px;
+}
+.container-filter .dropfilters .dropdown-toogle {
+  height: 100%;
 }
