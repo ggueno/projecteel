@@ -10,13 +10,15 @@
 
         <div class="row dropfilters">
 
-            <div class="PTform inline threecol">
-                    <form action="/projects/search/" class="search-form project-search" method="get">
+            <div class="inline threecol">
+                <form action="/projects/search/" class="search-form project-search PTform" method="get">
                     {% csrf_token %}
-                    <div class="elevencol">
+                    <div class="tencol">
                         <input class="search-field" id="search-query" type="text" name="query" placeholder="Rechercher un projet...">
                     </div>
-                    <input type="submit" class="PTbutton onecol">
+                    <div class="twocol last">
+                        <button type="submit" class="PTbutton"><i class="ico-search ico-white"></i></button>
+                    </div>
                 </form>
             </div>
 
@@ -83,7 +85,7 @@
         </div>
 
         <div class="list-projects ninecol last">
-            
+
             <div id="list-content">{% include endless_part %}</div>
         </div>
     </div>

@@ -1359,10 +1359,6 @@ li.as-result-item img {
 #projects .sixcol {
   margin: 0;
 }
-#projects .dropfilters {
-  overflow: visible;
-  height: 70px;
-}
 #projects .sorting .PTform input[type=text] {
   border-left: 0;
   border-right: 0;
@@ -1376,25 +1372,23 @@ li.as-result-item img {
   background: #fafafa;
   border: none;
 }
+.dropfilters {
+  overflow: visible;
+  height: 70px;
+  margin-top: 40px;
+}
 .search-form div {
   margin-top: 0;
 }
 .search-form #search-query {
-  height: auto;
+  height: 24px;
   line-height: 2em;
 }
 .search-form .PTbutton {
-  margin-top: 1px;
-  background-image: url(../img/loupe.png);
-  background-repeat: no-repeat;
-  text-indent: -9999px;
-  background-position: center center;
-  height: auto;
-  font-size: 13px;
+  margin-top: 0px;
+  width: 90%;
   float: right;
-  line-height: 2em;
-  padding: 2%;
-  width: 6.5%;
+  height: 34px;
 }
 /*
    O F F E R S
