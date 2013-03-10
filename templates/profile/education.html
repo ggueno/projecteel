@@ -2,7 +2,11 @@
                     <span class="start"> {{ education.start }} -</span>
                     <span class="end"> {{ education.end }} </span>
                     <h3> {{ education.title }} </h3>
-                    <h4> {{ education.school.name }} </h4>
+                    {% if education.school_profile %}
+                        <h4> {{ education.school_profile.name }} </h4>
+                    {% else %}
+                        <h4> {{ education.school }} </h4>
+                    {% endif %}
 
                     <p> {{ education.description }} </p>
                     {% if user.id == education.owner.id %}

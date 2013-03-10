@@ -2,7 +2,11 @@
                     <span class="start"> {{ experience.start }} -</span>
                     <span class="end"> {{ experience.end }} </span>
                     <h3> {{ experience.title }} </h3>
-                    <h4> {{ experience.company }} </h4>
+                    {% if experience.company_profile %}
+                        <h4> {{ experience.company_profile.name }} </h4>
+                    {% else %}
+                        <h4> {{ experience.company }} </h4>
+                    {% endif %}
 
                     <p> {{ experience.details }} </p>
                     <p> {{ experience.city }} </p>

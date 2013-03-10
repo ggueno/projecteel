@@ -18,6 +18,8 @@ urlpatterns = patterns('',
     url(r'^taggit_autosuggest/list/location/$', views.get_locations),
 
     url(r'^list/location/$', views.get_locations),
+    url(r'^list/school/$', views.get_schools),
+    url(r'^list/company/$', views.get_companies),
     url(r'^list/profile/(?P<type_profile>[^\.]+)/$', views.get_list_profile),
     url(r'^list/(?P<tag>[^\.]+)/$', views.get_list),
 
