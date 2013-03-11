@@ -65,20 +65,25 @@ $('ul.tabs').each(function(){
 });
 
 //Switch options on dropdown click
+$('.dropdown-menu a.select').hide();
 $('.dropdown-menu a').click(function(e){
     e.preventDefault();
 
+    $('.dropdown-menu a').removeClass('select').show();
+    $(this).addClass('select').hide();
+
+
     var toggle = $(this).parents('.dropdown-menu').prev();
-    var value = $(toggle).data('value');
-    var label = $(toggle).html();
+    var value_current = $(toggle).data('value');
+    var label_current = $(toggle).html();
 
-    console.log(toggle, value, label);
+    //console.log(toggle, value_current, label_current);
 
-    $(toggle).data('value',$(this).data('value'));
+    $(toggle).attr('data-value',$(this).data('value'));
     $(toggle).html($(this).html());
 
-    $(this).data('value',value);
-    $(this).html(label);
+    //$(this).attr('data-value',value_current);
+    //$(this).html(label_current);
 
 });
 

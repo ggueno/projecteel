@@ -44,7 +44,7 @@ var searchEngine = {
             }
 
             else if( $(this).hasClass('dropdown')){
-                $(this).find('ul a').click(function(e){
+                $(this).find('ul li a').click(function(e){
 
                     e.preventDefault();
 
@@ -68,7 +68,7 @@ var searchEngine = {
 
             else if( $(this).is('input') ){
                 $(this).keypress(function(e) {
-                    
+
                     if(e.which == 13) {
                         that.addToSearch(title,$(this).val(), true);
                         return true;
@@ -143,6 +143,8 @@ var searchEngine = {
                 }
             }
         }
+
+        console.log(datas);
 
         var that = this;
 

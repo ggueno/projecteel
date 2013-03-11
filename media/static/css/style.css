@@ -3480,3 +3480,7 @@ img.project-content {
 .container-filter .search-form {
   margin: 6px 0;
 }
+.dropdown .select {
+  font-weight: 700;
+  color: #cdcdcd;
+}
