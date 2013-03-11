@@ -1,0 +1,35 @@
+{% extends "layout/base.html" %}
+{% load staticfiles %}
+
+{% block title %} Followers {% endblock %}
+{% block content %}
+
+    <div class="row wrapper" id="projects">
+        <div class="sorting threecol">
+            <div class="sleekbox PTform">
+                <form action="" id="projectFilters">
+                    <ul class="filters">
+                        <li><a href="/profile/{{slug}}/followers/">Followers</a></li>
+                        <li><a href="/profile/{{slug}}/following/">Following</a></li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+
+        <div class="list-projects ninecol last">
+            <div id="list-content">{% include endless_part %}</div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ STATIC_URL }}js/jquery.autoSuggest.minified.js"></script>
+    <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
+    <script src="{{ STATIC_URL }}js/search-engine.js"></script>
+    <script>
+        $.endlessPaginate({
+            paginateOnScroll: true,
+            paginateOnScrollMargin: 20
+        });
+    </script>
+{% endblock %}

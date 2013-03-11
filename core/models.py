@@ -61,12 +61,12 @@ class Profile(models.Model):
     description = models.TextField(blank=False, null=False)
     url = models.URLField(blank=True, null=True)
 
-    def save(self, *args, **kwargs):
-        if not self.id:
-            super(Profile, self).save(*args, **kwargs)
-            resized = get_thumbnail(self.avatar, "180x180")
-            self.avatar.save(resized.name, ContentFile(resized.read()), True)
-        super(Profile, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.id:
+    #         super(Profile, self).save(*args, **kwargs)
+    #         //resized = get_thumbnail(self.avatar, "180x180")
+    #         //self.avatar.save(resized.name, ContentFile(resized.read()), True)
+    #     super(Profile, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return "%s" % (self.name)

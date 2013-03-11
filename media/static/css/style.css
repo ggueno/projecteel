@@ -3296,16 +3296,39 @@ img.project-content {
   padding: 20px 20px 5px 20px;
 }
 .container-filter {
-  height: 34px;
+  height: 48px;
   width: 100%;
   background-color: white;
+  border-top: #cdcdcd 1px solid;
+  border-bottom: #cdcdcd 1px solid;
+  margin-top: 1em;
 }
 .container-filter .row {
   overflow: visible;
+  margin: 0 auto;
 }
 .container-filter .dropfilters {
-  height: 34px;
+  height: 48px;
+  overflow: visible;
 }
-.container-filter .dropfilters .dropdown-toogle {
-  height: 100%;
+.container-filter .dropfilters .filter-dropdown {
+  overflow: visible;
+  width: 100px;
+}
+.container-filter .dropfilters .twocol {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+.container-filter .dropfilters .dropdown {
+  border-right: #cdcdcd 1px solid;
+  border-left: #cdcdcd 1px solid;
+}
+.container-filter .dropfilters .dropdown {
+  height: 48px;
+}
+.container-filter .dropfilters .dropdown-toggle {
+  font-weight: 700;
+  height: 22px;
+  padding: 13px;
 }
