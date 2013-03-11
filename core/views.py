@@ -472,6 +472,7 @@ def make_profil(request):
     user = User.objects.get(id=request.user.id)
 
     if request.method == 'POST':
+        print 'make'
         form = ProfileForm(request.POST)
         if form.is_valid():
             profile = form.save(commit=False)
