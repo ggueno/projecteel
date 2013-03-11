@@ -331,6 +331,34 @@ i.icon.delete {
 .ui-slider .ui-slider-handle {
   widows: ;
 }
+.ui-autocomplete {
+  padding: 0;
+  background: #CCC;
+  position: absolute;
+}
+.ui-autocomplete li {
+  font-weight: 600;
+}
+.ui-autocomplete li:hover,
+.ui-autocomplete li:focus,
+.ui-autocomplete li.ui-state-hover {
+  background: #0099e6;
+  color: #FFF;
+}
+.ui-autocomplete li a {
+  color: #333;
+  display: block;
+  padding: 10px;
+}
+.ui-autocomplete li a:hover,
+.ui-autocomplete li a:focus,
+.ui-autocomplete li a.ui-state-focus {
+  background: #0099e6;
+  color: #FFF;
+}
+.ui-helper-hidden-accessible {
+  display: none;
+}
 .heading {
   font-size: 2em;
   text-transform: uppercase;
@@ -882,10 +910,6 @@ header.menu #menu a:hover {
   margin: 10px 0;
   position: relative;
 }
-#infos_profile .experience:hover,
-#infos_profile .education:hover {
-  background: #CCC;
-}
 #infos_profile .experience:hover a.delete-item,
 #infos_profile .education:hover a.delete-item,
 #infos_profile .experience:hover a.edit-item,
@@ -1335,10 +1359,6 @@ li.as-result-item img {
 #projects .sixcol {
   margin: 0;
 }
-#projects .dropfilters {
-  overflow: visible;
-  height: 70px;
-}
 #projects .sorting .PTform input[type=text] {
   border-left: 0;
   border-right: 0;
@@ -1352,25 +1372,23 @@ li.as-result-item img {
   background: #fafafa;
   border: none;
 }
+.dropfilters {
+  overflow: visible;
+  height: 70px;
+  margin-top: 40px;
+}
 .search-form div {
   margin-top: 0;
 }
 .search-form #search-query {
-  height: auto;
+  height: 24px;
   line-height: 2em;
 }
 .search-form .PTbutton {
-  margin-top: 1px;
-  background-image: url(../img/loupe.png);
-  background-repeat: no-repeat;
-  text-indent: -9999px;
-  background-position: center center;
-  height: auto;
-  font-size: 13px;
+  margin-top: 0px;
+  width: 90%;
   float: right;
-  line-height: 2em;
-  padding: 2%;
-  width: 6.5%;
+  height: 34px;
 }
 /*
    O F F E R S
@@ -1480,6 +1498,20 @@ li.as-result-item img {
   color: #7e7e7e;
   font-style: italic;
   padding: 0;
+}
+/*
+   P O S T E D   O F F E R S
+   ========================================================================== */
+.posted_offers .left {
+  padding: 17px 20px;
+  width: 60%;
+  border-right: 1px solid #d2d2d2;
+}
+.posted_offers .left h3 {
+  padding: 0;
+}
+.posted_offers .right {
+  text-align: left;
 }
 /* ==========================================================================
    Helper classes

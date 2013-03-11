@@ -105,7 +105,7 @@ class Applicant(Profile):
 
 class Experience(models.Model):
     company_profile = models.ForeignKey(Company, blank=True, null=True)
-    company = models.TextField(blank=True, null=True)
+    company = models.CharField(max_length=150, blank=True, null=True)
     title = models.CharField(max_length=150)
     city = models.CharField(max_length=100)
     start = models.DateField(blank=False, null=False)
@@ -117,7 +117,8 @@ class Experience(models.Model):
 
 
 class Education(models.Model):
-    school = models.ForeignKey(School)
+    school_profile = models.ForeignKey(School, blank=True, null=True)
+    school = models.CharField(max_length=150, blank=True, null=True)
     start = models.DateField(blank=False, null=False)
     end = models.DateField(blank=True, null=True)
     title = models.CharField(max_length=100)
