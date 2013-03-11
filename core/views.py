@@ -189,6 +189,8 @@ def get_locations(request):
         q = ""
         if 'q' in request.GET:
             q = request.GET["q"]
+        elif 'term' in request.GET:
+            q = request.GET['term']
         else:
             raise
         locations = Project.objects.filter(location__startswith=q).values_list('location', flat=True)
@@ -464,6 +466,25 @@ def unlike(request, pk):
 
 
 @login_required
+def make_profil(request):
+
+    form = {}
+    user = User.objects.get(id=request.user.id)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = user
+            profile.save()
+            HttpResponseRedirect('/projects')
+
+    else:
+        form = ProfileForm()
+        return render(request, 'profile/make_profile.html', {'form': form})
+
+
+@login_required
 def follow(request, pk):
     myself = get_my_self(request)
     if request.user.id == pk:
@@ -639,7 +660,6 @@ def edit_offer(request, model=None, pk=None):
         return render(request, 'offer/edit_offer.html', {'form': form, 'model': model})
     else :
         get_offer(request, model)
-    
 
 
 @login_required
@@ -653,6 +673,10 @@ def add_education(request):
             # cd = form.cleaned_data
             education = form.save(commit=False)
             # Education.create(school=education.school, start=education.start, end=education.end, title=education.title, description=education.description, owner=applicant)
+            if "school_profile" in request.POST:
+                q = request.POST.get("school_profile")
+                if q is not None and q != '':
+                    education.school_profile = School.objects.filter(id=q)[0]
             education.owner = applicant
             if "id" in request.POST:
                 education.id = request.POST.get("id")
@@ -660,24 +684,24 @@ def add_education(request):
             # form.save_m2m()
             if request.is_ajax():
                 formData = {
-                    'school' : {'name' :education.school.name },
-                    'title' : education.title,
-                    'start' : education.start.strftime("%d %B %Y"),
-                    'end' : education.end.strftime("%d %B %Y"),
-                    'description' : education.description,
-                    'owner' : education.owner,
-                    'id' : education.id,
+                    'school': education.school,
+                    'title': education.title,
+                    'start': education.start.strftime("%d %B %Y"),
+                    'end': education.end.strftime("%d %B %Y"),
+                    'description': education.description,
+                    'owner': education.owner,
+                    'id': education.id,
                 }
                 user = request.user
-                html = render(request, 'profile/education.html', {'education': formData, 'user' : user})
-                response = JSONResponse([True,{'data' : html.content}], {}, response_mimetype(request))
+                html = render(request, 'profile/education.html', {'education': formData, 'user': user})
+                response = JSONResponse([True,{'data': html.content}], {}, response_mimetype(request))
                 response['Content-Disposition'] = 'inline; filename=files.json'
                 return response
             else:
                 return HttpResponseRedirect('/')
         else:
             if request.is_ajax():
-                response = JSONResponse([False,{'data' : form.as_p()}], {}, response_mimetype(request))
+                response = JSONResponse([False,{'data': form.as_p()}], {}, response_mimetype(request))
                 response['Content-Disposition'] = 'inline; filename=files.json'
                 return response
             else:
@@ -741,17 +765,18 @@ def add_experience(request):
             # cd = form.cleaned_data
             experience = form.save(commit=False)
             experience.owner = applicant
+            if "company_profile" in request.POST:
+                q = request.POST.get("company_profile")
+                if q is not None and q != '':
+                    experience.company_profile = Company.objects.filter(id=q)[0]
             # applicant.experiences.create(company=experience.company, title=experience.title, city=experience.city, start=experience.start, end=experience.end, details=experience.details)
             if "id" in request.POST:
                 experience.id = request.POST.get("id")
             experience.save()
-
-            experience.company_profile = Company.objects.get(id=request.POST['company_profile'])
-
             # form.save_m2m()
             if request.is_ajax():
                 formData = {
-                    'company' : experience.company_profile.name,
+                    'company' : experience.company,
                     'city' : experience.city,
                     'title' : experience.title,
                     'start' : experience.start.strftime("%d %B %Y"),
@@ -880,9 +905,39 @@ def get_company(request, slug):
     return render_to_response('profile/profile_company.html', context)
 
 
+def get_companies(request):
+    if(request.method == 'GET'):
+        term = ""
+        if 'term' in request.GET:
+            term = request.GET["term"]
+        else:
+            raise
+        companies = Company.objects.filter(name__startswith=term).values_list('id','name', flat=False)
+
+    choices = [{"id": l[0], "value": l[1]} for l in set(companies)]
+    response = JSONResponse(choices, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response
+
+
 def get_school(request, slug):
     school = School.objects.get(slug=slug)
     return render_to_response('profile/profile_school.html', {'profile': school, 'slug': slug})
+
+
+def get_schools(request):
+    if(request.method == 'GET'):
+        term = ""
+        if 'term' in request.GET:
+            term = request.GET["term"]
+        else:
+            raise
+        schools = School.objects.filter(name__startswith=term).values_list('id','name', flat=False)
+
+    choices = [{"id": l[0], "value": l[1]} for l in set(schools)]
+    response = JSONResponse(choices, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response
 
 
 # View For PictureUpload
@@ -958,7 +1013,7 @@ def get_follow_profiles(request, slug, type_url='followers'):
         feedbacks = list(Follow.objects.filter(following__name=slug).values_list('id', flat=True))
 
     profiles = Profile.objects.filter(pk__in=feedbacks)
-    
+
     template = 'network/followers.html'
     endless_part = 'network/endless_followers.html'
     context = {

@@ -28,6 +28,13 @@
                   {{ form.email }}
                 </p>
                 <p>
+                  <label for="id_user_category">Categorie</label>
+                  {% if form.user_category.errors %}
+                    <p class="errors">{{ form.user_category.errors.as_text }}</p>
+                  {% endif %}
+                  {{ form.user_category }}
+                </p>
+                <p>
                   <label for="id_password1">Mot de passe</label>
                   {% if form.password1.errors %}
                     <p class="errors">{{ form.password1.errors.as_text }}</p>

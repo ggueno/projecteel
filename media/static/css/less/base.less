@@ -332,6 +332,32 @@ i.icon{
     }
 }
 
+//Custom jQuery UI autocomplete
+.ui-autocomplete{
+    padding: 0;
+    background: #CCC;
+    position: absolute;
+    li {
+        font-weight: 600;
+        &:hover, &:focus, &.ui-state-hover{
+            background: @PTblue;
+            color: #FFF;
+        }
+        a{
+            color: #333;
+            display: block;
+            padding: 10px;
+            &:hover, &:focus, &.ui-state-focus{
+                background: @PTblue;
+                color: #FFF;
+            }
+        }
+    }
+}
+.ui-helper-hidden-accessible{
+    display: none;
+}
+
 .heading{
     font-size:2em;
     text-transform:uppercase;
@@ -859,7 +885,7 @@ header.menu{
         margin: 10px 0;
         position: relative;
         &:hover{
-            background: #CCC;
+            // background: #CCC;
             a.delete-item, a.edit-item{
                 display: block;
             }
@@ -1250,10 +1276,6 @@ li.as-result-item{
     .sixcol{
         margin: 0;
     }
-    .dropfilters{
-        overflow: visible;
-        height: 70px;
-    }
     .sorting{
         .PTform{
             input[type=text]{
@@ -1278,26 +1300,25 @@ li.as-result-item{
     }
 }
 
+.dropfilters{
+    overflow: visible;
+    height: 70px;
+    margin-top: 40px;
+}
+
 .search-form{
         div{
             margin-top: 0;
         }
         #search-query{
-            height: auto;
+            height: 24px;
             line-height: 2em;
         }
         .PTbutton{
-            margin-top: 1px;
-            background-image: url(../img/loupe.png);
-            background-repeat: no-repeat;
-            text-indent: -9999px;
-            background-position: center center;
-            height: auto;
-            font-size:13px;
+            margin-top: 0px;
+            width: 90%;
             float: right;
-            line-height: 2em;
-            padding: 2%;
-            width: 6.5%;
+            height: 34px;
         }
     }
 

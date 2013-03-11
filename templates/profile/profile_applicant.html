@@ -148,7 +148,7 @@
 
         $("#infos_profile").on('click','a.delete-item',function(e){
             var parent = $(this).parent();
-            $.post($(this).attr('href'),function(data){ 
+            $.post($(this).attr('href'),function(data){
                 if(data == true){
                     $(parent).fadeOut(function(){
                         $(this).remove();
@@ -163,6 +163,13 @@
             $.post($(this).attr('href'),function(data){
                 parent.find(".edit-form .sixcol").append(data);
                 initDatePicker();
+                if(parent.hasClass('education')){
+                    autocomp($("#id_school"), 'school');
+                }
+                else if(parent.hasClass('experience')){
+                    autocomp($("#id_company"), 'company');
+                    autocompCity();
+                }
             });
             return false;
         });
@@ -176,6 +183,48 @@
             $("#add-experience-form").slideToggle();
             e.preventDefault();
         });
+
+        //jQ UI autocomplete wrapper Projecteel Style
+        var autocomp = function(selector, element){
+            var changeFlag = false;
+            selector.autocomplete({
+                source: "/list/" + element,
+                minLength: 1,
+                appendTo: selector.parent(),
+                create: function( event, ui ) {
+                    $(this).after($("<input type='hidden' id='id_"+element+"_profile' name='"+element+"_profile'/>"));
+                },
+                select: function( event, ui ) {
+                    $( "#id_"+element+"" ).val( ui.item.value );
+                    $( "#id_"+element+"_profile" ).val( ui.item.id );
+                    changeFlag = false;
+                    return false;
+                },
+                change: function( event, ui ) {
+                    if(!changeFlag){
+                        changeFlag = true;
+                    }else{
+                        $( "#id_"+element+"_profile" ).val('');
+                    }
+                }
+            });
+        }
+
+        var autocompCity = function(){
+            //Location autocomplete
+            $("#id_city").autocomplete({
+                source: "/list/location",
+                minLength: 1,
+                appendTo: $("#id_city").parent(),
+            });
+        }
+
+        //init autocomplete for education and experience
+        autocomp($("#id_school"), 'school');
+        autocomp($("#id_company"), 'company');
+        autocompCity();
+
+
 
         $("#add-education-form form, #add-experience-form form").submit(function(e){
             e.preventDefault();

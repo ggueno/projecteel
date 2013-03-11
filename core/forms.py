@@ -2,17 +2,17 @@ import re
 
 from django import forms
 from django.db import models
-from core.models import Project, Offer, Education, Experience, Comment, Applicant, ApplicantOffer
+from core.models import Project, Offer, Education, Experience, Comment, Applicant, ApplicantOffer, Profile
 from taggit_autosuggest.widgets import TagAutoSuggest
 from tinymce.widgets import TinyMCE
 import random, string
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for x in range(size))
-    
 
-def make_custom_datefield(f):
-    formfield = f.formfield()
+
+def make_custom_datefield(f,**kwargs):
+    formfield = f.formfield(**kwargs)
     if isinstance(f, models.DateField):
         formfield.widget.input_formats = '%d/%m/%y'
         formfield.widget.attrs.update({'class':'datePicker', 'readonly':'true', 'id': id_generator()})
@@ -59,6 +59,11 @@ class ProjectForm(forms.ModelForm):
         return mminstance
 
 
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ('user', 'date_signin', 'avatar')
+
 
 class OfferForm(forms.ModelForm):
     formfield_callback = make_custom_datefield
@@ -81,17 +86,14 @@ class EducationForm(forms.ModelForm):
     formfield_callback = make_custom_datefield
     class Meta:
         model = Education
-
-        # school.widgets = forms.TextInput()
-        
-        exclude = ('owner')
+        exclude = ('owner', 'school_profile')
 
 
 class ExperienceForm(forms.ModelForm):
     formfield_callback = make_custom_datefield
     class Meta:
         model = Experience
-        exclude = ('owner')
+        exclude = ('owner', 'company_profile')
 
 
 class CommentForm(forms.ModelForm):
