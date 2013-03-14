@@ -594,6 +594,42 @@ def posted_offers(request):
     }
     return render(request, 'offer/posted_offers.html', context)
 
+
+@login_required
+def vacancy(request, state, pk):
+    try:
+        offer = Offer.objects.get(id=pk)
+        myself = Company.objects.get(user_id=request.user.id)
+        if state == 'add':
+            print "vacancy offer", offer.vacancy
+            Offer.objects.filter(id=pk).update(vacancy=True)
+        else:
+            Offer.objects.filter(id=pk).update(vacancy=False)
+        offer.save()
+        print "vacancy offer modifiee", offer.vacancy
+        result = {'state': True }
+    except Company.DoesNotExist:
+        result = { 'state': False, 'message': 'Company DoesNotExist'}
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        if result['state']:
+            return HttpResponseRedirect('/offer/posted_offers')
+        else:
+            return HttpResponseNotFound('404.html')
+
+
+@login_required
+def statusApplication(request, model, pk, slug):
+    offer = Offer.objects.get(id=pk)
+    if model == "read":
+        print offer
+
+
+
 @login_required
 def edit_offer(request, model=None, pk=None):
 
@@ -609,6 +645,7 @@ def edit_offer(request, model=None, pk=None):
             HttpResponseRedirect('/offers/')
 
         offer = Offer.objects.get(id=pk)
+        applicantsOffer = ApplicantOffer.objects.filter(offer_id=pk)
         if request.method == 'POST':
             form = OfferForm(request.POST)
             if form.is_valid():
@@ -618,7 +655,7 @@ def edit_offer(request, model=None, pk=None):
                 return get_offer(request, slug)
         else:
             form = OfferForm(instance=offer)
-        return render(request, 'offer/edit_offer.html', {'form': form, 'model': model})
+        return render(request, 'offer/edit_offer.html', {'form': form, 'model': model, 'applicantsOffer': applicantsOffer})
 
     elif pk is None :
         if model == u"add":

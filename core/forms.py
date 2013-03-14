@@ -66,7 +66,7 @@ class OfferForm(forms.ModelForm):
     def save(self, commit=True):
         data = self.cleaned_data
         content = data.get('content')
-        pattern = re.compile(r'&lt;/?[a-z]*&gt;')
+        pattern = re.compile(r'<p>&lt;/?[a-z]*/?&gt;</p>')
         content = pattern.sub(r"", content)
         self.instance.content = content
         offerInstance = super(OfferForm, self).save(commit=commit)

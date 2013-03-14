@@ -1,4 +1,5 @@
 {% extends "layout/base.html" %}
+{% load thumbnail %}
 
 {% block title %} {{ slug }} {% endblock %}
 
@@ -7,6 +8,40 @@
 <head>
     {{ form.media }}
 </head>
+
+{% if model == 'edit' %}
+    <section class="row">
+        <div class="sleekbox">
+            <div class="content">
+                <h1 class="heading">Candidats qui ont postulés</h1>
+                {% if applicantsOffer %}
+                    <ul>
+                    {% for applicantOffer in applicantsOffer %}
+                        <li>
+                            {% thumbnail applicantOffer.applicant.avatar "50x50" crop="left" as im %}
+                                <a href="/profile/{{ applicantOffer.applicant.slug }}" data-tooltip="{{ applicantOffer.applicant.user}}" class="tooltip">
+                                <img src="{{im.url}}" alt="{{ applicantOffer.applicant.name }}"/>
+                                </a>
+                            {% endthumbnail %}
+                            <p>{{ applicantOffer.applicant }}</p>
+                            <a id="view-candidature" href="/offer/statusApplication/read/{{applicantOffer.offer_id}}/{{applicantOffer.applicant.slug}}">Voir la candidature</a>
+                            <div class="content-application">
+
+                                <p>{{ applicantOffer.content }}</p>
+
+                            </div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucune candidature</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </section>
+
+{% endif %}
     
     <section class="row add_project">
         <div class="sleekbox">
@@ -82,29 +117,20 @@
 
     tinyMCE.init({
         removeformat_selector : 'style,script,img,html,iframe'
-
-        /*onvert_newlines_to_brs : true,
-        fix_list_elements : true,
-        protect: [
-            /\<\/?(if|endif)\>/g, // Protect <if> & </endif>
-            /\<xsl\:[^>]+\>/g, // Protect <xsl:...>
-            /<\?php.*?\?>/g // Protect php code
-        ],
-        valid_elements : "em/i,strike,u,strong/b,div[align],br,#p[align],-ol[type|compact],-ul[type|compact],-li"*/
     });
 
 
     $(document).ready(function(){
 
+        $('.content-application').hide();
+
+        $('#view-candidature').click(function() {
+            $('.content-application').slideToggle();
+            $('#view-candidature').text("Fermer la candidature");
+        });
+
         $('.edit-offer').submit(function() {
 
-            /*var tmp = document.createElement("p");
-            tmp.innerHTML = $("#id_content");
-            $("#id_content") = tmp.textContent||tmp.innerText;*/
-
-            //var content = $("#id_content").html();
-            //console.log($("#id_content").text());
-            //alert("knckjwnkcjnkj");
         });
 
     });
