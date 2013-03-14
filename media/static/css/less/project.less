@@ -142,3 +142,67 @@ img.project-content{
         padding: 20px 20px 5px 20px;
     }
 }
+
+
+
+// Filter bar
+@heightBar : 48px;
+.container-filter{
+    height: @heightBar;
+    width: 100%;
+    background-color: white;
+    border-top: #cdcdcd 1px solid;
+    border-bottom: #cdcdcd 1px solid;
+    margin-top: 1em;
+
+    .row{
+        overflow: visible;
+        margin: 0 auto;
+    }
+
+    .dropfilters{
+        height: @heightBar;
+
+            overflow: visible;
+
+        .filter-dropdown{
+
+            overflow: visible;
+            width: 100px;
+        }
+
+        .twocol{
+            margin: 0;
+            padding: 0;
+            overflow: visible;
+        }
+
+        .dropdown{
+            border-right: #cdcdcd 1px solid;
+            border-left: #cdcdcd 1px solid;
+        }
+
+        .dropdown{
+            height: @heightBar;
+        }
+
+        .dropdown-toggle{
+            font-weight: 700;
+            height: 22px;
+            padding: 13px;
+        }
+
+
+    }
+
+    .search-form{
+        margin: 6px 0;
+    }
+
+}
+
+.dropdown .select{
+    font-weight: 700;
+    color: #cdcdcd;
+}
+

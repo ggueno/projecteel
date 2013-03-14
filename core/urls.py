@@ -18,6 +18,8 @@ urlpatterns = patterns('',
     url(r'^taggit_autosuggest/list/location/$', views.get_locations),
 
     url(r'^list/location/$', views.get_locations),
+    url(r'^list/school/$', views.get_schools),
+    url(r'^list/company/$', views.get_companies),
     url(r'^list/profile/(?P<type_profile>[^\.]+)/$', views.get_list_profile),
     url(r'^list/(?P<tag>[^\.]+)/$', views.get_list),
 
@@ -41,19 +43,22 @@ urlpatterns = patterns('',
     url(r'^offer/get/(?P<slug>[^\.]+)/$', views.get_offer, name="offer_view"),
 
 
+    url(r'^profile/make/$', views.make_profil),
     url(r'^profile/update/$', views.update_applicant, name="profile-update"),
     url(r'^profile/follow/(?P<pk>\d+)/$', views.follow),
     url(r'^profile/unfollow/(?P<pk>\d+)/$', views.unfollow),
     url(r'^profile/company/(?P<slug>[^\.]+)/$', views.get_company),
     url(r'^profile/school/(?P<slug>[^\.]+)/$', views.get_school),
-    url(r'^profile/(?P<slug>[^\.]+)/followers/$', views.get_followers),
-    url(r'^profile/(?P<slug>[^\.]+)/following/$', views.get_followers),
+    url(r'^profile/(?P<slug>[^\.]+)/followers/$', views.get_follow_profiles, {'type_url': 'followers'}),
+    url(r'^profile/(?P<slug>[^\.]+)/following/$', views.get_follow_profiles, {'type_url': 'following'}),
     url(r'^profile/(?P<slug>[^\.]+)/$', views.get_applicant, name="profile_view"),
     url(r'^profile/$', views.get_my_profile),
 
     url(r'^education/add/$', views.add_education),
     url(r'^education/delete/(?P<pk>\d+)$', views.delete_education),
+    url(r'^education/edit/(?P<pk>\d+)$', views.edit_education),
     url(r'^experience/add/$', views.add_experience),
     url(r'^experience/delete/(?P<pk>\d+)$', views.delete_experience),
+    url(r'^experience/edit/(?P<pk>\d+)$', views.edit_experience),
     url(r'^$', views.home),
 )

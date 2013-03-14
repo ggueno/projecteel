@@ -39,15 +39,19 @@
 
                             {% if stats.followers %}
                             <li>
-                                <span>{{ stats.followers }}</span>
-                                followers
+                                <a href="/profile/{{profile.slug}}/followers/">
+                                    <span>{{ stats.followers }}</span>
+                                    followers
+                                </a>
                             </li>
                             {% endif %}
 
                             {% if stats.following %}
                             <li>
-                                <span>{{ stats.following }}</span>
-                                following
+                                <a href="/profile/{{profile.slug}}/following/">
+                                    <span>{{ stats.following }}</span>
+                                    following
+                                </a>
                             </li>
                             {% endif %}
                         </ul>
@@ -107,20 +111,10 @@
             {% endfor %}
             {% if user.id == profile.user_id %}
             <a href="#" id="add-education">Ajouter une formation</a>
-            <div id="add-education-form">
-                {% if formEducation.errors %}
-                    <p style="color: red;">
-                        Please correct the error{{ formEducation.errors|pluralize }} below.
-                    </p>
-                {% endif %}
-
-                <form action="/education/add/" method="post" class="">
-                    {% csrf_token %}
-                    <div class="form-content">
-                        {{ formEducation.as_p }}
-                    </div>
-                    <input type="submit" value="Submit">
-                </form>
+            <div id="add-education-form" class="row">
+                <div class="sixcol">
+                    {% include "profile/education_form.html" %}
+                </div>
             </div>
             {% endif %}
         {% endif %}
@@ -132,20 +126,10 @@
             {% endfor %}
             {% if user.id == profile.user_id %}
             <a href="#" id="add-experience">Ajouter une formation</a>
-            <div id="add-experience-form">
-                {% if formExperience.errors %}
-                    <p style="color: red;">
-                        Please correct the error{{ formExperience.errors|pluralize }} below.
-                    </p>
-                {% endif %}
-
-                <form action="/experience/add/" method="post">
-                    {% csrf_token %}
-                    <div class="form-content">
-                        {{ formExperience.as_p }}
-                    </div>
-                    <input type="submit" value="Submit">
-                </form>
+            <div id="add-experience-form" class="row">
+                <div class="sixcol">
+                    {% include "profile/experience_form.html" %}
+                </div>
             </div>
             {% endif %}
         {% endif %}
@@ -165,9 +149,27 @@
         $("#infos_profile").on('click','a.delete-item',function(e){
             var parent = $(this).parent();
             $.post($(this).attr('href'),function(data){
-                $(parent).fadeOut(function(){
-                    $(this).remove();
-                });
+                if(data == true){
+                    $(parent).fadeOut(function(){
+                        $(this).remove();
+                    });
+                }
+            });
+            return false;
+        });
+
+        $("#infos_profile").on('click','a.edit-item',function(e){
+            var parent = $(this).parent();
+            $.post($(this).attr('href'),function(data){
+                parent.find(".edit-form .sixcol").append(data);
+                initDatePicker();
+                if(parent.hasClass('education')){
+                    autocomp($("#id_school"), 'school');
+                }
+                else if(parent.hasClass('experience')){
+                    autocomp($("#id_company"), 'company');
+                    autocompCity();
+                }
             });
             return false;
         });
@@ -182,7 +184,73 @@
             e.preventDefault();
         });
 
+        //jQ UI autocomplete wrapper Projecteel Style
+        var autocomp = function(selector, element){
+            var changeFlag = false;
+            selector.autocomplete({
+                source: "/list/" + element,
+                minLength: 1,
+                appendTo: selector.parent(),
+                create: function( event, ui ) {
+                    $(this).after($("<input type='hidden' id='id_"+element+"_profile' name='"+element+"_profile'/>"));
+                },
+                select: function( event, ui ) {
+                    $( "#id_"+element+"" ).val( ui.item.value );
+                    $( "#id_"+element+"_profile" ).val( ui.item.id );
+                    changeFlag = false;
+                    return false;
+                },
+                change: function( event, ui ) {
+                    if(!changeFlag){
+                        changeFlag = true;
+                    }else{
+                        $( "#id_"+element+"_profile" ).val('');
+                    }
+                }
+            });
+        }
+
+        var autocompCity = function(){
+            //Location autocomplete
+            $("#id_city").autocomplete({
+                source: "/list/location",
+                minLength: 1,
+                appendTo: $("#id_city").parent(),
+            });
+        }
+
+        //init autocomplete for education and experience
+        autocomp($("#id_school"), 'school');
+        autocomp($("#id_company"), 'company');
+        autocompCity();
+
+
+
         $("#add-education-form form, #add-experience-form form").submit(function(e){
+            e.preventDefault();
+            var data = $(this).serialize();
+            var cur = $(this);
+            $.post($(this).attr("action"),data).done(function(data){
+
+                if(data[0]==true){
+                    console.log("TRUEEEE");
+                    edu = data[1];
+                    cur.parents('#add-education-form, #add-experience-form').prev().before(edu.data);
+
+                    cur.find("ul.errorlist").each(function(){
+                        $(this).remove();
+                    });
+                    cur.clearForm();
+                    cur.parents('#add-education-form, #add-experience-form').slideToggle();
+                }else if(data[0]==false){
+                    console.log("FALSE");
+                    form = data[1];
+                    cur.find('.form-content').html(form.data);
+                }
+            });
+        });
+
+        $(".education form, .experience form").live('submit', function(e){
             e.preventDefault();
             var data = $(this).serialize();
             var cur = $(this);
@@ -191,12 +259,9 @@
                 if(data[0]==true){
                     console.log("TRUE");
                     edu = data[1];
-                    cur.parent().prev().before(edu.data);
-
-                    cur.find("ul.errorlist").each(function(){
-                        $(this).remove();
-                    });
-                    cur.clearForm();
+                    $temp = $('<div></div>').html(edu.data);
+                    cur.parents(".edit-form").parent().html($temp.find("> div").html());
+                    initDatePicker();
                 }else if(data[0]==false){
                     console.log("FALSE");
                     form = data[1];

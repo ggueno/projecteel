@@ -13,8 +13,10 @@ warnings.warn("include('registration.urls') is deprecated; use include('registra
               PendingDeprecationWarning)
 
 from django.conf.urls.defaults import *
-from registration.backends.default.urls import *
-from registration.forms import UserRegistrationForm
+# from registration.backends.default.urls import *
+from registration.backends.custom.urls import *
+# from registration.forms import UserRegistrationForm
+from registration.backends.custom.forms import UserRegistrationForm
 
 urlpatterns += patterns('',
 

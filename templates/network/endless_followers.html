@@ -1,0 +1,13 @@
+{% if profiles %}
+{% load staticfiles %}
+
+{% load thumbnail %}
+
+{% load profile %}
+    {% load endless %}
+    {% lazy_paginate 9 profiles %}
+    {% for p in profiles %}
+    	{% profile_mini p forloop.counter|divisibleby:"4" 'threecol' %}
+    {% endfor %}
+    {% show_more "Plus" %}
+{% endif %}
