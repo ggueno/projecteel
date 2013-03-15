@@ -43,7 +43,8 @@ urlpatterns = patterns('',
     url(r'^offer/get/(?P<slug>[^\.]+)/$', views.get_offer, name="offer_view"),
 
 
-    url(r'^profile/make/$', views.make_profil),
+    url(r'^profile/create/$', views.create_applicant, {'action': 'new'}),
+    url(r'^profile/edit/$', views.create_applicant, {'action': 'edit'}),
     url(r'^profile/update/$', views.update_applicant, name="profile-update"),
     url(r'^profile/follow/(?P<pk>\d+)/$', views.follow),
     url(r'^profile/unfollow/(?P<pk>\d+)/$', views.unfollow),

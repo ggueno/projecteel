@@ -2,6 +2,7 @@ import re
 
 from django import forms
 from django.db import models
+from django.contrib.auth.models import User
 from core.models import Project, Offer, Education, Experience, Comment, Applicant, ApplicantOffer, Profile
 from taggit_autosuggest.widgets import TagAutoSuggest
 from tinymce.widgets import TinyMCE
@@ -105,10 +106,15 @@ class CommentForm(forms.ModelForm):
 class ApplicantForm(forms.ModelForm):
     class Meta:
         model = Applicant
-        exclude = ('user', 'educations', 'experiences', 'description')
+        exclude = ('user', 'avatar', 'educations', 'experiences', 'social_network', 'bookmarks')
         widgets = {
             'social_network': forms.TextInput(),
         }
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name")
 
 
 class ApplyForm(forms.ModelForm):

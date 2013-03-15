@@ -368,7 +368,7 @@ def edit_project(request, pk):
 
 @login_required
 def remove_project(request, pk):
-    try:
+    try: 
         applicant = Applicant.objects.filter(user_id=request.user.id)[0]
         project = Project.objects.get(id=pk, owner=applicant)
         state = False
@@ -484,6 +484,38 @@ def make_profil(request):
         form = ProfileForm()
         return render(request, 'profile/make_profile.html', {'form': form})
 
+
+@login_required
+def create_applicant(request, action="new"):
+    user = User.objects.get(id=request.user.id)
+
+    if action != 'new':
+        applicant = Applicant.objects.get(user_id=request.user.id)
+
+    if request.method == 'POST':
+        form_user = UserForm(request.POST, instance=user)
+        if action != 'new':
+            form_applicant = ApplicantForm(request.POST, instance=applicant)
+        else:
+            form_applicant = ApplicantForm(request.POST)
+
+        if form_user.is_valid() and form_applicant.is_valid():
+            user = form_user.save()
+            app = form_applicant.save(commit=False)
+            if action == 'new':
+                app.user_id = request.user.id
+            app.save()
+            print app
+            # return render(request, 'profile/make_profile.html')
+            # return get_applicant(app.slug)
+            return HttpResponseRedirect(reverse(get_applicant, args=(applicant.slug,)))
+    else :
+        form_user = UserForm(instance=user)
+        if action != 'new':
+            form_applicant = ApplicantForm(instance=applicant)
+        else:
+            form_applicant = ApplicantForm()
+    return render(request, 'profile/make_profile.html', {'form_user': form_user, 'form_applicant': form_applicant})
 
 @login_required
 def follow(request, pk):
