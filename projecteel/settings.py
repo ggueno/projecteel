@@ -150,7 +150,7 @@ INSTALLED_APPS = (
     'taggit',
     'hitcount',
     'taggit_autosuggest',
-    'sorl.thumbnail',
+    'elsewhere',
     'core',
     'tinymce',
     # Uncomment the next line to enable the admin:

@@ -17,6 +17,7 @@
                 <ul class="project-stats threecol last">
                     <li><span>{{ project.views }}</span>vues</li>
                     <li><span class="count-likes">{{project.likes.count}}</span>pushs</li>
+                    {% if project.owner.user.id != request.user.id %}
                     <li>
                         {% if status == 'pushed' %}
                         <a href="/project/unlike/{{project.id}}" id="push" class="active PTbutton">Pushé</a>
@@ -24,6 +25,7 @@
                         <a href="/project/like/{{project.id}}" id="push" class="unactive PTbutton">Push</a>
                         {% endif %}
                     </li>
+                    {% endif %}
                 </ul>
             </div>
 

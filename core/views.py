@@ -13,8 +13,8 @@ from django.db.models import Q, Count, Sum
 
 from core.models import *
 from forms import *
+from elsewhere.forms import SocialNetworkForm
 from django.contrib.auth.decorators import login_required
-from django.template.defaultfilters import removetags
 
 
 def home(request):
@@ -148,7 +148,6 @@ def search_offers(request):
     #     return render_to_response('search/results.html')
 
 
-
 def get_project(request, slug):
     project = Project.objects.get(slug=slug)
 
@@ -229,7 +228,6 @@ def get_participants2(request):
     return response
 
 
-
 def get_participants(request):
     q = ""
     if 'q' in request.GET:
@@ -242,6 +240,7 @@ def get_participants(request):
     response = JSONResponse(choices, {}, response_mimetype(request))
     response['Content-Disposition'] = 'inline; filename=files.json'
     return response
+
 
 def get_list(request, tag):
     q = ""
@@ -285,6 +284,7 @@ def get_list_profile(request, type_profile):
     response['Content-Disposition'] = 'inline; filename=files.json'
     return response
 
+
 def get_my_profile(request):
     app = Applicant.objects.get(user_id=request.user.id)
     return get_applicant(request, app.slug)
@@ -308,7 +308,6 @@ def add_project(request):
             # response = JSONResponse(request.POST, {}, response_mimetype(request))
             # response['Content-Disposition'] = 'inline; filename=files.json'
             # return response
-
 
             if form.is_valid():
                 embed = request.POST.getlist('embed')
@@ -346,7 +345,6 @@ def edit_project(request, pk):
     except Project.DoesNotExist:
         HttpResponseRedirect('/projects/')
 
-
     if project.owner == applicant:
         project = Project.objects.get(id=pk)
         if request.method == 'POST':
@@ -354,13 +352,11 @@ def edit_project(request, pk):
             if form.is_valid():
                 form = ProjectForm(request.POST, request.FILES, instance=project)
                 form.save()
-                slug = project.slug
                 HttpResponseRedirect('/projects/')
-
         else:
             form = ProjectForm(instance=project)
             # thumbnails =
-            return render(request,'project/edit_project.html', {'form': form,})
+            return render(request, 'project/edit_project.html', {'form': form, })
 
     else:
         HttpResponseRedirect('/projects/')
@@ -368,12 +364,12 @@ def edit_project(request, pk):
 
 @login_required
 def remove_project(request, pk):
-    try: 
+    try:
         applicant = Applicant.objects.filter(user_id=request.user.id)[0]
         project = Project.objects.get(id=pk, owner=applicant)
-        state = False
+
         if project.owner == applicant:
-            state = Project.objects.get(id=pk).delete()
+            Project.objects.get(id=pk).delete()
     except Project.DoesNotExist:
         response = JSONResponse(False, {}, response_mimetype(request))
         response['Content-Disposition'] = 'inline; filename=files.json'
@@ -395,6 +391,7 @@ def like2(request, pk):
     likes = Like.objects.filter(project=project).count()
     return HttpResponse(likes)
 
+
 def bookmark(request, state, pk):
     try:
         offer = Offer.objects.get(id=pk)
@@ -404,10 +401,9 @@ def bookmark(request, state, pk):
         else:
             myself.bookmarks.remove(offer)
         myself.save()
-        result = {'state': True }
+        result = {'state': True}
     except Applicant.DoesNotExist:
-        result = { 'state': False, 'message': 'Applicant DoesNotExist'}
-
+        result = {'state': False, 'message': 'Applicant DoesNotExist'}
 
     if request.is_ajax():
         response = JSONResponse(result, {}, response_mimetype(request))
@@ -419,7 +415,6 @@ def bookmark(request, state, pk):
         else:
             #404
             return HttpResponseNotFound('404.html')
-
 
 
 def like(request, pk):
@@ -442,7 +437,6 @@ def like(request, pk):
     else:
         profile = Profile.objects.get(id=pk)
         return HttpResponseRedirect('/profile/' + profile.slug)
-
 
 
 def unlike(request, pk):
@@ -494,6 +488,8 @@ def create_applicant(request, action="new"):
 
     if request.method == 'POST':
         form_user = UserForm(request.POST, instance=user)
+        form_social = SocialNetworkForm(request.POST)
+
         if action != 'new':
             form_applicant = ApplicantForm(request.POST, instance=applicant)
         else:
@@ -504,18 +500,29 @@ def create_applicant(request, action="new"):
             app = form_applicant.save(commit=False)
             if action == 'new':
                 app.user_id = request.user.id
+            else:
+                if form_social.is_valid():
+                    social = form_social.save(commit=False)
+                    social.content_type = ContentType.objects.get_for_model(applicant)
+                    social.object_id = applicant.id
+                    social.save()
+                    app.social_network.add(social)
+
             app.save()
             print app
             # return render(request, 'profile/make_profile.html')
             # return get_applicant(app.slug)
             return HttpResponseRedirect(reverse(get_applicant, args=(applicant.slug,)))
-    else :
+    else:
         form_user = UserForm(instance=user)
+        form_social = {}
         if action != 'new':
+            form_social = SocialNetworkForm()
             form_applicant = ApplicantForm(instance=applicant)
         else:
             form_applicant = ApplicantForm()
-    return render(request, 'profile/make_profile.html', {'form_user': form_user, 'form_applicant': form_applicant})
+    return render(request, 'profile/make_profile.html', {'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social})
+
 
 @login_required
 def follow(request, pk):
@@ -681,7 +688,7 @@ def statusApplication(request, model, pk, slug):
     applicant = Applicant.objects.filter(slug=slug)
     if model == "read":
         ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='READ')
-    else: 
+    else:
         if model == "accept":
             ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='SAVE')
         else:

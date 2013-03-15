@@ -8,10 +8,19 @@
     <form action="/profile/edit/" method="post">
         {% csrf_token %}
         {{ form_user.errors }}
-        {{ form_user.as_p}}
+        <div class="row">
+            {{ form_user.as_p}}
+        </div>
+
+        <div class="row">
+            {{ form_social.as_p}}
+        </div>
 
         {{ form_applicant.errors }}
-        {{ form_applicant.as_p }}
+
+        <div class="row">
+            {{ form_applicant.as_p }}
+        </div>
         <input type="submit">
     </form>
 {% endblock %}

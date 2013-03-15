@@ -94,9 +94,7 @@
       "pk":6,
       "model":"core.company",
       "fields":{
-         "social_network":[
 
-         ],
          "address":[
 
          ]
@@ -106,9 +104,7 @@
       "pk":7,
       "model":"core.company",
       "fields":{
-         "social_network":[
 
-         ],
          "address":[
 
          ]
@@ -123,9 +119,7 @@
          "educations":[
 
          ],
-         "social_network":[
 
-         ],
          "experiences":[
 
          ],
@@ -143,9 +137,7 @@
          "educations":[
 
          ],
-         "social_network":[
 
-         ],
          "experiences":[
 
          ],
@@ -163,9 +155,7 @@
          "educations":[
 
          ],
-         "social_network":[
 
-         ],
          "experiences":[
 
          ],
@@ -183,9 +173,7 @@
          "educations":[
 
          ],
-         "social_network":[
 
-         ],
          "experiences":[
 
          ],
@@ -203,9 +191,7 @@
          "educations":[
 
          ],
-         "social_network":[
 
-         ],
          "experiences":[
 
          ],

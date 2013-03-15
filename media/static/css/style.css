@@ -2431,7 +2431,7 @@ header.menu #menu a:hover {
 }
 .profile .profile_secondbar ul {
   list-style-type: none;
-  overflow: auto;
+  overflow: visible;
   width: 100%;
 }
 .profile .profile_secondbar ul li {
