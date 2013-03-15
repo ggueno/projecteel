@@ -7,6 +7,7 @@ from taggit_autosuggest.managers import TaggableManager
 from sorl.thumbnail import get_thumbnail, fields
 from django.core.files.base import ContentFile
 from django.core.validators import MaxLengthValidator
+from elsewhere.models import SocialNetworkProfile
 # from utils import Address, Country
 from hitcount.models import *
 from tinymce import models as tinymce_models
@@ -44,20 +45,13 @@ class Address(models.Model):
                            "city", "country")
 
 
-class SocialNetwork(models.Model):
-    name = models.CharField(max_length=100, blank=False)
-    url = models.URLField(blank=False)
-
-    def __unicode__(self):
-        return "%s" % (self.name)
-
-
 class Profile(models.Model):
     slug = AutoSlugField(populate_from=lambda instance: u'%s' % (instance.name), unique=True, always_update=True)
     user = models.ForeignKey(User, blank=True, null=True)
     date_signin = models.DateField(auto_now=True, auto_now_add=True)
     name = models.CharField(max_length=150)
     avatar = fields.ImageField(upload_to="upload/images/avatar", blank=True, null=True)
+    cover_image = fields.ImageField(upload_to="upload/images/cover_image", blank=True, null=True)
     description = models.TextField(blank=False, null=False)
     url = models.URLField(blank=True, null=True)
 
@@ -68,6 +62,20 @@ class Profile(models.Model):
     #         //self.avatar.save(resized.name, ContentFile(resized.read()), True)
     #     super(Profile, self).save(*args, **kwargs)
 
+    def save(self, *args, **kwargs):
+        print 'SAVE'
+        this = Profile.objects.get(id=self.id)
+        if this.cover_image:
+            if this.cover_image != self.cover_image: 
+                this.cover_image.delete(save=False)
+        else:
+            print "NO COVER"
+        super(Profile, self).save(*args, **kwargs)
+        resized = get_thumbnail(self.cover_image, "1140x277", crop='center', quality=99)
+        self.cover_image.delete(save=False)
+        self.cover_image.save(resized.name, ContentFile(resized.read()), save=False)
+        super(Profile, self).save(*args, **kwargs)
+
     def __unicode__(self):
         return "%s" % (self.name)
 
@@ -75,7 +83,7 @@ class Profile(models.Model):
 class Company(Profile):
     #django enum : TODO
     address = models.ManyToManyField(Address, blank=True, null=True)
-    social_network = models.ManyToManyField(SocialNetwork, blank=True, null=True)
+    social_network = models.ManyToManyField(SocialNetworkProfile, blank=True, null=True)
 
     def __unicode__(self):
         return "%s" % (self.name)
@@ -90,7 +98,7 @@ class School(Profile):
 class Applicant(Profile):
     profession = models.CharField(max_length=100, blank=False, null=False)
     search_location = models.CharField(max_length=100, blank=True, null=True)
-    social_network = models.ManyToManyField(SocialNetwork, blank=True, null=True)
+    social_network = models.ManyToManyField(SocialNetworkProfile, blank=True, null=True)
     educations = models.ManyToManyField('Education', blank=True, null=True)
     experiences = models.ManyToManyField('Experience', blank=True, null=True)
     bookmarks = models.ManyToManyField('Offer', blank=True, null=True)

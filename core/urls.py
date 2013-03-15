@@ -50,10 +50,12 @@ urlpatterns = patterns('',
     url(r'^profile/unfollow/(?P<pk>\d+)/$', views.unfollow),
     url(r'^profile/company/(?P<slug>[^\.]+)/$', views.get_company),
     url(r'^profile/school/(?P<slug>[^\.]+)/$', views.get_school),
+    url(r'^profile/update_cover/$', views.update_profile_cover),
     url(r'^profile/(?P<slug>[^\.]+)/followers/$', views.get_follow_profiles, {'type_url': 'followers'}),
     url(r'^profile/(?P<slug>[^\.]+)/following/$', views.get_follow_profiles, {'type_url': 'following'}),
     url(r'^profile/(?P<slug>[^\.]+)/$', views.get_applicant, name="profile_view"),
     url(r'^profile/$', views.get_my_profile),
+
 
     url(r'^education/add/$', views.add_education),
     url(r'^education/delete/(?P<pk>\d+)$', views.delete_education),

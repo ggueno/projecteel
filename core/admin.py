@@ -4,7 +4,6 @@ from sorl.thumbnail.admin import AdminImageMixin
 
 admin.site.register(Country)
 admin.site.register(Address)
-admin.site.register(SocialNetwork)
 admin.site.register(Profile)
 admin.site.register(Company)
 admin.site.register(School)

@@ -1,0 +1,12 @@
+{% extends "layout/base.html" %}
+
+
+{% block content %}
+    <div class="row">
+        <form action="/profile/update_cover/" enctype="multipart/form-data" method="POST" class="sixcol PTform">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ c.csrf_token }}">
+            {{ form.as_p }}
+            <input type="submit" value="Envoyer">
+        </form>
+    </div>
+{% endblock %}

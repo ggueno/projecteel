@@ -63,7 +63,18 @@ class ProjectForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        exclude = ('user', 'date_signin', 'avatar')
+        exclude = ('user', 'date_signin', 'avatar','cover_image')
+
+
+class CoverImageForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('id','cover_image')
+
+    def __init__(self, *args, **kwargs):
+        super(CoverImageForm, self).__init__(*args, **kwargs)
+        self.fields['cover_image'].widget.attrs['name'] = "files\[\]"
+        self.fields['cover_image'].widget.attrs['data-url'] = "/profile/update_cover/"
 
 
 class OfferForm(forms.ModelForm):

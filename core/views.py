@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response, render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import CreateView, DeleteView
 from django.template import RequestContext
+from django.core.context_processors import csrf
 
 from datetime import datetime, timedelta
 
@@ -13,8 +14,8 @@ from django.db.models import Q, Count, Sum
 
 from core.models import *
 from forms import *
+from elsewhere.forms import SocialNetworkForm
 from django.contrib.auth.decorators import login_required
-from django.template.defaultfilters import removetags
 
 
 def home(request):
@@ -148,7 +149,6 @@ def search_offers(request):
     #     return render_to_response('search/results.html')
 
 
-
 def get_project(request, slug):
     project = Project.objects.get(slug=slug)
 
@@ -229,7 +229,6 @@ def get_participants2(request):
     return response
 
 
-
 def get_participants(request):
     q = ""
     if 'q' in request.GET:
@@ -242,6 +241,7 @@ def get_participants(request):
     response = JSONResponse(choices, {}, response_mimetype(request))
     response['Content-Disposition'] = 'inline; filename=files.json'
     return response
+
 
 def get_list(request, tag):
     q = ""
@@ -285,9 +285,40 @@ def get_list_profile(request, type_profile):
     response['Content-Disposition'] = 'inline; filename=files.json'
     return response
 
+
 def get_my_profile(request):
     app = Applicant.objects.get(user_id=request.user.id)
     return get_applicant(request, app.slug)
+
+
+@login_required
+def update_profile_cover(request):
+
+    if request.method == 'POST':
+        myself = Profile.objects.get(id=request.user.id)
+        form = CoverImageForm(request.POST, request.FILES, instance=myself)
+
+        if form.is_valid():
+            cover = form.save()
+            if request.is_ajax():
+                result = { 'state': True, 'image_src': cover.cover_image.url}
+                response = JSONResponse(result, {}, response_mimetype(request))
+                response['Content-Disposition'] = 'inline; filename=files.json'
+                return response
+            else:
+                return HttpResponseRedirect('/profile/')
+        else:
+            print "FALSE"
+            form = CoverImageForm(instance=myself)
+            return render_to_response('profile/update_cover.html',form)
+
+
+    else:
+        c = {}
+        c.update(csrf(request))
+        form = CoverImageForm()
+        return render_to_response('profile/update_cover.html',{'form' : form, 'c': c})
+        
 
 
 @login_required
@@ -308,7 +339,6 @@ def add_project(request):
             # response = JSONResponse(request.POST, {}, response_mimetype(request))
             # response['Content-Disposition'] = 'inline; filename=files.json'
             # return response
-
 
             if form.is_valid():
                 embed = request.POST.getlist('embed')
@@ -342,10 +372,9 @@ def edit_project(request, pk):
         applicant = Applicant.objects.filter(user_id=request.user.id)[0]
         project = Project.objects.get(id=pk, owner=applicant)
     except Applicant.DoesNotExist:
-        HttpResponseRedirect('/projects/')
+        return HttpResponseRedirect('/projects/')
     except Project.DoesNotExist:
-        HttpResponseRedirect('/projects/')
-
+        return HttpResponseRedirect('/projects/')
 
     if project.owner == applicant:
         project = Project.objects.get(id=pk)
@@ -355,25 +384,24 @@ def edit_project(request, pk):
                 form = ProjectForm(request.POST, request.FILES, instance=project)
                 form.save()
                 slug = project.slug
-                HttpResponseRedirect('/projects/')
-
+                return HttpResponseRedirect('/projects/')
         else:
             form = ProjectForm(instance=project)
             # thumbnails =
-            return render(request,'project/edit_project.html', {'form': form,})
+            return render(request, 'project/edit_project.html', {'form': form, })
 
     else:
-        HttpResponseRedirect('/projects/')
+        return HttpResponseRedirect('/projects/')
 
 
 @login_required
 def remove_project(request, pk):
-    try: 
+    try:
         applicant = Applicant.objects.filter(user_id=request.user.id)[0]
         project = Project.objects.get(id=pk, owner=applicant)
-        state = False
+
         if project.owner == applicant:
-            state = Project.objects.get(id=pk).delete()
+            Project.objects.get(id=pk).delete()
     except Project.DoesNotExist:
         response = JSONResponse(False, {}, response_mimetype(request))
         response['Content-Disposition'] = 'inline; filename=files.json'
@@ -395,6 +423,7 @@ def like2(request, pk):
     likes = Like.objects.filter(project=project).count()
     return HttpResponse(likes)
 
+
 def bookmark(request, state, pk):
     try:
         offer = Offer.objects.get(id=pk)
@@ -404,10 +433,9 @@ def bookmark(request, state, pk):
         else:
             myself.bookmarks.remove(offer)
         myself.save()
-        result = {'state': True }
+        result = {'state': True}
     except Applicant.DoesNotExist:
-        result = { 'state': False, 'message': 'Applicant DoesNotExist'}
-
+        result = {'state': False, 'message': 'Applicant DoesNotExist'}
 
     if request.is_ajax():
         response = JSONResponse(result, {}, response_mimetype(request))
@@ -419,7 +447,6 @@ def bookmark(request, state, pk):
         else:
             #404
             return HttpResponseNotFound('404.html')
-
 
 
 def like(request, pk):
@@ -442,7 +469,6 @@ def like(request, pk):
     else:
         profile = Profile.objects.get(id=pk)
         return HttpResponseRedirect('/profile/' + profile.slug)
-
 
 
 def unlike(request, pk):
@@ -478,7 +504,7 @@ def make_profil(request):
             profile = form.save(commit=False)
             profile.user = user
             profile.save()
-            HttpResponseRedirect('/projects')
+            return HttpResponseRedirect('/projects')
 
     else:
         form = ProfileForm()
@@ -494,6 +520,8 @@ def create_applicant(request, action="new"):
 
     if request.method == 'POST':
         form_user = UserForm(request.POST, instance=user)
+        form_social = SocialNetworkForm(request.POST)
+
         if action != 'new':
             form_applicant = ApplicantForm(request.POST, instance=applicant)
         else:
@@ -504,18 +532,29 @@ def create_applicant(request, action="new"):
             app = form_applicant.save(commit=False)
             if action == 'new':
                 app.user_id = request.user.id
+            else:
+                if form_social.is_valid():
+                    social = form_social.save(commit=False)
+                    social.content_type = ContentType.objects.get_for_model(applicant)
+                    social.object_id = applicant.id
+                    social.save()
+                    app.social_network.add(social)
+
             app.save()
             print app
             # return render(request, 'profile/make_profile.html')
             # return get_applicant(app.slug)
             return HttpResponseRedirect(reverse(get_applicant, args=(applicant.slug,)))
-    else :
+    else:
         form_user = UserForm(instance=user)
+        form_social = {}
         if action != 'new':
+            form_social = SocialNetworkForm()
             form_applicant = ApplicantForm(instance=applicant)
         else:
             form_applicant = ApplicantForm()
-    return render(request, 'profile/make_profile.html', {'form_user': form_user, 'form_applicant': form_applicant})
+    return render(request, 'profile/make_profile.html', {'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social})
+
 
 @login_required
 def follow(request, pk):
@@ -955,7 +994,8 @@ def get_applicant(request, slug):
         'formEducation': formEducation,
         'formExperience': formExperience,
         # 'pushs': Applicant.objects.push_user()
-        'pushs': Project.objects.push_user(profile.user_id)
+        'pushs': Project.objects.push_user(profile.user_id),
+        'coverImageForm' : CoverImageForm()
     }
     return render(request, 'profile/profile_applicant.html', context)
 

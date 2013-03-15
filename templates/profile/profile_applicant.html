@@ -1,6 +1,8 @@
 {% extends "layout/base.html" %}
 {% load staticfiles %}
 {% load projects %}
+{% load thumbnail %}
+{% load elsewhere_tags %}
 
 {% block title %} {{ profile.slug }}'s profile{% endblock %}
 
@@ -9,7 +11,21 @@
         <section class="row profile">
             <div class="sleekbox">
                 <div class="profile_cover">
-                    <img src="{% static "img/profile_cover.jpg" %}" alt="Cover image">
+                    {% if profile.user.id == request.user.id %}
+                        <button class="PTbutton mini" id="update_cover">Changer ma couverture</button>
+                        <form id="update_cover_form" action="/profile/update_cover/" enctype="multipart/form-data" method="POST" class="sixcol PTform">
+                            {% csrf_token %}
+                            {{ coverImageForm.as_p }}
+                        </form>
+                    {% endif %}   
+                    {% if profile.cover_image %} 
+                        {# {% thumbnail profile.cover_image "1140x277" crop="noop" as im %} #}
+                            <!--<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" id="cover_image">-->
+                            <img src="{{ profile.cover_image.url }}" alt="" id="cover_image">
+                        {# {% endthumbnail %} #}
+                    {%else%}
+                        <img src="{% static "img/profile_cover.jpg" %}" alt="Cover image" id="cover_image">
+                    {% endif %}
                     <div class="profile_cover_infobar row">
 
                         <h1 id="name" class="blackTitle">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
@@ -20,8 +36,8 @@
                             {%else%}
                                  <a class="PTbutton unactive follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
                             {% endif %}
-
-
+                        {% else %}
+                             <a class="PTbutton" href="/profile/edit/"><i>Edit</i></a>
                         {% endif %}
 
                         <ul class="fourcol last profile_stats">
@@ -65,9 +81,11 @@
 
 
                         {% if profile.social_network %}
+
                         <li class="last">
-                        {% for sn in profile.social_network.all %}
-                        <a href="{{sn.url}}" title=""><i class="icon {{sn.name}}"></i>{{sn.name}}</a>
+                        {% for socialnetwork in profile.social_network.all %}
+
+                        <a href="{{socialnetwork.url }}" class="tooltip" data-tooltip="{{socialnetwork.username}}" title=""><img src="{{ socialnetwork.network.icon_url }}" ></a>
                         {% endfor %}
                         </li>
                         {% endif %}
@@ -141,6 +159,11 @@
 {% endblock %}
 
 {% block js %}
+
+<script src="{{ STATIC_URL }}js/load-image.min.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.iframe-transport.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.fileupload.js"></script>
+<script src="{{ STATIC_URL }}js/csrf.js"></script>
 <script>
     $(document).ready(function(){
 
@@ -268,6 +291,21 @@
                     cur.find('.form-content').html(form.data);
                 }
             });
+        });
+
+        $('#id_cover_image').fileupload({
+            dataType: 'json',
+            maxFileSize: 1000000,
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            done: function (e, data) {
+                $(".profile_cover #cover_image").fadeOut(800,function(){
+                    $(this).attr('src',data.result.image_src).fadeIn(800);
+                });
+            },
+        });
+
+        $('#update_cover').on('click',function(){
+            $('input[type=file]#id_cover_image').trigger('click');
         });
 
         // $(".following").hover(function(){
