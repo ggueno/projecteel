@@ -63,18 +63,30 @@ class Profile(models.Model):
     #     super(Profile, self).save(*args, **kwargs)
 
     def save(self, *args, **kwargs):
-        print 'SAVE'
+        print self.cover_image
+        print kwargs
         this = Profile.objects.get(id=self.id)
+
         if this.cover_image:
-            if this.cover_image != self.cover_image: 
+            change = True
+            if this.cover_image != self.cover_image:
                 this.cover_image.delete(save=False)
         else:
-            print "NO COVER"
+            change = False
+
+        if self.cover_image:
+            print "Something Image"
+
+        if change:
+            print "change"
+
+
         super(Profile, self).save(*args, **kwargs)
-        resized = get_thumbnail(self.cover_image, "1140x277", crop='center', quality=99)
-        self.cover_image.delete(save=False)
-        self.cover_image.save(resized.name, ContentFile(resized.read()), save=False)
-        super(Profile, self).save(*args, **kwargs)
+        if self.cover_image or change:
+            resized = get_thumbnail(self.cover_image, "1140x277", crop='center', quality=99)
+            self.cover_image.delete(save=False)
+            self.cover_image.save(resized.name, ContentFile(resized.read()), save=False)
+            super(Profile, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return "%s" % (self.name)
