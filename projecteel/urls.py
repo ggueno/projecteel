@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     (r'^taggit_autosuggest/', include('taggit_autosuggest.urls')),
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root':  settings.MEDIA_ROOT}),
     (r'^tinymce/', include('tinymce.urls')),
+    (r'^elsewhere/', include('elsewhere.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

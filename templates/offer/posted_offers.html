@@ -34,8 +34,11 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
-                    {% if offer.vacancy == 0 %}
-                        <p>Offre pourvue</p>
+
+                    {% if offer.vacancy %}
+                        <a href="/offer/vacancy/unadd/{{offer.id}}" id="vacancy" class="active PTbutton">Pourvue</a>
+                    {% else %}
+                        <a href="/offer/vacancy/add/{{offer.id}}" id="vacancy" class="unactive PTbutton">A pourvoir</a>
                     {% endif %}
                 </div>
                 <div class="right">
@@ -60,5 +63,18 @@
 
     {% endif %}
 </div>
+
+{% endblock %}
+
+{% block js %}
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+        onoff_button('#vacancy', 'add', "Pourvue", "A pourvoir");
+
+    });
+</script>
 
 {% endblock %}

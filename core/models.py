@@ -7,6 +7,7 @@ from taggit_autosuggest.managers import TaggableManager
 from sorl.thumbnail import get_thumbnail, fields
 from django.core.files.base import ContentFile
 from django.core.validators import MaxLengthValidator
+from elsewhere.models import SocialNetworkProfile
 # from utils import Address, Country
 from hitcount.models import *
 from tinymce import models as tinymce_models
@@ -42,14 +43,6 @@ class Address(models.Model):
         verbose_name_plural = "Addresses"
         unique_together = ("address_line1", "address_line2", "postal_code",
                            "city", "country")
-
-
-class SocialNetwork(models.Model):
-    name = models.CharField(max_length=100, blank=False)
-    url = models.URLField(blank=False)
-
-    def __unicode__(self):
-        return "%s" % (self.name)
 
 
 class Profile(models.Model):
@@ -90,7 +83,7 @@ class Profile(models.Model):
 class Company(Profile):
     #django enum : TODO
     address = models.ManyToManyField(Address, blank=True, null=True)
-    social_network = models.ManyToManyField(SocialNetwork, blank=True, null=True)
+    social_network = models.ManyToManyField(SocialNetworkProfile, blank=True, null=True)
 
     def __unicode__(self):
         return "%s" % (self.name)
@@ -105,7 +98,7 @@ class School(Profile):
 class Applicant(Profile):
     profession = models.CharField(max_length=100, blank=False, null=False)
     search_location = models.CharField(max_length=100, blank=True, null=True)
-    social_network = models.ManyToManyField(SocialNetwork, blank=True, null=True)
+    social_network = models.ManyToManyField(SocialNetworkProfile, blank=True, null=True)
     educations = models.ManyToManyField('Education', blank=True, null=True)
     experiences = models.ManyToManyField('Experience', blank=True, null=True)
     bookmarks = models.ManyToManyField('Offer', blank=True, null=True)

@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load projects %}
 {% load thumbnail %}
+{% load elsewhere_tags %}
 
 {% block title %} {{ profile.slug }}'s profile{% endblock %}
 
@@ -35,8 +36,8 @@
                             {%else%}
                                  <a class="PTbutton unactive follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
                             {% endif %}
-
-
+                        {% else %}
+                             <a class="PTbutton" href="/profile/edit/"><i>Edit</i></a>
                         {% endif %}
 
                         <ul class="fourcol last profile_stats">
@@ -80,9 +81,11 @@
 
 
                         {% if profile.social_network %}
+
                         <li class="last">
-                        {% for sn in profile.social_network.all %}
-                        <a href="{{sn.url}}" title=""><i class="icon {{sn.name}}"></i>{{sn.name}}</a>
+                        {% for socialnetwork in profile.social_network.all %}
+
+                        <a href="{{socialnetwork.url }}" class="tooltip" data-tooltip="{{socialnetwork.username}}" title=""><img src="{{ socialnetwork.network.icon_url }}" ></a>
                         {% endfor %}
                         </li>
                         {% endif %}

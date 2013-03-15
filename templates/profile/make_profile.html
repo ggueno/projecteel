@@ -5,14 +5,22 @@
 {% block title %} {{ profile.slug }}'s profile{% endblock %}
 
 {% block content %}
-    <form action="/profile/make/" method="post">
+    <form action="/profile/edit/" method="post">
         {% csrf_token %}
-        {{ form.errors }}
-        {{ form.name.label }} : {{ form.name }}
-        {{ form.avatar.label }}
-        {{ form.avatar }}
-        {{ form.url.label }} : {{ form.url }}
-        {{ form.description.label }} : {{ form.description }}
+        {{ form_user.errors }}
+        <div class="row">
+            {{ form_user.as_p}}
+        </div>
+
+        <div class="row">
+            {{ form_social.as_p}}
+        </div>
+
+        {{ form_applicant.errors }}
+
+        <div class="row">
+            {{ form_applicant.as_p }}
+        </div>
         <input type="submit">
     </form>
 {% endblock %}

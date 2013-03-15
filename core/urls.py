@@ -32,18 +32,19 @@ urlpatterns = patterns('',
 
 
     url(r'^offers/$', views.offers_all),
+    url(r'^offer/vacancy/(?P<state>[^\.]+)/(?P<pk>\d+)$', views.vacancy),
     url(r'^offer/bookmark/(?P<state>[^\.]+)/(?P<pk>\d+)$', views.bookmark),
     url(r'^offers/search/$', views.search_offers, {}, 'offers-search'),
     url(r'^offer/posted_offers/$', views.posted_offers),
     url(r'^offer/apply/$', views.apply_offer),
-
-    url(r'^offer/(?P<model>\w+)/$', views.edit_offer),
     url(r'^offer/(?P<model>\w+)/(?P<pk>\d+)/$', views.edit_offer),
+    url(r'^offer/(?P<model>\w+)/$', views.edit_offer),
+    url(r'^offer/statusApplication/(?P<model>\w+)/(?P<pk>\d+)/(?P<slug>[^\.]+)$', views.statusApplication),
+    url(r'^offer/get/(?P<slug>[^\.]+)/$', views.get_offer, name="offer_view"),
 
-    url(r'^offer/(?P<slug>[^\.]+)/$', views.get_offer, name="offer_view"),
 
-
-    url(r'^profile/make/$', views.make_profil),
+    url(r'^profile/create/$', views.create_applicant, {'action': 'new'}),
+    url(r'^profile/edit/$', views.create_applicant, {'action': 'edit'}),
     url(r'^profile/update/$', views.update_applicant, name="profile-update"),
     url(r'^profile/follow/(?P<pk>\d+)/$', views.follow),
     url(r'^profile/unfollow/(?P<pk>\d+)/$', views.unfollow),
