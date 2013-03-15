@@ -15,29 +15,39 @@
     <section class="row">
         <div class="sleekbox">
             <div class="content">
-                <h1 class="heading">Candidats qui ont postulés</h1>
-                {% if applicantsOffer %}
-                    <ul>
-                    {% for applicantOffer in applicantsOffer %}
-                        <li>
-                            {% thumbnail applicantOffer.applicant.avatar "50x50" crop="left" as im %}
-                                <a href="/profile/{{ applicantOffer.applicant.slug }}" data-tooltip="{{ applicantOffer.applicant.user}}" class="tooltip">
-                                <img src="{{im.url}}" alt="{{ applicantOffer.applicant.name }}"/>
-                                </a>
-                            {% endthumbnail %}
-                            <p>{{ applicantOffer.applicant }}</p>
-                            <a class="view-candidature" href="/offer/statusApplication/read/{{applicantOffer.id}}/{{applicantOffer.applicant.slug}}" id="{{applicantOffer.id}}">Voir la candidature</a>
-                            <div class="content-application" style="background-color:#ffa8a8" id="application{{applicantOffer.id}}">
-                                <p>{{ applicantOffer.content }}</p>
-                                <a href="/offer/statusApplication/accept/{{applicantOffer.offer_id}}/{{applicantOffer.applicant.slug}}">Accepter cette candidature</a>
-                                <a href="/offer/statusApplication/decline/{{applicantOffer.offer_id}}/{{applicantOffer.applicant.slug}}">Refuser cette candidature</a>
-                            </div>
-                        </li>
-                    {% endfor %}
-                    </ul>
+
+                {% if form.vacancy == 1 %}
+
+                    <p>Cette offre a été pourvue.</p>
+
                 {% else %}
-                    <p>Aucune candidature</p>
+
+                    <h1 class="heading">Candidats qui ont postulés</h1>
+                    {% if applicantsOffer %}
+                        <ul>
+                        {% for applicantOffer in applicantsOffer %}
+                            <li>
+                                {% thumbnail applicantOffer.applicant.avatar "50x50" crop="left" as im %}
+                                    <a href="/profile/{{ applicantOffer.applicant.slug }}" data-tooltip="{{ applicantOffer.applicant.user}}" class="tooltip">
+                                    <img src="{{im.url}}" alt="{{ applicantOffer.applicant.name }}"/>
+                                    </a>
+                                {% endthumbnail %}
+                                <p>{{ applicantOffer.applicant }}</p>
+                                <a class="view-candidature" href="/offer/statusApplication/read/{{applicantOffer.id}}/{{applicantOffer.applicant.slug}}" id="{{applicantOffer.id}}">Voir la candidature</a>
+                                <div class="content-application" style="background-color:#ffa8a8" id="application{{applicantOffer.id}}">
+                                    <p>{{ applicantOffer.content }}</p>
+                                    <a href="/offer/statusApplication/accept/{{applicantOffer.offer_id}}/{{applicantOffer.applicant.slug}}">Accepter cette candidature</a>
+                                    <a href="/offer/statusApplication/decline/{{applicantOffer.offer_id}}/{{applicantOffer.applicant.slug}}">Refuser cette candidature</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Aucune candidature</p>
+                    {% endif %}
+
                 {% endif %}
+
             </div>
         </div>
 

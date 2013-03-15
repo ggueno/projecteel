@@ -443,7 +443,7 @@ def bookmark(request, state, pk):
         return response
     else:
         if result['state']:
-            return HttpResponseRedirect('/offer/'+offer.slug)
+            return HttpResponseRedirect('/offer/get/'+offer.slug)
         else:
             #404
             return HttpResponseNotFound('404.html')
@@ -667,7 +667,7 @@ def apply_offer(request):
     else:
         #TODO : urls /offer/<id>
         if data != False:
-            return HttpResponseRedirect('/offer/' + offer.slug)
+            return HttpResponseRedirect('/offer/get/' + offer.slug)
         else:
             return HttpResponseRedirect('/offers/')
 
@@ -718,11 +718,12 @@ def statusApplication(request, model, pk, slug):
     application = ApplicantOffer.objects.get(id=pk)
     offer = application.offer
     applicant = Applicant.objects.filter(slug=slug)
-    if model == "read":
+    if model == "read" and (application.state is 'SAVE' or 'FAIL'):
         ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='READ')
-    else:
-        if model == "accept":
+    else: 
+        if model == "accept" and (ApplicantOffer.objects.filter(offer=offer).count > 1):
             ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='SAVE')
+            Offer.objects.filter(id=application.offer.id).update(vacancy=True)
         else:
             if model == "decline":
                 ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='FAIL')
@@ -761,9 +762,9 @@ def edit_offer(request, model=None, pk=None):
             form = OfferForm(request.POST)
             if form.is_valid():
                 form = OfferForm(request.POST, request.FILES, instance=offer)
+                print form
                 form.save()
-                slug = offer.slug
-                return get_offer(request, slug)
+                return get_offer(request, offer.slug)
         else:
             form = OfferForm(instance=offer)
         return render(request, 'offer/edit_offer.html', {'form': form, 'model': model, 'applicantsOffer': applicantsOffer})
