@@ -58,6 +58,7 @@ class Profile(models.Model):
     date_signin = models.DateField(auto_now=True, auto_now_add=True)
     name = models.CharField(max_length=150)
     avatar = fields.ImageField(upload_to="upload/images/avatar", blank=True, null=True)
+    cover_image = fields.ImageField(upload_to="upload/images/cover_image", blank=True, null=True)
     description = models.TextField(blank=False, null=False)
     url = models.URLField(blank=True, null=True)
 
@@ -67,6 +68,20 @@ class Profile(models.Model):
     #         //resized = get_thumbnail(self.avatar, "180x180")
     #         //self.avatar.save(resized.name, ContentFile(resized.read()), True)
     #     super(Profile, self).save(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        print 'SAVE'
+        this = Profile.objects.get(id=self.id)
+        if this.cover_image:
+            if this.cover_image != self.cover_image: 
+                this.cover_image.delete(save=False)
+        else:
+            print "NO COVER"
+        super(Profile, self).save(*args, **kwargs)
+        resized = get_thumbnail(self.cover_image, "1140x277", crop='center', quality=99)
+        self.cover_image.delete(save=False)
+        self.cover_image.save(resized.name, ContentFile(resized.read()), save=False)
+        super(Profile, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return "%s" % (self.name)

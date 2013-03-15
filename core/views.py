@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response, render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import CreateView, DeleteView
 from django.template import RequestContext
+from django.core.context_processors import csrf
 
 from datetime import datetime, timedelta
 
@@ -285,9 +286,40 @@ def get_list_profile(request, type_profile):
     response['Content-Disposition'] = 'inline; filename=files.json'
     return response
 
+
 def get_my_profile(request):
     app = Applicant.objects.get(user_id=request.user.id)
     return get_applicant(request, app.slug)
+
+
+@login_required
+def update_profile_cover(request):
+
+    if request.method == 'POST':
+        myself = Profile.objects.get(id=request.user.id)
+        form = CoverImageForm(request.POST, request.FILES, instance=myself)
+
+        if form.is_valid():
+            cover = form.save()
+            if request.is_ajax():
+                result = { 'state': True, 'image_src': cover.cover_image.url}
+                response = JSONResponse(result, {}, response_mimetype(request))
+                response['Content-Disposition'] = 'inline; filename=files.json'
+                return response
+            else:
+                return HttpResponseRedirect('/profile/')
+        else:
+            print "FALSE"
+            form = CoverImageForm(instance=myself)
+            return render_to_response('profile/update_cover.html',form)
+
+
+    else:
+        c = {}
+        c.update(csrf(request))
+        form = CoverImageForm()
+        return render_to_response('profile/update_cover.html',{'form' : form, 'c': c})
+        
 
 
 @login_required
@@ -342,9 +374,9 @@ def edit_project(request, pk):
         applicant = Applicant.objects.filter(user_id=request.user.id)[0]
         project = Project.objects.get(id=pk, owner=applicant)
     except Applicant.DoesNotExist:
-        HttpResponseRedirect('/projects/')
+        return HttpResponseRedirect('/projects/')
     except Project.DoesNotExist:
-        HttpResponseRedirect('/projects/')
+        return HttpResponseRedirect('/projects/')
 
 
     if project.owner == applicant:
@@ -355,7 +387,7 @@ def edit_project(request, pk):
                 form = ProjectForm(request.POST, request.FILES, instance=project)
                 form.save()
                 slug = project.slug
-                HttpResponseRedirect('/projects/')
+                return HttpResponseRedirect('/projects/')
 
         else:
             form = ProjectForm(instance=project)
@@ -363,7 +395,7 @@ def edit_project(request, pk):
             return render(request,'project/edit_project.html', {'form': form,})
 
     else:
-        HttpResponseRedirect('/projects/')
+        return HttpResponseRedirect('/projects/')
 
 
 @login_required
@@ -478,7 +510,7 @@ def make_profil(request):
             profile = form.save(commit=False)
             profile.user = user
             profile.save()
-            HttpResponseRedirect('/projects')
+            return HttpResponseRedirect('/projects')
 
     else:
         form = ProfileForm()
@@ -867,7 +899,8 @@ def get_applicant(request, slug):
         'formEducation': formEducation,
         'formExperience': formExperience,
         # 'pushs': Applicant.objects.push_user()
-        'pushs': Project.objects.push_user(profile.user_id)
+        'pushs': Project.objects.push_user(profile.user_id),
+        'coverImageForm' : CoverImageForm()
     }
     return render(request, 'profile/profile_applicant.html', context)
 

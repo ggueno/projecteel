@@ -188,7 +188,6 @@ i.icon.delete {
   margin: 0;
 }
 .PTbutton {
-  width: 115px;
   height: 26px;
   margin: 5px 0;
   letter-spacing: -0.05em;
@@ -204,8 +203,9 @@ i.icon.delete {
   border-bottom: 1px solid #007cbb;
   color: #FFF;
   text-align: center;
-  padding: 3px 6px;
+  padding: 5px 6px;
   height: 38px;
+  display: inline-block;
   font-weight: 400;
   line-height: 2em;
   text-transform: uppercase;
@@ -259,6 +259,11 @@ i.icon.delete {
   background-color: red;
   border-color: #cc0000;
   color: white;
+}
+.PTbutton.mini {
+  font-size: 8pt;
+  height: auto;
+  line-height: 1.2em;
 }
 .PTbutton i.icon {
   margin-left: -10px;
@@ -777,6 +782,30 @@ header.menu #menu a:hover {
   height: 277px;
   overflow: hidden;
 }
+.profile .profile_cover #update_cover {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+  opacity: 0;
+  -webkit-animation: opacity 1s ease;
+  -moz-animation: opacity 1s ease;
+  -ms-animation: opacity 1s ease;
+  -o-animation: opacity 1s ease;
+  animation: opacity 1s ease;
+}
+.profile .profile_cover:hover #update_cover {
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
+}
+.profile .profile_cover #update_cover_form {
+  display: none;
+}
+.profile .profile_cover #cover_image {
+  width: 100%;
+}
 .profile .profile_cover .profile_cover_infobar {
   height: 42px;
   position: absolute;
@@ -999,9 +1028,9 @@ header.menu #menu a:hover {
   height: 48px;
   z-index: 10;
   position: absolute;
-  filter: alpha(opacity=1);
-  -moz-opacity: 0.01;
-  opacity: 0.01;
+  -webkit-opacity: 0.1;
+  -moz-opacity: 0.1;
+  opacity: 0.1;
   cursor: pointer;
 }
 .PTform .file-wrap input[type=text] {
@@ -1011,7 +1040,6 @@ header.menu #menu a:hover {
   border: none;
   border-bottom: 1px solid #007cbb;
   background: #0099e6;
-  width: 115px;
   height: 26px;
   color: #FFF;
   margin: 5px 0;

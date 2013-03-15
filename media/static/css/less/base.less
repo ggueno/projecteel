@@ -199,8 +199,9 @@ i.icon{
     border-bottom:1px solid #007cbb;
     color:#FFF;
     text-align:center;
-    padding:3px 6px;
+    padding:5px 6px;
     height:38px;
+    display: inline-block;
     font-weight:400;
     line-height:2em;
     text-transform:uppercase;
@@ -249,6 +250,12 @@ i.icon{
             border-color: darken(red, 10%);
             color: white;
         }
+    }
+
+    &.mini{
+        font-size: 8pt;
+        height: auto;
+        line-height: 1.2em;
     }
 
     i.icon{
@@ -768,6 +775,28 @@ header.menu{
         position: relative;
         height: 277px;
         overflow: hidden;
+        #update_cover{
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            .opacity(0);
+            -webkit-animation: opacity 1s ease;
+               -moz-animation: opacity 1s ease;
+                -ms-animation: opacity 1s ease;
+                 -o-animation: opacity 1s ease;
+                    animation: opacity 1s ease;
+        }
+        &:hover{
+            #update_cover{
+                .opacity(1);
+            }
+        }
+        #update_cover_form{
+            display: none;
+        }
+        #cover_image{
+            width: 100%;
+        }
         .profile_cover_infobar{
             height: 42px;
             position: absolute;
@@ -961,9 +990,7 @@ header.menu{
             height: 48px;
             z-index: 10;
             position: absolute;
-            filter: alpha(opacity=1);
-            -moz-opacity: 0.01;
-            opacity: 0.01;
+            .opacity(0.1);
             cursor: pointer;
         }
         input[type=text]{

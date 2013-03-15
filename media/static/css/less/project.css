@@ -74,7 +74,6 @@ img.project-content {
   text-align: center;
 }
 #project-author .applicant-mini a {
-  color: inherit;
   -webkit-transition: color .15s ease;
   -moz-transition: color .15s ease;
   -o-transition: color .15s ease;
@@ -138,4 +137,48 @@ img.project-content {
   font-weight: 400;
   font-size: 1.2em;
   padding: 20px 20px 5px 20px;
+}
+.container-filter {
+  height: 48px;
+  width: 100%;
+  background-color: white;
+  border-top: #cdcdcd 1px solid;
+  border-bottom: #cdcdcd 1px solid;
+  margin: 2em 0;
+}
+.container-filter .row {
+  overflow: visible;
+  margin: 0 auto;
+}
+.container-filter .dropfilters {
+  height: 48px;
+  overflow: visible;
+}
+.container-filter .dropfilters .filter-dropdown {
+  overflow: visible;
+  width: 100px;
+}
+.container-filter .dropfilters .twocol {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+.container-filter .dropfilters .dropdown {
+  border-right: #cdcdcd 1px solid;
+  border-left: #cdcdcd 1px solid;
+}
+.container-filter .dropfilters .dropdown {
+  height: 48px;
+}
+.container-filter .dropfilters .dropdown-toggle {
+  font-weight: 700;
+  height: 22px;
+  padding: 13px;
+}
+.container-filter .search-form {
+  margin: 6px 0;
+}
+.dropdown .select {
+  font-weight: 700;
+  color: #cdcdcd;
 }
