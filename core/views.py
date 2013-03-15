@@ -623,12 +623,10 @@ def vacancy(request, state, pk):
         offer = Offer.objects.get(id=pk)
         myself = Company.objects.get(user_id=request.user.id)
         if state == 'add':
-            print "vacancy offer", offer.vacancy
             Offer.objects.filter(id=pk).update(vacancy=True)
         else:
             Offer.objects.filter(id=pk).update(vacancy=False)
-        offer.save()
-        print "vacancy offer modifiee", offer.vacancy
+        Offer.objects.get(id=pk).save()
         result = {'state': True }
     except Company.DoesNotExist:
         result = { 'state': False, 'message': 'Company DoesNotExist'}
@@ -646,9 +644,29 @@ def vacancy(request, state, pk):
 
 @login_required
 def statusApplication(request, model, pk, slug):
-    offer = Offer.objects.get(id=pk)
+    application = ApplicantOffer.objects.get(id=pk)
+    offer = application.offer
+    applicant = Applicant.objects.filter(slug=slug)
     if model == "read":
-        print offer
+        ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='READ')
+    else: 
+        if model == "accept":
+            ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='SAVE')
+        else:
+            if model == "decline":
+                ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='FAIL')
+    result = {'state': True }
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        if result['state']:
+            return HttpResponseRedirect('/offer/get/'+offer.slug)
+        else:
+            #404
+            return HttpResponseNotFound('404.html')
 
 
 

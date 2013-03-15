@@ -9,6 +9,8 @@
     {{ form.media }}
 </head>
 
+<a href="/offer/posted_offers">Voir toutes mes offres postées</a>
+
 {% if model == 'edit' %}
     <section class="row">
         <div class="sleekbox">
@@ -24,11 +26,11 @@
                                 </a>
                             {% endthumbnail %}
                             <p>{{ applicantOffer.applicant }}</p>
-                            <a id="view-candidature" href="/offer/statusApplication/read/{{applicantOffer.offer_id}}/{{applicantOffer.applicant.slug}}">Voir la candidature</a>
-                            <div class="content-application">
-
+                            <a class="view-candidature" href="/offer/statusApplication/read/{{applicantOffer.id}}/{{applicantOffer.applicant.slug}}" id="{{applicantOffer.id}}">Voir la candidature</a>
+                            <div class="content-application" style="background-color:#ffa8a8" id="application{{applicantOffer.id}}">
                                 <p>{{ applicantOffer.content }}</p>
-
+                                <a href="/offer/statusApplication/accept/{{applicantOffer.offer_id}}/{{applicantOffer.applicant.slug}}">Accepter cette candidature</a>
+                                <a href="/offer/statusApplication/decline/{{applicantOffer.offer_id}}/{{applicantOffer.applicant.slug}}">Refuser cette candidature</a>
                             </div>
                         </li>
                     {% endfor %}
@@ -124,10 +126,13 @@
 
         $('.content-application').hide();
 
-        $('#view-candidature').click(function() {
-            $('.content-application').slideToggle();
-            $('#view-candidature').text("Fermer la candidature");
-        });
+        $('.view-candidature').click(function() {
+            var id = '#application'+this.id;
+            $.post($(this).attr('href'),function(data){
+                $(id).show();
+            });
+            return false;
+        });       
 
         $('.edit-offer').submit(function() {
 
