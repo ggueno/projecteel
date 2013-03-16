@@ -11,7 +11,7 @@ from elsewhere.models import SocialNetworkProfile
 # from utils import Address, Country
 from hitcount.models import *
 from tinymce import models as tinymce_models
-
+from django.db.models import Q, Count
 
 class Country(models.Model):
     """Model for countries"""
@@ -121,6 +121,15 @@ class Applicant(Profile):
     @models.permalink
     def get_absolute_url(self):
        return ('applicant_view', [str(self.slug)])
+
+
+    def get_tags(self):
+        return SkillsTag.objects.filter(Q(skills__content_object__owner=self)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')
+
+    def get_tags_num_for(self):
+        return SkillsTaggedItem.objects.filter(Q(tag__name="photoshop")).values('content_object__owner').annotate(num_times=Count('content_object__owner'))
+
+
 
 
 class Experience(models.Model):
