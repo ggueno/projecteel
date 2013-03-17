@@ -126,8 +126,9 @@ class Applicant(Profile):
     def get_tags(self):
         return SkillsTag.objects.filter(Q(skills__content_object__owner=self)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')
 
-    def get_tags_num_for(self):
-        return SkillsTaggedItem.objects.filter(Q(tag__name="photoshop")).values('content_object__owner').annotate(num_times=Count('content_object__owner'))
+    @classmethod
+    def get_tags_num_for(term):
+        return SkillsTaggedItem.objects.filter(Q(tag__name="photoshop")).values('content_object__owner').annotate(num_times=Count('content_object__owner')).order_by('-num_times')
 
 
 

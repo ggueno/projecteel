@@ -740,11 +740,15 @@ def statusApplication(request, model, pk, slug):
             return HttpResponseNotFound('404.html')
 
 
-# def potentialApplicant(offer):
+def potentialApplicant(offer):
 #     return offer
 #     # Critere
 #         # obtenir tous les profils dans une category
+    offerTag = OfferTag.objects.filter(Q(content_object=offer));
 
+    applicant = []
+    for tag in offerTag:
+        applicant.extend(list(Applicant.get_tags_for(tag.name)))
 
 #         # Ceux qui apparaissent dans tag + metier + Dispo doivent ressortir
 
