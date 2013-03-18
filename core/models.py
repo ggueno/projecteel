@@ -11,7 +11,7 @@ from elsewhere.models import SocialNetworkProfile
 # from utils import Address, Country
 from hitcount.models import *
 from tinymce import models as tinymce_models
-
+from django.db.models import Q, Count
 
 class Country(models.Model):
     """Model for countries"""
@@ -63,18 +63,30 @@ class Profile(models.Model):
     #     super(Profile, self).save(*args, **kwargs)
 
     def save(self, *args, **kwargs):
-        print 'SAVE'
+        print self.cover_image
+        print kwargs
         this = Profile.objects.get(id=self.id)
+
         if this.cover_image:
-            if this.cover_image != self.cover_image: 
+            change = True
+            if this.cover_image != self.cover_image:
                 this.cover_image.delete(save=False)
         else:
-            print "NO COVER"
+            change = False
+
+        if self.cover_image:
+            print "Something Image"
+
+        if change:
+            print "change"
+
+
         super(Profile, self).save(*args, **kwargs)
-        resized = get_thumbnail(self.cover_image, "1140x277", crop='center', quality=99)
-        self.cover_image.delete(save=False)
-        self.cover_image.save(resized.name, ContentFile(resized.read()), save=False)
-        super(Profile, self).save(*args, **kwargs)
+        if self.cover_image or change:
+            resized = get_thumbnail(self.cover_image, "1140x277", crop='center', quality=99)
+            self.cover_image.delete(save=False)
+            self.cover_image.save(resized.name, ContentFile(resized.read()), save=False)
+            super(Profile, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return "%s" % (self.name)
@@ -109,6 +121,16 @@ class Applicant(Profile):
     @models.permalink
     def get_absolute_url(self):
        return ('applicant_view', [str(self.slug)])
+
+
+    def get_tags(self):
+        return SkillsTag.objects.filter(Q(skills__content_object__owner=self)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')
+
+    @classmethod
+    def get_tags_num_for(term):
+        return SkillsTaggedItem.objects.filter(Q(tag__name="photoshop")).values('content_object__owner').annotate(num_times=Count('content_object__owner')).order_by('-num_times')
+
+
 
 
 class Experience(models.Model):

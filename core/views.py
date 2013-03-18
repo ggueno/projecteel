@@ -6,7 +6,6 @@ from django.core.context_processors import csrf
 
 from datetime import datetime, timedelta
 
-
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -318,7 +317,7 @@ def update_profile_cover(request):
         c.update(csrf(request))
         form = CoverImageForm()
         return render_to_response('profile/update_cover.html',{'form' : form, 'c': c})
-        
+
 
 
 @login_required
@@ -716,7 +715,7 @@ def statusApplication(request, model, pk, slug):
     applicant = Applicant.objects.filter(slug=slug)
     if model == "read" and (application.state is 'SAVE' or 'FAIL'):
         ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='READ')
-    else: 
+    else:
         if model == "accept" and (ApplicantOffer.objects.filter(offer=offer).count > 1):
             ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='SAVE')
             Offer.objects.filter(id=application.offer.id).update(vacancy=True)
@@ -737,6 +736,38 @@ def statusApplication(request, model, pk, slug):
             return HttpResponseNotFound('404.html')
 
 
+def potentialApplicant(offer):
+#     return offer
+#     # Critere
+#         # obtenir tous les profils dans une category
+    offerTag = OfferTag.objects.filter(Q(content_object=offer));
+
+    applicant = []
+    for tag in offerTag:
+        applicant.extend(list(Applicant.get_tags_for(tag.name)))
+
+#         # Ceux qui apparaissent dans tag + metier + Dispo doivent ressortir
+
+
+#         # Tag des projets avec un minimum de popular :
+#         applicant_tags = Applicant.ge
+
+#             # si il on a pas assez de personne on racherche les personnes avec les tags mais moins popular
+
+
+
+#         # Metier en fonction
+
+#         getPopularity on ...
+
+#         # Disponibilit : pour un CDD, CDI....TODO: Ajouter un status a un applicant En recherche + Type de contrat Choix Multiple Ajouter egalement une categorie generale ou plusieures
+
+#         # TODO : Traiter le contenu de l'offre pour y trouver des mots cles.
+
+
+#         # Trier l'ensemble des gens en fonction de leur popularite
+
+
 
 @login_required
 def edit_offer(request, model=None, pk=None):
@@ -750,20 +781,27 @@ def edit_offer(request, model=None, pk=None):
         try:
             offer = Offer.objects.get(id=pk, company=company)
         except Offer.DoesNotExist:
-            HttpResponseRedirect('/offers/')
+            return HttpResponseRedirect('/offers/')
 
-        offer = Offer.objects.get(id=pk)
-        applicantsOffer = ApplicantOffer.objects.filter(offer_id=pk)
-        if request.method == 'POST':
-            form = OfferForm(request.POST)
-            if form.is_valid():
-                form = OfferForm(request.POST, request.FILES, instance=offer)
-                print form
-                form.save()
-                return get_offer(request, offer.slug)
+        if offer.company == company:
+            # applicant qui ont postule
+            applicantsOffer = ApplicantOffer.objects.filter(offer_id=pk)
+
+            #applicant suceptible de vous interesser
+
+            if request.method == 'POST':
+                form = OfferForm(request.POST)
+                if form.is_valid():
+                    form = OfferForm(request.POST, request.FILES, instance=offer)
+                    print form
+                    form.save()
+                    return get_offer(request, offer.slug)
+            else:
+                form = OfferForm(instance=offer)
+            return render(request, 'offer/edit_offer.html', {'form': form, 'model': model, 'applicantsOffer': applicantsOffer})
         else:
-            form = OfferForm(instance=offer)
-        return render(request, 'offer/edit_offer.html', {'form': form, 'model': model, 'applicantsOffer': applicantsOffer})
+            return HttpResponseRedirect('/offers/')
+
 
     elif pk is None :
         if model == u"add":
