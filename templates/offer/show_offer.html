@@ -15,7 +15,7 @@
                 <ul class="offer-controls threecol last">
                     <li>
 
-                        {% if status == 'applied' %}
+                        {% if status.apply == 'applied' %}
                         <a href="#postApply" id="apply" class="active PTbutton">A Postulé</a>
 
                         {% else %}
@@ -37,7 +37,7 @@
             <p class="project-content">{{ offer.content|safe }}</p>
 
 
-            {% if status != 'applied'%}
+            {% if status.apply != 'applied' %}
             <div class="offerApply" id="test">
                 <h3 class="postApply" id="postApply">Postuler à l'offre</h3>
                 <form class="apply_form PTform" action="/offer/apply/" method="post">

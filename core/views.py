@@ -638,20 +638,18 @@ def apply_offer(request):
 
     try:
         if request.method == 'POST':
-
             form = ApplyForm(request.POST)
-
             if form.is_valid():
                 cd = form.cleaned_data
                 data = cd
                 offer = Offer.objects.get(id=int(request.POST['offer_id']))
-                applyOffer = ApplicantOffer.objects.create(offer=offer, applicant=applicant, content=cd['content'])
-
-                data = [{
-                    'state': True,
-                    'id': applyOffer.id,
-                    'content': cd['content']
-                }]
+                if ApplicantOffer.objects.filter(offer=offer).filter(applicant=applicant).count() < 1:
+                    applyOffer = ApplicantOffer.objects.create(offer=offer, applicant=applicant, content=cd['content'])
+                    data = [{
+                        'state': True,
+                        'id': applyOffer.id,
+                        'content': cd['content']
+                    }]
             else:
                 data = request.POST
         else:
@@ -670,8 +668,6 @@ def apply_offer(request):
             return HttpResponseRedirect('/offer/get/' + offer.slug)
         else:
             return HttpResponseRedirect('/offers/')
-
-
 
 
 @login_required
