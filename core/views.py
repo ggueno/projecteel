@@ -320,6 +320,21 @@ def update_profile_cover(request):
         return render_to_response('profile/update_cover.html',{'form' : form, 'c': c})
         
 
+@login_required
+def update_profile_cover_position(request):
+
+    if request.method == 'POST':
+        myself = Profile.objects.get(id=request.user.id)
+        myself.cover_image_top = request.POST['cover_pos_top']
+        myself.save();
+        
+        response = JSONResponse(True, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        return HttpResponseRedirect('/profile/');
+
+
 
 @login_required
 def add_project(request):

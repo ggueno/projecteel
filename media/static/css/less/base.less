@@ -780,6 +780,7 @@ header.menu{
             right: 15px;
             top: 15px;
             .opacity(0);
+            z-index: 10;
             -webkit-animation: opacity 1s ease;
                -moz-animation: opacity 1s ease;
                 -ms-animation: opacity 1s ease;
@@ -794,8 +795,41 @@ header.menu{
         #update_cover_form{
             display: none;
         }
+        #validate_cover{
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            display: none;
+            z-index: 9;
+        }
+        .modal.cover{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            color: #FFF;
+            text-align: center;
+            line-height: 14em;
+            font-weight: 600;
+            display: none;
+            z-index: 7;
+            cursor: move;
+        }
+        #cover_loading{
+            position: absolute;
+            border: none;
+            top: 219px;
+            width: 0%;
+            // display: none;
+            height: 2px;
+            z-index: 8;
+            background: @PTblue;
+        }
         #cover_image{
             width: 100%;
+            &.ui-draggable{
+                cursor: move;
+            }
         }
         .profile_cover_infobar{
             height: 42px;
@@ -807,6 +841,7 @@ header.menu{
             width:100%;
             .rgba(#393838,0.9);
             color: #FFF;
+            z-index: 10;
             h1#name{
                 float: left;
             }
@@ -869,6 +904,7 @@ header.menu{
         border:6px solid #FFF;
         width:190px;
         height: 190px;
+        z-index: 10;
     }
     .profile_menubar{
         border-bottom: 1px solid #d2d2d2;
