@@ -1207,14 +1207,7 @@ header.menu #menu a:hover {
 /*
    A D D   N E W   P R O J E C T
    ========================================================================== */
-.add_project .content {
-  padding: 40px 60px;
-}
-.add_project .heading {
-  padding: 0;
-  margin-bottom: 30px;
-}
-.add_project ul.tabs {
+ul.tabs {
   border-top: 1px solid #e2e2e2;
   border-bottom: 1px solid #e2e2e2;
   overflow: auto;
@@ -1222,23 +1215,23 @@ header.menu #menu a:hover {
   margin-bottom: 20px;
   list-style-type: none;
 }
-.add_project ul.tabs li a {
+ul.tabs li a {
   float: left;
   padding: 10px 40px 10px 70px;
   border-right: 1px solid #e2e2e2;
   position: relative;
 }
-.add_project ul.tabs li a:hover,
-.add_project ul.tabs li a.active {
+ul.tabs li a:hover,
+ul.tabs li a.active {
   text-decoration: none;
   color: #0099e6;
 }
-.add_project ul.tabs li a:hover .step-label,
-.add_project ul.tabs li a.active .step-label {
+ul.tabs li a:hover .step-label,
+ul.tabs li a.active .step-label {
   color: #0099e6;
   border-color: #0099e6;
 }
-.add_project ul.tabs li a .step-label {
+ul.tabs li a .step-label {
   display: block;
   position: absolute;
   left: 10px;
@@ -1253,6 +1246,13 @@ header.menu #menu a:hover {
   font-size: 12pt;
   font-style: normal;
   border-radius: 10em;
+}
+.add_project .content {
+  padding: 40px 60px;
+}
+.add_project .heading {
+  padding: 0;
+  margin-bottom: 30px;
 }
 .add_project #multiupload .template-upload,
 .add_project #multiupload .template-download {

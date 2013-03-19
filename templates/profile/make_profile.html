@@ -2,27 +2,123 @@
 {% load staticfiles %}
 {% load projects %}
 
-{% block title %} {{ profile.slug }}'s profile{% endblock %}
+{% block title %} {{ user.first_name }}'s profile{% endblock %}
 
 {% block content %}
-    <form action="/profile/edit/" method="post">
-        {% csrf_token %}
-        {{ form_user.errors }}
-        <div class="row">
-            {{ form_user.as_p}}
-        </div>
+<section class="row">
+    <div class="sleekbox">
+        <div class="content">
+            <h1 class="heading">Création de profil</h1>
+            <div class="row">
+                <div class="sixcol illustration">
 
-        <div class="row">
-            {{ form_social.as_p}}
-        </div>
+                </div>
+                <div class="sixcol last">
 
-        {{ form_applicant.errors }}
+                    <ul class="tabs">
+                        <li><a href="#etape1"><i class="step-label">1</i>Etape 1</a></li>
+                        <li><a href="#etape2"><i class="step-label">2</i>Etape 2</a></li>
+                    </ul>
 
-        <div class="row">
-            {{ form_applicant.as_p }}
+                    {% if form.errors %}
+                        <p class="errors">Corrigez les champs erronés suivants: {{ form.non_field_errors }}</p>
+                    {% endif %}
+
+                    <form action="/profile/edit/" method="post" class=" PTform">
+                        {% csrf_token %}
+
+                        <!-- TAB -->
+                        <section id="etape1">
+                            <!--
+                            {{ form_user.errors }}
+                            <div class="row">
+                                {{ form_user.as_p}}
+                            </div>
+                            -->
+                            <div>
+                                <label for="id_first_name">Prénom</label>
+                                {% if form_user.first_name.errors %}
+                                <p class="errors">{{ form_user.first_name.errors.as_text }}</p>
+                                {% endif %}
+                                {{ form_user.first_name }}
+                            </div>
+                            <div>
+                                <label for="id_last_name">Nom</label>
+                                {% if form_user.last_name.errors %}
+                                <p class="errors">{{ form_user.last_name.errors.as_text }}</p>
+                                {% endif %}
+                                {{ form_user.last_name }}
+                            </div>
+
+                            <!--
+                            <div class="row">
+                                {{ form_social.as_p}}
+                            </div>
+                            -->
+
+                            <div class="footer">
+                                <div class="twocol">Etape 1 sur 2</div>
+                                <button class="PTbutton next">Etape suivante</button>
+                            </div>
+
+                        </section>
+
+                        <section id="etape2">
+
+                            <!--
+                            {{ form_applicant.errors }}
+
+                            <div class="row">
+                                {{ form_applicant.as_p }}
+                            </div>
+                            -->
+                            <div>
+                                <label for="id_name">Name</label>
+                                {% if form_applicant.name.errors %}
+                                <p class="errors">{{ form_applicant.name.errors.as_text }}</p>
+                                {% endif %}
+                                {{ form_applicant.name }}
+                            </div>
+                            <div>
+                                <label for="id_description">Description</label>
+                                {% if form_applicant.description.errors %}
+                                <p class="errors">{{ form_applicant.description.errors.as_text }}</p>
+                                {% endif %}
+                                {{ form_applicant.description }}
+                            </div>
+                            <div>
+                                <label for="id_url">URL</label>
+                                {% if form_applicant.url.errors %}
+                                <p class="errors">{{ form_applicant.url.errors.as_text }}</p>
+                                {% endif %}
+                                {{ form_applicant.url }}
+                            </div>
+                            <div>
+                                <label for="id_profession">Profession</label>
+                                {% if form_applicant.profession.errors %}
+                                <p class="errors">{{ form_applicant.profession.errors.as_text }}</p>
+                                {% endif %}
+                                {{ form_applicant.profession }}
+                            </div>
+                            <div>
+                                <label for="id_search_location">Search Location</label>
+                                {% if form_applicant.search_location.errors %}
+                                <p class="errors">{{ form_applicant.search_location.errors.as_text }}</p>
+                                {% endif %}
+                                {{ form_applicant.search_location }}
+                            </div>
+                            <div class="footer">
+                                <div class="twocol">Etape 2 sur 2</div>
+                                <input type="submit" class="PTbutton" value="Valider">
+                            </div>
+                        </section>
+                    </form>
+                </div>
+            </div>
         </div>
-        <input type="submit">
-    </form>
+    </div>
+</section>
+
 {% endblock %}
 {% block js %}
 <script>
