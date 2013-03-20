@@ -63,7 +63,7 @@ class ProjectForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        exclude = ('user', 'date_signin', 'avatar', 'cover_image')
+        exclude = ('user', 'date_signin', 'cover_image', 'cover_image_top', 'avatar')
 
 
 class CoverImageForm(forms.ModelForm):
@@ -117,9 +117,9 @@ class CommentForm(forms.ModelForm):
 class ApplicantForm(forms.ModelForm):
     class Meta:
         model = Applicant
-        exclude = ('user', 'avatar', 'educations', 'experiences', 'social_network', 'bookmarks', 'cover_image')
+        exclude = ('user', 'educations', 'experiences', 'bookmarks', 'cover_image', 'cover_image_top', 'avatar')
         widgets = {
-            'social_network': forms.TextInput(),
+            # 'social_network': forms.TextInput(),
         }
 
 class UserForm(forms.ModelForm):

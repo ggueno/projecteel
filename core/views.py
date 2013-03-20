@@ -565,7 +565,14 @@ def create_applicant(request, action="new"):
         if action != 'new':
             form_social = SocialNetworkForm()
             form_applicant = ApplicantForm(instance=applicant)
-            data = {'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social, "edit_title": True}
+            data = {   
+                        'form_user': form_user, 
+                        'form_applicant': form_applicant, 
+                        'form_social': form_social, 
+                        'edit_title': True,
+                        'avatar' : applicant.avatar.url,
+                        # 'social_networks' : Network.objects.all(user_id=request.user.id)
+                    }
         else:
             form_applicant = ApplicantForm()
             data = {'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social}
