@@ -6,6 +6,11 @@
 
     {% if offer %}
 
+<div class="row wrapper">
+    {% if offer.published == 0 %}
+        <a href="/offer/edit/{{offer.id}}" class="PTbutton">Publier mon offre</a>
+    {% endif %}
+</div>
 
 <div class="row wrapper">
     <section id="project" class="ninecol">

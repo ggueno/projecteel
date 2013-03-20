@@ -1,35 +1,37 @@
 {% load thumbnail %}
 {% if offer %}
-    {% if nb_col %}
-    <div class="{{nb_col}} {% if last %}last{%endif%}">
-    {% endif %}
-        <div class="sleekbox header thumb-offer">
-            <div class="header-offer">
-                <h3 class="blackTitle"><a href="{{ offer.get_absolute_url }}">{{ offer.title }}</a></h3>
-                <a class="profile_pic" href="/profile/{{ offer.company.profile.slug }}">
-                    {% thumbnail offer.company.avatar "25x25" crop="left" as im %}
-                    <img src="{{im.url}}" alt="{{offer.company.profile.avatar}}"/>
-                    {% endthumbnail %}
-                </a>
-            </div>
-            <div class="content">
-                <div class="left">
-                    <p><span class="company-name">{{ offer.company.name }}</span>, {{ offer.location }}</p>
-                    {% if offer.tags %}
-                        <ul class="tags-offer">
-                            {% for tag in offer.tags.all %}
-                                <li><a href="/offers/search/?tags[]={{tag.slug}}">{{ tag.name }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
+    {% if offer.published %}
+        {% if nb_col %}
+        <div class="{{nb_col}} {% if last %}last{%endif%}">
+        {% endif %}
+            <div class="sleekbox header thumb-offer">
+                <div class="header-offer">
+                    <h3 class="blackTitle"><a href="{{ offer.get_absolute_url }}">{{ offer.title }}</a></h3>
+                    <a class="profile_pic" href="/profile/{{ offer.company.profile.slug }}">
+                        {% thumbnail offer.company.avatar "25x25" crop="left" as im %}
+                        <img src="{{im.url}}" alt="{{offer.company.profile.avatar}}"/>
+                        {% endthumbnail %}
+                    </a>
                 </div>
-                <div class="right">
-                    <p class="publish-date">{{ offer.publish_date }}</p>
-                    <span>{{ offer.contract }}</span>
+                <div class="content">
+                    <div class="left">
+                        <p><span class="company-name">{{ offer.company.name }}</span>, {{ offer.location }}</p>
+                        {% if offer.tags %}
+                            <ul class="tags-offer">
+                                {% for tag in offer.tags.all %}
+                                    <li><a href="/offers/search/?tags[]={{tag.slug}}">{{ tag.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div class="right">
+                        <p class="publish-date">{{ offer.publish_date }}</p>
+                        <span>{{ offer.contract }}</span>
+                    </div>
                 </div>
             </div>
+        {% if nb_col %}
         </div>
-    {% if nb_col %}
-    </div>
+        {% endif %}
     {% endif %}
 {% endif %}

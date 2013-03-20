@@ -819,8 +819,14 @@ def edit_offer(request, model=None, pk=None):
                     form = OfferForm(request.POST, request.FILES, instance=offer)
                     print form
                     form.save()
+                    offer.published = True
+                    offer.save()
                     return get_offer(request, offer.slug)
             else:
+                if offer.published is False:
+                    offer.published = True
+                    offer.save()
+                    return get_offer(request, offer.slug)
                 form = OfferForm(instance=offer)
             return render(request, 'offer/edit_offer.html', {'form': form, 'model': model, 'applicantsOffer': applicantsOffer})
         else:
@@ -835,9 +841,9 @@ def edit_offer(request, model=None, pk=None):
                 if form.is_valid():
                     cd = form.cleaned_data
                     offer = form.save(commit=False)
-                    #force_unicode(offer.content).replace('&lt;', '').replace('&gt;', '>')
-                    #offer.content = removetags(offer.content, 'style script img iframe')
                     offer.company = company
+                    if '_publish' in request.POST:
+                        offer.published = True
                     offer.save()
                     form.save_m2m()
                     return get_offer(request, offer.slug)
