@@ -114,7 +114,12 @@
                                 <label for="">{{form.category.label}}</label>{{ form.category }}
                                 {{ form.category.errors }}
                             </div>
-                            <input class="PTbutton" type="submit" value="Submit">
+                            {% if model == 'edit' %}
+                                <input class="PTbutton" type="submit" value="Publier mon offre">
+                            {% else %}
+                                <a href="/offer/add/publish" class="PTbutton">Publier l'offre</a>
+                                <input class="PTbutton" type="submit" value="Visualiser mon offre">
+                            {% endif %}
                         </form>
                     </div>
                 </div>

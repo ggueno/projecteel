@@ -770,7 +770,13 @@ def potentialApplicant(offer):
 
 
 @login_required
-def edit_offer(request, model=None, pk=None):
+def edit_offer(request, model=None, state=None, pk=None):
+
+    if state is not None:
+        if state == "publish":
+            published = True
+    else:
+        published = False
 
     try:
         company = Company.objects.filter(user_id=request.user.id)[0]
@@ -795,8 +801,14 @@ def edit_offer(request, model=None, pk=None):
                     form = OfferForm(request.POST, request.FILES, instance=offer)
                     print form
                     form.save()
+                    offer.published = True
+                    offer.save()
                     return get_offer(request, offer.slug)
             else:
+                if offer.published is False:
+                    offer.published = True
+                    offer.save()
+                    return get_offer(request, offer.slug)
                 form = OfferForm(instance=offer)
             return render(request, 'offer/edit_offer.html', {'form': form, 'model': model, 'applicantsOffer': applicantsOffer})
         else:
@@ -804,6 +816,7 @@ def edit_offer(request, model=None, pk=None):
 
 
     elif pk is None :
+
         if model == u"add":
             form = {}
             if request.method == 'POST':
@@ -811,9 +824,8 @@ def edit_offer(request, model=None, pk=None):
                 if form.is_valid():
                     cd = form.cleaned_data
                     offer = form.save(commit=False)
-                    #force_unicode(offer.content).replace('&lt;', '').replace('&gt;', '>')
-                    #offer.content = removetags(offer.content, 'style script img iframe')
                     offer.company = company
+                    offer.published = published
                     offer.save()
                     form.save_m2m()
                     return get_offer(request, offer.slug)
