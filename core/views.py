@@ -565,9 +565,11 @@ def create_applicant(request, action="new"):
         if action != 'new':
             form_social = SocialNetworkForm()
             form_applicant = ApplicantForm(instance=applicant)
+            data = {'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social, "edit_title": True}
         else:
             form_applicant = ApplicantForm()
-    return render(request, 'profile/make_profile.html', {'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social})
+            data = {'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social}
+    return render(request, 'profile/make_profile.html', data)
 
 
 @login_required
