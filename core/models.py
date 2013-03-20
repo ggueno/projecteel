@@ -52,6 +52,7 @@ class Profile(models.Model):
     name = models.CharField(max_length=150)
     avatar = fields.ImageField(upload_to="upload/images/avatar", blank=True, null=True)
     cover_image = fields.ImageField(upload_to="upload/images/cover_image", blank=True, null=True)
+    cover_image_top = models.IntegerField(blank=True, null=True, default=0)
     description = models.TextField(blank=False, null=False)
     url = models.URLField(blank=True, null=True)
 
@@ -72,21 +73,8 @@ class Profile(models.Model):
             if this.cover_image != self.cover_image:
                 this.cover_image.delete(save=False)
         else:
-            change = False
-
-        if self.cover_image:
-            print "Something Image"
-
-        if change:
-            print "change"
-
-
+            print "NO COVER"
         super(Profile, self).save(*args, **kwargs)
-        if self.cover_image or change:
-            resized = get_thumbnail(self.cover_image, "1140x277", crop='center', quality=99)
-            self.cover_image.delete(save=False)
-            self.cover_image.save(resized.name, ContentFile(resized.read()), save=False)
-            super(Profile, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return "%s" % (self.name)

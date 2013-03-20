@@ -13,16 +13,24 @@
                 <div class="profile_cover">
                     {% if profile.user.id == request.user.id %}
                         <button class="PTbutton mini" id="update_cover">Changer ma couverture</button>
+                        <button class="PTbutton mini" id="validate_cover">Valider</button>
+                        <div class="modal cover">Glissez l'image pour la positionner, puis validez.</div>
+                        <hr id="cover_loading"/>
                         <form id="update_cover_form" action="/profile/update_cover/" enctype="multipart/form-data" method="POST" class="sixcol PTform">
                             {% csrf_token %}
                             {{ coverImageForm.as_p }}
                         </form>
-                    {% endif %}   
-                    {% if profile.cover_image %} 
-                        {# {% thumbnail profile.cover_image "1140x277" crop="noop" as im %} #}
-                            <!--<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" id="cover_image">-->
-                            <img src="{{ profile.cover_image.url }}" alt="" id="cover_image">
-                        {# {% endthumbnail %} #}
+                    {% endif %}
+                    {% if profile.cover_image %}
+                        {# {% if profile.cover_image_top %}  #}
+                        {% with v1=profile.cover_image_top|stringformat:"s"|add:"px" %}
+                        {# {% else %} #}
+                            {# {% with v1="0px" %} #}
+                        {# {% endif %} #}
+                        {% thumbnail profile.cover_image "1140x277" crop="center "|add:v1 as im %}
+                            <img alt="{{v1}}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" id="cover_image">
+                        {% endthumbnail %}
+                        {% endwith %}
                     {%else%}
                         <img src="{% static "img/profile_cover.jpg" %}" alt="Cover image" id="cover_image">
                     {% endif %}
@@ -298,15 +306,60 @@
             maxFileSize: 1000000,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             done: function (e, data) {
-                $(".profile_cover #cover_image").fadeOut(800,function(){
-                    $(this).attr('src',data.result.image_src).fadeIn(800);
+                $("#cover_loading").fadeOut();
+                $(".profile_cover #cover_image").fadeOut(500,function(){
+                    $(this).attr('src',data.result.image_src).on('load',function(){
+                        $(this).fadeIn(800).draggable({
+                            axis: "y" ,
+                            containment : buildBoundingBox($(this))
+                        });
+                    });
+                });
+
+                $('#update_cover').hide();
+                $(".modal").show().on('click mousedown',function(event){
+                    $(this).fadeOut('fast');
+                    //allow the click event to go through the modal box
+                    $("#cover_image").trigger(event);
+                });
+                $('#validate_cover').fadeIn(500).on('click',function(){
+                    var p = $(this);
+                    var data = {
+                        'cover_pos_top' : Math.abs($("#cover_image").position().top)
+                    };
+                    $(".profile_cover #cover_image").draggable("destroy")
+                    $(".modal").fadeOut('fast');
+                    $.post('/profile/update_cover/position/',data).done(function(){
+                        p.hide();
+                        $('#update_cover').delay(1000).fadeIn();
+                    });
                 });
             },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#cover_loading').css(
+                    'width',
+                    progress + '%'
+                );
+            }
         });
 
         $('#update_cover').on('click',function(){
             $('input[type=file]#id_cover_image').trigger('click');
         });
+
+        function buildBoundingBox(img){
+            console.log(img);
+            var W = img.width();
+            var H = img.height();
+            var marginTop = 51;
+            var boundLeft = 0-(W-1140);
+            var boundTop = 0-(H-277);
+            var visorX = $(".profile_cover").offset().left;
+            var visorY = $(".profile_cover").offset().top;
+            console.log(H);
+            return [visorX + boundLeft,visorY + boundTop,visorX,visorY];
+        }
 
         // $(".following").hover(function(){
         //     $(this).html("Ne plus suivre");

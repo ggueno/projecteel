@@ -789,6 +789,7 @@ header.menu #menu a:hover {
   -webkit-opacity: 0;
   -moz-opacity: 0;
   opacity: 0;
+  z-index: 10;
   -webkit-animation: opacity 1s ease;
   -moz-animation: opacity 1s ease;
   -ms-animation: opacity 1s ease;
@@ -803,8 +804,40 @@ header.menu #menu a:hover {
 .profile .profile_cover #update_cover_form {
   display: none;
 }
+.profile .profile_cover #validate_cover {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  display: none;
+  z-index: 9;
+}
+.profile .profile_cover .modal.cover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  color: #FFF;
+  text-align: center;
+  line-height: 14em;
+  font-weight: 600;
+  display: none;
+  z-index: 7;
+  cursor: move;
+}
+.profile .profile_cover #cover_loading {
+  position: absolute;
+  border: none;
+  top: 219px;
+  width: 0%;
+  height: 2px;
+  z-index: 8;
+  background: #0099e6;
+}
 .profile .profile_cover #cover_image {
   width: 100%;
+}
+.profile .profile_cover #cover_image.ui-draggable {
+  cursor: move;
 }
 .profile .profile_cover .profile_cover_infobar {
   height: 42px;
@@ -821,6 +854,7 @@ header.menu #menu a:hover {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#e6393838, endColorstr=#e6393838);
   background-color: rgba(57, 56, 56, 0.9);
   color: #FFF;
+  z-index: 10;
 }
 .profile .profile_cover .profile_cover_infobar h1#name {
   float: left;
@@ -894,6 +928,7 @@ header.menu #menu a:hover {
   border: 6px solid #FFF;
   width: 190px;
   height: 190px;
+  z-index: 10;
 }
 .profile .profile_menubar {
   border-bottom: 1px solid #d2d2d2;
@@ -907,7 +942,8 @@ header.menu #menu a:hover {
   float: left;
   text-transform: uppercase;
   padding: 5px 0;
-  width: 50%;
+  width: 49%;
+  color: #333;
   text-align: center;
   font-size: 1.1em;
 }
@@ -925,6 +961,9 @@ header.menu #menu a:hover {
   float: none;
   display: inline;
   margin: 5px 0 5px 5px;
+}
+.profile ul.tabs {
+  margin: 0;
 }
 #infos_profile h1 {
   text-transform: uppercase;
@@ -981,7 +1020,7 @@ header.menu #menu a:hover {
 .PTform input[type=email],
 .PTform textarea {
   height: 25px;
-  width: 96%;
+  width: 95.5%;
   font-size: 15px;
   padding: 2%;
   border: 1px solid #cdcdcd;
@@ -1172,14 +1211,7 @@ header.menu #menu a:hover {
 /*
    A D D   N E W   P R O J E C T
    ========================================================================== */
-.add_project .content {
-  padding: 40px 60px;
-}
-.add_project .heading {
-  padding: 0;
-  margin-bottom: 30px;
-}
-.add_project ul.tabs {
+ul.tabs {
   border-top: 1px solid #e2e2e2;
   border-bottom: 1px solid #e2e2e2;
   overflow: auto;
@@ -1187,23 +1219,23 @@ header.menu #menu a:hover {
   margin-bottom: 20px;
   list-style-type: none;
 }
-.add_project ul.tabs li a {
+ul.tabs li a {
   float: left;
   padding: 10px 40px 10px 70px;
   border-right: 1px solid #e2e2e2;
   position: relative;
 }
-.add_project ul.tabs li a:hover,
-.add_project ul.tabs li a.active {
+ul.tabs li a:hover,
+ul.tabs li a.active {
   text-decoration: none;
   color: #0099e6;
 }
-.add_project ul.tabs li a:hover .step-label,
-.add_project ul.tabs li a.active .step-label {
+ul.tabs li a:hover .step-label,
+ul.tabs li a.active .step-label {
   color: #0099e6;
   border-color: #0099e6;
 }
-.add_project ul.tabs li a .step-label {
+ul.tabs li a .step-label {
   display: block;
   position: absolute;
   left: 10px;
@@ -1218,6 +1250,13 @@ header.menu #menu a:hover {
   font-size: 12pt;
   font-style: normal;
   border-radius: 10em;
+}
+.add_project .content {
+  padding: 40px 60px;
+}
+.add_project .heading {
+  padding: 0;
+  margin-bottom: 30px;
 }
 .add_project #multiupload .template-upload,
 .add_project #multiupload .template-download {
