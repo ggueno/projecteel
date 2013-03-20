@@ -787,13 +787,7 @@ def potentialApplicant(offer):
 
 
 @login_required
-def edit_offer(request, model=None, state=None, pk=None):
-
-    if state is not None:
-        if state == "publish":
-            published = True
-    else:
-        published = False
+def edit_offer(request, model=None, pk=None):
 
     try:
         company = Company.objects.filter(user_id=request.user.id)[0]
@@ -833,7 +827,6 @@ def edit_offer(request, model=None, state=None, pk=None):
 
 
     elif pk is None :
-
         if model == u"add":
             form = {}
             if request.method == 'POST':
@@ -842,7 +835,8 @@ def edit_offer(request, model=None, state=None, pk=None):
                     cd = form.cleaned_data
                     offer = form.save(commit=False)
                     offer.company = company
-                    offer.published = published
+                    if '_publish' in request.POST:
+                        offer.published = True
                     offer.save()
                     form.save_m2m()
                     return get_offer(request, offer.slug)

@@ -117,8 +117,8 @@
                             {% if model == 'edit' %}
                                 <input class="PTbutton" type="submit" value="Publier mon offre">
                             {% else %}
-                                <a href="/offer/add/publish" class="PTbutton">Publier l'offre</a>
-                                <input class="PTbutton" type="submit" value="Visualiser mon offre">
+                                <input class="PTbutton" type="submit" name="_publish" value="Publier mon offre">
+                                <input class="PTbutton" type="submit" name="_preview" value="Visualiser mon offre">
                             {% endif %}
                         </form>
                     </div>
