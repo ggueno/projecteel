@@ -8,10 +8,14 @@
 <section class="row">
     <div class="sleekbox">
         <div class="content">
-            <h1 class="heading">Création de profil</h1>
+            {% if edit_title %}
+                <h1 class="heading">Editer votre profil</h1>
+            {% else %}
+                <h1 class="heading">Création de profil</h1>
+            {% endif %}
             <div class="row">
-                <div class="sixcol illustration">
-
+                <div class="sixcol">
+                    
                 </div>
                 <div class="sixcol last">
 
@@ -24,7 +28,7 @@
                         <p class="errors">Corrigez les champs erronés suivants: {{ form.non_field_errors }}</p>
                     {% endif %}
 
-                    <form action="/profile/edit/" method="post" class=" PTform">
+                    <form action="/profile/edit/" method="post" class="PTform">
                         {% csrf_token %}
 
                         <!-- TAB -->
@@ -123,6 +127,12 @@
 {% block js %}
 <script>
     $(document).ready(function(){
+
+        //bind step1 button to trigger tab menu click
+        $(".next").on('click',function(e){
+            e.preventDefault();
+            $("ul.tabs a[href=#etape2]").click();
+        });
 
     });
 </script>
