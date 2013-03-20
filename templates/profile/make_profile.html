@@ -13,7 +13,7 @@
             {% else %}
                 <h1 class="heading">Création de profil</h1>
             {% endif %}
-            <div class="row">
+            <div class="row" id="edit_profile">
                 <div class="sixcol">
                     
                 </div>
@@ -53,6 +53,25 @@
                                 {% endif %}
                                 {{ form_user.last_name }}
                             </div>
+                            <div>
+                                <label for="">Votre avatar</label>
+                                <div class="edit_avatar">
+                                    {% if avatar %}
+                                        <div class="eightcol">
+                                            <span>Actuellement</span>
+                                            <img src="{{avatar}}" alt="" class="profile_pic">    
+                                        </div>
+                                        <div class="fourcol last">
+                                            <button class="PTbutton mini" id="avatar_btn">Choisir une image</button>
+                                            <input data-url="/profile/update_avatar/" type="file" name="avatar" id="id_avatar">
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            {% for network in social_networks%}
+                            {{ network }}
+                            {%endfor%}
 
                             <!--
                             <div class="row">
@@ -132,6 +151,12 @@
         $(".next").on('click',function(e){
             e.preventDefault();
             $("ul.tabs a[href=#etape2]").click();
+        });
+
+        $('#avatar_btn').on('click',function(e){
+            e.preventDefault;
+            $('input[type=file]#id_avatar').trigger('click');
+            return false;
         });
 
     });
