@@ -39,8 +39,6 @@ urlpatterns = patterns('',
     url(r'^offer/apply/$', views.apply_offer),
     url(r'^offer/(?P<model>\w+)/$', views.edit_offer),
     url(r'^offer/(?P<model>\w+)/(?P<pk>\d+)/$', views.edit_offer),
-
-    url(r'^offer/(?P<model>\w+)/(?P<pk>\d+)/$', views.edit_offer),
     url(r'^offer/(?P<model>\w+)/$', views.edit_offer),
     url(r'^offer/statusApplication/(?P<model>\w+)/(?P<pk>\d+)/(?P<slug>[^\.]+)$', views.statusApplication),
     url(r'^offer/get/(?P<slug>[^\.]+)/$', views.get_offer, name="offer_view"),

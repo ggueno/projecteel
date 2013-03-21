@@ -876,6 +876,10 @@ def edit_offer(request, model=None, pk=None):
         else:
             return HttpResponseRedirect('/offers/')
 
+    elif model == u"delete":
+        if Offer.objects.get(id=pk).company == company:
+            Offer.objects.get(id=pk).delete()
+        return HttpResponseRedirect('/offer/posted_offers')
 
     elif pk is None :
         if model == u"add":
