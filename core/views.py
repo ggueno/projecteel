@@ -326,7 +326,7 @@ def update_profile_cover_position(request):
         myself = Profile.objects.get(id=request.user.id)
         myself.cover_image_top = request.POST['cover_pos_top']
         myself.save();
-        
+
         response = JSONResponse(True, {}, response_mimetype(request))
         response['Content-Disposition'] = 'inline; filename=files.json'
         return response
@@ -526,6 +526,23 @@ def make_profil(request):
 
 
 @login_required
+def slug_validate(request):
+
+    message = ''
+    success = False
+
+    if request.method == 'POST':
+        slug = request.POST.get('slug')
+        if Profile.objects.filter(slug__exact=slug).exists():
+            message = 'Your slug name is already taken !'
+        else:
+            success = True
+            message = 'Your slug name is correct !'
+    ajax_vars = {'success': success, 'message':message}
+    return HttpResponse(simplejson.dumps(ajax_vars), mimetype='application/javascript')
+
+
+@login_required
 def create_applicant(request, action="new"):
     user = User.objects.get(id=request.user.id)
 
@@ -565,10 +582,10 @@ def create_applicant(request, action="new"):
         if action != 'new':
             form_social = SocialNetworkForm()
             form_applicant = ApplicantForm(instance=applicant)
-            data = {   
-                        'form_user': form_user, 
-                        'form_applicant': form_applicant, 
-                        'form_social': form_social, 
+            data = {
+                        'form_user': form_user,
+                        'form_applicant': form_applicant,
+                        'form_social': form_social,
                         'edit_title': True,
                         'avatar' : applicant.avatar.url,
                         # 'social_networks' : Network.objects.all(user_id=request.user.id)
