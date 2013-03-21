@@ -3,41 +3,6 @@ var django = {
     "jQuery": jQuery
 };
 
-django.jQuery(function() {
-
-	var options = {
-		inputs: {
-		    'username': {
-		      filters: 'required username exclude',
-		      data: { exclude: ['user', 'username', 'admin'] }
-		    },
-		    'date': { filters: 'date' },
-		    'comments': {
-		      filters: 'min max',
-		      data: { min: 50, max: 200 }
-		    },
-		    'colors': {
-		      filters: 'exclude',
-		      data: { exclude: ['default'] },
-		      errors: { exclude: 'Choisissez une couleur de la liste' }
-		    },
-		    'langs[]': {
-		      filters: 'min',
-		      data: { min: 2 },
-		      errors: { min: 'Check at least <strong>2</strong> languages.' }
-		    },
-		    'options': {
-		      filters: 'min',
-		      data: { min: 1 },
-		      errors: { min: 'Check only <strong>1</strong> option.' }
-		    }
-		},
-		responsiveAt: 50
-	}
-	var $myform = django.jQuery('#my-form').idealforms(options).data('idealforms');
-
-});
-
 $.ajaxSetup({
      beforeSend: function(xhr, settings) {
          function getCookie(name) {
@@ -61,10 +26,6 @@ $.ajaxSetup({
          }
      }
 });
-
-
-//custom dropdown
-$('.PTform select').dropkick();
 
 
 //Generic tabbed nav fonction
@@ -103,11 +64,34 @@ $('ul.tabs').each(function(){
     });
 });
 
+//Switch options on dropdown click
+$('.dropdown-menu a.select').hide();
+$('.dropdown-menu a').click(function(e){
+    e.preventDefault();
+
+    $('.dropdown-menu a').removeClass('select').show();
+    $(this).addClass('select').hide();
+
+
+    var toggle = $(this).parents('.dropdown-menu').prev();
+    var value_current = $(toggle).data('value');
+    var label_current = $(toggle).html();
+
+    //console.log(toggle, value_current, label_current);
+
+    $(toggle).attr('data-value',$(this).data('value'));
+    $(toggle).html($(this).html());
+
+    //$(this).attr('data-value',value_current);
+    //$(this).html(label_current);
+
+});
+
 function follow_button(){
     $(".follow").click(function(){
         var follow_button = this;
         $.post($(this).attr('href'),function(data){
-            if(data==true)
+            if(data==true )
                 if($(follow_button).hasClass('unactive')){
                     var link = $(follow_button).attr('href').replace('follow','unfollow');
                     $(follow_button).attr('href',link)
@@ -132,7 +116,7 @@ function onoff_button(target, name, active, unactive){
     $(target).click(function(){
         var button = this;
         $.post($(this).attr('href'),function(data){
-            if(data==true)
+            if(data==true || data.state == true)
                 if($(button).hasClass('unactive')){
                     var link = $(button).attr('href').replace(name,'un'+name);
                     $(button).attr('href',link);
@@ -152,5 +136,32 @@ function onoff_button(target, name, active, unactive){
     });
 }
 
+function initDatePicker(){
+    /* French initialisation for the jQuery UI date picker plugin. */
+    /* Written by Keith Wood (kbwood@virginbroadband.com.au) and Stéphane Nahmani (sholby@sholby.net). */
+    jQuery(function($){
+        $.datepicker.regional['fr'] = {clearText: 'Effacer', clearStatus: '',
+            closeText: 'Fermer', closeStatus: 'Fermer sans modifier',
+            prevText: '<Préc', prevStatus: 'Voir le mois précédent',
+            nextText: 'Suiv>', nextStatus: 'Voir le mois suivant',
+            currentText: 'Courant', currentStatus: 'Voir le mois courant',
+            monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin',
+            'Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+            monthNamesShort: ['Jan','Fév','Mar','Avr','Mai','Jun',
+            'Jul','Aoû','Sep','Oct','Nov','Déc'],
+            monthStatus: 'Voir un autre mois', yearStatus: 'Voir un autre année',
+            weekHeader: 'Sm', weekStatus: '',
+            dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+            dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+            dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
+            dayStatus: 'Utiliser DD comme premier jour de la semaine', dateStatus: 'Choisir le DD, MM d',
+            dateFormat: 'dd/mm/yy', firstDay: 0,
+            firstDay : 1,
+            initStatus: 'Choisir la date', isRTL: false};
+        $.datepicker.setDefaults($.datepicker.regional['fr']);
+    });
 
-$( ".datePicker" ).datepicker();
+    $( ".datePicker" ).datepicker({ dateFormat: "dd/mm/yy" });
+}
+
+initDatePicker();
