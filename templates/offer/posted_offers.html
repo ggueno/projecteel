@@ -24,7 +24,7 @@
         <div class="sleekbox header thumb-offer">
             <div class="content">
                 <div class="left">
-                    <h3>{{ offer.title }}</h3>
+                    <h3><a href="/offer/applications/{{offer.slug}}">{{ offer.title }}</a></h3>
                     <p class="publish-date">{{ offer.publish_date }}</p>
                     <span>{{ offer.contract }}</span>
                     {% if offer.tags %}
@@ -41,8 +41,8 @@
                         {% else %}
                             <a href="/offer/vacancy/add/{{offer.id}}" id="vacancy" class="unactive PTbutton">A pourvoir</a>
                             <!-- on ne peut pas editer et supprimer une offre pourvue --> 
-                            <a class="PTbuttton" href="/offer/edit/{{ offer.id }}">Editer</a>
-                            <a class="PTbuttton" href="/offer/delete/{{ offer.id }}">Supprimer</a>
+                            <a class="PTbuttton" href="/offer/edit/{{ offer.slug }}">Editer</a>
+                            <a class="PTbuttton" href="/offer/delete/{{ offer.slug }}">Supprimer</a>
                         {% endif %}
                     </div>
 

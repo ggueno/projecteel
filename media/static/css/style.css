@@ -3206,6 +3206,9 @@ li.as-result-item img {
   font-style: italic;
   padding: 0;
 }
+.edit-offer .description {
+  padding: 0 0 10px 0;
+}
 /*
    P O S T E D   O F F E R S
    ========================================================================== */
