@@ -16,6 +16,8 @@ from forms import *
 from elsewhere.forms import SocialNetworkForm
 from django.contrib.auth.decorators import login_required
 
+from PIL import Image
+
 
 def home(request):
     return render_to_response('index.html')
@@ -326,13 +328,53 @@ def update_profile_cover_position(request):
         myself = Profile.objects.get(id=request.user.id)
         myself.cover_image_top = request.POST['cover_pos_top']
         myself.save();
-        
+
         response = JSONResponse(True, {}, response_mimetype(request))
         response['Content-Disposition'] = 'inline; filename=files.json'
         return response
     else:
         return HttpResponseRedirect('/profile/');
 
+
+@login_required
+def update_avatar(request, action="new"):
+
+    if request.method == 'POST':
+        myself = Profile.objects.get(id=request.user.id)
+
+
+        if action != 'crop':
+            form = AvatarForm(request.POST, request.FILES, instance=myself)
+            if form.is_valid():
+                avatar = form.save()
+                if request.is_ajax():
+                    result = { 'state': True, 'image_src': avatar.avatar.url}
+                    response = JSONResponse(result, {}, response_mimetype(request))
+                    response['Content-Disposition'] = 'inline; filename=files.json'
+                    return response
+                else:
+                    return HttpResponseRedirect('/profile/')
+            else:
+                print "FALSE"
+                return HttpResponseRedirect('/profile/')
+        else:
+            top = request.POST['top']
+            left = request.POST['left']
+            width = request.POST['width']
+            height = request.POST['height']
+            filename = str(myself.avatar.path)
+            image = Image.open(filename)
+            size = int(width), int(height)
+            image.thumbnail(size, Image.ANTIALIAS)
+            crop = image.crop((int(left), int(top), int(left)+190, int(top)+190))
+            crop.save(filename)
+
+            result = { 'state': True, 'image_src': myself.avatar.url}
+            response = JSONResponse(result, {}, response_mimetype(request))
+            response['Content-Disposition'] = 'inline; filename=files.json'
+            return response
+    else:
+        return HttpResponseRedirect('/profile/');
 
 
 @login_required
@@ -562,15 +604,17 @@ def create_applicant(request, action="new"):
     else:
         form_user = UserForm(instance=user)
         form_social = {}
+        form_avatar = AvatarForm()
         if action != 'new':
             form_social = SocialNetworkForm()
             form_applicant = ApplicantForm(instance=applicant)
-            data = {   
-                        'form_user': form_user, 
-                        'form_applicant': form_applicant, 
-                        'form_social': form_social, 
+            data = {
+                        'form_user': form_user,
+                        'form_applicant': form_applicant,
+                        'form_social': form_social,
                         'edit_title': True,
-                        'avatar' : applicant.avatar.url,
+                        'avatar' : applicant.avatar,
+                        'form_avatar' : form_avatar
                         # 'social_networks' : Network.objects.all(user_id=request.user.id)
                     }
         else:

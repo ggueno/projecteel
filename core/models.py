@@ -74,6 +74,12 @@ class Profile(models.Model):
                 this.cover_image.delete(save=False)
         else:
             print "NO COVER"
+
+        if this.avatar:
+            if this.avatar != self.avatar:
+                this.avatar.delete(save=False)
+        else:
+            print "NO AVATAR"
         super(Profile, self).save(*args, **kwargs)
 
     def __unicode__(self):

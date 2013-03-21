@@ -77,6 +77,17 @@ class CoverImageForm(forms.ModelForm):
         self.fields['cover_image'].widget.attrs['data-url'] = "/profile/update_cover/"
 
 
+class AvatarForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('id','avatar')
+
+    def __init__(self, *args, **kwargs):
+        super(AvatarForm, self).__init__(*args, **kwargs)
+        self.fields['avatar'].widget.attrs['name'] = "files\[\]"
+        self.fields['avatar'].widget.attrs['data-url'] = "/profile/update_avatar/"
+
+
 class OfferForm(forms.ModelForm):
     formfield_callback = make_custom_datefield
     content = forms.CharField(widget=TinyMCE)

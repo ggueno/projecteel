@@ -41,7 +41,7 @@ p.location {
 }
 .project-header .project-stats li {
   float: left;
-  width: 49%;
+  width: 33%;
   text-align: center;
   line-height: 1.1;
   font-size: .8em;
@@ -53,6 +53,10 @@ p.location {
 .project-header .project-stats li span {
   display: block;
   font-size: 1.7em;
+}
+.project-header .PTbutton {
+  position: relative;
+  top: 3px;
 }
 .image-title {
   padding-bottom: 0;
@@ -68,6 +72,16 @@ img.project-content {
   overflow: hidden;
   padding: 30px 4%;
   text-align: center;
+}
+#project-author .applicant-mini a {
+  -webkit-transition: color .15s ease;
+  -moz-transition: color .15s ease;
+  -o-transition: color .15s ease;
+  -ms-transition: color .15s ease;
+  transition: color .15s ease;
+}
+#project-author .applicant-mini a:hover {
+  color: #0099e6;
 }
 #project-author .applicant-mini img#profile_pic {
   margin: 0 auto 10px auto;
@@ -96,6 +110,9 @@ img.project-content {
   font-weight: 400;
   padding: 5px;
 }
+#project-author .applicant-mini i.icon {
+  margin-left: 0;
+}
 #project-author .participants {
   background: #f6f6f6;
   padding: 18px;
@@ -120,4 +137,48 @@ img.project-content {
   font-weight: 400;
   font-size: 1.2em;
   padding: 20px 20px 5px 20px;
+}
+.container-filter {
+  height: 48px;
+  width: 100%;
+  background-color: white;
+  border-top: #cdcdcd 1px solid;
+  border-bottom: #cdcdcd 1px solid;
+  margin: 2em 0;
+}
+.container-filter .row {
+  overflow: visible;
+  margin: 0 auto;
+}
+.container-filter .dropfilters {
+  height: 48px;
+  overflow: visible;
+}
+.container-filter .dropfilters .filter-dropdown {
+  overflow: visible;
+  width: 100px;
+}
+.container-filter .dropfilters .twocol {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+.container-filter .dropfilters .dropdown {
+  border-right: #cdcdcd 1px solid;
+  border-left: #cdcdcd 1px solid;
+}
+.container-filter .dropfilters .dropdown {
+  height: 48px;
+}
+.container-filter .dropfilters .dropdown-toggle {
+  font-weight: 700;
+  height: 22px;
+  padding: 13px;
+}
+.container-filter .search-form {
+  margin: 6px 0;
+}
+.dropdown .select {
+  font-weight: 700;
+  color: #cdcdcd;
 }

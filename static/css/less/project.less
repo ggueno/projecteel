@@ -1,4 +1,6 @@
 @import "lesshat.less";
+@import "mixins.less";
+@PTblue : #0099e6;
 
 #project{
     h4.subline{
@@ -61,6 +63,10 @@ p.location{
             }
         }
     }
+    .PTbutton{
+        position: relative;
+        top: 3px;
+    }
 }
 
 .image-title{
@@ -77,10 +83,15 @@ img.project-content{
 }
 
 #project-author{
+
     .applicant-mini{
         overflow: hidden;
         padding: 30px 4%;
         text-align:center;
+
+        a{
+            .PTlink();
+        }
 
         img#profile_pic{
             margin: 0 auto 10px auto;
@@ -105,6 +116,10 @@ img.project-content{
             font-weight: 400;
             padding: 5px;
         }
+        i.icon{
+            margin-left: 0;
+        }
+
     }
     .participants{
         background: #f6f6f6;
@@ -127,3 +142,67 @@ img.project-content{
         padding: 20px 20px 5px 20px;
     }
 }
+
+
+
+// Filter bar
+@heightBar : 48px;
+.container-filter{
+    height: @heightBar;
+    width: 100%;
+    background-color: white;
+    border-top: #cdcdcd 1px solid;
+    border-bottom: #cdcdcd 1px solid;
+    margin: 2em 0;
+
+    .row{
+        overflow: visible;
+        margin: 0 auto;
+    }
+
+    .dropfilters{
+        height: @heightBar;
+
+            overflow: visible;
+
+        .filter-dropdown{
+
+            overflow: visible;
+            width: 100px;
+        }
+
+        .twocol{
+            margin: 0;
+            padding: 0;
+            overflow: visible;
+        }
+
+        .dropdown{
+            border-right: #cdcdcd 1px solid;
+            border-left: #cdcdcd 1px solid;
+        }
+
+        .dropdown{
+            height: @heightBar;
+        }
+
+        .dropdown-toggle{
+            font-weight: 700;
+            height: 22px;
+            padding: 13px;
+        }
+
+
+    }
+
+    .search-form{
+        margin: 6px 0;
+    }
+
+}
+
+.dropdown .select{
+    font-weight: 700;
+    color: #cdcdcd;
+}
+

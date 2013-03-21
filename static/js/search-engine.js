@@ -36,18 +36,42 @@ var searchEngine = {
 
             else if( $(this).is('select') ){
                 $('#search-'+title).change(function(){
-                    that.addToSearch(title, $(this).val(), true)
+                    that.addToSearch(title, $(this).val(), true);
                     return false;
                 });
 
                 that.search_datas[title] = $(this).val();
             }
 
+            else if( $(this).hasClass('dropdown')){
+                $(this).find('ul li a').click(function(e){
+
+                    e.preventDefault();
+
+                    that.addToSearch(title, $(this).data('value'), true);
+
+                    // var toogle = $(this).parent().parent().parent().find('.dropdown-toggle');
+                    // var value = $(toogle).data('value');
+                    // var title = $(toogle).html();
+
+                    // console.log(toogle);
+
+                    // $(toogle).data('value',$(this).data('value'));
+                    // $(toogle).html($(this).html());
+
+                    // $(this).data('value', value);
+                    // $(this).html(title);
+
+                    return true;
+                });
+            }
+
             else if( $(this).is('input') ){
                 $(this).keypress(function(e) {
+
                     if(e.which == 13) {
                         that.addToSearch(title,$(this).val(), true);
-                        return false;
+                        return true;
                     }
                 });
 
@@ -119,6 +143,7 @@ var searchEngine = {
                 }
             }
         }
+
         console.log(datas);
 
         var that = this;
