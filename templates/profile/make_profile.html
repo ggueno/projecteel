@@ -1,6 +1,7 @@
 {% extends "layout/base.html" %}
 {% load staticfiles %}
 {% load projects %}
+{% load thumbnail %}
 
 {% block title %} {{ user.first_name }}'s profile{% endblock %}
 
@@ -28,7 +29,11 @@
                         <p class="errors">Corrigez les champs erronés suivants: {{ form.non_field_errors }}</p>
                     {% endif %}
 
+<<<<<<< HEAD
                     <form action="/profile/edit/" method="post" class="PTform" id="form_profile">
+=======
+                    <form action="/profile/edit/" method="post" class="PTform" enctype="multipart/form-data">
+>>>>>>> 596afeeb697e60eee7dd19d859ef29995b1047d7
                         {% csrf_token %}
 
                         <!-- TAB -->
@@ -64,18 +69,41 @@
                             <div>
                                 <label for="">Votre avatar</label>
                                 <div class="edit_avatar">
-                                    {% if avatar %}
                                         <div class="eightcol">
                                             <span>Actuellement</span>
+<<<<<<< HEAD
                                             <img src="{{avatar}}" alt="" class="profile_pic">
+=======
+                                            <div id="avatar_mask">
+                                                {% if avatar %}
+                                                    <img src="{{avatar.url}}" alt="" class="profile_pic">
+                                                {% else %}
+                                                    <img src="{{ STATIC_URL }}img/empty_profile.png" alt="" class="profile_pic">
+                                                {% endif %}
+                                                <img src="{{ STATIC_URL }}img/avatar_mask.png" alt="" id="mask">
+                                            </div>
+>>>>>>> 596afeeb697e60eee7dd19d859ef29995b1047d7
                                         </div>
                                         <div class="fourcol last">
                                             <button class="PTbutton mini" id="avatar_btn">Choisir une image</button>
-                                            <input data-url="/profile/update_avatar/" type="file" name="avatar" id="id_avatar">
+                                            <button class="PTbutton mini" id="avatar_btn_crop">Valider</button>
+                                            {{ form_avatar.as_p }}
                                         </div>
-                                    {% endif %}
                                 </div>
                             </div>
+<<<<<<< HEAD
+=======
+
+                            {% for network in social_networks%}
+                            {{ network }}
+                            {%endfor%}
+
+                            <!--
+                            <div class="row">
+                                {{ form_social.as_p}}
+                            </div>
+                            -->
+>>>>>>> 596afeeb697e60eee7dd19d859ef29995b1047d7
 
                             <div class="footer">
                                 <div class="twocol">Etape 1 sur 2</div>
@@ -134,6 +162,10 @@
 
 {% endblock %}
 {% block js %}
+<script src="{{ STATIC_URL }}js/load-image.min.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.iframe-transport.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.fileupload.js"></script>
+<script src="{{ STATIC_URL }}js/csrf.js"></script>
 <script>
     $(document).ready(function(){
 
@@ -149,6 +181,7 @@
             return false;
         });
 
+<<<<<<< HEAD
         $('#id_name').on('blur', function(){
              var validateSlug = $('#slug_validate');
             $.ajax({
@@ -170,6 +203,111 @@
     });
     return false;
 });
+=======
+        $('#id_avatar').fileupload({
+            dataType: 'json',
+            url : '/profile/update_avatar/',
+            maxFileSize: 1000000,
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            done: function (e, data) {
+                $("img.profile_pic").fadeOut(500,function(){
+                    $(this).attr('src',data.result.image_src).on('load',function(){
+                        $this = $(this);
+                        $("#mask").mousedown(function(event){
+                            $this.trigger(event);
+                        }).fadeIn('fast',function(){
+                            $this.removeClass('profile_pic').addClass('new_avatar');
+                            console.log($this.width(), $this.height());
+                            if($this.width() > $this.height()){
+                                $this.removeClass('horizontal').removeClass('vertical').addClass('horizontal');
+                            }else{
+                                $this.removeClass('horizontal').removeClass('vertical').addClass('vertical');
+                            }
+                            $this.fadeIn(800,function(){
+                                $this.draggable({
+                                    containment : buildBoundingBox($(this))
+                                });
+                                $(".edit_avatar span").html("Positionnez votre image, puis validez");
+                            });
+                        });
+                        $this.off('load');
+                    });
+                });
+                $('#avatar_btn').hide();
+                $('#avatar_btn_crop').fadeIn().on('click',function(e){
+                    e.preventDefault();
+                    var p = $(this);
+                    var img = $(".new_avatar");
+                    if(img.hasClass('horizontal')){
+                        var ratio = img.height()/190
+                        var width = Math.ceil(img.width()/ratio);    
+                        var height = 190;
+                    }else{
+                        var ratio = img.width()/190
+                        var width = 190
+                        var height = Math.ceil(img.height()/ratio);
+                    }
+                    var data = {
+                        'top' : Math.abs(img.position().top),
+                        'left' : Math.abs(img.position().left),
+                        'width' : width,
+                        'height' : height
+                    };
+                    $(".new_avatar").draggable("destroy");
+                    $.post('/profile/update_avatar/crop/',data).done(function(data){
+                        $(".new_avatar").attr('src',data.image_src).on('load',function(){
+                            $(this).addClass('profile_pic').removeClass('new_avatar').css({'left':0,'top':0});
+                        });
+                        $('#mask').fadeOut();
+                        $('#avatar_btn_crop').fadeOut();
+                        $('#avatar_btn').delay(1000).fadeIn();
+                        $(".edit_avatar span").html("Votre nouvel avatar");
+                    });
+                    $(this).off('click');
+                });
+            },
+            // progressall: function (e, data) {
+            //     var progress = parseInt(data.loaded / data.total * 100, 10);
+            //     $('#cover_loading').css(
+            //         'width',
+            //         progress + '%'
+            //     );
+            // }
+        });
+
+
+        $("#id_search_location").autoSuggest("/list/location", {
+            asHtmlID: "id_search_location__tagautosuggest",
+            startText: {% if form_applicant.search_location%}"{{ form_applicant.search_location.value }}"{%else%}"Tapez un lieu ici"{%endif%},
+            emptyText: "Aucun résultat",
+            limitText: "Vous ne pouvez plus ajouter de lieu",
+            preFill: "",
+            queryParam: 'q',
+            retrieveLimit: 20,
+            minChars: 1,
+            neverSubmit: false,
+            showResultList : true,
+            resultsHighlight : true,
+            selectionAdded: function(elem){
+                elem.hide();
+            },
+            resultClick: function(data){
+               $("#id_search_location__tagautosuggest").val(data.attributes.value)
+           },
+
+        });
+
+        function buildBoundingBox(img){
+            console.log(img);
+            var W = img.width();
+            var H = img.height();
+            var boundLeft = 0-(W-190);
+            var boundTop = 0-(H-190);
+            var visorX = $("#mask").offset().left;
+            var visorY = $("#mask").offset().top;
+            return [visorX + boundLeft,visorY + boundTop,visorX,visorY];
+        }
+>>>>>>> 596afeeb697e60eee7dd19d859ef29995b1047d7
 
     });
 </script>

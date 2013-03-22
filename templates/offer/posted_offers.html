@@ -24,7 +24,7 @@
         <div class="sleekbox header thumb-offer">
             <div class="content">
                 <div class="left">
-                    <h3><a href="/offer/edit/{{ offer.id }}">{{ offer.title }}</a></h3>
+                    <h3><a href="/offer/applications/{{offer.slug}}">{{ offer.title }}</a></h3>
                     <p class="publish-date">{{ offer.publish_date }}</p>
                     <span>{{ offer.contract }}</span>
                     {% if offer.tags %}
@@ -35,11 +35,17 @@
                         </ul>
                     {% endif %}
 
-                    {% if offer.vacancy %}
-                        <a href="/offer/vacancy/unadd/{{offer.id}}" id="vacancy" class="active PTbutton">Pourvue</a>
-                    {% else %}
-                        <a href="/offer/vacancy/add/{{offer.id}}" id="vacancy" class="unactive PTbutton">A pourvoir</a>
-                    {% endif %}
+                    <div class="actions-offers">
+                        {% if offer.vacancy %}
+                            <a href="/offer/vacancy/unadd/{{offer.id}}" id="vacancy" class="active PTbutton">Pourvue</a>
+                        {% else %}
+                            <a href="/offer/vacancy/add/{{offer.id}}" id="vacancy" class="unactive PTbutton">A pourvoir</a>
+                            <!-- on ne peut pas editer et supprimer une offre pourvue --> 
+                            <a class="PTbuttton" href="/offer/edit/{{ offer.slug }}">Editer</a>
+                            <a class="PTbuttton" href="/offer/delete/{{ offer.slug }}">Supprimer</a>
+                        {% endif %}
+                    </div>
+
                 </div>
                 <div class="right">
                     <h3>Etudiants ayant postulés</h3>

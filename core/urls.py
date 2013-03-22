@@ -37,12 +37,18 @@ urlpatterns = patterns('',
     url(r'^offers/search/$', views.search_offers, {}, 'offers-search'),
     url(r'^offer/posted_offers/$', views.posted_offers),
     url(r'^offer/apply/$', views.apply_offer),
+    url(r'^offer/applications/(?P<slug>[^\.]+)/$', views.get_applications),
     url(r'^offer/(?P<model>\w+)/$', views.edit_offer),
+<<<<<<< HEAD
     url(r'^offer/(?P<model>\w+)/(?P<pk>\d+)/$', views.edit_offer),
 
     url(r'^offer/(?P<model>\w+)/(?P<pk>\d+)/$', views.edit_offer),
     url(r'^offer/(?P<model>\w+)/$', views.edit_offer),
     url(r'^offer/statusApplication/(?P<model>\w+)/(?P<pk>\d+)/(?P<slug>[^\.]+)$', views.statusApplication),
+=======
+    url(r'^offer/(?P<model>\w+)/(?P<slug>[^\.]+)/$', views.edit_offer),
+    url(r'^offer/statusApplication/(?P<model>\w+)/(?P<pk>\d+)/(?P<slug>[^\.]+)/$', views.statusApplication),
+>>>>>>> 596afeeb697e60eee7dd19d859ef29995b1047d7
     url(r'^offer/get/(?P<slug>[^\.]+)/$', views.get_offer, name="offer_view"),
 
 
@@ -56,6 +62,8 @@ urlpatterns = patterns('',
     url(r'^profile/school/(?P<slug>[^\.]+)/$', views.get_school),
     url(r'^profile/update_cover/$', views.update_profile_cover),
     url(r'^profile/update_cover/position/$', views.update_profile_cover_position),
+    url(r'^profile/update_avatar/$', views.update_avatar),
+    url(r'^profile/update_avatar/crop/$', views.update_avatar, {'action': 'crop'}),
     url(r'^profile/(?P<slug>[^\.]+)/followers/$', views.get_follow_profiles, {'type_url': 'followers'}),
     url(r'^profile/(?P<slug>[^\.]+)/following/$', views.get_follow_profiles, {'type_url': 'following'}),
     url(r'^profile/(?P<slug>[^\.]+)/$', views.get_applicant, name="profile_view"),

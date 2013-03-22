@@ -99,7 +99,9 @@
                         {% endif %}
                     </ul>
                 </div>
-                {% if profile.avatar %}<img class="profile_pic" src="{{ profile.avatar.url }}" alt="">{% endif %}
+                {% if profile.avatar %}
+                    <img class="profile_pic" src="{{ profile.avatar.url }}" alt="">
+                {% endif %}
             </div>
 
             <div class="row profile_menubar">

@@ -959,10 +959,39 @@ header.menu{
 
 #edit_profile{
     .profile_pic{
-        position: static;
-        margin: 10px auto;
+        // .border-radius(0);
+        position: absolute;
         display: block;
-        border: 1px solid #cdcdcd
+        top: 0;
+        left: 0;
+        border: 0;
+        margin: 0;
+        // border: 1px solid #cdcdcd;
+    }
+    #avatar_mask{
+        overflow: hidden;
+        width:190px;
+        height: 190px;
+        position: relative;
+        margin: 10px auto;
+        padding: 0;
+        display: block;
+        #mask{
+            position: absolute;
+            display: block;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            cursor:move;
+            display: none;
+        }
+        .new_avatar{
+            width: auto;
+            max-width: none;
+            height: auto;
+            max-height: none;
+            cursor:move;
+        }
     }
 }
 
@@ -975,8 +1004,28 @@ header.menu{
         margin-bottom: 15px;
     }
     .PTbutton{
-        margin-top: 50%;
+        margin-top: 60%;
     }
+    #avatar_btn_crop{
+        display: none;
+    }
+    p label{
+        display: none;
+    }
+}
+
+.no_avatar{
+    line-height: 2em;
+    font-weight: 800;
+    padding: 50px 0;
+}
+
+.vertical{
+    max-width: 100% !important;
+}
+
+.horizontal{
+    max-height: 100% !important;
 }
 
 #id_avatar{
@@ -1531,6 +1580,9 @@ li.as-result-item{
         color: #7e7e7e;
         font-style:italic;
         padding:0;
+    }
+    .description {
+        padding: 0 0 10px 0;
     }
 }
 
