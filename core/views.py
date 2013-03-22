@@ -568,6 +568,23 @@ def make_profil(request):
 
 
 @login_required
+def slug_validate(request):
+
+    message = ''
+    success = False
+
+    if request.method == 'POST':
+        slug = request.POST.get('slug')
+        if Profile.objects.filter(slug__exact=slug).exists():
+            message = 'Your slug name is already taken !'
+        else:
+            success = True
+            message = 'Your slug name is correct !'
+    ajax_vars = {'success': success, 'message':message}
+    return HttpResponse(simplejson.dumps(ajax_vars), mimetype='application/javascript')
+
+
+@login_required
 def create_applicant(request, action="new"):
     user = User.objects.get(id=request.user.id)
 
@@ -804,6 +821,24 @@ def statusApplication(request, model, pk, slug):
             return HttpResponseNotFound('404.html')
 
 
+@login_required
+def get_applications(request, slug):
+    try:
+        company = Company.objects.filter(user_id=request.user.id)[0]
+        offer = Offer.objects.get(slug=slug)
+        applicantsOffer = ApplicantOffer.objects.filter(offer=offer)
+        context = {
+            'offer': offer,
+            'applicantsOffer': applicantsOffer
+        }
+    except Offer.DoesNotExist:
+        return HttpResponseRedirect('/offers/')
+    except Company.DoesNotExist:
+        return HttpResponseRedirect('/offers/')
+
+    return render(request, 'offer/applications_offer.html', context)
+
+
 def potentialApplicant(offer):
 #     return offer
 #     # Critere
@@ -838,7 +873,7 @@ def potentialApplicant(offer):
 
 
 @login_required
-def edit_offer(request, model=None, pk=None):
+def edit_offer(request, model=None, slug=None):
 
     try:
         company = Company.objects.filter(user_id=request.user.id)[0]
@@ -847,13 +882,13 @@ def edit_offer(request, model=None, pk=None):
 
     if model == u"edit":
         try:
-            offer = Offer.objects.get(id=pk, company=company)
+            offer = Offer.objects.get(slug=slug, company=company)
         except Offer.DoesNotExist:
             return HttpResponseRedirect('/offers/')
 
         if offer.company == company:
             # applicant qui ont postule
-            applicantsOffer = ApplicantOffer.objects.filter(offer_id=pk)
+            applicantsOffer = ApplicantOffer.objects.filter(offer_id=offer.id)
 
             #applicant suceptible de vous interesser
 
@@ -877,8 +912,8 @@ def edit_offer(request, model=None, pk=None):
             return HttpResponseRedirect('/offers/')
 
     elif model == u"delete":
-        if Offer.objects.get(id=pk).company == company:
-            Offer.objects.get(id=pk).delete()
+        if Offer.objects.get(slug=slug).company == company:
+            Offer.objects.get(slug=slug).delete()
         return HttpResponseRedirect('/offer/posted_offers')
 
     elif pk is None :

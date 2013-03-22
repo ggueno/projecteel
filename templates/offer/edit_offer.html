@@ -1,7 +1,7 @@
 {% extends "layout/base.html" %}
 {% load thumbnail %}
 
-{% block title %} {{ slug }} {% endblock %}
+{% block title %}  {% endblock %}
 
 {% block content %}
 
@@ -10,50 +10,6 @@
 </head>
 
 <a href="/offer/posted_offers">Voir toutes mes offres postées</a>
-
-{% if model == 'edit' %}
-    <section class="row">
-        <div class="sleekbox">
-            <div class="content">
-
-                {% if form.vacancy == 0 %}
-
-                    <p>Cette offre a été pourvue.</p>
-
-                {% else %}
-
-                    <h1 class="heading">Candidats qui ont postulés</h1>
-                    {% if applicantsOffer %}
-                        <ul>
-                        {% for applicantOffer in applicantsOffer %}
-                            <li>
-                                {% thumbnail applicantOffer.applicant.avatar "50x50" crop="left" as im %}
-                                    <a href="/profile/{{ applicantOffer.applicant.slug }}" data-tooltip="{{ applicantOffer.applicant.user}}" class="tooltip">
-                                    <img src="{{im.url}}" alt="{{ applicantOffer.applicant.name }}"/>
-                                    </a>
-                                {% endthumbnail %}
-                                <p>{{ applicantOffer.applicant }}</p>
-                                <a class="view-candidature" href="/offer/statusApplication/read/{{applicantOffer.id}}/{{applicantOffer.applicant.slug}}" id="{{applicantOffer.id}}">Voir la candidature</a>
-                                <div class="content-application" style="background-color:#ffa8a8" id="application{{applicantOffer.id}}">
-                                    <p>{{ applicantOffer.content }}</p>
-                                    <a href="/offer/statusApplication/accept/{{applicantOffer.id}}/{{applicantOffer.applicant.slug}}">Accepter cette candidature</a>
-                                    <a href="/offer/statusApplication/decline/{{applicantOffer.id}}/{{applicantOffer.applicant.slug}}">Refuser cette candidature</a>
-                                </div>
-                            </li>
-                        {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p>Aucune candidature</p>
-                    {% endif %}
-
-                {% endif %}
-
-            </div>
-        </div>
-
-    </section>
-
-{% endif %}
     
     <section class="row add_project">
         <div class="sleekbox">
@@ -65,7 +21,7 @@
                 {% endif %}
                 {% if form.errors %}
                     <p style="color: red;">
-                        Please correct the error{{ form.errors|pluralize }} below.
+                        Corrigez les champs erronés suivants: {{ form.errors|pluralize }} below.
                     </p>
                 {% endif %}
 
@@ -74,44 +30,65 @@
                         <form class="PTform edit-offer" method="post" action="" enctype="multipart/form-data">
                         {% csrf_token %}
                             <div>
-                                <label for="">{{form.title.label}}</label>{{ form.title }}
+                                <label for="">Intitulé de l'offre *</label>
+                                <p class="description">Eviter les termes "recherche", "recrute", la localisation ou le type de contrat qui seront renseignés ci-dessous.</p>
+                                {{ form.title }}
                                 {{ form.title.errors }}
                             </div>
                             <div>
-                                <label for="">{{form.location.label}}</label>{{form.location}}
+                                <label for="">Location *</label>{{form.location}}
                                 {{ form.location.errors }}
+                                <p class="comments">Exemple : Paris, Paris(75), ...</p>
                             </div>
                             <div>
-                                <label for="">{{form.start.label}}</label>{{form.start}}
+                                <label for="">Début de l'offre</label>
+                                <p  class="description">Poste à pourvoir à une date précise ?</p>
+                                {{form.start}}
                                 {{ form.start.errors }}
                             </div>
                             <div>
-                                <label for="">{{form.duration.label}}</label>{{form.duration}}
-                                {{ form.duration.errors }}
+                                <label for="">Durée de la mission</label>
+                                <p class="description">Saisissez un nombre entier.</p>
+                                {{form.duration}}
                                 <p class="comments">Exemple : 6 mois, ..</p>
+                                {{ form.duration.errors }}
                             </div>
                             <div>
-                                <label for="">{{form.contract.label}}</label>{{form.contract}}
+                                <label for="">Type de contrat</label>{{form.contract}}
                                 {{ form.contract.errors }}
                             </div>
                             <div>
-                                <label for="">{{form.salary.label}}</label>{{form.salary}}
+                                <label for="">Salaire</label>
+                                <p class="description">Saisissez un nombre entier.</p>
+                                {{form.salary}}
                                 {{ form.salary.errors }}
                             </div>
                             <div>
-                                <label for="">{{form.content.label}}</label>{{form.content}}
+                                <label for="">Description du poste *</label>
+                                <p class="description">Fournissez un maximum d'informations comme le type de la mission, les compétences requises, ... 
+                                    (Pas de HTML)</p>
+                                {{form.content}}
                                 {{ form.content.errors }}
                             </div>
                             <div>
-                                <label for="">{{form.tags.label}}</label>{{ form.tags }}
+                                <label for="">Tags</label>
+                                <p class="description">Ajoutez des 5 tags maximums, pertinents pour rendre votre offre plus facile à trouver. Veuillez séparer vos tags par des virgules.</p>
+                                {{ form.tags }}
+                                <p class="comments">Exemple : </p>
+                                <ul class="tags">
+                                    <li>Photoshop</li>
+                                    <li>Ruby on Rails</li>
+                                    <li>SEO</li>
+                                </ul>
                                 {{ form.tags.errors }}
                             </div>
                             <div>
-                                <label for="">{{form.reference.label}}</label>{{ form.reference }}
+                                <label for="">Référence interne</label>{{ form.reference }}
                                 {{ form.refenence.errors }}
+                                <p class="comments">Exemple : WEB1337</p>
                             </div>
                             <div>
-                                <label for="">{{form.category.label}}</label>{{ form.category }}
+                                <label for="">Catégorie</label>{{ form.category }}
                                 {{ form.category.errors }}
                             </div>
                             {% if model == 'edit' %}
@@ -136,23 +113,5 @@
         removeformat_selector : 'style,script,img,html,iframe'
     });
 
-
-    $(document).ready(function(){
-
-        $('.content-application').hide();
-
-        $('.view-candidature').click(function() {
-            var id = '#application'+this.id;
-            $.post($(this).attr('href'),function(data){
-                $(id).show();
-            });
-            return false;
-        });       
-
-        $('.edit-offer').submit(function() {
-
-        });
-
-    });
 </script>
 {% endblock %}
