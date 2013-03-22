@@ -1093,7 +1093,7 @@ def get_applicant(request, slug):
     followingNb = Follow.objects.filter(following__id=profile.id).count()
     followersNb = Follow.objects.filter(follower__id=profile.id).count()
     pushs = Like.objects.filter(Q(project__owner=profile.user) | Q(project__participant__in=[profile])).count()
-    views = HitCount.objects.filter(content_type=ContentType.objects.get_for_model(projects[0]), object_pk__in=projects.values_list('pk', flat=True)).aggregate(hits=Sum('hits'))
+    views = HitCount.objects.filter(content_type=Project, object_pk__in=projects.values_list('pk', flat=True)).aggregate(hits=Sum('hits'))
     tags = SkillsTag.objects.filter(Q(skills__content_object__owner=profile)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')[:3]
     formEducation = EducationForm()
     formExperience = ExperienceForm()

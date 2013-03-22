@@ -2739,9 +2739,9 @@ header.menu #menu a:hover {
   height: 48px;
   z-index: 10;
   position: absolute;
-  -webkit-opacity: 0.1;
-  -moz-opacity: 0.1;
-  opacity: 0.1;
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+  opacity: 0;
   cursor: pointer;
 }
 .PTform .file-wrap input[type=text] {
@@ -3482,6 +3482,11 @@ p.location {
   display: block;
   font-size: 1.7em;
 }
+.project-header .project-stats li .PTbutton {
+  height: 13px;
+  margin-top: 0;
+  line-height: 1.2em;
+}
 .project-header .PTbutton {
   position: relative;
   top: 3px;
@@ -3534,6 +3539,7 @@ img.project-content {
 }
 #project-author .applicant-mini a.PTbutton {
   margin: 0 3px;
+  height: 20px;
 }
 #project-author .applicant-mini a.PTbutton:hover {
   background: #007ab8;
