@@ -148,6 +148,20 @@ textarea {
     float:right;
 }
 
+.error, .correct{
+    font-weight: bold;
+    display: block;
+    padding: 10px 0;
+}
+
+.error{
+    color: #FF0000;
+}
+
+.correct{
+    color: #007CBB;
+}
+
 ::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
 ::selection { background: #fe57a1; color: #fff; text-shadow: none; }
 
@@ -945,16 +959,16 @@ header.menu{
 
 #edit_profile{
     .profile_pic{
-        .border-radius(0);
+        // .border-radius(0);
         position: absolute;
         display: block;
         top: 0;
         left: 0;
         border: 0;
         margin: 0;
+        // border: 1px solid #cdcdcd;
     }
     #avatar_mask{
-        .border-radius(100px);
         overflow: hidden;
         width:190px;
         height: 190px;
@@ -962,7 +976,22 @@ header.menu{
         margin: 10px auto;
         padding: 0;
         display: block;
-        border: 1px solid #cdcdcd;
+        #mask{
+            position: absolute;
+            display: block;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            cursor:move;
+            display: none;
+        }
+        .new_avatar{
+            width: auto;
+            max-width: none;
+            height: auto;
+            max-height: none;
+            cursor:move;
+        }
     }
 }
 
@@ -977,9 +1006,26 @@ header.menu{
     .PTbutton{
         margin-top: 60%;
     }
+    #avatar_btn_crop{
+        display: none;
+    }
     p label{
         display: none;
     }
+}
+
+.no_avatar{
+    line-height: 2em;
+    font-weight: 800;
+    padding: 50px 0;
+}
+
+.vertical{
+    max-width: 100% !important;
+}
+
+.horizontal{
+    max-height: 100% !important;
 }
 
 #id_avatar{
@@ -1535,6 +1581,9 @@ li.as-result-item{
         font-style:italic;
         padding:0;
     }
+    .description {
+        padding: 0 0 10px 0;
+    }
 }
 
 /*
@@ -1748,8 +1797,3 @@ li.as-result-item{
         page-break-after: avoid;
     }
 }
-
-
-
-
-
