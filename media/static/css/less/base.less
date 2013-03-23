@@ -829,15 +829,19 @@ a.edit-item{
         float:left;
         text-align: center;
         width: 50%;
+        position: relative;
         .rocket {
             width: 125px; 
             height: 181px;
-            margin: 0 auto;
+            margin: 36px auto 0 -62px;
+            position: absolute;
+            left: 50%;
         }
         .desk {
             width: 176px; 
             height: 195px;
-            margin: 0 auto;
+            margin: 29px auto 0 44px;
+            position: absolute;
         }
     }
     .heading-lp{        
@@ -1764,18 +1768,17 @@ li.as-result-item{
             margin: 0 auto;
             line-height: 48px;
             border-bottom:1px solid #d2d2d2;
+            position: relative;
             .blackTitle{
                 text-align:left;
                 padding: 0px;
                 width:65%;
                 position:absolute;
             }
-            .profile_pic{
-                float:right;
-                margin: 0;
-                img{
-                    .border-radius(20px);
-                }
+            .pic_company {
+                position: absolute;
+                right:0;
+                top: -4px;
             }
         }
         .content {
