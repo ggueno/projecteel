@@ -24,6 +24,7 @@ def home(request):
     projects = Project.objects.annotate(num=Count('likes')).order_by('-num')
     companies = Company.objects.annotate(num=Count('followers')).order_by('-num')
     print companies[0].avatar.url
+    print companies[1].avatar.url
     context = {
         'projects': projects,
         'companies': companies
