@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     url(r'^list/profile/(?P<type_profile>[^\.]+)/$', views.get_list_profile),
     url(r'^list/(?P<tag>[^\.]+)/$', views.get_list),
 
+    url(r'^dashboard/$', views.show_dashboard),
 
     url(r'^comment/delete/(?P<pk>\d+)$', views.delete_comment, {}, 'comment-delete'),
 

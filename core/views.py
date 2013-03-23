@@ -1368,6 +1368,25 @@ def get_follow_profiles(request, slug, type_url='followers'):
     return render_to_response(template, context, context_instance=RequestContext(request))
 
 
+@login_required
+def show_dashboard(request):
+
+    profile = Applicant.objects.get(pk=request.user.id)
+    projects = Project.objects.filter(Q(owner=profile, published=True) | Q(participant__in=[profile], published=True))
+    comments = Comment.objects.filter(project__owner=profile).count
+    pushs = Like.objects.filter(Q(project__owner=profile.user) | Q(project__participant__in=[profile])).count()
+    views = HitCount.objects.filter(content_type=ContentType.objects.get_for_model(Project), object_pk__in=projects.values_list('pk', flat=True)).aggregate(hits=Sum('hits'))
+    tags = SkillsTag.objects.filter(Q(skills__content_object__owner=profile)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')[:3]
+
+    context = {
+        'profile': profile,
+        'stats': {'pushs': pushs, 'tags': tags, 'views': views, 'comments' : comments },
+        'projects': projects,
+        'pushs': Project.objects.push_user(profile.user_id),
+        'coverImageForm' : CoverImageForm()
+    }
+    return render_to_response('notifications/dashboard.html', context, context_instance=RequestContext(request))
+
 
 class ImageProjectCreateView(CreateView):
     model = ImageProject

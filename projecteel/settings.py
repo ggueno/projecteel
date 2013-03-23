@@ -131,6 +131,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
+    'core.processor_file_name.user',
 )
 
 
@@ -153,7 +154,7 @@ INSTALLED_APPS = (
     'elsewhere',
     'core',
     'tinymce',
-    #'notifications',
+    'notifications',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

@@ -292,6 +292,12 @@ i.icon{
     }
 }
 
+a.PTbutton{
+    line-height: 3em;
+    font-size: 12px;
+    font-weight: 600;
+}
+
 .titleU{
     padding:5px 0;
     border-bottom:1px solid #9e9e9e;
@@ -834,16 +840,16 @@ a.edit-item{
             margin: 0 auto;
         }
     }
-    .heading-lp {        
+    .heading-lp{        
         padding: 0;
     }
-    .button-landingPage {
+    .button-landingPage{
         clear: both;
         margin-top: 256px;
         background-color: #f55253;
         border-bottom-color: #e84243;
-        &.hover {
-            background: #e84243;
+        &:hover{
+            background-color: darken(#f55253,10%)
         }
     }
 }
@@ -908,6 +914,39 @@ header.menu{
                 background: #353535;
                 color: inherit;
                 text-decoration:none;
+            }
+            &.profile{
+                text-transform: none;
+                line-height: 1.2em;
+                font-size: .9em;
+                text-align: right;
+                padding-right: 15px;
+                padding-top: 13px;
+                height: 19px;
+                // padding-left: 30px;
+                .bar_avatar{
+                    float: right;
+                    margin-left: 10px;
+                    margin-top: 0px;
+                }
+            }
+            &.notifications{
+                background: #3b3b3b;
+                width: 26px;
+                height: 26px;
+                padding: 0;
+                margin: 16px 0 16px 30px;
+                color: #fefefe;
+                text-align: center;
+                line-height: 26px;
+                display: block;
+                border:none;
+                &:hover{
+                    border:none;
+                }
+                &.unread{
+                    background: @PTblue;
+                }
             }
         }
     }
@@ -994,6 +1033,11 @@ header.menu{
                 float: left;
             }
             .PTbutton{
+                height: 1.2em;
+                line-height: 1.2em;
+                margin-top: 9px;
+            }
+            .settings.PTbutton{
                 margin-top:9px;
                 float: left;
                 display: block;
