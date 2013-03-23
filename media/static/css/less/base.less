@@ -148,6 +148,28 @@ textarea {
     float:right;
 }
 
+.error, .correct{
+    font-weight: bold;
+    display: block;
+    padding: 10px 0;
+}
+
+.error{
+    color: #FF0000;
+}
+
+.correct{
+    color: #007CBB;
+}
+
+.annotation{
+    color: #B2B2B2;
+    font-style: ooblique;
+    display: block;
+    padding: 0 0 5px 0;
+
+}
+
 ::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
 ::selection { background: #fe57a1; color: #fff; text-shadow: none; }
 
@@ -382,9 +404,29 @@ i.icon{
     text-align:center;
     background: #fff;
     padding:0;
+    border-bottom:2px solid transparent;
+    -webkit-transition: border-color .25s ease;
+       -moz-transition: border-color .25s ease;
+        -ms-transition: border-color .25s ease;
+         -o-transition: border-color .25s ease;
+            transition: border-color .25s ease;
     a{
         color:inherit;
         text-decoration:none;
+        -webkit-transition: all .1s ease;
+           -moz-transition: all .1s ease;
+            -ms-transition: all .1s ease;
+             -o-transition: all .1s ease;
+                transition: all .1s ease;
+        &:hover{
+            color: @PTblue;
+        }
+    }
+    &:hover{
+        border-bottom:2px solid #cdcdcd;
+        a{
+            color: @PTblue;
+        }
     }
     img{
         padding:0;
@@ -924,7 +966,7 @@ header.menu{
         #cover_loading{
             position: absolute;
             border: none;
-            top: 219px;
+            top: 220px;
             width: 0%;
             // display: none;
             height: 2px;
@@ -952,12 +994,15 @@ header.menu{
                 float: left;
             }
             .PTbutton{
-                margin-top:7px;
+                margin-top:9px;
                 float: left;
                 display: block;
-                height: 20px;
+                height: 1.2em;
+                font-size: 1.3em;
+                padding: 0 5px;
                 width: auto;
-                line-height: 1.6em;
+                line-height: 1.3em;
+                color: rgba(255,255,255,.8);
             }
             .profile_stats{
                 list-style-type: none;
@@ -999,6 +1044,14 @@ header.menu{
         }
         a{
             .PTlink();
+            &.tooltip{
+                display: inline-block;
+                margin: 0 5px;
+            }
+            &.tooltip:hover:after, &.tooltip:hover:before{
+                margin-left: -20px;
+                line-height: 2em;
+            }
         }
     }
     .profile_menubar{
@@ -1084,6 +1137,57 @@ header.menu{
             max-height: none;
             cursor:move;
         }
+    }
+}
+
+#id_network,{
+    .PTselect();
+    width: 100%;
+    float: left;
+    height: 36px;
+}
+
+#network_list{
+    li{
+        padding: 5px 10px;
+        margin: 10px 0;
+        width:40%;
+        a {
+            &:hover{
+                color:@PTblue
+            }
+            img{
+                margin-right: 5px;}
+        }
+        a.remove_social_network{
+            float: right;
+        }
+        .ico-remove{
+            .opacity(0.3);
+            -webkit-transition: opacity .3s ease;
+               -moz-transition: opacity .3s ease;
+                -ms-transition: opacity .3s ease;
+                 -o-transition: opacity .3s ease;
+                    transition: opacity .3s ease;
+            &:hover{
+                .opacity(0.8);
+            }
+        }
+    }
+}
+
+.PTform .new_social_network{
+    overflow: auto;
+    width: 100%;
+    div.fivecol{
+        margin-right: 1.5%;
+        &.last{
+            margin-right: 0;
+        }
+    }
+    .PTbutton{
+        margin-top: 18px;
+        height: 36px;
     }
 }
 
@@ -1213,7 +1317,7 @@ header.menu{
             height: 48px;
             z-index: 10;
             position: absolute;
-            .opacity(0.1);
+            .opacity(0);
             cursor: pointer;
         }
         input[type=text]{
@@ -1672,9 +1776,6 @@ li.as-result-item{
         color: #7e7e7e;
         font-style:italic;
         padding:0;
-    }
-    .description {
-        padding: 0 0 10px 0;
     }
 }
 

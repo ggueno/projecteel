@@ -123,6 +123,24 @@ textarea {
 .last {
   float: right;
 }
+.error,
+.correct {
+  font-weight: bold;
+  display: block;
+  padding: 10px 0;
+}
+.error {
+  color: #FF0000;
+}
+.correct {
+  color: #007CBB;
+}
+.annotation {
+  color: #B2B2B2;
+  font-style: ooblique;
+  display: block;
+  padding: 0 0 5px 0;
+}
 ::-moz-selection {
   background: #fe57a1;
   color: #fff;
@@ -827,7 +845,7 @@ header.menu #menu a:hover {
 .profile .profile_cover #cover_loading {
   position: absolute;
   border: none;
-  top: 219px;
+  top: 220px;
   width: 0%;
   height: 2px;
   z-index: 8;
@@ -966,12 +984,6 @@ header.menu #menu a:hover {
   z-index: 10;
 }
 #edit_profile .profile_pic {
-  -webkit-border-radius: 0;
-  -webkit-background-clip: padding-box;
-  -moz-border-radius: 0;
-  -moz-background-clip: padding;
-  border-radius: 0;
-  background-clip: padding-box;
   position: absolute;
   display: block;
   top: 0;
@@ -980,12 +992,6 @@ header.menu #menu a:hover {
   margin: 0;
 }
 #edit_profile #avatar_mask {
-  -webkit-border-radius: 100px;
-  -webkit-background-clip: padding-box;
-  -moz-border-radius: 100px;
-  -moz-background-clip: padding;
-  border-radius: 100px;
-  background-clip: padding-box;
   overflow: hidden;
   width: 190px;
   height: 190px;
@@ -993,7 +999,77 @@ header.menu #menu a:hover {
   margin: 10px auto;
   padding: 0;
   display: block;
+}
+#edit_profile #avatar_mask #mask {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  cursor: move;
+  display: none;
+}
+#edit_profile #avatar_mask .new_avatar {
+  width: auto;
+  max-width: none;
+  height: auto;
+  max-height: none;
+  cursor: move;
+}
+#id_network {
   border: 1px solid #cdcdcd;
+  border-radius: 0;
+  background: #fcfcfc;
+  -webkit-appearance: none;
+  background-image: url('../img/dk_arrows.png');
+  background-repeat: no-repeat;
+  background-position: 96% center;
+  width: 100%;
+  float: left;
+  height: 36px;
+}
+#network_list li {
+  padding: 5px 10px;
+  margin: 10px 0;
+  width: 40%;
+}
+#network_list li a:hover {
+  color: #0099e6;
+}
+#network_list li a img {
+  margin-right: 5px;
+}
+#network_list li a.remove_social_network {
+  float: right;
+}
+#network_list li .ico-remove {
+  -webkit-opacity: 0.3;
+  -moz-opacity: 0.3;
+  opacity: 0.3;
+  -webkit-transition: opacity .3s ease;
+  -moz-transition: opacity .3s ease;
+  -ms-transition: opacity .3s ease;
+  -o-transition: opacity .3s ease;
+  transition: opacity .3s ease;
+}
+#network_list li .ico-remove:hover {
+  -webkit-opacity: 0.8;
+  -moz-opacity: 0.8;
+  opacity: 0.8;
+}
+.PTform .new_social_network {
+  overflow: auto;
+  width: 100%;
+}
+.PTform .new_social_network div.fivecol {
+  margin-right: 1.5%;
+}
+.PTform .new_social_network div.fivecol.last {
+  margin-right: 0;
+}
+.PTform .new_social_network .PTbutton {
+  margin-top: 18px;
+  height: 36px;
 }
 .edit_avatar {
   overflow: auto;
@@ -1007,8 +1083,22 @@ header.menu #menu a:hover {
 .edit_avatar .PTbutton {
   margin-top: 60%;
 }
+.edit_avatar #avatar_btn_crop {
+  display: none;
+}
 .edit_avatar p label {
   display: none;
+}
+.no_avatar {
+  line-height: 2em;
+  font-weight: 800;
+  padding: 50px 0;
+}
+.vertical {
+  max-width: 100% !important;
+}
+.horizontal {
+  max-height: 100% !important;
 }
 #id_avatar {
   display: none;
@@ -1115,9 +1205,9 @@ header.menu #menu a:hover {
   height: 48px;
   z-index: 10;
   position: absolute;
-  -webkit-opacity: 0.1;
-  -moz-opacity: 0.1;
-  opacity: 0.1;
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+  opacity: 0;
   cursor: pointer;
 }
 .PTform .file-wrap input[type=text] {

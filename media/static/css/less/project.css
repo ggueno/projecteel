@@ -54,6 +54,11 @@ p.location {
   display: block;
   font-size: 1.7em;
 }
+.project-header .project-stats li .PTbutton {
+  height: 13px;
+  margin-top: 0;
+  line-height: 1.2em;
+}
 .project-header .PTbutton {
   position: relative;
   top: 3px;
@@ -100,6 +105,7 @@ img.project-content {
 }
 #project-author .applicant-mini a.PTbutton {
   margin: 0 3px;
+  height: 20px;
 }
 #project-author .applicant-mini a.PTbutton:hover {
   background: #007ab8;

@@ -5,7 +5,7 @@ import settings
 
 from hitcount.views import update_hit_count_ajax
 
-#import notifications
+import notifications
 
 
 admin.autodiscover()
@@ -25,7 +25,7 @@ urlpatterns = patterns('',
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root':  settings.MEDIA_ROOT}),
     (r'^tinymce/', include('tinymce.urls')),
     (r'^elsewhere/', include('elsewhere.urls')),
-    #(r'^inbox/notifications/', include('notifications.urls')),
+    ('^inbox/notifications/', include(notifications.urls)),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

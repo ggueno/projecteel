@@ -574,6 +574,23 @@ def make_profil(request):
 
 
 @login_required
+def slug_validate(request):
+
+    message = ''
+    success = False
+
+    if request.method == 'POST':
+        slug = request.POST.get('slug')
+        if Profile.objects.filter(slug__exact=slug).exists():
+            message = 'Your slug name is already taken !'
+        else:
+            success = True
+            message = 'Your slug name is correct !'
+    ajax_vars = {'success': success, 'message':message}
+    return HttpResponse(simplejson.dumps(ajax_vars), mimetype='application/javascript')
+
+
+@login_required
 def create_applicant(request, action="new"):
     user = User.objects.get(id=request.user.id)
 
@@ -1118,7 +1135,7 @@ def get_applicant(request, slug):
     followingNb = Follow.objects.filter(following__id=profile.id).count()
     followersNb = Follow.objects.filter(follower__id=profile.id).count()
     pushs = Like.objects.filter(Q(project__owner=profile.user) | Q(project__participant__in=[profile])).count()
-    views = HitCount.objects.filter(content_type=ContentType.objects.get_for_model(projects[0]), object_pk__in=projects.values_list('pk', flat=True)).aggregate(hits=Sum('hits'))
+    views = HitCount.objects.filter(content_type=Project, object_pk__in=projects.values_list('pk', flat=True)).aggregate(hits=Sum('hits'))
     tags = SkillsTag.objects.filter(Q(skills__content_object__owner=profile)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')[:3]
     formEducation = EducationForm()
     formExperience = ExperienceForm()

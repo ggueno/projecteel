@@ -148,6 +148,28 @@ textarea {
     float:right;
 }
 
+.error, .correct{
+    font-weight: bold;
+    display: block;
+    padding: 10px 0;
+}
+
+.error{
+    color: #FF0000;
+}
+
+.correct{
+    color: #007CBB;
+}
+
+.annotation{
+    color: #B2B2B2;
+    font-style: ooblique;
+    display: block;
+    padding: 0 0 5px 0;
+
+}
+
 ::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
 ::selection { background: #fe57a1; color: #fff; text-shadow: none; }
 
@@ -924,7 +946,7 @@ header.menu{
         #cover_loading{
             position: absolute;
             border: none;
-            top: 219px;
+            top: 220px;
             width: 0%;
             // display: none;
             height: 2px;
@@ -1084,6 +1106,60 @@ header.menu{
             max-height: none;
             cursor:move;
         }
+<<<<<<< HEAD
+=======
+    }
+}
+
+#id_network,{
+    .PTselect();
+    width: 100%;
+    float: left;
+    height: 36px;
+}
+
+#network_list{
+    li{
+        padding: 5px 10px;
+        margin: 10px 0;
+        width:40%;
+        a {
+            &:hover{
+                color:@PTblue
+            }
+            img{
+                margin-right: 5px;}
+        }
+        a.remove_social_network{
+            float: right;
+        }
+        .ico-remove{
+            .opacity(0.3);
+            -webkit-transition: opacity .3s ease;
+               -moz-transition: opacity .3s ease;
+                -ms-transition: opacity .3s ease;
+                 -o-transition: opacity .3s ease;
+                    transition: opacity .3s ease;
+            &:hover{
+                .opacity(0.8);
+            }
+        }
+    }
+}
+
+.PTform .new_social_network{
+    overflow: auto;
+    width: 100%;
+    div.fivecol{
+        margin-right: 1.5%;
+        &.last{
+            margin-right: 0;
+        }
+    }
+    .PTbutton{
+        margin-top: 18px;
+        height: 36px;
+>>>>>>> 9ab04a5dc8c2ecd56f77ae8723966dca3ee2bfe9
     }
 }
 
@@ -1213,7 +1289,7 @@ header.menu{
             height: 48px;
             z-index: 10;
             position: absolute;
-            .opacity(0.1);
+            .opacity(0);
             cursor: pointer;
         }
         input[type=text]{

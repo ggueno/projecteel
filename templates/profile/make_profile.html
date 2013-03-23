@@ -29,7 +29,11 @@
                         <p class="errors">Corrigez les champs erronés suivants: {{ form.non_field_errors }}</p>
                     {% endif %}
 
+<<<<<<< HEAD
+                    <form action="/profile/edit/" method="post" class="PTform" id="form_profile">
+=======
                     <form action="/profile/edit/" method="post" class="PTform" enctype="multipart/form-data">
+>>>>>>> 596afeeb697e60eee7dd19d859ef29995b1047d7
                         {% csrf_token %}
 
                         <!-- TAB -->
@@ -55,10 +59,21 @@
                                 {{ form_user.last_name }}
                             </div>
                             <div>
+                                <label for="id_name">Pseudo</label>
+                                {% if form_applicant.name.errors %}
+                                <p class="errors">{{ form_applicant.name.errors.as_text }}</p>
+                                {% endif %}
+                                {{ form_applicant.name }}
+                                <span id="slug_validate"></span>
+                            </div>
+                            <div>
                                 <label for="">Votre avatar</label>
                                 <div class="edit_avatar">
                                         <div class="eightcol">
                                             <span>Actuellement</span>
+<<<<<<< HEAD
+                                            <img src="{{avatar}}" alt="" class="profile_pic">
+=======
                                             <div id="avatar_mask">
                                                 {% if avatar %}
                                                     <img src="{{avatar.url}}" alt="" class="profile_pic">
@@ -67,6 +82,7 @@
                                                 {% endif %}
                                                 <img src="{{ STATIC_URL }}img/avatar_mask.png" alt="" id="mask">
                                             </div>
+>>>>>>> 596afeeb697e60eee7dd19d859ef29995b1047d7
                                         </div>
                                         <div class="fourcol last">
                                             <button class="PTbutton mini" id="avatar_btn">Choisir une image</button>
@@ -75,6 +91,8 @@
                                         </div>
                                 </div>
                             </div>
+<<<<<<< HEAD
+=======
 
                             {% for network in social_networks%}
                             {{ network }}
@@ -85,6 +103,7 @@
                                 {{ form_social.as_p}}
                             </div>
                             -->
+>>>>>>> 596afeeb697e60eee7dd19d859ef29995b1047d7
 
                             <div class="footer">
                                 <div class="twocol">Etape 1 sur 2</div>
@@ -94,7 +113,6 @@
                         </section>
 
                         <section id="etape2">
-
                             <!--
                             {{ form_applicant.errors }}
 
@@ -102,13 +120,6 @@
                                 {{ form_applicant.as_p }}
                             </div>
                             -->
-                            <div>
-                                <label for="id_name">Name</label>
-                                {% if form_applicant.name.errors %}
-                                <p class="errors">{{ form_applicant.name.errors.as_text }}</p>
-                                {% endif %}
-                                {{ form_applicant.name }}
-                            </div>
                             <div>
                                 <label for="id_description">Description</label>
                                 {% if form_applicant.description.errors %}
@@ -170,6 +181,29 @@
             return false;
         });
 
+<<<<<<< HEAD
+        $('#id_name').on('blur', function(){
+             var validateSlug = $('#slug_validate');
+            $.ajax({
+            type: "POST",
+            url: "/profile/slug_validate/",
+            data: {'slug':$(this).val()},
+            dataType: "json",
+            success: function(response) {
+            if (!response.success) {
+                validateSlug.addClass('error').html(response.message);
+            } else {
+                validateSlug.addClass('correct').html(response.message);
+                console.log('This username is available!');
+            }
+        },
+        error: function(rs, e) {
+            console.log(rs.responseText);
+        }
+    });
+    return false;
+});
+=======
         $('#id_avatar').fileupload({
             dataType: 'json',
             url : '/profile/update_avatar/',
@@ -273,6 +307,7 @@
             var visorY = $("#mask").offset().top;
             return [visorX + boundLeft,visorY + boundTop,visorX,visorY];
         }
+>>>>>>> 596afeeb697e60eee7dd19d859ef29995b1047d7
 
     });
 </script>
