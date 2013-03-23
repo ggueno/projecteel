@@ -1,0 +1,398 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- 1140px Grid styles for IE -->
+        <!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" /><![endif]-->
+        <link rel="stylesheet" href="{% static "css/style.css" %}">
+        <script src="{% static "js/vendor/modernizr-2.6.2.min.js" %}"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <header class="menu">
+            <div class="row">
+                <a href="/" id="logo" class=""></a>
+                <ul id="menu" class="fivecol">
+                    <li><a href="/profile/" class="active">Profil</a></li>
+                    <li><a href="/projects/">Projet</a></li>
+                    <li><a href="/offers/">Offres</a></li>
+                </ul>
+            </div>
+        </header>
+
+        <section class="row profile">
+            <div class="sleekbox">
+                <div class="profile_cover">
+                    <img src="{% static "img/profile_cover.jpg" %}" alt="Cover image">
+                    <div class="profile_cover_infobar row">
+                        <h1 id="name" class="blackTitle">Henriette de Poulpiquet</h1>
+                        <a class="PTbutton" href="#" >Suivre</a>
+                        <ul class="fourcol last profile_stats">
+                            <li><span>2316</span>vues</li>
+                            <li><span>172</span>push</li>
+                            <li><span>23</span>followers</li>
+                            <li><span>9</span>following</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="profile_secondbar">
+                <ul>
+                        <li><i class="icon pin"></i> Paris,France</li>
+                        <li><i class="icon job"></i> Développeur web</li>
+                        <li class="last"><a href="#" title=""><i class="icon web"></i> guenoleguemas.fr</a></li>
+                        <li class="last"><a href="#" title=""><i class="icon twitter"></i> @hPoulpe</a></li>
+                    </ul>
+                </div>
+                <img class="profile_pic" src="{% static "img/profile_pic.jpg" %}" alt="">
+
+            </div>
+            <div class="row profile_menubar">
+                    <ul class="profile_menu fourcol tabs">
+                        <li><a href="#projects" class="active">Projets</a></li>
+                        <li><a href="#infos">Parcours</a></li>
+                    </ul>
+                    <ul class="tags">
+                        <li>photoshop</li>
+                        <li>php</li>
+                        <li>html5</li>
+                        <li>django</li>
+                    </ul>
+                </div>
+        </section>
+
+        <section class="row projects" id="projects">
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol last">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+
+            <div class="thumb threecol last">
+                <a href="" title="">
+                    <img src="{% static "img/thumb1.jpg" %}" alt="" />
+                </a>
+                <div class="project_infos">
+                    <div class="project_views"><span class="label_views"></span>1250</div>
+                    <div class="project_pushs"><span class="label_pushs"></span>150</div>
+                </div>
+                <a href="" title="">
+                    <h3>The megastore</h3>
+                </a>
+            </div>
+        </section>
+
+        <section class="row" id="infos">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </section>
+
+        <div class="row wrapper">
+            <div class="sleekbox">
+                <h1>WHITEBOX</h1>
+                <p>LOLOL SAWG YOLO</p>
+            </div>
+        </div>
+
+        <div class="row wrapper">
+            <div class="threecol">
+                <form action="" class="sleekbox">
+                    <h4>Filtres</h4>
+                    <ul class="filters">
+                        <li class="tag">
+                            <input type="text" placeholder="Tags">
+                        </li>
+                        <li>
+                            <input type="text" placeholder="Catégories">
+                        </li>
+                        <li>
+                            <input type="text" placeholder="Localisation">
+                        </li>
+                        <li>
+                            <input type="text" placeholder="Thèmes">
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="ninecol last">
+                <div class="sleekbox">
+                    <h4>Hello my friend</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <hr>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <ul class="tags">
+                        <li>photoshop <a href="#" class="delete" title="Delete tag">X</a></li>
+                        <li>motion design <a href="#" class="delete" title="Delete tag">X</a></li>
+                        <li>photoshop <a href="#" class="delete" title="Delete tag">X</a></li>
+                        <li>motion design <a href="#" class="delete" title="Delete tag">X</a></li>
+                    </ul>
+
+                    <form class="PTform">
+                              <!-- TAB -->
+                              <section name="Informations<br/> générales">
+
+                                <!-- Heading -->
+                                <div>
+                                  <h1>Vos infos de base</h1>
+                                  <p>Faisons connaissance, renseignez ces quelques champs.</p>
+                                </div>
+
+                                <!-- Text -->
+                                <div><label>Pseudo:</label><input type="text" name="username"/></div>
+                                <div><label>Date:</label><input type="text" name="date" class="datepicker" placeholder="JJ/MM/AA"/></div>
+                                <div><label>Commentaires:</label><textarea name="comments"></textarea></div>
+
+                                <!-- File -->
+                                <div><label>Fichier:</label><input type="file" multiple name="file"/></div>
+
+                                <!-- Select -->
+                                <div>
+                                  <label>Couleurs:</label>
+                                  <select name="colors">
+                                      <option value="default">Choose a color</option>
+                                      <option value="Red">Red</option>
+                                      <option value="Blue">Blue</option>
+                                      <option value="Green">Green</option>
+                                  </select>
+                                </div>
+
+                              </section> <!-- END TAB -->
+
+                              <!-- TAB -->
+                              <section name="Deuxième étape">
+
+                                <div>
+                                  <h1>Second tag</h1>
+                                  <p>Nigga</p>
+                                </div>
+
+                                <!-- Checkbox -->
+                                <div>
+                                  <label>Languages:</label>
+                                  <label><input type="checkbox" name="langs[]" value="English"/>English</label>
+                                  <label><input type="checkbox" name="langs[]" value="Chinese"/>Chinese</label>
+                                  <label><input type="checkbox" name="langs[]" value="Spanish"/>Spanish</label>
+                                </div>
+
+                                <!-- Radio -->
+                                <div>
+                                  <label>Options:</label>
+                                  <label><input type="radio" name="options" value="One"/>One</label>
+                                  <label><input type="radio" name="options" value="Two"/>Two</label>
+                                  <label><input type="radio" name="options" value="Three"/>Three</label>
+                                </div>
+
+                              </section> <!-- END TAB -->
+
+                              <!-- Separator -->
+                              <div><hr/></div>
+
+                              <!-- Buttons -->
+                              <div class="alignRight">
+                                <button class="buttonAqua" type="submit">Envoyer</button>
+                              </div>
+
+                            </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row wrapper">
+            <div class="threecol">
+                <div class="whitediv">
+                    <h4>Filtres</h4>
+                    <form action="" id="projectFilters">
+                        <ul class="filters">
+                            <li class="tag clearfix"><input type="text" name="PTinput" value="" placeholder="tags"></li>
+                            <li class="push clearfix">
+                                <select name="">
+                                    <option value=""><5</option>
+                                    <option value="">5 et 15</option>
+                                </select>
+                            </li>
+                            <li class="date">
+                                <select name="">
+                                    <option value="">1 semaine</option>
+                                    <option value="">2 et 3 semaines</option>
+                                </select>
+                            </li>
+                            <li class="region"><input type="text" name="PTinput" value="" placeholder="zone géographique"></li>
+                            <li class="category">
+                                <input type="text" name="PTinput" value="" placeholder="Themes">
+                                <div class="clearfix"></div>
+                                <ul class="tags">
+                                    <li>photoshop <a href="#" class="delete" title="Delete tag">X</a></li>
+                                    <li>motion design <a href="#" class="delete" title="Delete tag">X</a></li>
+                                    <li>photoshop <a href="#" class="delete" title="Delete tag">X</a></li>
+                                    <li>motion design <a href="#" class="delete" title="Delete tag">X</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+            <div class="ninecol last">
+                <div class="whitediv">
+                    <ul class="tags inline">
+                        <li>photoshop</li>
+                        <li>motion design</li>
+                    </ul>
+                    <div class="projectContent">
+                        <img src="{% static "img/project1.jpg" %}" alt="">
+                    </div>
+                    <div class="projectComments">
+                        <h3 class="postComment">Poster un commentaire</h3>
+                        <form action="">
+                            <textarea name="" id="" cols="30" rows="10"></textarea>
+                            <input type="submit" value="Envoyer">
+                        </form>
+                        <h3 class="numberComments">10 commentaires</h3>
+                        <ul class="commentList">
+                            <li>
+                                <img src="{% static "img/sisimagle.jpg" %}" class="profilePic" alt="">
+                                <span class="name">Henriette de Poulpiquet</span>
+                                <span class="commentInfo">- il y a 9 minutes</span>
+                                <p>Why is there salmon in my saddlebags ?</p>
+                            </li>
+                            <li>
+                                <img src="{% static "img/sisimagle.jpg" %}" class="profilePic" alt="">
+                                <span class="name">Guéno la saumure</span>
+                                <span class="commentInfo">- il y a 9 minutes</span>
+                                <p>Et ta mère c'est une saumure ?</p>
+                            </li>
+                            <li>
+                                <img src="{% static "img/sisimagle.jpg" %}" class="profilePic" alt="">
+                                <span class="name">Henriette de Poulpiquet</span>
+                                <span class="commentInfo">- il y a 9 minutes</span>
+                                <p>Duis condimentum turpis et quam dignissim dictum. Curabitur nec lorem nunc. Aenean eu urna lorem. Fusce bibendum justo pellentesque dui vehicula vel lacinia leo pretium. Nulla non suscipit mauris. Sed viverra mauris at metus sodales volutpat. Nullam consequat fringilla dictum.
+                                    <br><br>
+                                Kiss - Michel 2 Noisy
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.8.3.min.js" %}"><\/script>')</script>
+        <script src="{% static "js/plugins.js" %}"></script>
+        <script src="{% static "js/main.js" %}"></script>
+
+
+
+    </body>
+</html>

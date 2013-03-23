@@ -2331,6 +2331,104 @@ a.edit-item:hover {
   color: #777;
 }
 /*
+   L A N D I N G  P A G E
+   ========================================================================== */
+.strap-1 {
+  background: url(../img/landscape.png) repeat-x bottom;
+  height: 450px;
+}
+.strap-1 #logo_l {
+  position: absolute;
+  margin-top: 22px;
+  margin-left: 30px;
+}
+.strap-1 .catcher {
+  font-size: 1.15em;
+  margin-left: 130px;
+  margin-top: 120px;
+  width: 600px;
+  text-align: center;
+  position: absolute;
+}
+.strap-1 .box-connexion {
+  background-color: #FFF;
+  height: 310px;
+  position: absolute;
+  top: 63px;
+  right: 10%;
+}
+.strap-1 .box-connexion .form-connexion {
+  width: 85%;
+  margin: 11px auto;
+  line-height: 26px;
+}
+.strap-1 .box-connexion .form-connexion .heading-lp {
+  padding: 5px 0;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #d2d2d2;
+}
+.strap-1 .box-connexion .form-connexion .button-landingPage {
+  width: 100%;
+  margin-top: 12px;
+  padding: 0;
+}
+.strap-1 .box-connexion .form-connexion a {
+  color: #777;
+}
+.strap-1 .box-connexion .form-connexion input[type=checkbox] {
+  margin-right: 5px;
+}
+.strap-2 {
+  height: 430px;
+  background-color: #FFF;
+}
+.strap-2 .row {
+  margin: auto;
+  padding-top: 3%;
+}
+.strap-2 li {
+  float: left;
+  text-align: center;
+  width: 50%;
+}
+.strap-2 li .rocket {
+  width: 125px;
+  height: 181px;
+  margin: 0 auto;
+}
+.strap-2 li .desk {
+  width: 176px;
+  height: 195px;
+  margin: 0 auto;
+}
+.strap-2 .heading-lp {
+  padding: 0;
+}
+.strap-2 .button-landingPage {
+  clear: both;
+  margin-top: 256px;
+  background-color: #f55253;
+  border-bottom-color: #e84243;
+}
+.strap-2 .button-landingPage.hover {
+  background: #e84243;
+}
+.strap-3 {
+  height: 472px;
+  text-align: center;
+}
+.strap-4 {
+  background-color: #FFF;
+  height: 410px;
+  text-align: center;
+}
+.button-landingPage {
+  width: 280px;
+}
+.heading-lp {
+  font-size: 1.7em;
+}
+/*
    H O M E
    ========================================================================== */
 header.menu {
@@ -2573,12 +2671,6 @@ header.menu #menu a:hover {
   z-index: 10;
 }
 #edit_profile .profile_pic {
-  -webkit-border-radius: 0;
-  -webkit-background-clip: padding-box;
-  -moz-border-radius: 0;
-  -moz-background-clip: padding;
-  border-radius: 0;
-  background-clip: padding-box;
   position: absolute;
   display: block;
   top: 0;
@@ -2587,12 +2679,6 @@ header.menu #menu a:hover {
   margin: 0;
 }
 #edit_profile #avatar_mask {
-  -webkit-border-radius: 100px;
-  -webkit-background-clip: padding-box;
-  -moz-border-radius: 100px;
-  -moz-background-clip: padding;
-  border-radius: 100px;
-  background-clip: padding-box;
   overflow: hidden;
   width: 190px;
   height: 190px;
@@ -2600,7 +2686,22 @@ header.menu #menu a:hover {
   margin: 10px auto;
   padding: 0;
   display: block;
-  border: 1px solid #cdcdcd;
+}
+#edit_profile #avatar_mask #mask {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  cursor: move;
+  display: none;
+}
+#edit_profile #avatar_mask .new_avatar {
+  width: auto;
+  max-width: none;
+  height: auto;
+  max-height: none;
+  cursor: move;
 }
 .edit_avatar {
   overflow: auto;
@@ -2614,8 +2715,22 @@ header.menu #menu a:hover {
 .edit_avatar .PTbutton {
   margin-top: 60%;
 }
+.edit_avatar #avatar_btn_crop {
+  display: none;
+}
 .edit_avatar p label {
   display: none;
+}
+.no_avatar {
+  line-height: 2em;
+  font-weight: 800;
+  padding: 50px 0;
+}
+.vertical {
+  max-width: 100% !important;
+}
+.horizontal {
+  max-height: 100% !important;
 }
 #id_avatar {
   display: none;
@@ -3232,6 +3347,9 @@ li.as-result-item img {
   color: #7e7e7e;
   font-style: italic;
   padding: 0;
+}
+.edit-offer .description {
+  padding: 0 0 10px 0;
 }
 /*
    P O S T E D   O F F E R S

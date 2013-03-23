@@ -37,11 +37,11 @@ urlpatterns = patterns('',
     url(r'^offers/search/$', views.search_offers, {}, 'offers-search'),
     url(r'^offer/posted_offers/$', views.posted_offers),
     url(r'^offer/apply/$', views.apply_offer),
+    url(r'^offer/get/(?P<slug>[^\.]+)/$', views.get_offer, name="offer_view"),
+    url(r'^offer/statusApplication/(?P<model>\w+)/(?P<pk>\d+)/(?P<slug>[^\.]+)/$', views.statusApplication, name="statusApplication"),
     url(r'^offer/applications/(?P<slug>[^\.]+)/$', views.get_applications),
     url(r'^offer/(?P<model>\w+)/$', views.edit_offer),
     url(r'^offer/(?P<model>\w+)/(?P<slug>[^\.]+)/$', views.edit_offer),
-    url(r'^offer/statusApplication/(?P<model>\w+)/(?P<pk>\d+)/(?P<slug>[^\.]+)/$', views.statusApplication),
-    url(r'^offer/get/(?P<slug>[^\.]+)/$', views.get_offer, name="offer_view"),
 
 
     url(r'^profile/create/$', views.create_applicant, {'action': 'new'}),
