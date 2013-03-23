@@ -13,6 +13,7 @@ from django.db.models import Q, Count, Sum
 
 from core.models import *
 from forms import *
+from elsewhere.models import SocialNetworkProfile
 from elsewhere.forms import SocialNetworkForm
 from django.contrib.auth.decorators import login_required
 
@@ -411,7 +412,7 @@ def add_project(request):
                 project_save.published = True
                 project_save.save()
                 form.save_m2m()
-                return get_project(request, project_save.slug)
+                return HttpResponseRedirect('/project/'+project_save.slug)
             else:
                 # form = ProjectForm(instance=project)
                 return render(request, 'project/add_project.html', {'form': form, 'project_id': project.id})
@@ -638,13 +639,69 @@ def create_applicant(request, action="new"):
                         'form_social': form_social,
                         'edit_title': True,
                         'avatar' : applicant.avatar,
-                        'form_avatar' : form_avatar
-                        # 'social_networks' : Network.objects.all(user_id=request.user.id)
+                        'form_avatar' : form_avatar,
+                        'social_networks' : applicant.social_network
+                        #'social_networks' : SocialNetworkProfile.objects.all(object_id=request.user.id)
                     }
         else:
             form_applicant = ApplicantForm()
             data = {'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social}
     return render(request, 'profile/make_profile.html', data)
+
+
+@login_required
+def add_social_network(request):
+    applicant = Applicant.objects.get(user_id=request.user.id)
+
+    if request.method == 'POST':
+        form_social = SocialNetworkForm(request.POST)
+
+        if form_social.is_valid():
+            social = form_social.save(commit=False)
+            social.content_type = ContentType.objects.get_for_model(applicant)
+            social.object_id = applicant.id
+            social.save()
+            applicant.social_network.add(social)
+            result={    'state': True,
+                        'data': {
+                            'username' : social.username,
+                            'icon_url': social.network.icon_url,
+                            'name': social.network.name,
+                            'url': social.url,
+                            'id': social.id
+                        }
+                    }
+        else:
+            result={ 'state': False }
+
+        if request.is_ajax():
+            response = JSONResponse(result, {}, response_mimetype(request))
+            response['Content-Disposition'] = 'inline; filename=files.json'
+            return response
+        else:
+            profile = Profile.objects.get(id=pk)
+            return HttpResponseRedirect('/profile/' + profile.slug)
+
+
+@login_required
+def remove_social_network(request):
+    applicant = Applicant.objects.get(user_id=request.user.id)
+
+    if request.method == 'POST':
+        network = SocialNetworkProfile.objects.get(pk=request.POST.get('network_id'))
+        try:
+            network.delete()
+            result={ 'state': True }
+        except SocialNetworkProfile.DoesNotExist:
+            result={ 'state': False }
+
+        if request.is_ajax():
+            response = JSONResponse(result, {}, response_mimetype(request))
+            response['Content-Disposition'] = 'inline; filename=files.json'
+            return response
+        else:
+            profile = Profile.objects.get(id=pk)
+            return HttpResponseRedirect('/profile/' + profile.slug)
 
 
 @login_required
@@ -1136,7 +1193,7 @@ def get_applicant(request, slug):
     followingNb = Follow.objects.filter(following__id=profile.id).count()
     followersNb = Follow.objects.filter(follower__id=profile.id).count()
     pushs = Like.objects.filter(Q(project__owner=profile.user) | Q(project__participant__in=[profile])).count()
-    views = HitCount.objects.filter(content_type=Project, object_pk__in=projects.values_list('pk', flat=True)).aggregate(hits=Sum('hits'))
+    views = HitCount.objects.filter(content_type=ContentType.objects.get_for_model(Project), object_pk__in=projects.values_list('pk', flat=True)).aggregate(hits=Sum('hits'))
     tags = SkillsTag.objects.filter(Q(skills__content_object__owner=profile)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')[:3]
     formEducation = EducationForm()
     formExperience = ExperienceForm()

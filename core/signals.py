@@ -33,7 +33,7 @@ post_save.connect(comment_project, sender=Comment)
 def add_project(sender, instance, created, **kwargs):
 	if instance.published == True:
 	    notify.send(instance.owner,
-	    		recipient=instance.owner, 
+	    		recipient=instance.owner.user, 
 				verb=u'added',
 	        	action_object=instance)
 
