@@ -29,11 +29,7 @@
                         <p class="errors">Corrigez les champs erronés suivants: {{ form.non_field_errors }}</p>
                     {% endif %}
 
-<<<<<<< HEAD
-                    <form action="/profile/edit/" method="post" class="PTform" id="form_profile">
-=======
-                    <form action="/profile/edit/" method="post" class="PTform" enctype="multipart/form-data">
->>>>>>> 596afeeb697e60eee7dd19d859ef29995b1047d7
+                    <form action="/profile/edit/" method="post" class="PTform" enctype="multipart/form-data" id="form_profile">
                         {% csrf_token %}
 
                         <!-- TAB -->
@@ -44,6 +40,7 @@
                                 {{ form_user.as_p}}
                             </div>
                             -->
+                            <span class="annotation">Renseigner votre prénom et votre nom, ils seront diffusés sur votre profil.</span>
                             <div>
                                 <label for="id_first_name">Prénom</label>
                                 {% if form_user.first_name.errors %}
@@ -60,6 +57,7 @@
                             </div>
                             <div>
                                 <label for="id_name">Pseudo</label>
+                                <span class="annotation">Voici votre pseudonyme sur Projecteel. Vous pouvez utiliser votre vrai nom ou un pseudo plus personnel. Il sera utilisé dans l'URL de votre page profil.</span>
                                 {% if form_applicant.name.errors %}
                                 <p class="errors">{{ form_applicant.name.errors.as_text }}</p>
                                 {% endif %}
@@ -68,12 +66,10 @@
                             </div>
                             <div>
                                 <label for="">Votre avatar</label>
+                                <span class="annotation">Vous pouvez choisir une vraie photo de vous ou alors quelque chose vous représentant (JPG/GIF/PNG seulement).</span>
                                 <div class="edit_avatar">
                                         <div class="eightcol">
                                             <span>Actuellement</span>
-<<<<<<< HEAD
-                                            <img src="{{avatar}}" alt="" class="profile_pic">
-=======
                                             <div id="avatar_mask">
                                                 {% if avatar %}
                                                     <img src="{{avatar.url}}" alt="" class="profile_pic">
@@ -82,7 +78,6 @@
                                                 {% endif %}
                                                 <img src="{{ STATIC_URL }}img/avatar_mask.png" alt="" id="mask">
                                             </div>
->>>>>>> 596afeeb697e60eee7dd19d859ef29995b1047d7
                                         </div>
                                         <div class="fourcol last">
                                             <button class="PTbutton mini" id="avatar_btn">Choisir une image</button>
@@ -91,19 +86,32 @@
                                         </div>
                                 </div>
                             </div>
-<<<<<<< HEAD
-=======
 
-                            {% for network in social_networks%}
-                            {{ network }}
-                            {%endfor%}
-
-                            <!--
-                            <div class="row">
-                                {{ form_social.as_p}}
+                            <div>
+                                <label>Vos réseaux sociaux</label>
+                                <ul id="network_list">
+                                    {%  for network in social_networks.all %}
+                                    <li> <a href="{{ network.url }}" target="_blank"> <img src="{{ network.network.icon_url }}" /> {{ network.network.name }} : {{ network.username }}</a>
+                                        <a href="#" id="{{ network.id }}" class="remove_social_network"><i class="ico-remove"></i></a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                <div class="new_social_network">
+                                    <label>Ajouter un réseau</label>
+                                    <div class="fivecol">
+                                        <span>Réseau social</span>
+                                        {{ form_social.network }}
+                                    </div>
+                                    <div class="fivecol">
+                                        <span>Nom d'utilisateur</span>
+                                        {{ form_social.username }}
+                                    </div>
+                                    <div class="twocol last">
+                                        <button id="add_social_network" class="PTbutton">Ajouter</button>
+                                    </div>
+                                </div>
                             </div>
-                            -->
->>>>>>> 596afeeb697e60eee7dd19d859ef29995b1047d7
+
 
                             <div class="footer">
                                 <div class="twocol">Etape 1 sur 2</div>
@@ -122,6 +130,7 @@
                             -->
                             <div>
                                 <label for="id_description">Description</label>
+                                <span class="annotation">Ecrivez ici une petite présentation de vous. Qu'est ce qui vous caractérise ? Quels sont vos rêves et vos espoirs ?</span>
                                 {% if form_applicant.description.errors %}
                                 <p class="errors">{{ form_applicant.description.errors.as_text }}</p>
                                 {% endif %}
@@ -129,6 +138,7 @@
                             </div>
                             <div>
                                 <label for="id_url">URL</label>
+                                <span class="annotation">L'adresse de votre page web personelle, si vous en avez une.</span>
                                 {% if form_applicant.url.errors %}
                                 <p class="errors">{{ form_applicant.url.errors.as_text }}</p>
                                 {% endif %}
@@ -136,6 +146,7 @@
                             </div>
                             <div>
                                 <label for="id_profession">Profession</label>
+                                <span class="annotation">Le metier qui vous caractérise.</span>
                                 {% if form_applicant.profession.errors %}
                                 <p class="errors">{{ form_applicant.profession.errors.as_text }}</p>
                                 {% endif %}
@@ -143,6 +154,7 @@
                             </div>
                             <div>
                                 <label for="id_search_location">Search Location</label>
+                                <span class="annotation">Vous cherchez du travail ? Dites-nous à quel endroit.</span>
                                 {% if form_applicant.search_location.errors %}
                                 <p class="errors">{{ form_applicant.search_location.errors.as_text }}</p>
                                 {% endif %}
@@ -181,29 +193,27 @@
             return false;
         });
 
-<<<<<<< HEAD
         $('#id_name').on('blur', function(){
-             var validateSlug = $('#slug_validate');
+            var validateSlug = $('#slug_validate');
             $.ajax({
-            type: "POST",
-            url: "/profile/slug_validate/",
-            data: {'slug':$(this).val()},
-            dataType: "json",
-            success: function(response) {
-            if (!response.success) {
-                validateSlug.addClass('error').html(response.message);
-            } else {
-                validateSlug.addClass('correct').html(response.message);
-                console.log('This username is available!');
-            }
-        },
-        error: function(rs, e) {
-            console.log(rs.responseText);
-        }
-    });
-    return false;
-});
-=======
+                type: "POST",
+                url: "/profile/slug_validate/",
+                data: {'slug':$(this).val()},
+                dataType: "json",
+                success: function(response) {
+                    if (!response.success) {
+                        validateSlug.addClass('error').html(response.message);
+                    } else {
+                        validateSlug.addClass('correct').html(response.message);
+                        console.log('This username is available!');
+                    }
+                },
+                error: function(rs, e) {
+                    console.log(rs.responseText);
+                }
+            });
+        return false;
+        });
         $('#id_avatar').fileupload({
             dataType: 'json',
             url : '/profile/update_avatar/',
@@ -240,7 +250,7 @@
                     var img = $(".new_avatar");
                     if(img.hasClass('horizontal')){
                         var ratio = img.height()/190
-                        var width = Math.ceil(img.width()/ratio);    
+                        var width = Math.ceil(img.width()/ratio);
                         var height = 190;
                     }else{
                         var ratio = img.width()/190
@@ -307,8 +317,51 @@
             var visorY = $("#mask").offset().top;
             return [visorX + boundLeft,visorY + boundTop,visorX,visorY];
         }
->>>>>>> 596afeeb697e60eee7dd19d859ef29995b1047d7
 
-    });
+        $('#add_social_network').on('click',function(e){
+            e.preventDefault();
+
+            var network = $("#id_network").val();
+            var username = $("#id_username").val();
+            var data = { 'network': network, 'username': username};
+
+            $.post('/profile/add_social_network/', data).done(function(data){
+                if (data.state == true){
+                    $("#id_network").attr('value','');
+                    $("#id_username").attr('value','');
+
+                    var img = $('<img/>').attr({ 'src': data.data.icon_url});
+                    var suppr = $('<a></a>').attr({
+                        'href': '#',
+                        'class': 'remove_social_network',
+                         'id': data.data.id
+                    }).html('<i class="ico-remove"></i>');
+                    var link = $('<a></a>').attr({
+                        'href': data.data.url,
+                        'target': '_blank',
+                    }).html(data.data.name+' : '+data.data.username);
+                    link.prepend(img).append(suppr);
+                    $('<li></li>').append(link).appendTo("#network_list");
+                    $('.remove_social_network').on('click',remove_social_network);
+                }
+            });
+        });
+
+        $('.remove_social_network').on('click',remove_social_network);
+
+        function remove_social_network(e){
+            e.preventDefault();
+            $this = $(this);
+            $.post('/profile/remove_social_network/', {'network_id':$this.attr('id')}).done(function(data){
+                var id = $this.attr('id');
+                if (data.state == true){
+                    $this=$this.parent();
+                    $this.fadeOut(function(){$this.remove();});
+
+                }
+            });
+        }
+
+    }); //end document ready
 </script>
 {% endblock %}

@@ -107,14 +107,14 @@
 
              <div class="participants">
                 {% if project.participant %}
-                <span>avec</span>
-                {% for profile in project.participant.all %}
-                {% thumbnail profile.avatar "50x50" crop="left" as im %}
-                <a href="/profile/{{ profile.slug }}" data-tooltip="{{ profile.user.first_name}} {{profile.user.last_name}}" class="tooltip">
-                    <img alt="{{ profile.user.first_name}} {{profile.user.last_name}}" src="{{im.url}}" />
-                </a>
-                {% endthumbnail %}
-                {% endfor %}
+                    <span>avec</span>
+                    {% for profile in project.participant.all %}
+                        <a href="/profile/{{ profile.slug }}" data-tooltip="{{ profile.user.first_name}} {{profile.user.last_name}}" class="tooltip">
+                            {% thumbnail profile.avatar "50x50" crop="left" as im %}
+                                <img alt="{{ profile.user.first_name}} {{profile.user.last_name}}" src="{{im.url}}" />
+                            {% endthumbnail %}
+                        </a>
+                    {% endfor %}
                 {% endif %}
             </div>
 
@@ -124,17 +124,17 @@
             {% endif %}
 
             {% if project.period %}
-            <h4>Temps</h4>
+            <h4><i class="ico-time"></i> Durée</h4>
             <p> {{ project.period }} mois</p>
             {% endif %}
 
             {% if project.cadre %}
-            <h4>Réalisé dans le cadre</h4>
+            <h4><i class="ico-group"></i> Réalisé dans le cadre</h4>
             <p> {{ project.cadre }}</p>
             {% endif %}
 
             {% if project.state %}
-            <h4>Etat</h4>
+            <h4><i class="ico-tasks"></i>  Etat</h4>
             <p> {{ project.get_state_display }}</p>
             {% endif %}
 
