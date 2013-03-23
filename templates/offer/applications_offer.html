@@ -21,11 +21,11 @@
                                     </a>
                                 {% endthumbnail %}
                                 <p>{{ applicantOffer.applicant }}</p>
-                                <a class="view-candidature" href="/offer/statusApplication/read/{{applicantOffer.id}}/{{applicantOffer.applicant.slug}}" id="{{applicantOffer.id}}">Voir la candidature</a>
+                                <a class="view-candidature" href="/offer/statusApplication/read/{{applicantOffer.id}}/{{applicantOffer.applicant.slug}}/" id="{{applicantOffer.id}}">Voir la candidature</a>
                                 <div class="content-application" style="background-color:#ffa8a8" id="application{{applicantOffer.id}}">
                                     <p>{{ applicantOffer.content }}</p>
-                                    <a href="/offer/statusApplication/accept/{{applicantOffer.id}}/{{applicantOffer.applicant.slug}}">Accepter cette candidature</a>
-                                    <a href="/offer/statusApplication/decline/{{applicantOffer.id}}/{{applicantOffer.applicant.slug}}">Refuser cette candidature</a>
+                                    <a href="/offer/statusApplication/accept/{{applicantOffer.id}}/{{applicantOffer.applicant.slug}}/">Accepter cette candidature</a>
+                                    <a href="/offer/statusApplication/decline/{{applicantOffer.id}}/{{applicantOffer.applicant.slug}}/">Refuser cette candidature</a>
                                 </div>
                             </li>
                         {% endfor %}
