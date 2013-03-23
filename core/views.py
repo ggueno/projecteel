@@ -21,7 +21,13 @@ from PIL import Image
 
 
 def home(request):
-    return render_to_response('index.html')
+    projects = Project.objects.annotate(num=Count('likes')).order_by('-num')
+    companies = Company.objects.annotate(num=Count('followers')).order_by('-num')
+    context = {
+        'projects': projects,
+        'companies': companies
+    }
+    return render_to_response('index.html', context)
 
 
 def get_my_self(request):
@@ -852,6 +858,7 @@ def vacancy(request, state, pk):
 
 @login_required
 def statusApplication(request, model, pk, slug):
+    print "model", model
     application = ApplicantOffer.objects.get(id=pk)
     offer = application.offer
     applicant = Applicant.objects.filter(slug=slug)
@@ -973,7 +980,7 @@ def edit_offer(request, model=None, slug=None):
             Offer.objects.get(slug=slug).delete()
         return HttpResponseRedirect('/offer/posted_offers')
 
-    elif pk is None :
+    elif slug is None :
         if model == u"add":
             form = {}
             if request.method == 'POST':

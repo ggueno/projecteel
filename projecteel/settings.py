@@ -153,7 +153,7 @@ INSTALLED_APPS = (
     'elsewhere',
     'core',
     'tinymce',
-    'notifications',
+    #'notifications',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
