@@ -1,0 +1,53 @@
+{% extends "layout/base.html" %}
+{% load staticfiles %}
+{% load projects %}
+{% load thumbnail %}
+{% load notifications_tags %}
+
+{% block title %}Mon tableau de bord{% endblock %}
+
+{% block content %}
+	<section class="row">
+
+		<!-- Réseau -->
+		<div class="sixcol">
+			<h1>Centre de notifications</h1>
+			{% notifications_unread as unread_count %}
+			Vous avez <strong>{{ unread_count }}</strong> notification non-lue.
+			<ul class="notifications">
+			  {% for notice in notifications %}
+			    {% include 'notifications/notice.html' %}
+			  {% endfor %}
+			</ul>
+		</div>
+
+		<div class="sixcol">
+			<h1 class="blackTitle">Projets</h1>
+			<ul>
+	            <li><span>{{stats.views.hits}}</span>vues sur mes projets{{stats.views.hits|pluralize}}</li>
+	            <li>
+	                <span>
+	                    {% if stats.pushs == 0 %}
+	                        0
+	                    {%else%}
+	                        {{stats.pushs}}
+	                    {%endif%}
+	                </span>
+	                push reçus
+	            </li>
+	            <li>
+	                <span>
+	                    {% if stats.comments == 0 %}
+	                        0
+	                    {%else%}
+	                        {{stats.comments}}
+	                    {%endif%}
+	                </span>
+	                commentaires reçus
+	            </li>
+	        </ul>
+	        <a href="/project/add/" class="PTbutton">Ajouter un projet</a>
+		</div>
+		
+	</section>
+{% endblock %}

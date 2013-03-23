@@ -1,13 +1,24 @@
+{% extends "layout/base.html" %}
+{% load staticfiles %}
+{% load projects %}
+{% load thumbnail %}
 {% load notifications_tags %}
 
-<h1>Centre de notifications</h1>
+{% block title %} {{ user.first_name }}'s profile{% endblock %}
 
-{% notifications_unread as unread_count %}
-You have <strong>{{ unread_count }}</strong> unread notifications.
+{% block content %}
+	<section class="row">
+
+		<h1>Centre de notifications</h1>
+
+		{% notifications_unread as unread_count %}
+		Vous avez <strong>{{ unread_count }}</strong> notification non-lue.
 
 
-<ul class="notifications">
-  {% for notice in notifications %}
-    {% include 'notifications/notice.html' %}
-  {% endfor %}
-</ul>
+		<ul class="notifications">
+		  {% for notice in notifications %}
+		    {% include 'notifications/notice.html' %}
+		  {% endfor %}
+		</ul>
+	</section>
+{% endblock %}

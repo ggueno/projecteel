@@ -1,5 +1,7 @@
 {% load staticfiles %}
 {% load tags %}
+{% load thumbnail %}
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -42,10 +44,21 @@
         <header class="menu">
             <div class="row">
                 <a href="/" id="logo"></a>
-                <ul id="menu" class="fivecol">
-                    <li><a class="{% active request "^/profile/" %}" href="/profile/">Profil</a></li>
+                <ul id="menu" class="sixcol">
                     <li><a class="{% active request "^/projects/" %}" href="/projects/">Projets</a></li>
                     <li><a class="{% active request "^/offers/" %}" href="/offers/">Offres</a></li>
+                    <li><a class="{% active request "^/profile/" %} profile" href="/profile/">
+                    {% thumbnail user_avatar "28x28" crop="center" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="bar_avatar">
+                    {% endthumbnail %}
+                    {{ myself.first_name }}<br>
+                    {{ myself.last_name }}
+                    </a></li>
+                    {% if unread_notifications > 0 %}
+                        <li><a class="notifications unread" href="/inbox/notifications/" alt="{{ unread_notifications }} notifications non lues">{{ unread_notifications }}</a></li>
+                    {%else%}
+                        <li><a class="notifications" alt="Pas de nouvelles notifications" href="/inbox/notifications/">0</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </header>
