@@ -3989,6 +3989,7 @@ li.as-result-item img {
   margin: 0 auto;
   line-height: 48px;
   border-bottom: 1px solid #d2d2d2;
+  position: relative;
 }
 #list_offers .thumb-offer .header-offer .blackTitle {
   text-align: left;
@@ -3996,17 +3997,10 @@ li.as-result-item img {
   width: 65%;
   position: absolute;
 }
-#list_offers .thumb-offer .header-offer .profile_pic {
-  float: right;
-  margin: 0;
-}
-#list_offers .thumb-offer .header-offer .profile_pic img {
-  -webkit-border-radius: 20px;
-  -webkit-background-clip: padding-box;
-  -moz-border-radius: 20px;
-  -moz-background-clip: padding;
-  border-radius: 20px;
-  background-clip: padding-box;
+#list_offers .thumb-offer .header-offer .pic_company {
+  position: absolute;
+  right: 0;
+  top: -4px;
 }
 #list_offers .thumb-offer .content {
   padding-top: 8px;

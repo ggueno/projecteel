@@ -23,8 +23,6 @@ from PIL import Image
 def home(request):
     projects = Project.objects.annotate(num=Count('likes')).order_by('-num')
     companies = Company.objects.annotate(num=Count('followers')).order_by('-num')
-    print companies[0].avatar.url
-    print companies[1].avatar.url
     context = {
         'projects': projects,
         'companies': companies
@@ -864,14 +862,15 @@ def statusApplication(request, model, pk, slug):
     application = ApplicantOffer.objects.get(id=pk)
     offer = application.offer
     applicant = Applicant.objects.filter(slug=slug)
-    if model == "read" and (application.state is 'SAVE' or 'FAIL'):
+    print "application.state - ", application.state
+    if model == "read" and application.state is 'SAVE' and application.state is 'FAIL':
         ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='READ')
     else:
-        if model == "accept" and (ApplicantOffer.objects.filter(offer=offer).count > 1):
+        if model == "accept" and (ApplicantOffer.objects.filter(offer=offer).count > 1) and application.state is not 'FAIL':
             ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='SAVE')
             Offer.objects.filter(id=application.offer.id).update(vacancy=True)
         else:
-            if model == "decline":
+            if model == "decline" and application.state is not 'SAVE':
                 ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='FAIL')
     result = {'state': True }
 
@@ -881,7 +880,7 @@ def statusApplication(request, model, pk, slug):
         return response
     else:
         if result['state']:
-            return HttpResponseRedirect('/offer/get/'+offer.slug)
+            return HttpResponseRedirect('/offer/applications/'+offer.slug)
         else:
             #404
             return HttpResponseNotFound('404.html')
