@@ -3999,6 +3999,8 @@ li.as-result-item img {
 }
 #list_offers .thumb-offer .header-offer .pic_company {
   position: absolute;
+  right: 0;
+  top: -4px;
 }
 #list_offers .thumb-offer .content {
   padding-top: 8px;
