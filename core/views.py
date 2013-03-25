@@ -16,6 +16,7 @@ from forms import *
 from elsewhere.models import SocialNetworkProfile
 from elsewhere.forms import SocialNetworkForm
 from django.contrib.auth.decorators import login_required
+import difflib
 
 from PIL import Image
 
@@ -862,14 +863,15 @@ def statusApplication(request, model, pk, slug):
     application = ApplicantOffer.objects.get(id=pk)
     offer = application.offer
     applicant = Applicant.objects.filter(slug=slug)
-    if model == "read" and (application.state is 'SAVE' or 'FAIL'):
+    print "application.state - ", application.state
+    if model == "read" and application.state is 'SAVE' and application.state is 'FAIL':
         ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='READ')
     else:
-        if model == "accept" and (ApplicantOffer.objects.filter(offer=offer).count > 1):
+        if model == "accept" and (ApplicantOffer.objects.filter(offer=offer).count > 1) and application.state is not 'FAIL':
             ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='SAVE')
             Offer.objects.filter(id=application.offer.id).update(vacancy=True)
         else:
-            if model == "decline":
+            if model == "decline" and application.state is not 'SAVE':
                 ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='FAIL')
     result = {'state': True }
 
@@ -879,7 +881,7 @@ def statusApplication(request, model, pk, slug):
         return response
     else:
         if result['state']:
-            return HttpResponseRedirect('/offer/get/'+offer.slug)
+            return HttpResponseRedirect('/offer/applications/'+offer.slug)
         else:
             #404
             return HttpResponseNotFound('404.html')
@@ -903,15 +905,62 @@ def get_applications(request, slug):
     return render(request, 'offer/applications_offer.html', context)
 
 
-def potentialApplicant(offer):
-#     return offer
-#     # Critere
-#         # obtenir tous les profils dans une category
-    offerTag = OfferTag.objects.filter(Q(content_object=offer));
+
+def potentialApplicant(pk):
+    offer = Offer.objects.get(id=pk)
+    offerTag = OfferTaggedItem.objects.filter(Q(content_object__id=pk));
 
     applicant = []
     for tag in offerTag:
-        applicant.extend(list(Applicant.get_tags_for(tag.name)))
+        applicant.extend(SkillsTaggedItem.objects.filter(Q(tag__name=tag.tag.name)).values_list('content_object__owner', flat=True))
+
+    applicants = set(applicant)
+
+    p = Project.objects.filter(owner__id__in=applicant).order_by('owner')
+    # p = p.values()
+
+    poids_like = {}
+    poids_dispo = {}
+    poids_job = {}
+    for project in p:
+        if poids_like.has_key(project.owner_id):
+            pushs = Like.objects.filter(Q(project=project)).count()
+            if pushs is not None:
+                poids_like[project.owner_id] += pushs * 0.8
+            
+            hits = HitCount.objects.filter(object_pk=project.id).aggregate(hits=Sum('hits')).values()[0]
+            if hits is not None:
+                poids_like[project.owner_id] += hits * 0.2
+            
+        else:
+            pushs = Like.objects.filter(Q(project=project)).count()
+            if pushs is not None:
+                poids_like[project.owner_id] = pushs * 0.8
+
+            hits = HitCount.objects.filter(object_pk=project.id).aggregate(hits=Sum('hits')).values()[0]
+            if hits is not None:
+                poids_like[project.owner_id] += hits * 0.2
+
+        if not poids_dispo.has_key(project.owner_id):
+            if project.owner.profession:
+                diff = difflib.SequenceMatcher(None, offer.title, project.owner.profession)
+                poids_job[project.owner_id] = diff.quick_ratio()
+
+            if project.owner.available == True:
+                poids_dispo[project.owner_id] = 1
+            else:
+                poids_dispo[project.owner_id] = 0
+
+    # trie en fonction du poids
+    applicant = []
+    poids = {}
+    for key in poids_like.keys():
+        poids[key] = poids_like[key]/poids_like[max(poids_like)] + poids_dispo[key]*0.5 + poids_job[key]
+    
+    for key, value in sorted(poids.iteritems(), key=lambda (k,v): (v,k)):
+        applicant.extend("%d" % key)
+
+    return applicant
 
 #         # Ceux qui apparaissent dans tag + metier + Dispo doivent ressortir
 
@@ -923,7 +972,6 @@ def potentialApplicant(offer):
 
 
 
-#         # Metier en fonction
 
 #         getPopularity on ...
 

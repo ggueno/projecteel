@@ -7,7 +7,7 @@
             <div class="sleekbox header thumb-offer">
                 <div class="header-offer">
                     <h3 class="blackTitle"><a href="{{ offer.get_absolute_url }}">{{ offer.title }}</a></h3>
-                    <a class="profile_pic" href="/profile/{{ offer.company.profile.slug }}">
+                    <a class="pic_company" href="/profile/{{ offer.company.profile.slug }}">
                         {% thumbnail offer.company.avatar "25x25" crop="left" as im %}
                         <img src="{{im.url}}" alt="{{offer.company.profile.avatar}}"/>
                         {% endthumbnail %}
