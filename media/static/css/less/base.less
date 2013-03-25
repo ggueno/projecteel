@@ -148,6 +148,32 @@ textarea {
     float:right;
 }
 
+.dropdown-menu{
+    z-index: 100;
+    margin-top: 10px;
+    margin-left: -155px;
+    padding: 15px 5px;
+}
+
+#dropdown-social-network{
+
+    padding-top: 1em;
+}
+
+.icon_social{
+    padding: 5px;
+}
+
+.floatRight{
+    float: right;
+}
+
+.grey{
+    color:#808080;
+}
+
+
+
 .error, .correct{
     font-weight: bold;
     display: block;
@@ -314,6 +340,11 @@ i.icon{
 .tooltip {
     display: inline;
     position: relative;
+}
+
+.tooltip.right {
+  padding: 0 5px;
+  margin-left: 3px;
 }
 
 .tooltip:hover {
@@ -773,7 +804,7 @@ a.edit-item{
         position: absolute;
         margin-top:22px;
         margin-left:30px;
-    } 
+    }
     .catcher {
         font-size:1.15em;
         margin-left: 130px;
@@ -824,17 +855,17 @@ a.edit-item{
         text-align: center;
         width: 50%;
         .rocket {
-            width: 125px; 
+            width: 125px;
             height: 181px;
             margin: 0 auto;
         }
         .desk {
-            width: 176px; 
+            width: 176px;
             height: 195px;
             margin: 0 auto;
         }
     }
-    .heading-lp {        
+    .heading-lp {
         padding: 0;
     }
     .button-landingPage {
@@ -919,6 +950,7 @@ header.menu{
 
 .profile{
     margin-top: 0;
+    overflow: visible;
     .profile_cover{
         position: relative;
         height: 277px;
@@ -1039,6 +1071,9 @@ header.menu{
                 padding: 0 40px;
                 &.last{
                     float: right;
+                }
+                &.noPad{
+                    padding-right:5px;
                 }
             }
         }
