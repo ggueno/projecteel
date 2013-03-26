@@ -97,14 +97,14 @@ function follow_button(){
                     $(follow_button).attr('href',link)
                     $(follow_button).removeClass('unactive');
                     $(follow_button).addClass('active');
-                    $(follow_button).html("Suivi");
+                    $(follow_button).html("<i class='ico-ok-sign'></i> Suivi");
 
                 }else{
                     var link = $(follow_button).attr('href').replace('unfollow','follow');
                     $(follow_button).attr('href',link)
                     $(follow_button).addClass('unactive');
                     $(follow_button).removeClass('active');
-                    $(follow_button).html("Suivre");
+                    $(follow_button).html("<i class='ico-ok-sign'></i> Suivre");
                 }
         });
         return false;

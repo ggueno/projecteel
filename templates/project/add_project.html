@@ -30,7 +30,7 @@
                             <li><a href="#etape2"><i class="step-label">2</i>Etape 2</a></li>
                         </ul>
 
-                        <form action="" class="PTform" method="post" id="add_project" action="" enctype="multipart/form-data">
+                        <form zqdtion="" class="PTform" method="post" id="add_project" action="" enctype="multipart/form-data">
                             {% csrf_token %}
 
                             <!-- TAB -->
@@ -285,17 +285,17 @@
 
 
 
-var fileInputs = function() {
-  var $this = $(this),
-      $val = $this.val(),
-      valArray = $val.split('\\'),
-      newVal = valArray[valArray.length-1],
-      $button = $this.siblings('button'),
-      $fakeFile = $this.siblings('.file-holder');
-      if(newVal !== '') {
-            $fakeFile.attr('value',newVal);
-      }
-};
+        var fileInputs = function() {
+          var $this = $(this),
+              $val = $this.val(),
+              valArray = $val.split('\\'),
+              newVal = valArray[valArray.length-1],
+              $button = $this.siblings('button'),
+              $fakeFile = $this.siblings('.file-holder');
+              if(newVal !== '') {
+                    $fakeFile.attr('value',newVal);
+              }
+        };
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.ui.widget.js"></script>

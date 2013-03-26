@@ -34,7 +34,7 @@
 			<ul class="notifications">
 				{% if notifications %}
 					{% for notice in notifications %}
-						{{ notice.timestamp }}
+						{# {{ notice.timestamp }} #}
 						{% include 'notifications/notice.html' %}
 					{% endfor %}
 				{% else %}

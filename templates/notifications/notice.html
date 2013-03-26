@@ -1,5 +1,6 @@
 {% load url from future %}
 {% load thumbnail %}
+{% load staticfiles %}
 {% load util %}
 
 <li class="alert alert-block alert-{{ notice.level }} {% if notice.unread %}unread{% endif %}">
@@ -8,6 +9,8 @@
         <a href="/profile/{{ notice.actor.slug }}" >
             {% thumbnail notice.actor.avatar "40x40" crop="center" as im %}
                 <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="profilepic">
+            {% empty %}
+                <img src="{{ STATIC_URL }}img/empty_profile.png" width="40" height="40" class="profilepic"/>
             {% endthumbnail %}
         </a>
         <a href="/profile/{{ notice.actor.slug }}" title="">{{ notice.actor.user.first_name }} {{ notice.actor.user.last_name }}</a>
@@ -18,6 +21,8 @@
         <a href="/profile/{{ notice.actor.slug }}" >
             {% thumbnail notice.actor.avatar "40x40" crop="center" as im %}
                 <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="profilepic">
+            {% empty %}
+                <img src="{{ STATIC_URL }}img/empty_profile.png" width="40" height="40" class="profilepic"/>
             {% endthumbnail %}
         </a>
         <a href="/profile/{{ notice.actor.slug }}" title="">{{ notice.actor.user.first_name }} {{ notice.actor.user.last_name }}</a>

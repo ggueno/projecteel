@@ -2313,12 +2313,6 @@ textarea {
 .last {
   float: right;
 }
-.dropdown-menu {
-  z-index: 100;
-  margin-top: 10px;
-  margin-left: -155px;
-  padding: 15px 5px;
-}
 #dropdown-social-network {
   padding-top: 1em;
 }
@@ -2327,6 +2321,12 @@ textarea {
 }
 .floatRight {
   float: right;
+}
+.floatRight .dropdown-menu {
+  z-index: 100;
+  margin-top: 10px;
+  margin-left: -155px;
+  padding: 15px 5px;
 }
 .grey {
   color: #808080;
@@ -2405,7 +2405,7 @@ i.icon.push {
 .sleekbox h1.blackTitle {
   line-height: 42px;
   padding: 0 20px;
-  font-size: 1.4em;
+  font-size: 1.6em;
   font-weight: 400;
 }
 .subline {
@@ -2621,6 +2621,7 @@ a.PTbutton {
 }
 .thumb {
   padding: 0px;
+  position: relative;
   margin-bottom: 20px;
   text-align: center;
   background: #fff;
@@ -2678,6 +2679,18 @@ a.PTbutton {
   width: 44%;
   padding: 5px 3%;
   text-align: left;
+}
+.thumb a.edit-project {
+  padding: 1px 3px 1px 6px;
+  font-size: 1.3em;
+  background: #FFF;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+}
+.thumb:hover a.edit-project {
+  display: block;
 }
 .label_views {
   background: url(../img/icon_social.png) no-repeat 0 -2px;
@@ -3969,6 +3982,10 @@ ul.tabs li a .step-label {
   background: #047dba;
   color: #FFF;
 }
+.add_project.edit .PTform .file-wrap input[type=file] {
+  bottom: 28px;
+  top: auto;
+}
 li.as-result-item {
   line-height: 30px;
 }
@@ -4156,10 +4173,10 @@ li.as-result-item img {
   font-weight: 400;
   margin: 20px 0;
 }
-#dashboard .stats {
+.stats {
   overflow: auto;
 }
-#dashboard .stats li {
+.stats li {
   width: 30%;
   display: block;
   height: 80px;
@@ -4170,13 +4187,13 @@ li.as-result-item img {
   text-align: center;
   font-size: 2em;
 }
-#dashboard .stats li span {
+.stats li span {
   display: block;
 }
-#dashboard .stats li.last {
+.stats li.last {
   margin-right: 0;
 }
-#dashboard .stats li .icon {
+.stats li .icon {
   margin-top: 10px;
 }
 .offers .row {
@@ -4480,10 +4497,15 @@ li.as-result-item img {
 #project h4.subline {
   font-size: 14px;
   color: #787878;
-  padding: 10px 20px;
+  padding: 0 20px;
+  text-transform: none;
 }
 #project h4.subline span {
-  float: right;
+  margin-top: 3px;
+  display: block;
+  font-weight: 600;
+  font-size: .9em;
+  text-transform: none;
 }
 #project p {
   line-height: 1.5em;
@@ -4501,18 +4523,30 @@ li.as-result-item img {
 #project .commentList p {
   padding: 0;
 }
+#project .stats {
+  padding-top: 10px;
+}
+#project .stats li {
+  width: 27%;
+  height: 65px;
+  line-height: 1em;
+}
+#project .stats li span {
+  font-size: .85em;
+}
+#project .stats li i {
+  margin-top: 6px;
+}
 p.location {
   padding-bottom: 5px;
 }
 .project-header {
-  color: white;
-  background: #3a3a3a;
-  height: 42px;
+  color: #3a3a3a;
   margin-top: 0;
+  padding-top: 10px;
 }
 .project-header .project-title {
   margin: 0;
-  float: left;
 }
 .project-header .project-stats {
   list-style-type: none;
@@ -4591,6 +4625,12 @@ img.project-content {
 #project-author .applicant-mini a.PTbutton {
   margin: 0 3px;
   height: 20px;
+  padding: 5px 8px;
+  display: inline-block;
+  line-height: 20px;
+}
+#project-author .applicant-mini a.PTbutton.active:hover {
+  background: red;
 }
 #project-author .applicant-mini a.PTbutton:hover {
   background: #007ab8;
@@ -4668,6 +4708,13 @@ img.project-content {
 }
 .container-filter .search-form {
   margin: 6px 0;
+}
+#project-body .btn-edit-project {
+  width: 130px;
+  margin: 10px 20px auto auto;
+  height: 20px;
+  display: block;
+  line-height: 20px;
 }
 .dropdown .select {
   font-weight: 700;

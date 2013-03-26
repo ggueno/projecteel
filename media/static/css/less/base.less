@@ -148,12 +148,6 @@ textarea {
     float:right;
 }
 
-.dropdown-menu{
-    z-index: 100;
-    margin-top: 10px;
-    margin-left: -155px;
-    padding: 15px 5px;
-}
 
 #dropdown-social-network{
 
@@ -166,6 +160,12 @@ textarea {
 
 .floatRight{
     float: right;
+    .dropdown-menu{
+        z-index: 100;
+        margin-top: 10px;
+        margin-left: -155px;
+        padding: 15px 5px;
+    }
 }
 
 .grey{
@@ -229,7 +229,7 @@ i.icon{
 .sleekbox h1.blackTitle{
     line-height: 42px;
     padding: 0 20px;
-    font-size:1.4em;
+    font-size:1.6em;
     font-weight: 400;
 }
 
@@ -442,6 +442,7 @@ a.PTbutton{
 
 .thumb{
     padding:0px;
+    position: relative;
     margin-bottom: 20px;
     text-align:center;
     background: #fff;
@@ -500,6 +501,20 @@ a.PTbutton{
             width:44%;
             padding:5px 3%;
             text-align:left;
+        }
+    }
+    a.edit-project{
+        padding:1px 3px 1px 6px;
+        font-size: 1.3em;
+        background: #FFF;
+        position: absolute;
+        top: 10px;
+        right:10px;
+        display: none;
+    }
+    &:hover{
+        a.edit-project{
+            display: block;
         }
     }
 }
@@ -1703,6 +1718,13 @@ ul.tabs{
     }
 }
 
+.add_project.edit{
+    .PTform .file-wrap input[type=file]{
+        bottom: 28px;
+        top: auto;
+    }
+}
+
 //users autosuggest
 li.as-result-item{
     line-height: 30px;
@@ -1910,27 +1932,28 @@ li.as-result-item{
         font-weight: 400;
         margin: 20px 0;
     }
-    .stats{
-        overflow: auto;
-        li{
-            width: 30%;
+}
+
+.stats{
+    overflow: auto;
+    li{
+        width: 30%;
+        display: block;
+        height: 80px;
+        float: left;
+        margin-right: 5%;
+        background: #f55253;
+        color: #FFF;
+        text-align: center;
+        font-size: 2em;
+        span{
             display: block;
-            height: 80px;
-            float: left;
-            margin-right: 5%;
-            background: #f55253;
-            color: #FFF;
-            text-align: center;
-            font-size: 2em;
-            span{
-                display: block;
-            }
-            &.last{
-                margin-right: 0;
-            }
-            .icon{
-                margin-top: 10px;
-            }
+        }
+        &.last{
+            margin-right: 0;
+        }
+        .icon{
+            margin-top: 10px;
         }
     }
 }
