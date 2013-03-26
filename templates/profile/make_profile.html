@@ -29,7 +29,7 @@
                         <p class="errors">Corrigez les champs erronés suivants: {{ form.non_field_errors }}</p>
                     {% endif %}
 
-                    <form action="/profile/edit/" method="post" class="PTform" enctype="multipart/form-data" id="form_profile">
+                    <form action="{% if edit_title %}/profile/edit/{% else %}/profile/create/{% endif %}" method="post" class="PTform" enctype="multipart/form-data" id="form_profile">
                         {% csrf_token %}
 
                         <!-- TAB -->
@@ -87,6 +87,8 @@
                                 </div>
                             </div>
 
+
+                            {% if edit_title %}
                             <div>
                                 <label>Vos réseaux sociaux</label>
                                 <ul id="network_list">
@@ -111,6 +113,7 @@
                                     </div>
                                 </div>
                             </div>
+                            {% endif %}
 
 
                             <div class="footer">

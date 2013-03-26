@@ -33,7 +33,6 @@ urlpatterns = patterns('',
     url(r'^project/like/(?P<pk>\d+)$', views.like),
     url(r'^project/unlike/(?P<pk>\d+)$', views.unlike),
 
-
     url(r'^offers/$', views.offers_all),
     url(r'^offer/vacancy/(?P<state>[^\.]+)/(?P<pk>\d+)$', views.vacancy),
     url(r'^offer/bookmark/(?P<state>[^\.]+)/(?P<pk>\d+)$', views.bookmark),
@@ -45,7 +44,6 @@ urlpatterns = patterns('',
     url(r'^offer/applications/(?P<slug>[^\.]+)/$', views.get_applications),
     url(r'^offer/(?P<model>\w+)/$', views.edit_offer),
     url(r'^offer/(?P<model>\w+)/(?P<slug>[^\.]+)/$', views.edit_offer),
-
 
     url(r'^profile/create/$', views.create_applicant, {'action': 'new'}),
     url(r'^profile/edit/$', views.create_applicant, {'action': 'edit'}),
@@ -66,7 +64,6 @@ urlpatterns = patterns('',
     url(r'^profile/(?P<slug>[^\.]+)/following/$', views.get_follow_profiles, {'type_url': 'following'}),
     url(r'^profile/(?P<slug>[^\.]+)/$', views.get_applicant, name="profile_view"),
     url(r'^profile/$', views.get_my_profile),
-
 
     url(r'^education/add/$', views.add_education),
     url(r'^education/delete/(?P<pk>\d+)$', views.delete_education),
