@@ -87,16 +87,37 @@
                         <li><i class="icon job"></i> {{ profile.profession }}</li>
                         <li class="last"><a href="{{ profile.url }}" target="_blank" title=""><i class="icon web"></i> {{ profile.url }}</a></li>
 
-
                         {% if profile.social_network %}
 
-                        <li class="last">
-                        {% for socialnetwork in profile.social_network.all %}
 
-                        <a href="{{socialnetwork.url }}" class="tooltip" data-tooltip="{{socialnetwork.username}}" target="_blank"><img src="{{ socialnetwork.network.icon_url }}" ></a>
-                        {% endfor %}
-                        </li>
+
+                        <div class="floatRight last">
+
+                            <div class="dropdown" id="dropdown-social-network">
+                                <a data-toggle="dropdown" href="#"><i class="ico-plus grey"></i></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+
+                                    {% for socialnetwork in profile.social_network.all %}
+                                    {% if forloop.counter > 3 %}
+
+                                    <a href="{{socialnetwork.url }}" class="tooltip icon_social" data-tooltip="{{socialnetwork.username}}" target="_blank"><img src="{{ socialnetwork.network.icon_url }}" ></a>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                </ul>
+                            </div>
+                        </div>
+
+                            <li class="last noPad">
+                                {% for socialnetwork in profile.social_network.all|slice:":3" %}
+
+                            <a href="{{socialnetwork.url }}" class="tooltip" data-tooltip="{{socialnetwork.username}}" target="_blank"><img src="{{ socialnetwork.network.icon_url }}" ></a>
+                            {% endfor %}
+                            </li>
+
+
                         {% endif %}
+
                     </ul>
                 </div>
                 {% if profile.avatar %}

@@ -4,7 +4,7 @@
 {% block title %} Mes offres {% endblock %}
 {% block content %}
 
-<div class="row">
+<div class="row posted_offers">
 	<h1 class="heading">Mes offres</h1>
 
 	{% if offers %}
@@ -15,9 +15,44 @@
 			<p>{{ offers.count }} offre postée</p>
 		{% endif %}
 
-	{% for offer in offers %}
+    <section class="ninecol" id="list_offers">
+        {% for offer in offers %}
 
+            <h3>{{ offer.title }}</h3>
+            <p class="publish-date">{{ offer.publish_date }}</p>
+            <span>{{ offer.contract }}</span>
+            {% if offer.tags %}
+                <ul class="tags-offer">
+                {% for tag in offer.tags.all %}
+                    <li><a href="/offers/search/?tags[]={{tag.slug}}">{{ tag.name }}</a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            
+            <div class="candidates">
+                {% if applicants %}
 
+                    <p>Candidats:</p>
+
+                    {% for applicant in applicants %}
+
+                        
+
+                    {% endfor %}
+
+                {% endif %}
+            </div>
+
+        {% endfor %}
+    </section>
+
+    <section class="threecol last suggest_candidates">
+        <h4>Candidats suggérés :</h4>
+        
+    </section>
+
+    
+    <!--
 
     <div class="twelvecol last posted_offers" id="list_offers">
 
@@ -40,7 +75,7 @@
                             <a href="/offer/vacancy/unadd/{{offer.id}}" id="vacancy" class="active PTbutton">Pourvue</a>
                         {% else %}
                             <a href="/offer/vacancy/add/{{offer.id}}" id="vacancy" class="unactive PTbutton">A pourvoir</a>
-                            <!-- on ne peut pas editer et supprimer une offre pourvue --> 
+                             on ne peut pas editer et supprimer une offre pourvue 
                             <a class="PTbuttton" href="/offer/edit/{{ offer.slug }}">Editer</a>
                             <a class="PTbuttton" href="/offer/delete/{{ offer.slug }}">Supprimer</a>
                         {% endif %}
@@ -54,7 +89,7 @@
                             {% if applicantoffer.offer == offer %}
                             {% thumbnail applicantoffer.applicant.avatar "50x50" crop="left" as im %}
                                 <a href="/profile/{{ applicantoffer.applicant.slug }}" data-tooltip="{{ applicantoffer.applicant.user}}" class="tooltip">
-                                <img src="{{im.url}}" alt="{{ applicantoffer.applicant.name }}"/>
+                                <img src="{{ im.url }}" alt="{{ applicantoffer.applicant.name }}"/>
                                 </a>
                             {% endthumbnail %}
                             {% endif %}
@@ -63,8 +98,8 @@
                 </div>
             </div>
             
-        </div>
-        {% endfor %}
+        </div> -->
+        
     </div>
 
     {% endif %}

@@ -16,9 +16,11 @@ from forms import *
 from elsewhere.models import SocialNetworkProfile
 from elsewhere.forms import SocialNetworkForm
 from django.contrib.auth.decorators import login_required
+
 from notifications.models import Notification
 
 import itertools
+import difflib
 
 from PIL import Image
 
@@ -30,7 +32,7 @@ def home(request):
         'projects': projects,
         'companies': companies
     }
-    return render_to_response('index.html', context)
+    return render_to_response('index.html', context, context_instance=RequestContext(request))
 
 
 def get_my_self(request):
@@ -385,6 +387,16 @@ def update_avatar(request, action="new"):
             return response
     else:
         return HttpResponseRedirect('/profile/');
+
+
+@login_required
+def get_my_applications(request):
+    myself = Applicant.objects.filter(user_id=request.user.id)[0]
+    applications = ApplicantOffer.objects.filter(applicant=myself)
+    context = {
+        'applications':applications,
+    }
+    return render(request, 'profile/my_applications.html', context)
 
 
 @login_required
@@ -749,6 +761,7 @@ def unfollow(request, pk):
         return HttpResponseRedirect('/profile/'+profile.slug)
 
 
+@login_required
 def offers(request, list_offers):
     template = 'offer/list_offers.html'
     endless_part = 'offer/endless_part.html'
@@ -821,15 +834,31 @@ def apply_offer(request):
 
 
 @login_required
+def get_applications(request, slug):
+    try:
+        company = Company.objects.filter(user_id=request.user.id)[0]
+        offer = Offer.objects.get(slug=slug)
+        applicantsOffer = ApplicantOffer.objects.filter(offer=offer)
+        context = {
+            'offer': offer,
+            'applicantsOffer': applicantsOffer
+        }
+    except Offer.DoesNotExist:
+        return HttpResponseRedirect('/offers/')
+    except Company.DoesNotExist:
+        return HttpResponseRedirect('/offers/')
+
+    return render(request, 'offer/applications_offer.html', context)
+
+
+@login_required
 def posted_offers(request):
     company = Company.objects.filter(user_id=request.user.id)[0]
     offers = Offer.objects.filter(company=company)
     applicantsOffer = ApplicantOffer.objects.all()
-    endless_part = 'offer/endless_part.html'
     context = {
         'offers': offers,
         'applicants': applicantsOffer,
-        'endless_part': endless_part,
     }
     return render(request, 'offer/posted_offers.html', context)
 
@@ -871,7 +900,6 @@ def statusApplication(request, model, pk, slug):
     else:
         if model == "accept" and (ApplicantOffer.objects.filter(offer=offer).count > 1) and application.state is not 'FAIL':
             ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='SAVE')
-            Offer.objects.filter(id=application.offer.id).update(vacancy=True)
         else:
             if model == "decline" and application.state is not 'SAVE':
                 ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='FAIL')
@@ -887,6 +915,7 @@ def statusApplication(request, model, pk, slug):
         else:
             #404
             return HttpResponseNotFound('404.html')
+
 
 
 @login_required
@@ -907,15 +936,61 @@ def get_applications(request, slug):
     return render(request, 'offer/applications_offer.html', context)
 
 
-def potentialApplicant(offer):
-#     return offer
-#     # Critere
-#         # obtenir tous les profils dans une category
-    offerTag = OfferTag.objects.filter(Q(content_object=offer));
+def potentialApplicant(pk):
+    offer = Offer.objects.get(id=pk)
+    offerTag = OfferTaggedItem.objects.filter(Q(content_object__id=pk));
 
     applicant = []
     for tag in offerTag:
-        applicant.extend(list(Applicant.get_tags_for(tag.name)))
+        applicant.extend(SkillsTaggedItem.objects.filter(Q(tag__name=tag.tag.name)).values_list('content_object__owner', flat=True))
+
+    applicants = set(applicant)
+
+    p = Project.objects.filter(owner__id__in=applicant).order_by('owner')
+    # p = p.values()
+
+    poids_like = {}
+    poids_dispo = {}
+    poids_job = {}
+    for project in p:
+        if poids_like.has_key(project.owner_id):
+            pushs = Like.objects.filter(Q(project=project)).count()
+            if pushs is not None:
+                poids_like[project.owner_id] += pushs * 0.8
+
+            hits = HitCount.objects.filter(object_pk=project.id).aggregate(hits=Sum('hits')).values()[0]
+            if hits is not None:
+                poids_like[project.owner_id] += hits * 0.2
+
+        else:
+            pushs = Like.objects.filter(Q(project=project)).count()
+            if pushs is not None:
+                poids_like[project.owner_id] = pushs * 0.8
+
+            hits = HitCount.objects.filter(object_pk=project.id).aggregate(hits=Sum('hits')).values()[0]
+            if hits is not None:
+                poids_like[project.owner_id] += hits * 0.2
+
+        if not poids_dispo.has_key(project.owner_id):
+            if project.owner.profession:
+                diff = difflib.SequenceMatcher(None, offer.title, project.owner.profession)
+                poids_job[project.owner_id] = diff.quick_ratio()
+
+            if project.owner.available == True:
+                poids_dispo[project.owner_id] = 1
+            else:
+                poids_dispo[project.owner_id] = 0
+
+    # trie en fonction du poids
+    applicant = []
+    poids = {}
+    for key in poids_like.keys():
+        poids[key] = poids_like[key]/poids_like[max(poids_like)] + poids_dispo[key]*0.5 + poids_job[key]
+
+    for key, value in sorted(poids.iteritems(), key=lambda (k,v): (v,k)):
+        applicant.extend("%d" % key)
+
+    return applicant
 
 #         # Ceux qui apparaissent dans tag + metier + Dispo doivent ressortir
 
@@ -927,7 +1002,6 @@ def potentialApplicant(offer):
 
 
 
-#         # Metier en fonction
 
 #         getPopularity on ...
 
@@ -1381,7 +1455,7 @@ def show_dashboard(request):
     comments = Comment.objects.filter(project__owner=profile).count
     pushs = Like.objects.filter(Q(project__owner=profile.user) | Q(project__participant__in=[profile])).count()
     views = HitCount.objects.filter(content_type=ContentType.objects.get_for_model(Project), object_pk__in=projects.values_list('pk', flat=True)).aggregate(hits=Sum('hits'))
-    tags = SkillsTag.objects.filter(Q(skills__content_object__owner=profile)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')[:3]   
+    tags = SkillsTag.objects.filter(Q(skills__content_object__owner=profile)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')[:3]
     following = Follow.objects.filter(follower__user_id=user.id).values('following_id')
     # print following
     notifications = Notification.objects.filter(actor_object_id__in=following)
@@ -1394,7 +1468,7 @@ def show_dashboard(request):
         'stats': {'pushs': pushs, 'tags': tags, 'views': views, 'comments' : comments },
         'projects': projects,
         'notifications' : notifications[:7],
-        'unread_nb' : int(0+unread.count()), 
+        'unread_nb' : int(0+unread.count()),
         'pushs': Project.objects.push_user(profile.user_id),
         'projects' : projects
     }
