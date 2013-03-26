@@ -1,36 +1,40 @@
-{% extends "layout/base.html" %}
-
-{% block title %}Log in{% endblock %}
-
 {% block content %}
 
-<div class="row wrapper">
 
-	<div class="twelvecol">
-		<h1 class="blackTitle">Log in</h1>
+{% if form.errors %}
+	<p class="error">Please correct the errors below:</p>
+{% endif %}
 
-		<div class="whitediv header">
+<form class="PTform form-connexion" method="post" action="?next={{ next|default:"/" }}">
+	{% csrf_token %}	
 
-			{% if form.errors %}
-			<p class="error">Please correct the errors below:</p>
-			{% endif %}
+    <h1 class="heading heading-lp">Connexion</h1>
 
-			<form method="post" action="?next={{ next|default:"/" }}">{% csrf_token %}
-			<dl>
-			<dt><label for="id_username">Username:</label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</dt>
-			<dd>{{ form.username }}</dd>
-			<dt><label for="id_password">Password:</label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</dt>
-			<dd>{{ form.password }}</dd>
-			<dt><input type="submit" value="Log in" /></dt>
-			</dl>
-			</form>
-			{% endblock %}
 
-			{% block content-related %}
-			<p>If you don't have an account, you can <a href="/accounts/register/">sign
-			up</a> for one.
-			{% endblock %}
+    <label for="id_username">Email</label>
+    {% if form.username.errors %} 
+    	<span class="error">{{ form.username.errors|join:", " }}</span>
+    {% endif %}
+	{{ form.username }}
 
-		</div>
-	</div>
-</div>
+
+	<label for="id_password">Mot de passe</label>
+	{% if form.password.errors %} 
+		<span class="error">{{ form.password.errors|join:", " }}</span>
+	{% endif %}
+	{{ form.password }}
+
+	<input class="PTbutton button-landingPage" type="submit" name="" value="Se connecter">  
+
+	<input type="checkbox" name="" value="">Rester connecté
+	<p><a href="#">Mot de passe oublié</a></p>
+
+</form>
+
+{% endblock %}
+
+<!--
+{% block content-related %}
+<p>If you don't have an account, you can <a href="/accounts/register/">sign up</a> for one.
+{% endblock %}
+-->

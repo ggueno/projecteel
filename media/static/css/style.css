@@ -4049,6 +4049,9 @@ li.as-result-item img {
 /*
    P O S T E D   O F F E R S
    ========================================================================== */
+.posted_offers .suggest_candidates {
+  float: right;
+}
 .posted_offers .left {
   padding: 17px 20px;
   width: 60%;

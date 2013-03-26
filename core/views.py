@@ -27,7 +27,7 @@ def home(request):
         'projects': projects,
         'companies': companies
     }
-    return render_to_response('index.html', context)
+    return render_to_response('index.html', context, context_instance=RequestContext(request))
 
 
 def get_my_self(request):
@@ -382,6 +382,16 @@ def update_avatar(request, action="new"):
             return response
     else:
         return HttpResponseRedirect('/profile/');
+
+
+@login_required
+def get_my_applications(request):
+    myself = Applicant.objects.filter(user_id=request.user.id)[0]
+    applications = ApplicantOffer.objects.filter(applicant=myself)
+    context = {
+        'applications':applications,
+    }
+    return render(request, 'profile/my_applications.html', context)
 
 
 @login_required
@@ -746,6 +756,7 @@ def unfollow(request, pk):
         return HttpResponseRedirect('/profile/'+profile.slug)
 
 
+@login_required
 def offers(request, list_offers):
     template = 'offer/list_offers.html'
     endless_part = 'offer/endless_part.html'
@@ -818,15 +829,31 @@ def apply_offer(request):
 
 
 @login_required
+def get_applications(request, slug):
+    try:
+        company = Company.objects.filter(user_id=request.user.id)[0]
+        offer = Offer.objects.get(slug=slug)
+        applicantsOffer = ApplicantOffer.objects.filter(offer=offer)
+        context = {
+            'offer': offer,
+            'applicantsOffer': applicantsOffer
+        }
+    except Offer.DoesNotExist:
+        return HttpResponseRedirect('/offers/')
+    except Company.DoesNotExist:
+        return HttpResponseRedirect('/offers/')
+
+    return render(request, 'offer/applications_offer.html', context)
+
+
+@login_required
 def posted_offers(request):
     company = Company.objects.filter(user_id=request.user.id)[0]
     offers = Offer.objects.filter(company=company)
     applicantsOffer = ApplicantOffer.objects.all()
-    endless_part = 'offer/endless_part.html'
     context = {
         'offers': offers,
         'applicants': applicantsOffer,
-        'endless_part': endless_part,
     }
     return render(request, 'offer/posted_offers.html', context)
 
@@ -868,7 +895,6 @@ def statusApplication(request, model, pk, slug):
     else:
         if model == "accept" and (ApplicantOffer.objects.filter(offer=offer).count > 1) and application.state is not 'FAIL':
             ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='SAVE')
-            Offer.objects.filter(id=application.offer.id).update(vacancy=True)
         else:
             if model == "decline" and application.state is not 'SAVE':
                 ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='FAIL')
@@ -884,24 +910,6 @@ def statusApplication(request, model, pk, slug):
         else:
             #404
             return HttpResponseNotFound('404.html')
-
-
-@login_required
-def get_applications(request, slug):
-    try:
-        company = Company.objects.filter(user_id=request.user.id)[0]
-        offer = Offer.objects.get(slug=slug)
-        applicantsOffer = ApplicantOffer.objects.filter(offer=offer)
-        context = {
-            'offer': offer,
-            'applicantsOffer': applicantsOffer
-        }
-    except Offer.DoesNotExist:
-        return HttpResponseRedirect('/offers/')
-    except Company.DoesNotExist:
-        return HttpResponseRedirect('/offers/')
-
-    return render(request, 'offer/applications_offer.html', context)
 
 
 def potentialApplicant(offer):
