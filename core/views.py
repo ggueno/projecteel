@@ -33,17 +33,10 @@ def home(request):
     except User.DoesNotExist:
         print "test"
 
-
-
-    
-    form = AuthenticationForm(request.POST)
-    # if form.is_valid():
-    #     return HttpResponseRedirect('/profile/')
-    # else:
-    #     print form.errors
-
     projects = Project.objects.annotate(num=Count('likes')).order_by('-num')
     companies = Company.objects.annotate(num=Count('followers')).order_by('-num')
+
+    form = AuthenticationForm(request.POST)
 
     context = {
         'projects': projects,
@@ -710,7 +703,7 @@ def create_applicant(request, action="new"):
         else:
             form_applicant = ApplicantForm()
             data = { 'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social}
-    return render(request, 'profile/make_profile.html', data)
+        return render(request, 'profile/make_profile.html', data)
 
 
 @login_required

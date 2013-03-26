@@ -1,6 +1,6 @@
 {% block content %}
 
-<form class="PTform form-connexion" method="post" action="/accounts/login/">
+<form class="PTform form-connexion" method="post" action="/accounts/login/?next=/profile/">
 	{% csrf_token %}	
 
     <h1 class="heading heading-lp">Connexion</h1>
