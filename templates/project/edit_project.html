@@ -36,6 +36,7 @@
                                 <div class="file-wrap">
                                     <label>Vignette</label>
                                     <img src="/media/{{ data.thumbnail }}" width="300px"  alt="">
+                                    <br><br>
                                     <input type="file" multiple value="{{ data.thumbnail }}" id="id_thumbnail">
                                     <input type="text" autocomplete="off" disabled value="{{ data.thumbnail }}" class="file-holder">
                                     <button type="button"><i class="icon image"></i> Choisir</button>
@@ -299,6 +300,8 @@ $().ready(function(){
 <script src="{{ STATIC_URL }}js/csrf.js"></script>
 <script type="text/javascript">
     $().ready(function(){
+        var filesList = 
+            [ {% for file in data.project_files %} '{{ file }}' , {% endfor %} ];
         $('#fileupload').fileupload('add', {files: filesList});
     });
 </script>

@@ -816,7 +816,7 @@ a.edit-item:hover {
    L A N D I N G  P A G E
    ========================================================================== */
 .strap-1 {
-  background: url(../img/landscape.png) repeat-x bottom;
+  background: url(../img/landscape.png) repeat-x bottom, url(../img/landscape_pattern2.png) repeat-x 0 60%;
   height: 450px;
 }
 .strap-1 #logo_l {
@@ -1551,7 +1551,7 @@ header.menu #menu a.notifications.unread {
 }
 .fileupload-buttonbar span.PTbutton {
   line-height: 2.6em;
-  padding: 3px 6px;
+  padding: 3px 12px 3px 14px;
   height: 31px;
   margin: 0;
   display: block;
@@ -1773,6 +1773,9 @@ ul.tabs li a .step-label {
 .add_project .PTform .PTbutton:hover {
   background: #047dba;
   color: #FFF;
+}
+.add_project .PTbutton {
+  padding: 5px 10px 5px 13px;
 }
 .add_project.edit .PTform .file-wrap input[type=file] {
   bottom: 28px;

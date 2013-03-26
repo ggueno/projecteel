@@ -465,9 +465,12 @@ def edit_project(request, pk):
                 return HttpResponseRedirect('/projects/')
         else:
             form = ProjectForm(instance=project)
+            files = ImageProject.objects.filter(project=project)
             context = {
-                'thumbnail' : project.thumbnail
+                'thumbnail' : project.thumbnail,
+                'project_files' : files
             }
+            print files
             return render(request, 'project/edit_project.html', {'form': form, 'data' : context })
 
     else:
