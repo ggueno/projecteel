@@ -15,40 +15,43 @@
             </div>
             <div class="sixcol last">
               {% if form.errors %}
-              <p class="errors">Please correct the errors below: {{ form.non_field_errors }}</p>
+              <p class="errors">Merci de corriger les erreurs ci-dessous: {{ form.non_field_errors }}</p>
               {% endif %}
 
               <form method="post" action="" class="wide PTform">
             	{% csrf_token %}
-                <p>
+                <div>
                   <label for="id_email">Email</label>
+                  <span class="annotation">Votre adresse email personnelle.</span>
                   {% if form.email.errors %}
                     <p class="errors">{{ form.email.errors.as_text }}</p>
                   {% endif %}
                   {{ form.email }}
-                </p>
-                <p>
+                </div>
+                <div>
                   <label for="id_user_category">Categorie</label>
                   {% if form.user_category.errors %}
                     <p class="errors">{{ form.user_category.errors.as_text }}</p>
                   {% endif %}
                   {{ form.user_category }}
-                </p>
-                <p>
+                </div>
+                <div>
                   <label for="id_password1">Mot de passe</label>
+                  <span class="annotation">Prenez un mot de passe (plus 8 caractères étant l'idéal) facile à retenir pour vous mais difficile à deviner pour les autres. Par exemple : guENO75cl.</span>
                   {% if form.password1.errors %}
                     <p class="errors">{{ form.password1.errors.as_text }}</p>
                   {% endif %}
                   {{ form.password1 }}
-                </p>
-                <p>
+                </div>
+                <div>
                   <label for="id_password2">Confirmation de mot de passe</label>
+                  <span class="annotation">Le même mot de passe que précédemment.</span>
                   {% if form.password2.errors %}
                     <p class="errors">{{ form.password2.errors.as_text }}</p>
                   {% endif %}
                   {{ form.password2 }}
-                </p>
-                <p class="submit"><input type="submit" value="Inscription" class="PTbutton"></p>
+                </div>
+                <div class="submit"><input type="submit" value="Inscription" class="PTbutton"></div>
               </form>
 
             {% endblock %}
