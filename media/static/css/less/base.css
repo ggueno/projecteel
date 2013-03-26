@@ -123,6 +123,24 @@ textarea {
 .last {
   float: right;
 }
+#dropdown-social-network {
+  padding-top: 1em;
+}
+.icon_social {
+  padding: 5px;
+}
+.floatRight {
+  float: right;
+}
+.floatRight .dropdown-menu {
+  z-index: 100;
+  margin-top: 10px;
+  margin-left: -155px;
+  padding: 15px 5px;
+}
+.grey {
+  color: #808080;
+}
 .error,
 .correct {
   font-weight: bold;
@@ -197,7 +215,7 @@ i.icon.push {
 .sleekbox h1.blackTitle {
   line-height: 42px;
   padding: 0 20px;
-  font-size: 1.4em;
+  font-size: 1.6em;
   font-weight: 400;
 }
 .subline {
@@ -324,6 +342,10 @@ a.PTbutton {
   display: inline;
   position: relative;
 }
+.tooltip.right {
+  padding: 0 5px;
+  margin-left: 3px;
+}
 .tooltip:hover {
   color: #c00;
   text-decoration: none;
@@ -403,6 +425,7 @@ a.PTbutton {
 }
 .thumb {
   padding: 0px;
+  position: relative;
   margin-bottom: 20px;
   text-align: center;
   background: #fff;
@@ -460,6 +483,18 @@ a.PTbutton {
   width: 44%;
   padding: 5px 3%;
   text-align: left;
+}
+.thumb a.edit-project {
+  padding: 1px 3px 1px 6px;
+  font-size: 1.3em;
+  background: #FFF;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+}
+.thumb:hover a.edit-project {
+  display: block;
 }
 .label_views {
   background: url(../img/icon_social.png) no-repeat 0 -2px;
@@ -961,6 +996,7 @@ header.menu #menu a.notifications.unread {
    ========================================================================== */
 .profile {
   margin-top: 0;
+  overflow: visible;
 }
 .profile .profile_cover {
   position: relative;
@@ -1096,6 +1132,9 @@ header.menu #menu a.notifications.unread {
 }
 .profile .profile_secondbar ul li.last {
   float: right;
+}
+.profile .profile_secondbar ul li.noPad {
+  padding-right: 5px;
 }
 .profile .profile_secondbar a {
   -webkit-transition: color .15s ease;
@@ -1735,6 +1774,10 @@ ul.tabs li a .step-label {
   background: #047dba;
   color: #FFF;
 }
+.add_project.edit .PTform .file-wrap input[type=file] {
+  bottom: 28px;
+  top: auto;
+}
 li.as-result-item {
   line-height: 30px;
 }
@@ -1885,6 +1928,9 @@ li.as-result-item img {
 /*
    P O S T E D   O F F E R S
    ========================================================================== */
+.posted_offers .suggest_candidates {
+  float: right;
+}
 .posted_offers .left {
   padding: 17px 20px;
   width: 60%;
@@ -1913,10 +1959,10 @@ li.as-result-item img {
   font-weight: 400;
   margin: 20px 0;
 }
-#dashboard .stats {
+.stats {
   overflow: auto;
 }
-#dashboard .stats li {
+.stats li {
   width: 30%;
   display: block;
   height: 80px;
@@ -1927,13 +1973,13 @@ li.as-result-item img {
   text-align: center;
   font-size: 2em;
 }
-#dashboard .stats li span {
+.stats li span {
   display: block;
 }
-#dashboard .stats li.last {
+.stats li.last {
   margin-right: 0;
 }
-#dashboard .stats li .icon {
+.stats li .icon {
   margin-top: 10px;
 }
 .offers .row {

@@ -5,7 +5,7 @@
 
 
 {% block content %}
-    <section class="row add_project">
+    <section class="row add_project edit">
         <div class="sleekbox">
             <div class="content">
                 <h1 class="heading">Modifier votre projet</h1>
@@ -35,8 +35,9 @@
                                 </div>
                                 <div class="file-wrap">
                                     <label>Vignette</label>
-                                    <input type="file" multiple>
-                                    <input type="text" autocomplete="off" disabled>
+                                    <img src="/media/{{ data.thumbnail }}" width="300px"  alt="">
+                                    <input type="file" multiple value="{{ data.thumbnail }}" id="id_thumbnail">
+                                    <input type="text" autocomplete="off" disabled value="{{ data.thumbnail }}" class="file-holder">
                                     <button type="button"><i class="icon image"></i> Choisir</button>
                                     <p class="annotation">(< 1Mo, > 300x250px)</p>
                                 </div>
@@ -54,47 +55,7 @@
                                     <hr class="sublabel"/>
                                     <textarea name="" id="" cols="30" rows="10"></textarea>
                                     <button class="PTbutton"><i class="icon add"></i>Ajouter</button>
-
-                                    <label class="sublabel">par fichier</label>
-                                    <hr class="sublabel"/>
                                 </div>
-                                <div class="row fileupload-buttonbar">
-                                    <div class="span7">
-                                        <span class="btn btn-primary fileinput-button">
-                                            <span class="PTbutton"><i class="icon add"></i>Ajouter</span>
-                                            <input type="hidden" name="project_id" value="{{ project_id }}" >
-                                            <input type="file" name="file" multiple>
-                                        </span>
-                                        <button type="submit" class="btn btn-success start PTbutton">
-                                            <i class="icon send"></i>
-                                            <span>Envoyer</span>
-                                        </button>
-                                        <button type="reset" class="btn btn-warning cancel PTbutton">
-                                            <i class="icon cancel"></i>
-                                            <span>Annuler</span>
-                                        </button>
-                                        <button type="button" class="btn btn-danger delete PTbutton">
-                                            <i class="icon delete"></i>
-                                            <span>Supprimer</span>
-                                        </button>
-                                        <input type="checkbox" class="toggle">
-                                    </div>
-                                    <!-- The global progress information -->
-                                    <div class="span5 fileupload-progress fade">
-                                        <!-- The global progress bar -->
-                                        <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                                            <div class="bar" style="width:0%;"></div>
-                                        </div>
-                                        <!-- The extended global progress information -->
-                                        <div class="progress-extended">&nbsp;</div>
-                                    </div>
-                                </div>
-                                <!-- The loading indicator is shown during file processing -->
-                                <div class="fileupload-loading"></div>
-                                <br>
-                                <!-- The table listing the files available for upload/download -->
-                                <ul id="upload_files_container">
-                                </ul>
 
                                 <div class="footer">
                                     <div class="twocol">Etape 1 sur 2</div>
@@ -132,20 +93,59 @@
                                 </div>
 
                                 {{form.tags.label}} {{ form.tags }}
-
-
-                                <div class="embeds">
-                                    <textarea name="embed"></textarea>
-                                </div>
-
-                                <a id="add_video" href="#" alt="Add Embed Content" />Add Embed Content</a>
+                                    
                                 <input type="hidden" name="project_id" value="{{ project_id }}" >
-                                <input type="submit" value="Submit">
 
+                                <div class="footer">
+                                    <div class="twocol">Etape 2 sur 2</div>
+                                    <button class="PTbutton" type="submit">Envoyer</button>
+                                </div>
 
                             </section>
 
                         </form>
+
+                        <div id="multiupload">
+                            <form id="fileupload" method="post" action="/project/add/image/new/" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row fileupload-buttonbar">
+                                    <div>
+                                        <span class="btn btn-primary fileinput-button">
+                                            <span class="PTbutton"><i class="icon add"></i>Ajouter</span>
+                                            <input type="hidden" name="project_id" value="{{ project_id }}" >
+                                            <input type="file" name="file" multiple>
+                                        </span>
+                                        <button type="submit" class="btn btn-success start PTbutton">
+                                            <i class="icon send"></i>
+                                            <span>Envoyer</span>
+                                        </button>
+                                        <button type="reset" class="btn btn-warning cancel PTbutton">
+                                            <i class="icon cancel"></i>
+                                            <span>Annuler</span>
+                                        </button>
+                                        <button type="button" class="btn btn-danger delete PTbutton">
+                                            <i class="icon delete"></i>
+                                            <span>Supprimer</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- The global progress information -->
+                                <div class="fileupload-progress">
+                                    <!-- The global progress bar -->
+                                    <span>Liste des fichiers ajoutés</span>
+                                    <div class="progress progress-success" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="bar" style="width:0%;"></div>
+                                    </div>
+                                    <!-- The extended global progress information -->
+                                    <div class="progress-extended">&nbsp;</div>
+                                </div>
+                                <!-- The table listing the files available for upload/download -->
+                                <ul id="upload_files_container">
+                                </ul>
+                            </div>
+                            </form>
+                        </div>
+
                     </div>
                 </div>
 
@@ -155,7 +155,49 @@
         </div>
     </section>
 <script>
-    $().ready(function(){
+    // $(function() {
+    //     $("#remove").click(function(){
+    //       $.get($(this).attr("href"), function(data) {
+    //           alert(data);
+
+    //         });
+    //       return false;
+    //     });
+
+    //     $('#add_video').click(function(){
+    //         var plop = $(".embeds").children("textarea:last");
+    //         plop.after(plop.clone(true));
+    //     });
+
+    //     //bind step1 button to trigger tab menu click
+    //     $(".next").on('click',function(e){
+    //         e.preventDefault();
+    //         $("ul.tabs a[href=#etape2]").click();
+    //     });
+
+    //     //custom input file
+    //     $('#id_thumbnail').bind('change focus click',fileInputs);
+
+    //     var fileInputs = function() {
+    //         alert("YOOO");
+    //       var $this = $(this),
+    //           $val = $this.val(),
+    //           valArray = $val.split('\\'),
+    //           newVal = valArray[valArray.length-1],
+    //           $button = $this.siblings('button'),
+    //           $fakeFile = $this.siblings('.file-holder');
+    //           if(newVal !== '') {
+    //                 $fakeFile.attr('value',newVal);
+    //           }
+    //     };
+
+
+    // });
+
+
+
+
+$().ready(function(){
         $("#remove").click(function(){
           $.get($(this).attr("href"), function(data) {
               alert(data);
@@ -164,7 +206,8 @@
           return false;
         });
 
-        $('#add_video').click(function(){
+        $('#add_video').click(function(e){
+            e.preventDefault();s
             var plop = $(".embeds").children("textarea:last");
             plop.after(plop.clone(true));
         });
@@ -175,9 +218,70 @@
             $("ul.tabs a[href=#etape2]").click();
         });
 
-        $('.PTform select').dropkick();
+        $('#add_project').submit(function(){
+           window.onbeforeunload = false;
+        });
 
-    });
+        //custom input file
+        $('#id_thumbnail').bind('change focus click',fileInputs);
+
+});
+
+       (function ($) {
+
+            $(document).ready(function (){
+                var p = $("#id_location");
+
+                var data = "{{ form.as_values_participant.value }}";
+                var datas = [{ 'value' : "1", 'name': 'ggueno', "avatar": "upload/images/avatar/0f747c7cf4f59dce5d5ccf7951c3c3a2.jpg"}];
+
+                $('#participant_input').autoSuggest('/taggit_autosuggest/list/participant/', {
+                    asHtmlID: "participant",
+                    startText: "Entrez le nom d'un participant",
+                    emptyText: "Aucun résultat",
+                    preFill: datas,
+                    minChars: 3,
+                    searchObjProps: "name",
+                    selectedItemProp: "name",
+                    selectedValuesProp: "value",
+                    neverTab: true,
+                    retrieveComplete: function(data){ return data; },
+                    selectionAdded: function(elem){ elem.fadeTo("slow", 0.33); },
+                    resultClick: function(data){ console.log(data); },
+                    formatList: function(data, elem){
+                        if(data.avatar){
+                            var avatar = new Image();
+                            avatar.src = '/media/'+data.avatar;
+                        }
+                        elem.prepend(avatar);
+                        elem.append(data.name);
+                        return elem;
+                    }
+                });
+
+                // container.append(list).hide();
+                // p.after(container);
+
+
+            });
+        })(django.jQuery);
+
+
+
+        var fileInputs = function() {
+          var $this = $(this),
+              $val = $this.val(),
+              valArray = $val.split('\\'),
+              newVal = valArray[valArray.length-1],
+              $button = $this.siblings('button'),
+              $fakeFile = $this.siblings('.file-holder');
+              if(newVal !== '') {
+                    $fakeFile.attr('value',newVal);
+              }
+        };
+
+
+
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.ui.widget.js"></script>
@@ -193,6 +297,11 @@
 <script src="{{ STATIC_URL }}js/locale.js"></script>
 <script src="{{ STATIC_URL }}js/upload.js"></script>
 <script src="{{ STATIC_URL }}js/csrf.js"></script>
+<script type="text/javascript">
+    $().ready(function(){
+        $('#fileupload').fileupload('add', {files: filesList});
+    });
+</script>
 {% endblock %}
 
 

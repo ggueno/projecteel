@@ -512,8 +512,10 @@ def edit_project(request, pk):
                 return HttpResponseRedirect('/projects/')
         else:
             form = ProjectForm(instance=project)
-            # thumbnails =
-            return render(request, 'project/edit_project.html', {'form': form, })
+            context = {
+                'thumbnail' : project.thumbnail
+            }
+            return render(request, 'project/edit_project.html', {'form': form, 'data' : context })
 
     else:
         return HttpResponseRedirect('/projects/')

@@ -6,19 +6,18 @@
     <div class="applicant-mini {{nb_col}} {% if last %}last{%endif%}">
         <a href="/profile/{{ profile.slug }}">
             {% thumbnail profile.avatar "80x80" crop="left" as im %}
-            <img src="{{im.url}}" alt="{{profile.pseudo}}" id="profile_pic"/>
+                <img src="{{im.url}}" alt="{{profile.pseudo}}" id="profile_pic"/>
             {% endthumbnail %}
 
             <h3>{{profile.user.first_name}} {{profile.user.last_name}}</h3>
             <span class="profession">{{profile.profession}}</span>
             {% if request.user.id != profile.user.id %}
-            {% if following %}
-                 <a class="PTbutton active follow" href="/profile/unfollow/{{profile.id}}/">Suivi</a>
-            {%else%}
-                 <a class="PTbutton unactive follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
-            {% endif %}
-
-            <a href="#" class="PTbutton"><i class="icon message"></i></a>
+                {% if following %}
+                     <a class="PTbutton active follow" href="/profile/unfollow/{{profile.id}}/">Suivi</a>
+                {%else%}
+                     <a class="PTbutton unactive follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
+                {% endif %}
+                <a href="#" class="PTbutton"><i class="icon message"></i></a>
             {% endif %}
         </a>
     </div>
