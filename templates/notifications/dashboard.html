@@ -2,52 +2,99 @@
 {% load staticfiles %}
 {% load projects %}
 {% load thumbnail %}
-{% load notifications_tags %}
 
 {% block title %}Mon tableau de bord{% endblock %}
 
 {% block content %}
-	<section class="row">
+	<section id="dashboard">
+		<section class="row">
+			<h1>Offres</h1>
+		</section>
+		<section class="row">
+			<!-- Réseau -->
+			<div class="ninecol offers">
+				<section class="row">
+					<div class="sixcol">
+						<h4 class="blacksub">Candidatures</h4>
+						<ul>
+							<li>
+								<strong>Community manager</strong><a href="#">Carrefour</a>, Paris (75)
+								<a class="offer valid" alt="Retenue">
+									<i class="ico-ok"></i>
+								</a>
+							</li>
+							<li>
+								<strong>Community manager</strong><a href="#">Carrefour</a>, Paris (75)
+								<a class="offer declined" alt="Refusée"><i class="ico-ban-circle"></i></a>
+							</li>
+							<li><strong>Community manager de ouf zd qzla suba del vega coasta vega bravas izi life tékatééé</strong><a href="#">Carrefour</a>, Paris (75)
+								<a class="offer waiting" alt="En attente"><i class="ico-time"></i></a>
+							</li>	
+						</ul>
+					</div>
+					<div class="sixcol last">
+						<h4 class="blacksub">Offres suggérées <a href="/offers/">Voir plus</a></h4>
+						<ul>
+							<li>
+								<strong>Ingénieur développement .NET / JavaScript / Azure - H/F</strong>
+								<a href="#">Nike France</a>, Paris (75)
+								<span class="timesince">3 jours</span>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="row projects">
+					<h4 class="blacksub">Projets de mes relations <a href="/projects/">Voir plus</a></h4>
+				    {% for project in projects %}
+				        {% project_mini project forloop.counter|divisibleby:"3" %}
+				    {% endfor %}
+				</section>
+			</div>
 
-		<!-- Réseau -->
-		<div class="sixcol">
-			<h1>Centre de notifications</h1>
-			{% notifications_unread as unread_count %}
-			Vous avez <strong>{{ unread_count }}</strong> notification non-lue.
-			<ul class="notifications">
-			  {% for notice in notifications %}
-			    {% include 'notifications/notice.html' %}
-			  {% endfor %}
-			</ul>
-		</div>
-
-		<div class="sixcol">
-			<h1 class="blackTitle">Projets</h1>
-			<ul>
-	            <li><span>{{stats.views.hits}}</span>vues sur mes projets{{stats.views.hits|pluralize}}</li>
-	            <li>
-	                <span>
-	                    {% if stats.pushs == 0 %}
-	                        0
-	                    {%else%}
-	                        {{stats.pushs}}
-	                    {%endif%}
-	                </span>
-	                push reçus
-	            </li>
-	            <li>
-	                <span>
-	                    {% if stats.comments == 0 %}
-	                        0
-	                    {%else%}
-	                        {{stats.comments}}
-	                    {%endif%}
-	                </span>
-	                commentaires reçus
-	            </li>
-	        </ul>
-	        <a href="/project/add/" class="PTbutton">Ajouter un projet</a>
-		</div>
-		
+			<div class="threecol last">
+				<a href="/project/add/" class="PTbutton">Ajouter un projet</a>
+				<h2>Mes stats</h2>
+				<ul class="stats">
+		            <li><span>{{stats.views.hits}}</span><i class="ico-eye-open"></i></li>
+		            <li>
+		                <span>
+		                    {% if stats.pushs == 0 %}
+		                        0
+		                    {%else%}
+		                        {{stats.pushs}}
+		                    {%endif%}
+		                </span>
+		                <i class="icon push"></i>
+		            </li>
+		            <li class="last">
+		                <span>
+		                    {% if stats.comments == 0 %}
+		                        0
+		                    {%else%}
+		                        {{stats.comments}}
+		                    {%endif%}
+		                </span>
+		               	<i class="ico-comment"></i>
+		            </li>
+		        </ul>
+		        <h2>Réseau</h2>
+				<ul class="notifications">
+					<span class="nb_notifications">
+						Vous avez <strong>{{ unread_nb|pprint }}</strong> notification{{ unread_nb|pluralize }} non-lue{{ unread_nb|pluralize }}.
+					</span>
+					{% for notice in notifications %}
+						{% include 'notifications/notice.html' %}
+					{% endfor %}
+				</ul>
+			</div>
+			
+		</section>
 	</section>
+{% endblock %}
+{% block js %}
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$.post('/notifications/mark_as_read/');
+	});
+	</script>
 {% endblock %}

@@ -4,21 +4,43 @@
 {% load thumbnail %}
 {% load notifications_tags %}
 
-{% block title %} {{ user.first_name }}'s profile{% endblock %}
+{% block title %}Centre de notifications{% endblock %}
 
 {% block content %}
-	<section class="row">
+	<section class="row" id="notification_center">
 
-		<h1>Centre de notifications</h1>
+		<div class="fourcol offers">
+			<h1>Vos candidatures</h1>	
+			<ul>
+				<li>
+					<strong>Community manager</strong><a href="#">Carrefour</a>, Paris (75)
+					<a class="offer valid" alt="Retenue">
+						<i class="ico-ok"></i>
+					</a>
+				</li>
+				<li>
+					<strong>Community manager</strong><a href="#">Carrefour</a>, Paris (75)
+					<a class="offer declined" alt="Refusée"><i class="ico-ban-circle"></i></a>
+				</li>
+				<li><strong>Community manager de ouf zd qzla suba del vega coasta vega bravas izi life tékatééé</strong><a href="#">Carrefour</a>, Paris (75)
+					<a class="offer waiting" alt="En attente"><i class="ico-time"></i></a>
+				</li>	
+			</ul>
+		</div>
 
-		{% notifications_unread as unread_count %}
-		Vous avez <strong>{{ unread_count }}</strong> notification non-lue.
+		<div class="sevencol last">
+			<h1>Activité du réseau</h1>	
+			{% notifications_unread as unread_count %}
+			<ul class="notifications">
+			  {% for notice in notifications %}
+			  	{{ notice.timestamp }}
+			    {% include 'notifications/notice.html' %}
+			  {% endfor %}
+			</ul>
+		</div>
+
+		
 
 
-		<ul class="notifications">
-		  {% for notice in notifications %}
-		    {% include 'notifications/notice.html' %}
-		  {% endfor %}
-		</ul>
 	</section>
 {% endblock %}

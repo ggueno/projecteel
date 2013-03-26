@@ -191,6 +191,11 @@ i.icon{
     &.cancel{  background-position:-210px -2px; }
     &.send{  background-position:-240px -3px; }
     &.delete{  background-position:-265px -2px; }
+    &.push{  
+        background: url(../img/push.png) no-repeat center center;
+        width: 25px;
+        height: 25px;
+    }
 }
 
 
@@ -782,11 +787,11 @@ a.edit-item{
     } 
     .catcher {
         font-size:1.15em;
-        margin-left: 130px;
+        width: 40%;
         margin-top: 120px;
-        width: 600px;
         text-align: center;
         position: absolute;
+        padding: 0 12%;
     }
     .box-connexion {
         background-color:#FFF;
@@ -840,8 +845,9 @@ a.edit-item{
         .desk {
             width: 176px; 
             height: 195px;
-            margin: 29px auto 0 44px;
+            margin: 29px auto 0 -88px;
             position: absolute;
+            left: 50%;
         }
     }
     .heading-lp{        
@@ -927,7 +933,8 @@ header.menu{
                 padding-right: 15px;
                 padding-top: 13px;
                 height: 19px;
-                // padding-left: 30px;
+                padding-left: 30px;
+                width: 120px;
                 .bar_avatar{
                     float: right;
                     margin-left: 10px;
@@ -939,7 +946,7 @@ header.menu{
                 width: 26px;
                 height: 26px;
                 padding: 0;
-                margin: 16px 0 16px 30px;
+                margin: 13px 0 16px 23px;
                 color: #fefefe;
                 text-align: center;
                 line-height: 26px;
@@ -1844,7 +1851,201 @@ li.as-result-item{
     }
 }
 
+/*
+   D A S H B O A R D
+   ========================================================================== */
 
+#dashboard{
+    h1{
+        font-size: 1.5em;
+        font-weight: 400;
+    }
+    a.PTbutton{
+        display: block;
+        height: 30px;
+        line-height: 30px;
+        margin-bottom: 20px;
+    }
+    h2{
+        font-weight: 400;
+        margin: 20px 0;
+    }
+    .stats{
+        overflow: auto;
+        li{
+            width: 30%;
+            display: block;
+            height: 80px;
+            float: left;
+            margin-right: 5%;
+            background: #f55253;
+            color: #FFF;
+            text-align: center;
+            font-size: 2em;
+            span{
+                display: block;
+            }
+            &.last{
+                margin-right: 0;
+            }
+            .icon{
+                margin-top: 10px;
+            }
+        }
+    }
+}
+
+.offers{
+    .row{
+        margin-top: 5px;
+    }
+    .projects{
+        .blacksub{
+            margin-bottom: 10px;    
+        }
+    }
+    .blacksub{
+        background-color: #252525;
+        color: #FFF;
+        text-transform: none;
+        font-weight: 400;
+        padding:0;
+        height: 2em;
+        padding-left: 6px;
+        line-height: 2em;
+        font-size: 1.3em;
+        a{
+            background: @PTblue;
+            float: right;
+            display: block;
+            height: 100%;
+            padding: 0 5px;
+            font-size: .8em;
+            -webkit-transition: background .25s ease;
+               -moz-transition: background .25s ease;
+                -ms-transition: background .25s ease;
+                 -o-transition: background .25s ease;
+                    transition: background .25s ease;
+            &:hover{
+                background: darken(@PTblue,15%);
+            }
+        }
+    }
+    ul{
+        li{
+            padding: 40px 20px 0 20px;
+            background-color: #fcfcfc;
+            margin: 10px 0;
+            line-height: 1.9em;
+            text-align: center;
+            height: 110px;
+            position: relative;
+            a{
+                color: @PTblue;
+                &:hover{
+                    color:darken(@PTblue,15%);
+                }
+                &.offer{
+                    width: 51px;
+                    height: 58px;
+                    position: absolute;
+                    top: 0;
+                    right:0;
+                    color: #FFF;
+                    text-align: right;
+                    padding-right: 4px;
+                    line-height: 1.5em;
+                    background: url(../img/bg-offer-status.png) no-repeat -1px -1px;
+                    font-size: 1.4em;
+                    &.valid{
+                        background-color: @PTblue;
+                    }
+                    &.declined{
+                        background-color: #f55253;
+                    }
+                    &.waiting{
+                        background-color: #474747;
+                    }
+                }
+            }
+            strong{
+                margin-bottom: 10px;
+                display: block;
+                padding: 0 40px;
+            }
+            .timesince{
+                position: absolute;
+                top: 0;
+                right: 0;
+                font-style: italic;
+                padding-right: 10px;
+                padding-top: 7px;
+                color: #CCC; 
+            }
+        }
+    }
+}
+
+.nb_notifications{
+    margin-bottom: 10px;
+    display: block;
+}
+
+.notifications{
+    li{
+        background: #f6f6f6;
+        padding: 8px;
+        margin-bottom: 1px;
+        span{
+            display: block;
+            font-size: .75em;
+            font-style: italic;
+            text-align: right;
+            margin-top: 10px;
+        }
+        a{
+            color: @PTblue;
+            -webkit-transition: color .25s ease;
+            -moz-transition: color .25s ease;
+            -ms-transition: color .25s ease;
+            -o-transition: color .25s ease;
+            transition: color .25s ease;
+            &:hover{
+                color: darken(@PTblue,15%);
+            }
+        }
+        .profilepic{
+            border-radius: 20px;
+            float: left;
+            margin-right: 10px;
+        }
+        &.unread{
+            background: lightblue;
+        }
+    }
+}
+
+#notification_center{
+    h1{
+        font-weight: 400;
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+    .notifications{
+        margin-top: 10px;
+        padding: 5px;
+        background: #f6f6f6;
+        li{
+            padding:15px;
+        }
+    }
+    .offers{
+        li{
+            height: auto;
+            padding: 15px 0 20px 0;
+        }
+    }
+}
 
 
 

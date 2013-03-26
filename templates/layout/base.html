@@ -55,9 +55,9 @@
                     {{ myself.last_name }}
                     </a></li>
                     {% if unread_notifications > 0 %}
-                        <li><a class="notifications unread" href="/inbox/notifications/" alt="{{ unread_notifications }} notifications non lues">{{ unread_notifications }}</a></li>
+                        <li><a class="notifications unread" href="/dashboard/notifications/" alt="{{ unread_notifications }} notifications non lues">{{ unread_notifications }}</a></li>
                     {%else%}
-                        <li><a class="notifications" alt="Pas de nouvelles notifications" href="/inbox/notifications/">0</a></li>
+                        <li><a class="notifications" alt="Pas de nouvelles notifications" href="/dashboard/notifications/">0</a></li>
                     {% endif %}
                 </ul>
             </div>

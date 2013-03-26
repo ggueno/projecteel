@@ -16,6 +16,9 @@ from forms import *
 from elsewhere.models import SocialNetworkProfile
 from elsewhere.forms import SocialNetworkForm
 from django.contrib.auth.decorators import login_required
+from notifications.models import Notification
+
+import itertools
 
 from PIL import Image
 
@@ -1372,21 +1375,69 @@ def get_follow_profiles(request, slug, type_url='followers'):
 @login_required
 def show_dashboard(request):
 
+    user = User.objects.get(pk=request.user.id)
     profile = Applicant.objects.get(pk=request.user.id)
     projects = Project.objects.filter(Q(owner=profile, published=True) | Q(participant__in=[profile], published=True))
     comments = Comment.objects.filter(project__owner=profile).count
     pushs = Like.objects.filter(Q(project__owner=profile.user) | Q(project__participant__in=[profile])).count()
     views = HitCount.objects.filter(content_type=ContentType.objects.get_for_model(Project), object_pk__in=projects.values_list('pk', flat=True)).aggregate(hits=Sum('hits'))
-    tags = SkillsTag.objects.filter(Q(skills__content_object__owner=profile)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')[:3]
+    tags = SkillsTag.objects.filter(Q(skills__content_object__owner=profile)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')[:3]   
+    following = Follow.objects.filter(follower__user_id=user.id).values('following_id')
+    # print following
+    notifications = Notification.objects.filter(actor_object_id__in=following)
+    unread = notifications.unread()
+
+    projects = Project.objects.filter(published=True, owner__in=following)[:3]
 
     context = {
         'profile': profile,
         'stats': {'pushs': pushs, 'tags': tags, 'views': views, 'comments' : comments },
         'projects': projects,
+        'notifications' : notifications[:7],
+        'unread_nb' : int(0+unread.count()), 
         'pushs': Project.objects.push_user(profile.user_id),
-        'coverImageForm' : CoverImageForm()
+        'projects' : projects
     }
     return render_to_response('notifications/dashboard.html', context, context_instance=RequestContext(request))
+
+
+@login_required
+def show_notifications(request):
+
+    user = User.objects.get(pk=request.user.id)
+    profile = Applicant.objects.get(pk=request.user.id)
+    following = Follow.objects.filter(follower__user_id=user.id).values('following_id')
+    # print following
+    notifications2 = Notification.objects.filter(actor_object_id__in=following).extra({'timestamp' : "date(timestamp)"}).values('timestamp').annotate(created_count=Count('id'))
+    notifications = Notification.objects.filter(actor_object_id__in=following);
+    print notifications2.values()
+    unread = notifications.unread()
+
+    for key,group in itertools.groupby(notifications, key=lambda x: x[1][:11]):
+       print key
+       for element in group:
+            print '   ', element
+
+    projects = Project.objects.filter(published=True, owner__in=following)[:3]
+
+    context = {
+        'profile': profile,
+        'notifications' : notifications[:15],
+        'unread_nb' : int(0+unread.count()),
+    }
+    return render_to_response('notifications/list.html', context, context_instance=RequestContext(request))
+
+
+@login_required
+def notifications_mark_as_read(request):
+    user = User.objects.get(pk=request.user.id)
+    following = Follow.objects.filter(follower__user_id=user.id).values('following_id')
+    notifications = Notification.objects.filter(actor_object_id__in=following)
+    notifications.mark_all_as_read()
+
+    response = JSONResponse(True, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response
 
 
 class ImageProjectCreateView(CreateView):
