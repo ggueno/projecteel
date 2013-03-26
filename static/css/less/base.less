@@ -1738,7 +1738,7 @@ li.as-result-item{
     }
 }
 
-#list_offers{
+.list_offers{
     .PTform{
         overflow: auto;
     }
@@ -1823,20 +1823,34 @@ li.as-result-item{
 
 .posted_offers {
 
-    .suggest_candidates {
-        float:right;
-    }
-    
-    .left {
-        padding: 17px 20px;
-        width:60%;
-        border-right:1px solid #d2d2d2;
-        h3 {
-            padding: 0;
+    .thumb-offer {
+        background-color: #FFF;
+        height: auto;
+        .content-description {
+            height: 118px;
+            .right {
+
+            }
+            .left {
+
+            }
+        }
+        .candidates {
+            background-color: #f1f1f1;
+            height: 100%;
+            width: 100%;
+            .content-application {
+                background-color: #FFF;
+                .applicant {
+                    width: 50%;
+                    float: left;
+                }
+            }
         }
     }
-    .right {
-        text-align: left;
+
+    .suggest_candidates {
+        float:right;
     }
 }
 

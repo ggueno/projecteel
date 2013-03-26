@@ -851,10 +851,10 @@ def get_applications(request, slug):
 def posted_offers(request):
     company = Company.objects.filter(user_id=request.user.id)[0]
     offers = Offer.objects.filter(company=company)
-    applicantsOffer = ApplicantOffer.objects.all()
+    applications = ApplicantOffer.objects.all()
     context = {
         'offers': offers,
-        'applicants': applicantsOffer,
+        'applications': applications,
     }
     return render(request, 'offer/posted_offers.html', context)
 
@@ -886,12 +886,10 @@ def vacancy(request, state, pk):
 
 @login_required
 def statusApplication(request, model, pk, slug):
-    print "model", model
     application = ApplicantOffer.objects.get(id=pk)
     offer = application.offer
     applicant = Applicant.objects.filter(slug=slug)
-    print "application.state - ", application.state
-    if model == "read" and application.state is 'SAVE' and application.state is 'FAIL':
+    if model == "read" and application.state is 'FAIL' and application.state is 'SAVE':
         ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='READ')
     else:
         if model == "accept" and (ApplicantOffer.objects.filter(offer=offer).count > 1) and application.state is not 'FAIL':
@@ -907,7 +905,7 @@ def statusApplication(request, model, pk, slug):
         return response
     else:
         if result['state']:
-            return HttpResponseRedirect('/offer/applications/'+offer.slug)
+            return HttpResponseRedirect('/offer/posted_offers/')
         else:
             #404
             return HttpResponseNotFound('404.html')

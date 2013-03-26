@@ -3981,34 +3981,34 @@ li.as-result-item img {
   display: block;
   float: none;
 }
-#list_offers .PTform {
+.list_offers .PTform {
   overflow: auto;
 }
-#list_offers .thumb-offer {
+.list_offers .thumb-offer {
   margin-bottom: 10px;
   height: 118px;
   width: 100%;
 }
-#list_offers .thumb-offer p {
+.list_offers .thumb-offer p {
   padding: 0px;
 }
-#list_offers .thumb-offer a {
+.list_offers .thumb-offer a {
   -webkit-transition: color .15s ease;
   -moz-transition: color .15s ease;
   -o-transition: color .15s ease;
   -ms-transition: color .15s ease;
   transition: color .15s ease;
 }
-#list_offers .thumb-offer a:hover {
+.list_offers .thumb-offer a:hover {
   color: #0099e6;
 }
-#list_offers .thumb-offer a:hover {
+.list_offers .thumb-offer a:hover {
   color: #0099e6;
 }
-#list_offers .thumb-offer a:hover {
+.list_offers .thumb-offer a:hover {
   color: #0099e6;
 }
-#list_offers .thumb-offer .header-offer {
+.list_offers .thumb-offer .header-offer {
   text-align: center;
   width: 95%;
   height: 45px;
@@ -4017,34 +4017,34 @@ li.as-result-item img {
   border-bottom: 1px solid #d2d2d2;
   position: relative;
 }
-#list_offers .thumb-offer .header-offer .blackTitle {
+.list_offers .thumb-offer .header-offer .blackTitle {
   text-align: left;
   padding: 0px;
   width: 65%;
   position: absolute;
 }
-#list_offers .thumb-offer .header-offer .pic_company {
+.list_offers .thumb-offer .header-offer .pic_company {
   position: absolute;
   right: 0;
   top: -4px;
 }
-#list_offers .thumb-offer .content {
+.list_offers .thumb-offer .content {
   padding-top: 8px;
 }
-#list_offers .thumb-offer .content p {
+.list_offers .thumb-offer .content p {
   padding-bottom: 10px;
 }
-#list_offers .thumb-offer .content span {
+.list_offers .thumb-offer .content span {
   color: #0099e6;
   font-weight: 700;
 }
-#list_offers .thumb-offer .content .left {
+.list_offers .thumb-offer .content .left {
   float: left;
 }
-#list_offers .thumb-offer .content .left .tags-offer {
+.list_offers .thumb-offer .content .left .tags-offer {
   display: inline;
 }
-#list_offers .thumb-offer .content .left .tags-offer li {
+.list_offers .thumb-offer .content .left .tags-offer li {
   background: #c0c0c0;
   padding: 3px 8px;
   display: block;
@@ -4056,11 +4056,11 @@ li.as-result-item img {
   float: none;
   display: inline;
 }
-#list_offers .thumb-offer .content .right {
+.list_offers .thumb-offer .content .right {
   float: right;
   text-align: right;
 }
-#list_offers .thumb-offer .content .right .publish-date {
+.list_offers .thumb-offer .content .right .publish-date {
   font-style: italic;
 }
 .ui-datepicker {
@@ -4075,19 +4075,27 @@ li.as-result-item img {
 /*
    P O S T E D   O F F E R S
    ========================================================================== */
+.posted_offers .thumb-offer {
+  background-color: #FFF;
+  height: auto;
+}
+.posted_offers .thumb-offer .content-description {
+  height: 118px;
+}
+.posted_offers .thumb-offer .candidates {
+  background-color: #f1f1f1;
+  height: 100%;
+  width: 100%;
+}
+.posted_offers .thumb-offer .candidates .content-application {
+  background-color: #FFF;
+}
+.posted_offers .thumb-offer .candidates .content-application .applicant {
+  width: 50%;
+  float: left;
+}
 .posted_offers .suggest_candidates {
   float: right;
-}
-.posted_offers .left {
-  padding: 17px 20px;
-  width: 60%;
-  border-right: 1px solid #d2d2d2;
-}
-.posted_offers .left h3 {
-  padding: 0;
-}
-.posted_offers .right {
-  text-align: left;
 }
 /* ==========================================================================
    Helper classes

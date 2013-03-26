@@ -15,33 +15,76 @@
 			<p>{{ offers.count }} offre postée</p>
 		{% endif %}
 
-    <section class="ninecol" id="list_offers">
+    <section class="list_offers ninecol">
         {% for offer in offers %}
 
-            <h3>{{ offer.title }}</h3>
-            <p class="publish-date">{{ offer.publish_date }}</p>
-            <span>{{ offer.contract }}</span>
-            {% if offer.tags %}
-                <ul class="tags-offer">
-                {% for tag in offer.tags.all %}
-                    <li><a href="/offers/search/?tags[]={{tag.slug}}">{{ tag.name }}</a></li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-            
-            <div class="candidates">
-                {% if applicants %}
+            <div class="thumb-offer">
 
-                    <p>Candidats:</p>
+                <div class="content content-description">
 
-                    {% for applicant in applicants %}
+                    <div class="left">
+                        <h3><a href="/offer/get/{{ offer.slug }}">{{ offer.title }}</a></h3>
+                        {% if offer.tags %}
+                            <ul class="tags-offer">
+                            {% for tag in offer.tags.all %}
+                                <li><a href="/offers/search/?tags[]={{tag.slug}}">{{ tag.name }}</a></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
 
-                        
+                    <div class="right">
+                        <a class="mini" href="/offer/edit/{{ offer.slug }}">
+                            <i class="ico-cog"></i>
+                        </a>
+                        <p class="publish-date">{{ offer.publish_date }}</p>
+                        <span>{{ offer.contract }}</span>
+                    </div>
+                
+                </div> <!-- end div content -->
 
-                    {% endfor %}
+                    <div class="candidates">
 
-                {% endif %}
-            </div>
+                        <div class="content">
+                        {% if applications %}
+
+                            <p>Candidats:</p>
+
+                            {% for application in applications %}
+
+                                {% if application.offer == offer %}
+
+                                    <div class="applicant">
+
+                                        {% thumbnail application.applicant.avatar "50x50" crop="left" as im %}
+                                            <a href="/profile/{{ application.applicant.slug }}" data-tooltip="{{ application.applicant.user}}" class="tooltip">
+                                            <img src="{{im.url}}" alt="{{ application.applicant.name }}"/>
+                                            </a>
+                                        {% endthumbnail %}
+
+                                        <p>{{application.applicant.name}}</p>
+
+                                        <a class="PTbutton view-candidature" href="/offer/statusApplication/read/{{application.id}}/{{application.applicant.slug}}/" id="{{application.id}}"><i class="ico-chevron-right"></i></a>
+
+                                    </div>
+                                    <div class="content-application" id="application{{application.id}}">
+                                        <p>{{ application.content }}</p>
+                                        <a class="PTbutton" href="/offer/statusApplication/accept/{{application.id}}/{{application.applicant.slug}}/"><i class="ico-ok"></i>Accepter cette candidature</a>
+                                        <a class="PTbutton" href="/offer/statusApplication/decline/{{application.id}}/{{application.applicant.slug}}/"><i class="ico-ban-circle"></i>Refuser cette candidature</a>
+                                    </div>
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        {% endif %}
+                        </div>
+
+                    </div>
+
+                    <a href="/offer/vacancy/add/{{offer.id}}/" class="PTbutton"><i class="ico-trash"></i>Déclarer pourvue</a>
+
+            </div>                                              
 
         {% endfor %}
     </section>
@@ -114,6 +157,15 @@
     $(document).ready(function(){
 
         onoff_button('#vacancy', 'add', "Pourvue", "A pourvoir");
+
+        $('.content-application').hide();
+        $('.view-candidature').click(function() {
+            var id = '#application'+this.id;
+            $.post($(this).attr('href'),function(data){
+                $(id).show();
+            });
+            return false;
+        });
 
     });
 </script>
