@@ -45,7 +45,7 @@
                                  <a class="PTbutton unactive follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
                             {% endif %}
                         {% else %}
-                             <a class="PTbutton mini" href="/profile/edit/"><i class="ico-cog"></i></a>
+                             <a class="PTbutton mini settings" href="/profile/edit/"><i class="ico-cog"></i></a>
                         {% endif %}
 
                         <ul class="fourcol last profile_stats">
@@ -61,23 +61,27 @@
                                 push
                             </li>
 
-                            {% if stats.followers %}
                             <li>
                                 <a href="/profile/{{profile.slug}}/followers/">
-                                    <span>{{ stats.followers }}</span>
+                                    <span>{% if stats.followers == 0 %}
+                                        0
+                                    {%else%}
+                                        {{stats.followers}}
+                                    {%endif%}</span>
                                     followers
                                 </a>
                             </li>
-                            {% endif %}
 
-                            {% if stats.following %}
                             <li>
                                 <a href="/profile/{{profile.slug}}/following/">
-                                    <span>{{ stats.following }}</span>
+                                    <span>{% if stats.following == 0 %}
+                                        0
+                                    {%else%}
+                                        {{stats.following}}
+                                    {%endif%}</span>
                                     following
                                 </a>
                             </li>
-                            {% endif %}
                         </ul>
                     </div>
                 </div>

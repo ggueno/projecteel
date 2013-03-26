@@ -1,0 +1,25 @@
+{% extends "layout/base.html" %}
+
+{% block title %} Mes offres {% endblock %}
+{% block content %}
+
+<h2>Vos candidatures</h2>
+
+	{% if applications %}
+
+		{% for application in applications %}
+
+			<div class="offer-application">
+				<p>{{ application.offer.title }}</p>
+				<p>{{ application.offer.company }}</p>
+				<p>{{ application.offer.location }}</p>
+
+				<p class="status-applications">{{ application.state }}</p>
+			</div>
+
+		{% endfor %}
+
+	{% endif %}
+
+
+{% endblock %}

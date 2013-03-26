@@ -27,14 +27,7 @@
             <img id="logo_l" src="{% static "img/logo_l.png" %}" alt="logo">
             <p class="catcher">Projecteel met en relation les étudiants et les jeunes diplômés avec les entreprises par leurs projets et leurs réalisations.</p>
             <div class="box-connexion threecol">
-                <form class="PTform form-connexion">
-                    <h1 class="heading heading-lp">Connexion</h1>
-                    Email <input type="text" name="firstname">
-                    Mot de passe <input type="text" name="lastname">
-                    <input class="PTbutton button-landingPage" type="button" name="" value="Se connecter">                    
-                    <input type="checkbox" name="" value="">Rester connecté
-                    <p><a href="#">Mot de passe oublié</a></p>
-                </form>
+                {% include "registration/login.html" %}
             </div>
         </section>
 
