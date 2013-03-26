@@ -32,10 +32,14 @@
 			<h1>Activité du réseau</h1>	
 			{% notifications_unread as unread_count %}
 			<ul class="notifications">
-			  {% for notice in notifications %}
-			  	{{ notice.timestamp }}
-			    {% include 'notifications/notice.html' %}
-			  {% endfor %}
+				{% if notifications %}
+					{% for notice in notifications %}
+						{{ notice.timestamp }}
+						{% include 'notifications/notice.html' %}
+					{% endfor %}
+				{% else %}
+					<p>Vous n'avez aucune notifications pour l'instant.</p>
+				{% endif %}
 			</ul>
 		</div>
 

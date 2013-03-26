@@ -1483,14 +1483,14 @@ def show_notifications(request):
     following = Follow.objects.filter(follower__user_id=user.id).values('following_id')
     # print following
     notifications2 = Notification.objects.filter(actor_object_id__in=following).extra({'timestamp' : "date(timestamp)"}).values('timestamp').annotate(created_count=Count('id'))
-    notifications = Notification.objects.filter(actor_object_id__in=following);
-    print notifications2.values()
+    notifications = Notification.objects.filter(actor_object_id__in=following)
+    # print notifications2.values()
     unread = notifications.unread()
 
-    for key,group in itertools.groupby(notifications, key=lambda x: x[1][:11]):
-       print key
-       for element in group:
-            print '   ', element
+    # for key,group in itertools.groupby(notifications, key=lambda x: x[1][:11]):
+    #    print key
+    #    for element in group:
+    #         print '   ', element
 
     projects = Project.objects.filter(published=True, owner__in=following)[:3]
 

@@ -1,4 +1,5 @@
-from models import Profile, User
+from models import Profile, User, Follow
+from notifications.models import Notification
 
 def user(request):
     if hasattr(request, 'user'):
@@ -6,10 +7,13 @@ def user(request):
     	if request.user.id:
     		user = User.objects.get(pk=request.user.id)
     		myself =  Profile.objects.get(pk=request.user.id)
+    		following = Follow.objects.filter(follower__user_id=user.id).values('following_id')
+    		notifications = Notification.objects.filter(actor_object_id__in=following)
+    		
 
 	        return {'myself': user, 
 	        		'user_avatar': myself.avatar,
-	        		'unread_notifications': user.notifications.unread().count
+	        		'unread_notifications': notifications.unread().count
 	    			}
 		return {}
     return {}
