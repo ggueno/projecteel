@@ -2313,6 +2313,24 @@ textarea {
 .last {
   float: right;
 }
+.dropdown-menu {
+  z-index: 100;
+  margin-top: 10px;
+  margin-left: -155px;
+  padding: 15px 5px;
+}
+#dropdown-social-network {
+  padding-top: 1em;
+}
+.icon_social {
+  padding: 5px;
+}
+.floatRight {
+  float: right;
+}
+.grey {
+  color: #808080;
+}
 .error,
 .correct {
   font-weight: bold;
@@ -2509,6 +2527,10 @@ i.icon.delete {
 .tooltip {
   display: inline;
   position: relative;
+}
+.tooltip.right {
+  padding: 0 5px;
+  margin-left: 3px;
 }
 .tooltip:hover {
   color: #c00;
@@ -3112,6 +3134,7 @@ header.menu #menu a:hover {
    ========================================================================== */
 .profile {
   margin-top: 0;
+  overflow: visible;
 }
 .profile .profile_cover {
   position: relative;
@@ -3242,6 +3265,9 @@ header.menu #menu a:hover {
 }
 .profile .profile_secondbar ul li.last {
   float: right;
+}
+.profile .profile_secondbar ul li.noPad {
+  padding-right: 5px;
 }
 .profile .profile_secondbar a {
   -webkit-transition: color .15s ease;

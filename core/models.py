@@ -108,6 +108,7 @@ class Applicant(Profile):
     educations = models.ManyToManyField('Education', blank=True, null=True)
     experiences = models.ManyToManyField('Experience', blank=True, null=True)
     bookmarks = models.ManyToManyField('Offer', blank=True, null=True)
+    available = models.NullBooleanField(null=True)
 
     def __unicode__(self):
         return "%s, %s" % (self.name, self.profession)
