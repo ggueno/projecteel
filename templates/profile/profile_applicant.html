@@ -45,7 +45,7 @@
                                  <a class="PTbutton unactive follow" href="/profile/follow/{{profile.id}}/">Suivre</a>
                             {% endif %}
                         {% else %}
-                             <a class="PTbutton mini" href="/profile/edit/"><i class="ico-cog"></i></a>
+                             <a class="PTbutton mini settings" href="/profile/edit/"><i class="ico-cog"></i></a>
                         {% endif %}
 
                         <ul class="fourcol last profile_stats">
@@ -61,23 +61,27 @@
                                 push
                             </li>
 
-                            {% if stats.followers %}
                             <li>
                                 <a href="/profile/{{profile.slug}}/followers/">
-                                    <span>{{ stats.followers }}</span>
+                                    <span>{% if stats.followers == 0 %}
+                                        0
+                                    {%else%}
+                                        {{stats.followers}}
+                                    {%endif%}</span>
                                     followers
                                 </a>
                             </li>
-                            {% endif %}
 
-                            {% if stats.following %}
                             <li>
                                 <a href="/profile/{{profile.slug}}/following/">
-                                    <span>{{ stats.following }}</span>
+                                    <span>{% if stats.following == 0 %}
+                                        0
+                                    {%else%}
+                                        {{stats.following}}
+                                    {%endif%}</span>
                                     following
                                 </a>
                             </li>
-                            {% endif %}
                         </ul>
                     </div>
                 </div>
@@ -93,19 +97,21 @@
 
                         <div class="floatRight last">
 
-                            <div class="dropdown" id="dropdown-social-network">
-                                <a data-toggle="dropdown" href="#"><i class="ico-plus grey"></i></a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                            {% if profile.social_network.all.count > 3  %}
+                                <div class="dropdown" id="dropdown-social-network">
+                                    <a data-toggle="dropdown" href="#"><i class="ico-plus grey"></i></a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 
-                                    {% for socialnetwork in profile.social_network.all %}
-                                    {% if forloop.counter > 3 %}
+                                        {% for socialnetwork in profile.social_network.all %}
+                                        {% if forloop.counter > 3 %}
 
-                                    <a href="{{socialnetwork.url }}" class="tooltip icon_social" data-tooltip="{{socialnetwork.username}}" target="_blank"><img src="{{ socialnetwork.network.icon_url }}" ></a>
-                                    {% endif %}
-                                    {% endfor %}
+                                        <a href="{{socialnetwork.url }}" class="tooltip icon_social" data-tooltip="{{socialnetwork.username}}" target="_blank"><img src="{{ socialnetwork.network.icon_url }}" ></a>
+                                        {% endif %}
+                                        {% endfor %}
 
-                                </ul>
-                            </div>
+                                    </ul>
+                                </div>
+                            {% endif %}
                         </div>
 
                             <li class="last noPad">
@@ -120,9 +126,13 @@
 
                     </ul>
                 </div>
-                {% if profile.avatar %}
-                    <img class="profile_pic" src="{{ profile.avatar.url }}" alt="">
-                {% endif %}
+                {% if profile.avatar %}         
+                    {% thumbnail profile.avatar "190x190" crop="center" as im %}
+                        <img alt="{{v1}}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="profile_pic">
+                    {% empty %}
+                        <img src="{{ STATIC_URL }}img/empty_profile.png" width="190" height="190" class="profile_pic"/>
+                    {% endthumbnail %}
+               {% endif %}
             </div>
 
             <div class="row profile_menubar">

@@ -1,13 +1,50 @@
+{% extends "layout/base.html" %}
+{% load staticfiles %}
+{% load projects %}
+{% load thumbnail %}
 {% load notifications_tags %}
 
-<h1>Centre de notifications</h1>
+{% block title %}Centre de notifications{% endblock %}
 
-{% notifications_unread as unread_count %}
-You have <strong>{{ unread_count }}</strong> unread notifications.
+{% block content %}
+	<section class="row" id="notification_center">
+
+		<div class="fourcol offers">
+			<h1>Vos candidatures</h1>	
+			<ul>
+				<li>
+					<strong>Community manager</strong><a href="#">Carrefour</a>, Paris (75)
+					<a class="offer valid" alt="Retenue">
+						<i class="ico-ok"></i>
+					</a>
+				</li>
+				<li>
+					<strong>Community manager</strong><a href="#">Carrefour</a>, Paris (75)
+					<a class="offer declined" alt="Refusée"><i class="ico-ban-circle"></i></a>
+				</li>
+				<li><strong>Community manager de ouf zd qzla suba del vega coasta vega bravas izi life tékatééé</strong><a href="#">Carrefour</a>, Paris (75)
+					<a class="offer waiting" alt="En attente"><i class="ico-time"></i></a>
+				</li>	
+			</ul>
+		</div>
+
+		<div class="sevencol last">
+			<h1>Activité du réseau</h1>	
+			{% notifications_unread as unread_count %}
+			<ul class="notifications">
+				{% if notifications %}
+					{% for notice in notifications %}
+						{# {{ notice.timestamp }} #}
+						{% include 'notifications/notice.html' %}
+					{% endfor %}
+				{% else %}
+					<p>Vous n'avez aucune notifications pour l'instant.</p>
+				{% endif %}
+			</ul>
+		</div>
+
+		
 
 
-<ul class="notifications">
-  {% for notice in notifications %}
-    {% include 'notifications/notice.html' %}
-  {% endfor %}
-</ul>
+	</section>
+{% endblock %}

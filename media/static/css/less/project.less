@@ -6,9 +6,14 @@
     h4.subline{
         font-size: 14px;
         color: #787878;
-        padding: 10px 20px;
+        padding: 0 20px;
+        text-transform: none;
         span{
-            float: right;
+            margin-top: 3px;
+            display: block;
+            font-weight: 600;
+            font-size: .9em;
+            text-transform: none;
         }
     }
     p{
@@ -28,20 +33,34 @@
             padding: 0;
         }
     }
+    .stats{
+        padding-top: 10px;
+        li{
+            width: 27%;
+            height: 65px;
+            line-height: 1em;
+            span{
+                font-size: .85em;
+            }
+            i{
+                margin-top: 6px;
+            }
+        }
+    }
 }
 p.location{
     padding-bottom: 5px;
 }
 
 .project-header{
-    color: white;
-    background:#3a3a3a;
-    height:42px;
+    color: #3a3a3a;
+    // background:#3a3a3a;
+    // height:42px;
     margin-top:0;
+    padding-top: 10px;
 
     .project-title{
         margin: 0;
-        float:left;
     }
 
     .project-stats{
@@ -112,6 +131,15 @@ img.project-content{
         a.PTbutton{
             margin: 0 3px;
             height: 20px;
+            padding: 5px 8px;
+            display: inline-block;
+            line-height: 20px;
+
+            &.active{
+                &:hover{
+                    background: red;   
+                }
+            }
             &:hover{
                 background: #007ab8;
                 color: #FFF;
@@ -205,6 +233,14 @@ img.project-content{
         margin: 6px 0;
     }
 
+}
+
+#project-body .btn-edit-project{
+    width: 130px;
+    margin: 10px 20px auto auto;
+    height: 20px;
+    display: block;
+    line-height: 20px;
 }
 
 .dropdown .select{

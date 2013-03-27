@@ -66,6 +66,8 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         print self.cover_image
         print kwargs
+        super(Profile, self).save(*args, **kwargs)
+
         this = Profile.objects.get(id=self.id)
 
         if this.cover_image:

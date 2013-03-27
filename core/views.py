@@ -16,23 +16,66 @@ from forms import *
 from elsewhere.models import SocialNetworkProfile
 from elsewhere.forms import SocialNetworkForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+
+from notifications.models import Notification
+
+import itertools
 import difflib
 
 from PIL import Image
 
 
-def home(request):
+def home(request):    
+    try:
+        user = User.objects.get(id=request.user.id)
+        return HttpResponseRedirect('/dashboard/')
+    except User.DoesNotExist:
+        print "test"
+
+
+
+    
+    form = AuthenticationForm(request.POST)
+    # if form.is_valid():
+    #     return HttpResponseRedirect('/profile/')
+    # else:
+    #     print form.errors
+
     projects = Project.objects.annotate(num=Count('likes')).order_by('-num')
     companies = Company.objects.annotate(num=Count('followers')).order_by('-num')
+
     context = {
         'projects': projects,
-        'companies': companies
+        'companies': companies, 
+        'form': form
     }
     return render_to_response('index.html', context, context_instance=RequestContext(request))
 
 
+# def login(request):
+#     username = request.POST['username']
+#     password = request.POST['password']
+#     user = authenticate(username=username, password=password)
+#     if user is not None:
+#         if user.is_active:
+#             login(request, user)
+#             # Redirect to a success page.
+#         else:
+#             print "user is not active"
+#             # Return a 'disabled account' error message
+#     else:
+#         print "invalid user"
+#         # Return an 'invalid login' error message.
+
+
 def get_my_self(request):
-    return Applicant.objects.filter(user_id=request.user.id)[0]
+    app = ''
+    try:
+        app = Applicant.objects.filter(user_id=request.user.id)[0]
+    except Applicant.DoesNotExist:
+        app = ''
+    return app
 
 
 def projects(request, projects):
@@ -172,10 +215,7 @@ def get_project(request, slug):
     comments = Comment.objects.filter(project=project)
     comment_form = CommentForm()
 
-    if Like.objects.filter(project=project).filter(profile=get_my_self(request)).count() == 0:
-        push = "unpushed"
-    else:
-        push = "pushed"
+    my_self = get_my_self(request)
 
     context = {
         'project': project,
@@ -184,11 +224,18 @@ def get_project(request, slug):
         'categories': categoriesList,
         'skills': skillsList,
         'equipments': equipementsList,
-        'user': get_my_self(request),
+        'user': my_self,
         'comment_form': comment_form,
-        'comments': comments,
-        'status': push
+        'comments': comments
     }
+
+    if my_self != '':
+        if Like.objects.filter(project=project).filter(profile=my_self).count() == 0:
+            push = "unpushed"
+        else:
+            push = "pushed"
+        context['status'] = push
+   
     return render(request, 'project/show_project.html', context)
 
 
@@ -296,15 +343,19 @@ def get_list_profile(request, type_profile):
 
 
 def get_my_profile(request):
-    app = Applicant.objects.get(user_id=request.user.id)
+    app = {}
+    try:
+        app = Applicant.objects.get(user_id=request.user.id)
+    except Applicant.DoesNotExist:
+        print "Applicant DoestNotExist"
+        return HttpResponseRedirect('/profile/create/')
     return get_applicant(request, app.slug)
-
 
 @login_required
 def update_profile_cover(request):
 
     if request.method == 'POST':
-        myself = Profile.objects.get(id=request.user.id)
+        myself = Profile.objects.get(user_id=request.user.id)
         form = CoverImageForm(request.POST, request.FILES, instance=myself)
 
         if form.is_valid():
@@ -333,7 +384,7 @@ def update_profile_cover(request):
 def update_profile_cover_position(request):
 
     if request.method == 'POST':
-        myself = Profile.objects.get(id=request.user.id)
+        myself = Profile.objects.get(user_id=request.user.id)
         myself.cover_image_top = request.POST['cover_pos_top']
         myself.save();
 
@@ -348,7 +399,7 @@ def update_profile_cover_position(request):
 def update_avatar(request, action="new"):
 
     if request.method == 'POST':
-        myself = Profile.objects.get(id=request.user.id)
+        myself = Profile.objects.get(user_id=request.user.id)
 
 
         if action != 'crop':
@@ -461,8 +512,10 @@ def edit_project(request, pk):
                 return HttpResponseRedirect('/projects/')
         else:
             form = ProjectForm(instance=project)
-            # thumbnails =
-            return render(request, 'project/edit_project.html', {'form': form, })
+            context = {
+                'thumbnail' : project.thumbnail
+            }
+            return render(request, 'project/edit_project.html', {'form': form, 'data' : context })
 
     else:
         return HttpResponseRedirect('/projects/')
@@ -567,11 +620,11 @@ def unlike(request, pk):
 
 @login_required
 def make_profil(request):
-
+    print "make_profil"
     form = {}
     user = User.objects.get(id=request.user.id)
 
-    if request.method == 'POST':
+    if request.method == 'POST':    
         print 'make'
         form = ProfileForm(request.POST)
         if form.is_valid():
@@ -607,7 +660,7 @@ def create_applicant(request, action="new"):
     user = User.objects.get(id=request.user.id)
 
     if action != 'new':
-        applicant = Applicant.objects.get(user_id=request.user.id)
+        applicant = Applicant.objects.filter(user_id=request.user.id)[0]
 
     if request.method == 'POST':
         form_user = UserForm(request.POST, instance=user)
@@ -620,22 +673,23 @@ def create_applicant(request, action="new"):
 
         if form_user.is_valid() and form_applicant.is_valid():
             user = form_user.save()
-            app = form_applicant.save(commit=False)
             if action == 'new':
+                app = form_applicant.save(commit=False)
                 app.user_id = request.user.id
+                app.save()
             else:
+                app = form_applicant.save(commit=False)
                 if form_social.is_valid():
                     social = form_social.save(commit=False)
                     social.content_type = ContentType.objects.get_for_model(applicant)
                     social.object_id = applicant.id
                     social.save()
                     app.social_network.add(social)
-
-            app.save()
+                app.save()
             print app
             # return render(request, 'profile/make_profile.html')
             # return get_applicant(app.slug)
-            return HttpResponseRedirect(reverse(get_applicant, args=(applicant.slug,)))
+            return HttpResponseRedirect(reverse(get_applicant, args=(app.slug,)))
     else:
         form_user = UserForm(instance=user)
         form_social = {}
@@ -655,7 +709,7 @@ def create_applicant(request, action="new"):
                     }
         else:
             form_applicant = ApplicantForm()
-            data = {'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social}
+            data = { 'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social}
     return render(request, 'profile/make_profile.html', data)
 
 
@@ -689,7 +743,7 @@ def add_social_network(request):
             response['Content-Disposition'] = 'inline; filename=files.json'
             return response
         else:
-            profile = Profile.objects.get(id=pk)
+            profile = Profile.objects.get(user_id=request.user.id)
             return HttpResponseRedirect('/profile/' + profile.slug)
 
 
@@ -710,7 +764,7 @@ def remove_social_network(request):
             response['Content-Disposition'] = 'inline; filename=files.json'
             return response
         else:
-            profile = Profile.objects.get(id=pk)
+            profile = Profile.objects.get(user_id=request.user.id)
             return HttpResponseRedirect('/profile/' + profile.slug)
 
 
@@ -851,10 +905,16 @@ def get_applications(request, slug):
 def posted_offers(request):
     company = Company.objects.filter(user_id=request.user.id)[0]
     offers = Offer.objects.filter(company=company)
+    offers_all = Offer.objects.all()
     applications = ApplicantOffer.objects.all()
+    #potentials = []
+    #for offer_posted in offers:
+    #    potentials.append(potentialApplicant(offer_posted.id))
+    #print potentials[0]
     context = {
         'offers': offers,
         'applications': applications,
+        #'potentials' : potentials,
     }
     return render(request, 'offer/posted_offers.html', context)
 
@@ -864,6 +924,7 @@ def vacancy(request, state, pk):
     try:
         offer = Offer.objects.get(id=pk)
         myself = Company.objects.get(user_id=request.user.id)
+        print offer
         if state == 'add':
             Offer.objects.filter(id=pk).update(vacancy=True)
         else:
@@ -951,11 +1012,11 @@ def potentialApplicant(pk):
             pushs = Like.objects.filter(Q(project=project)).count()
             if pushs is not None:
                 poids_like[project.owner_id] += pushs * 0.8
-            
+
             hits = HitCount.objects.filter(object_pk=project.id).aggregate(hits=Sum('hits')).values()[0]
             if hits is not None:
                 poids_like[project.owner_id] += hits * 0.2
-            
+
         else:
             pushs = Like.objects.filter(Q(project=project)).count()
             if pushs is not None:
@@ -980,7 +1041,7 @@ def potentialApplicant(pk):
     poids = {}
     for key in poids_like.keys():
         poids[key] = poids_like[key]/poids_like[max(poids_like)] + poids_dispo[key]*0.5 + poids_job[key]
-    
+
     for key, value in sorted(poids.iteritems(), key=lambda (k,v): (v,k)):
         applicant.extend("%d" % key)
 
@@ -1068,9 +1129,7 @@ def edit_offer(request, model=None, slug=None):
                     return get_offer(request, offer.slug)
             else:
                 form = OfferForm()
-        return render(request, 'offer/edit_offer.html', {'form': form, 'model': model})
-    else :
-        get_offer(request, model)
+    return render(request, 'offer/edit_offer.html', {'form': form, 'model': model})
 
 
 @login_required
@@ -1255,10 +1314,15 @@ def delete_experience(request, pk):
 
 
 #TODO : generic view for all profile
+@login_required
 def get_applicant(request, slug):
     # myself = get_my_self(request)
+    print slug
+    try:
+        profile = Applicant.objects.get(slug=slug)
+    except Applicant.DoesNotExist:
+        return HttpResponseRedirect("/")
 
-    profile = Applicant.objects.get(slug=slug)
     projects = Project.objects.filter(Q(owner=profile, published=True) | Q(participant__in=[profile], published=True))
     following = Follow.objects.filter(follower__user_id=request.user.id, following__user_id=profile.user_id)
     followingNb = Follow.objects.filter(following__id=profile.id).count()
@@ -1439,6 +1503,73 @@ def get_follow_profiles(request, slug, type_url='followers'):
 
     return render_to_response(template, context, context_instance=RequestContext(request))
 
+
+@login_required
+def show_dashboard(request):
+
+    user = User.objects.get(pk=request.user.id)
+    profile = Applicant.objects.get(user_id=request.user.id)
+    projects = Project.objects.filter(Q(owner=profile, published=True) | Q(participant__in=[profile], published=True))
+    comments = Comment.objects.filter(project__owner=profile).count
+    pushs = Like.objects.filter(Q(project__owner=profile.user) | Q(project__participant__in=[profile])).count()
+    views = HitCount.objects.filter(content_type=ContentType.objects.get_for_model(Project), object_pk__in=projects.values_list('pk', flat=True)).aggregate(hits=Sum('hits'))
+    tags = SkillsTag.objects.filter(Q(skills__content_object__owner=profile)).annotate(num_times=Count('skills__content_object__skillstaggeditem')).order_by('-num_times')[:3]
+    following = Follow.objects.filter(follower__user_id=user.id).values('following_id')
+    # print following
+    notifications = Notification.objects.filter(actor_object_id__in=following)
+    unread = notifications.unread()
+
+    projects = Project.objects.filter(published=True, owner__in=following)[:3]
+
+    context = {
+        'profile': profile,
+        'stats': {'pushs': pushs, 'tags': tags, 'views': views, 'comments' : comments },
+        'projects': projects,
+        'notifications' : notifications[:7],
+        'unread_nb' : int(0+unread.count()),
+        'pushs': Project.objects.push_user(profile.user_id),
+        'projects' : projects
+    }
+    return render_to_response('notifications/dashboard.html', context, context_instance=RequestContext(request))
+
+
+@login_required
+def show_notifications(request):
+    print request.user.id
+    user = User.objects.get(pk=request.user.id)
+    profile = Applicant.objects.get(user_id=request.user.id) 
+    following = Follow.objects.filter(follower__user_id=user.id).values('following_id')
+    # print following
+    notifications2 = Notification.objects.filter(actor_object_id__in=following).extra({'timestamp' : "date(timestamp)"}).values('timestamp').annotate(created_count=Count('id'))
+    notifications = Notification.objects.filter(actor_object_id__in=following)
+    # print notifications2.values()
+    unread = notifications.unread()
+
+    # for key,group in itertools.groupby(notifications, key=lambda x: x[1][:11]):
+    #    print key
+    #    for element in group:
+    #         print '   ', element
+
+    projects = Project.objects.filter(published=True, owner__in=following)[:3]
+
+    context = {
+        'profile': profile,
+        'notifications' : notifications[:15],
+        'unread_nb' : int(0+unread.count()),
+    }
+    return render_to_response('notifications/list.html', context, context_instance=RequestContext(request))
+
+
+@login_required
+def notifications_mark_as_read(request):
+    user = User.objects.get(pk=request.user.id)
+    following = Follow.objects.filter(follower__user_id=user.id).values('following_id')
+    notifications = Notification.objects.filter(actor_object_id__in=following)
+    notifications.mark_all_as_read()
+
+    response = JSONResponse(True, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response
 
 
 class ImageProjectCreateView(CreateView):

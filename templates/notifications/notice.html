@@ -1,25 +1,43 @@
 {% load url from future %}
-<div class="alert alert-block alert-{{ notice.level }}">
-  <a class="close pull-right" href="{% url 'notifications:mark_as_read' notice.slug %}">
-    <i class="icon-close">X</i>
-  </a>
-  
-  <h4>
-    <i class="icon-mail{% if notice.unread %}-alt{% endif %}"></i>
-    {{ notice.actor }} 
-    {{ notice.verb }}
-    {% if notice.target %}
-      of {{ notice.target }}
-    {% endif %}
-  </h4>
-  
-  <p>{{ notice.timesince }} ago</p>
-  
-  <p>{{ notice.description|linebreaksbr }}</p>
-  
-  <div class="notice-actions">
-    {% for action in notice.data.actions %}
-      <a class="btn" href="{{ action.href }}">{{ action.title }}</a>
-    {% endfor %}
-  </div>
-</div>
+{% load thumbnail %}
+{% load staticfiles %}
+{% load util %}
+
+<li class="alert alert-block alert-{{ notice.level }} {% if notice.unread %}unread{% endif %}">
+
+    {% if notice.action_object_content_type.model == 'project' or notice.action_object_content_type.model == 'like' %}
+        <a href="/profile/{{ notice.actor.slug }}" >
+            {% thumbnail notice.actor.avatar "40x40" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="profilepic">
+            {% empty %}
+                <img src="{{ STATIC_URL }}img/empty_profile.png" width="40" height="40" class="profilepic"/>
+            {% endthumbnail %}
+        </a>
+        <a href="/profile/{{ notice.actor.slug }}" title="">{{ notice.actor.user.first_name }} {{ notice.actor.user.last_name }}</a>
+        {{ notice.verb }}
+        <a href="/project/{{ notice.action_object.slug }}" title="">{{ notice.action_object }}</a>
+
+    {% elif notice.action_object_content_type.model == 'follow' %}
+        <a href="/profile/{{ notice.actor.slug }}" >
+            {% thumbnail notice.actor.avatar "40x40" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="profilepic">
+            {% empty %}
+                <img src="{{ STATIC_URL }}img/empty_profile.png" width="40" height="40" class="profilepic"/>
+            {% endthumbnail %}
+        </a>
+        <a href="/profile/{{ notice.actor.slug }}" title="">{{ notice.actor.user.first_name }} {{ notice.actor.user.last_name }}</a>
+        {{ notice.verb }}
+        <a href="/profile/{{ notice.target.slug }}" title="">{{ notice.target.user.first_name }} {{ notice.target.user.last_name }}</a>
+    {% endif%}
+
+
+    <span class="timestamp">Il y a {{ notice.timesince|upto:',' }}</span>
+</li>
+
+{% block js %}
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $.post('/notifications/mark_as_read/');
+    });
+    </script>
+{% endblock %}

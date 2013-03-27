@@ -12,11 +12,17 @@
         <div class="sleekbox">
 
             <div class="row project-header">
-                <h1 class="project-title blackTitle">{{ project.title }}</h1>
+                <div class="ninecol">
+                    <h1 class="project-title blackTitle">{{ project.title }}</h1>
+                    {% if categories %}
+                        <h4 class="subline">{% for category in categories %}<a href="/projects/search/?categories={{category.tag.slug}}">{{category.tag}}</a>{% if not forloop.last %},{%endif%} {% endfor %}<span>{{ project.publish_date }}</span></h4>
+                    {% endif %}
+                </div>
 
-                <ul class="project-stats threecol last">
-                    <li><span>{{ project.views }}</span>vues</li>
-                    <li><span class="count-likes">{{project.likes.count}}</span>pushs</li>
+                <ul class="stats threecol last">
+                    <li><span>{{ project.views }}</span><i class="ico-eye-open"></i></li>
+                    <li><span class="count-likes">{{project.likes.count}}</span><i class="icon push"></i></li>
+                    <li><span >{{project.comments.count}}</span><i class="ico-comment"></i></li>
                     {% if project.owner.user.id != request.user.id %}
                     <li>
                         {% if status == 'pushed' %}
@@ -30,14 +36,8 @@
             </div>
 
             <div class="row" id="project-body">
-                {% comment %}
-                <div>
-                    <a class="push-link" href="/project/like/{{project.id}}" alt="Push Project" />Push this project</a>
-                    <hr/>
-                    <br/>
-                </div>{% endcomment %}
-                {% if categories %}
-                    <h4 class="subline">{% for category in categories %}<a href="/projects/search/?categories={{category.tag.slug}}">{{category.tag}}</a>{% if not forloop.last %},{%endif%} {% endfor %}<span>{{ project.publish_date }}</span></h4>
+                {% if request.user.id == project.owner.user.id %}
+                    <a href="/project/edit/{{ project.id }}" class="PTbutton btn-edit-project">Editer le projet</a>
                 {% endif %}
 
                 <p class="project-content">{{ project.content }}</p>
@@ -92,13 +92,11 @@
                     <h3>{{project.owner.user.first_name}} {{project.owner.user.last_name}}</h3>
                     <span class="profession">{{project.owner.profession}}</span>
                     {% if request.user.id != project.owner.user.id %}
-                    {% if following %}
-                         <a class="PTbutton active follow" href="/profile/unfollow/{{project.owner.id}}/">Suivi</a>
-                    {%else%}
-                         <a class="PTbutton unactive follow" href="/profile/follow/{{project.owner.id}}/">Suivre</a>
-                    {% endif %}
-
-                    <a href="#" class="PTbutton"><i class="icon message"></i></a>
+                        {% if following %}
+                             <a class="PTbutton active follow" href="/profile/unfollow/{{project.owner.id}}/"><i class="ico-ok-sign"></i> Suivi</a>
+                        {%else%}
+                             <a class="PTbutton unactive follow" href="/profile/follow/{{project.owner.id}}/"><i class="ico-plus-sign"> </i> Suivre</a>
+                        {% endif %}
                     {% endif %}
                 </a>
             </div>
@@ -112,6 +110,8 @@
                         <a href="/profile/{{ profile.slug }}" data-tooltip="{{ profile.user.first_name}} {{profile.user.last_name}}" class="tooltip">
                             {% thumbnail profile.avatar "50x50" crop="left" as im %}
                                 <img alt="{{ profile.user.first_name}} {{profile.user.last_name}}" src="{{im.url}}" />
+                            {% empty %}
+                                <img src="{{ STATIC_URL }}img/empty_profile.png" width="50" height="50"/>
                             {% endthumbnail %}
                         </a>
                     {% endfor %}
@@ -182,7 +182,7 @@
         $(document).ready(function(){
 
 
-            onoff_button('.follow', 'follow', "Suivi", "Suivre");
+            onoff_button('.follow', 'follow', "<i class='ico-ok-sign'></i> Suivi", "<i class='ico-ok-sign'></i> Suivre");
             onoff_button('#push', 'like', "Pushé", "Push");
 
             $(".push").submit( function() {

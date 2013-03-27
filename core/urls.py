@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     url(r'^project/remove/(?P<pk>\d+)$', views.remove_project),
 
     url(r'^taggit_autosuggest/list/participant/$', views.get_participants),
-    url(r'^taggit_autosuggest/list/location/$', views.get_locations),
+    url(r'^taggit_autosuggest/list/location/$', views.get_locations),    
 
     url(r'^list/location/$', views.get_locations),
     url(r'^list/school/$', views.get_schools),
@@ -23,13 +23,15 @@ urlpatterns = patterns('',
     url(r'^list/profile/(?P<type_profile>[^\.]+)/$', views.get_list_profile),
     url(r'^list/(?P<tag>[^\.]+)/$', views.get_list),
 
+    url(r'^dashboard/$', views.show_dashboard),
+    url(r'^dashboard/notifications/$', views.show_notifications),
+    url(r'^notifications/mark_as_read/$', views.notifications_mark_as_read),
 
     url(r'^comment/delete/(?P<pk>\d+)$', views.delete_comment, {}, 'comment-delete'),
 
     url(r'^project/(?P<slug>[^\.]+)/$', views.get_project, name="project_view"),
     url(r'^project/like/(?P<pk>\d+)$', views.like),
     url(r'^project/unlike/(?P<pk>\d+)$', views.unlike),
-
 
     url(r'^offers/$', views.offers_all),
     url(r'^offer/vacancy/(?P<state>[^\.]+)/(?P<pk>\d+)$', views.vacancy),
@@ -42,7 +44,6 @@ urlpatterns = patterns('',
     url(r'^offer/applications/(?P<slug>[^\.]+)/$', views.get_applications),
     url(r'^offer/(?P<model>\w+)/$', views.edit_offer),
     url(r'^offer/(?P<model>\w+)/(?P<slug>[^\.]+)/$', views.edit_offer),
-
 
     url(r'^profile/create/$', views.create_applicant, {'action': 'new'}),
     url(r'^profile/edit/$', views.create_applicant, {'action': 'edit'}),
@@ -63,7 +64,6 @@ urlpatterns = patterns('',
     url(r'^profile/(?P<slug>[^\.]+)/following/$', views.get_follow_profiles, {'type_url': 'following'}),
     url(r'^profile/(?P<slug>[^\.]+)/$', views.get_applicant, name="profile_view"),
     url(r'^profile/$', views.get_my_profile),
-
 
     url(r'^education/add/$', views.add_education),
     url(r'^education/delete/(?P<pk>\d+)$', views.delete_education),
