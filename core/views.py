@@ -28,26 +28,26 @@ from PIL import Image
 
 def home(request):    
     try:
-        user = User.objects.get(id=request.user.id)
+        applicant = Applicant.objects.get(user_id=request.user.id)
         return HttpResponseRedirect('/dashboard/')
+    except Applicant.DoesNotExist:
+        print "ApplicantDoesNotExist"
+
+    try:
+        user = User.objects.get(id=request.user.id)
+        return HttpResponseRedirect('/profile/')
     except User.DoesNotExist:
-        print "test"
+        print "UserDoesNotExist"
 
-
-
-    
-    form = AuthenticationForm(request.POST)
-    # if form.is_valid():
-    #     return HttpResponseRedirect('/profile/')
-    # else:
-    #     print form.errors
 
     projects = Project.objects.annotate(num=Count('likes')).order_by('-num')
-    companies = Company.objects.annotate(num=Count('followers')).order_by('-num')
+    companies = Company.objects.all().annotate(num=Count('followers')).order_by('-num')[:5]
+
+    form = AuthenticationForm(request.POST)
 
     context = {
         'projects': projects,
-        'companies': companies, 
+        'companies': companies,
         'form': form
     }
     return render_to_response('index.html', context, context_instance=RequestContext(request))
@@ -693,6 +693,27 @@ def create_applicant(request, action="new"):
             # return render(request, 'profile/make_profile.html')
             # return get_applicant(app.slug)
             return HttpResponseRedirect(reverse(get_applicant, args=(app.slug,)))
+        else:
+            form_user = UserForm(request.POST, instance=user)
+            form_social = {}
+            form_avatar = AvatarForm(request.POST)
+            if action != 'new':
+                form_social = SocialNetworkForm(request.POST)
+                form_applicant = ApplicantForm(request.POST, instance=applicant)
+                data = {
+                            'form_user': form_user,
+                            'form_applicant': form_applicant,
+                            'form_social': form_social,
+                            'edit_title': True,
+                            'avatar' : applicant.avatar,
+                            'form_avatar' : form_avatar,
+                            'social_networks' : applicant.social_network
+                            #'social_networks' : SocialNetworkProfile.objects.all(object_id=request.user.id)
+                        }
+            else:
+                form_applicant = ApplicantForm(request.POST)
+                data = { 'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social}
+            return render(request, 'profile/make_profile.html', data)
     else:
         form_user = UserForm(instance=user)
         form_social = {}
@@ -712,8 +733,14 @@ def create_applicant(request, action="new"):
                     }
         else:
             form_applicant = ApplicantForm()
-            data = { 'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social}
-    return render(request, 'profile/make_profile.html', data)
+            data = {
+                        'form_user': form_user,
+                        'form_applicant': form_applicant,
+                        'form_social': form_social,
+                        'edit_title': False,
+                        'form_avatar' : form_avatar,
+                    }
+        return render(request, 'profile/make_profile.html', data)
 
 
 @login_required
@@ -1317,13 +1344,12 @@ def delete_experience(request, pk):
 @login_required
 def get_applicant(request, slug):
     # myself = get_my_self(request)
-    print slug
     try:
         profile = Applicant.objects.get(slug=slug)
     except Applicant.DoesNotExist:
         return HttpResponseRedirect("/")
 
-    projects = Project.objects.filter(Q(owner=profile, published=True) | Q(participant__in=[profile], published=True))
+    projects = Project.objects.filter(Q(owner=profile, published=True) | Q(participant__in=[profile], published=True)).distinct()
     following = Follow.objects.filter(follower__user_id=request.user.id, following__user_id=profile.user_id)
     followingNb = Follow.objects.filter(following__id=profile.id).count()
     followersNb = Follow.objects.filter(follower__id=profile.id).count()
