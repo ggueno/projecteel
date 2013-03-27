@@ -1521,6 +1521,8 @@ def show_dashboard(request):
 
     projects = Project.objects.filter(published=True, owner__in=following)[:3]
 
+    applications = ApplicantOffer.objects.filter(applicant=profile)[:3]
+
     context = {
         'profile': profile,
         'stats': {'pushs': pushs, 'tags': tags, 'views': views, 'comments' : comments },
@@ -1528,7 +1530,8 @@ def show_dashboard(request):
         'notifications' : notifications[:7],
         'unread_nb' : int(0+unread.count()),
         'pushs': Project.objects.push_user(profile.user_id),
-        'projects' : projects
+        'projects' : projects,
+        'applications' : applications
     }
     return render_to_response('notifications/dashboard.html', context, context_instance=RequestContext(request))
 
@@ -1570,6 +1573,16 @@ def notifications_mark_as_read(request):
     response = JSONResponse(True, {}, response_mimetype(request))
     response['Content-Disposition'] = 'inline; filename=files.json'
     return response
+
+
+@login_required
+def has_visited(request):
+    myself = Profile.objects.get(user_id=request.user.id)
+    myself.first_visit = True
+    myself.save()
+    response = JSONResponse(True, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response  
 
 
 class ImageProjectCreateView(CreateView):

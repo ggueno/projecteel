@@ -50,6 +50,8 @@
                     <li><a class="{% active request "^/profile/" %} profile" href="/profile/">
                     {% thumbnail user_avatar "28x28" crop="center" as im %}
                         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="bar_avatar">
+                    {% empty %}
+                        <img src="{{ STATIC_URL }}img/empty_profile.png" width="28" height="28" class="bar_avatar"/>
                     {% endthumbnail %}
                     {{ myself.first_name }}<br>
                     {{ myself.last_name }}
