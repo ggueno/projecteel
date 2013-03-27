@@ -29,6 +29,7 @@ class ProjectForm(forms.ModelForm):
         widgets = {
             'skills': TagAutoSuggest(),
             'state': forms.RadioSelect(),
+            'categories' : forms.TextInput(),
         }
 
     def clean_as_values_participant(self):
@@ -63,7 +64,7 @@ class ProjectForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        exclude = ('user', 'date_signin', 'cover_image', 'cover_image_top', 'avatar')
+        exclude = ('user', 'date_signin', 'cover_image', 'cover_image_top', 'avatar', 'first_visit')
 
 
 class CoverImageForm(forms.ModelForm):

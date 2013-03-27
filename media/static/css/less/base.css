@@ -823,8 +823,11 @@ a.edit-item:hover {
 /*
    L A N D I N G  P A G E
    ========================================================================== */
+.strap-0 {
+  background: url(../img/landscape_pattern2.png) repeat-x 0 160px #e5e5e5;
+}
 .strap-1 {
-  background: url(../img/landscape.png) repeat-x bottom, url(../img/landscape_pattern2.png) repeat-x 0 70%;
+  background: url(../img/landscape.png) repeat-x bottom;
   height: 450px;
 }
 .strap-1 #logo_l {
@@ -1338,9 +1341,23 @@ header.menu #menu a.notifications.unread {
 #infos_profile h1 {
   text-transform: uppercase;
   margin: 15px 0;
-  padding: 5px 0;
-  font-size: 1.4em;
-  border-bottom: 1px solid #d2d2d2;
+  padding: 5px 15px;
+  font-size: 1.3em;
+  font-weight: 400;
+}
+#infos_profile .tab-formation,
+#infos_profile .tab-experience {
+  background-color: white;
+}
+#infos_profile .formation-date {
+  float: left;
+  width: 28%;
+  margin-right: 6%;
+  text-align: right;
+  color: gray;
+}
+#infos_profile .formation-date span {
+  display: block;
 }
 #infos_profile .experience,
 #infos_profile .education {
@@ -1359,6 +1376,18 @@ header.menu #menu a.notifications.unread {
 #infos_profile .experience a.edit-item,
 #infos_profile .education a.edit-item {
   display: none;
+}
+#infos_profile .formation-content {
+  float: left;
+  width: 60%;
+}
+#infos_profile .formation-content h3 {
+  font-weight: 500;
+  color: #0099e6;
+}
+#infos_profile .formation-content h4 {
+  font-weight: 200;
+  text-transform: lowercase;
 }
 #infos_profile #add-experience,
 #infos_profile #add-education {
@@ -1584,6 +1613,8 @@ header.menu #menu a.notifications.unread {
   border: 1px solid #CCC;
   float: right;
   color: #0099e6;
+  margin-top: 5px;
+  margin-bottom: 50px;
 }
 .nextStep:hover {
   color: #0077b3;
@@ -1630,6 +1661,9 @@ ul.tabs li a .step-label {
   font-size: 12pt;
   font-style: normal;
   border-radius: 10em;
+}
+.add_project .sleekbox {
+  background: url(../img/DragAndDrop.png) no-repeat 64% 94% #ffffff;
 }
 .add_project .content {
   padding: 40px 60px;
@@ -1984,6 +2018,19 @@ li.as-result-item img {
   font-weight: 400;
   margin: 20px 0;
 }
+#dashboard .sidebar {
+  background: #fcfcfc;
+  margin-top: 5px;
+}
+#dashboard .sidebar .PTbutton {
+  margin-top: 0;
+}
+#dashboard .sidebar h2 {
+  padding: 0px 5px;
+}
+#dashboard .sidebar .notifications {
+  padding: 0px 5px;
+}
 .stats {
   overflow: auto;
 }
@@ -2006,6 +2053,14 @@ li.as-result-item img {
 }
 .stats li .icon {
   margin-top: 10px;
+}
+.stats li.push {
+  background: none;
+  width: 90%;
+}
+.stats li.push a {
+  height: 25px;
+  line-height: 25px;
 }
 .offers .row {
   margin-top: 5px;

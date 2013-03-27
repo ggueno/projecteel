@@ -3264,8 +3264,11 @@ a.edit-item:hover {
 /*
    L A N D I N G  P A G E
    ========================================================================== */
+.strap-0 {
+  background: url(../img/landscape_pattern2.png) repeat-x 0 160px #e5e5e5;
+}
 .strap-1 {
-  background: url(../img/landscape.png) repeat-x bottom, url(../img/landscape_pattern2.png) repeat-x 0 70%;
+  background: url(../img/landscape.png) repeat-x bottom;
   height: 450px;
 }
 .strap-1 #logo_l {
@@ -4065,6 +4068,8 @@ header.menu #menu a.notifications.unread {
   border: 1px solid #CCC;
   float: right;
   color: #0099e6;
+  margin-top: 5px;
+  margin-bottom: 50px;
 }
 .nextStep:hover {
   color: #0077b3;
@@ -4111,6 +4116,9 @@ ul.tabs li a .step-label {
   font-size: 12pt;
   font-style: normal;
   border-radius: 10em;
+}
+.add_project .sleekbox {
+  background: url(../img/DragAndDrop.png) no-repeat 64% 94% #ffffff;
 }
 .add_project .content {
   padding: 40px 60px;
@@ -4471,6 +4479,19 @@ li.as-result-item img {
   font-weight: 400;
   margin: 20px 0;
 }
+#dashboard .sidebar {
+  background: #fcfcfc;
+  margin-top: 5px;
+}
+#dashboard .sidebar .PTbutton {
+  margin-top: 0;
+}
+#dashboard .sidebar h2 {
+  padding: 0px 5px;
+}
+#dashboard .sidebar .notifications {
+  padding: 0px 5px;
+}
 .stats {
   overflow: auto;
 }
@@ -4493,6 +4514,14 @@ li.as-result-item img {
 }
 .stats li .icon {
   margin-top: 10px;
+}
+.stats li.push {
+  background: none;
+  width: 90%;
+}
+.stats li.push a {
+  height: 25px;
+  line-height: 25px;
 }
 .offers .row {
   margin-top: 5px;
@@ -4988,10 +5017,20 @@ img.project-content {
   margin: 0 3px;
 }
 #project-author h4 {
-  text-transform: uppercase;
+  text-transform: none;
   font-weight: 400;
   font-size: 1.2em;
   padding: 20px 20px 5px 20px;
+}
+#project-author .tags {
+  margin-top: 15px;
+  padding-bottom: 15px;
+}
+#project-author .tags i {
+  float: left;
+  margin-right: 7px;
+  font-size: 1.3em;
+  margin-top: 9px;
 }
 .container-filter {
   height: 48px;
@@ -5056,9 +5095,21 @@ img.project-content {
 #project-body .btn-edit-project {
   width: 130px;
   margin: 10px 20px auto auto;
+}
+#project-body .project-controls {
+  text-align: right;
+  overflow: auto;
+  padding-right: 10px;
+}
+#project-body .btn-edit-project,
+#project-body .btn-delete-project {
+  width: auto;
+  margin: 10px 4px;
   height: 20px;
-  display: block;
-  line-height: 20px;
+  display: inline-block;
+  line-height: 1.8em;
+  padding: 5px 10px;
+  clear: both;
 }
 .dropdown .select {
   font-weight: 700;

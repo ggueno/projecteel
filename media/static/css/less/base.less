@@ -832,9 +832,11 @@ a.edit-item{
 /*
    L A N D I N G  P A G E
    ========================================================================== */
-
+.strap-0{
+    background: url(../img/landscape_pattern2.png) repeat-x 0 160px #e5e5e5;
+}
 .strap-1 {
-    background: url(../img/landscape.png) repeat-x bottom, url(../img/landscape_pattern2.png) repeat-x 0 70%;
+    background: url(../img/landscape.png) repeat-x bottom;
     height:450px;
     #logo_l {
         position: absolute;
@@ -1594,6 +1596,8 @@ header.menu{
     border: 1px solid #CCC;
     float: right;
     color: @PTblue;
+    margin-top: 5px;
+    margin-bottom: 50px;
     &:hover{
         color:darken(@PTblue, 10%);
     }
@@ -1645,6 +1649,9 @@ ul.tabs{
     }
 
 .add_project{
+    .sleekbox{
+        background: url(../img/DragAndDrop.png) no-repeat 64% 94% #FFF;    
+    }
     .content{
         padding: 40px 60px;
     }
@@ -1993,6 +2000,19 @@ li.as-result-item{
         font-weight: 400;
         margin: 20px 0;
     }
+    .sidebar{
+        background: #fcfcfc;
+        margin-top: 5px;
+        .PTbutton{
+            margin-top: 0;
+        }
+        h2{
+            padding:0px 5px;
+        }
+        .notifications{
+            padding: 0px 5px;
+        }
+    }
 }
 
 .stats{
@@ -2015,6 +2035,14 @@ li.as-result-item{
         }
         .icon{
             margin-top: 10px;
+        }
+        &.push{
+            background: none;
+            width: 90%;
+            a{
+                height: 25px;
+                line-height: 25px;
+            }
         }
     }
 }

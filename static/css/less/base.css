@@ -44,7 +44,7 @@ hr {
   padding: 0;
 }
 a {
-  outline: none;
+  outline: none !important;
 }
 /*
  * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
@@ -123,6 +123,24 @@ textarea {
 .last {
   float: right;
 }
+#dropdown-social-network {
+  padding-top: 1em;
+}
+.icon_social {
+  padding: 5px;
+}
+.floatRight {
+  float: right;
+}
+.floatRight .dropdown-menu {
+  z-index: 100;
+  margin-top: 10px;
+  margin-left: -155px;
+  padding: 15px 5px;
+}
+.grey {
+  color: #808080;
+}
 .error,
 .correct {
   font-weight: bold;
@@ -197,7 +215,7 @@ i.icon.push {
 .sleekbox h1.blackTitle {
   line-height: 42px;
   padding: 0 20px;
-  font-size: 1.4em;
+  font-size: 1.6em;
   font-weight: 400;
 }
 .subline {
@@ -320,9 +338,21 @@ a.PTbutton {
 .ideal-wrap.alignRight {
   float: right;
 }
+a.alignCenter {
+  margin: 0 auto;
+  display: block;
+  width: 130px;
+  padding: 1px;
+  height: 25px;
+  line-height: 25px;
+}
 .tooltip {
   display: inline;
   position: relative;
+}
+.tooltip.right {
+  padding: 0 5px;
+  margin-left: 3px;
 }
 .tooltip:hover {
   color: #c00;
@@ -403,6 +433,7 @@ a.PTbutton {
 }
 .thumb {
   padding: 0px;
+  position: relative;
   margin-bottom: 20px;
   text-align: center;
   background: #fff;
@@ -453,7 +484,7 @@ a.PTbutton {
   float: left;
   width: 24%;
   padding: 5px 3% 5px 20%;
-  text-align: left;
+  text-align: right;
 }
 .thumb .project_infos .project_pushs {
   float: right;
@@ -461,13 +492,25 @@ a.PTbutton {
   padding: 5px 3%;
   text-align: left;
 }
+.thumb a.edit-project {
+  padding: 1px 3px 1px 6px;
+  font-size: 1.3em;
+  background: #FFF;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+}
+.thumb:hover a.edit-project {
+  display: block;
+}
 .label_views {
   background: url(../img/icon_social.png) no-repeat 0 -2px;
   height: 15px;
   width: 19px;
   margin: 0 5px 0 0;
-  display: block;
-  float: left;
+  display: inline-block;
+  vertical-align: top;
 }
 .label_pushs {
   background: url(../img/icon_social.png) no-repeat -21px 0px;
@@ -780,6 +823,9 @@ a.edit-item:hover {
 /*
    L A N D I N G  P A G E
    ========================================================================== */
+.strap-0 {
+  background: url(../img/landscape_pattern2.png) repeat-x 0 160px #e5e5e5;
+}
 .strap-1 {
   background: url(../img/landscape.png) repeat-x bottom;
   height: 450px;
@@ -961,6 +1007,7 @@ header.menu #menu a.notifications.unread {
    ========================================================================== */
 .profile {
   margin-top: 0;
+  overflow: visible;
 }
 .profile .profile_cover {
   position: relative;
@@ -1097,6 +1144,9 @@ header.menu #menu a.notifications.unread {
 .profile .profile_secondbar ul li.last {
   float: right;
 }
+.profile .profile_secondbar ul li.noPad {
+  padding-right: 5px;
+}
 .profile .profile_secondbar a {
   -webkit-transition: color .15s ease;
   -moz-transition: color .15s ease;
@@ -1166,6 +1216,7 @@ header.menu #menu a.notifications.unread {
   width: 190px;
   height: 190px;
   z-index: 10;
+  overflow: hidden;
 }
 #edit_profile .profile_pic {
   position: absolute;
@@ -1290,9 +1341,23 @@ header.menu #menu a.notifications.unread {
 #infos_profile h1 {
   text-transform: uppercase;
   margin: 15px 0;
-  padding: 5px 0;
-  font-size: 1.4em;
-  border-bottom: 1px solid #d2d2d2;
+  padding: 5px 15px;
+  font-size: 1.3em;
+  font-weight: 400;
+}
+#infos_profile .tab-formation,
+#infos_profile .tab-experience {
+  background-color: white;
+}
+#infos_profile .formation-date {
+  float: left;
+  width: 28%;
+  margin-right: 6%;
+  text-align: right;
+  color: gray;
+}
+#infos_profile .formation-date span {
+  display: block;
 }
 #infos_profile .experience,
 #infos_profile .education {
@@ -1311,6 +1376,18 @@ header.menu #menu a.notifications.unread {
 #infos_profile .experience a.edit-item,
 #infos_profile .education a.edit-item {
   display: none;
+}
+#infos_profile .formation-content {
+  float: left;
+  width: 60%;
+}
+#infos_profile .formation-content h3 {
+  font-weight: 500;
+  color: #0099e6;
+}
+#infos_profile .formation-content h4 {
+  font-weight: 200;
+  text-transform: lowercase;
 }
 #infos_profile #add-experience,
 #infos_profile #add-education {
@@ -1512,7 +1589,7 @@ header.menu #menu a.notifications.unread {
 }
 .fileupload-buttonbar span.PTbutton {
   line-height: 2.6em;
-  padding: 3px 6px;
+  padding: 3px 12px 3px 14px;
   height: 31px;
   margin: 0;
   display: block;
@@ -1529,6 +1606,18 @@ header.menu #menu a.notifications.unread {
 }
 .fileupload-buttonbar .fileinput-button:hover span {
   background: #047dba;
+}
+.nextStep {
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid #CCC;
+  float: right;
+  color: #0099e6;
+  margin-top: 5px;
+  margin-bottom: 50px;
+}
+.nextStep:hover {
+  color: #0077b3;
 }
 /*
    A D D   N E W   P R O J E C T
@@ -1572,6 +1661,9 @@ ul.tabs li a .step-label {
   font-size: 12pt;
   font-style: normal;
   border-radius: 10em;
+}
+.add_project .sleekbox {
+  background: url(../img/DragAndDrop.png) no-repeat 64% 94% #ffffff;
 }
 .add_project .content {
   padding: 40px 60px;
@@ -1735,6 +1827,13 @@ ul.tabs li a .step-label {
   background: #047dba;
   color: #FFF;
 }
+.add_project .PTbutton {
+  padding: 5px 10px 5px 13px;
+}
+.add_project.edit .PTform .file-wrap input[type=file] {
+  bottom: 28px;
+  top: auto;
+}
 li.as-result-item {
   line-height: 30px;
 }
@@ -1745,6 +1844,9 @@ li.as-result-item img {
 /*
    L I S T   P R O J E C T S
    ========================================================================== */
+#projects {
+  min-height: 600px;
+}
 #projects .sixcol {
   margin: 0;
 }
@@ -1885,6 +1987,9 @@ li.as-result-item img {
 /*
    P O S T E D   O F F E R S
    ========================================================================== */
+.posted_offers .suggest_candidates {
+  float: right;
+}
 .posted_offers .left {
   padding: 17px 20px;
   width: 60%;
@@ -1913,10 +2018,23 @@ li.as-result-item img {
   font-weight: 400;
   margin: 20px 0;
 }
-#dashboard .stats {
+#dashboard .sidebar {
+  background: #fcfcfc;
+  margin-top: 5px;
+}
+#dashboard .sidebar .PTbutton {
+  margin-top: 0;
+}
+#dashboard .sidebar h2 {
+  padding: 0px 5px;
+}
+#dashboard .sidebar .notifications {
+  padding: 0px 5px;
+}
+.stats {
   overflow: auto;
 }
-#dashboard .stats li {
+.stats li {
   width: 30%;
   display: block;
   height: 80px;
@@ -1927,53 +2045,106 @@ li.as-result-item img {
   text-align: center;
   font-size: 2em;
 }
-#dashboard .stats li span {
+.stats li span {
   display: block;
 }
-#dashboard .stats li.last {
+.stats li.last {
   margin-right: 0;
 }
-#dashboard .stats li .icon {
+.stats li .icon {
   margin-top: 10px;
 }
-#dashboard .offers .blacksub {
+.stats li.push {
+  background: none;
+  width: 90%;
+}
+.stats li.push a {
+  height: 25px;
+  line-height: 25px;
+}
+.offers .row {
+  margin-top: 5px;
+}
+.offers .projects .blacksub {
+  margin-bottom: 10px;
+}
+.offers .blacksub {
   background-color: #252525;
   color: #FFF;
   text-transform: none;
   font-weight: 400;
-  padding: 2px 6px;
+  padding: 0;
+  height: 2em;
+  padding-left: 6px;
+  line-height: 2em;
   font-size: 1.3em;
 }
-#dashboard .offers ul li {
+.offers .blacksub a {
+  background: #0099e6;
+  float: right;
+  display: block;
+  height: 100%;
+  padding: 0 5px;
+  font-size: .8em;
+  -webkit-transition: background .25s ease;
+  -moz-transition: background .25s ease;
+  -ms-transition: background .25s ease;
+  -o-transition: background .25s ease;
+  transition: background .25s ease;
+}
+.offers .blacksub a:hover {
+  background: #00669a;
+}
+.offers ul li {
   padding: 40px 20px 0 20px;
   background-color: #fcfcfc;
   margin: 10px 0;
-  line-height: 1.7em;
+  line-height: 1.9em;
   text-align: center;
   height: 110px;
   position: relative;
 }
-#dashboard .offers ul li a {
+.offers ul li a {
   color: #0099e6;
 }
-#dashboard .offers ul li a.offer {
-  width: 35px;
-  height: 40px;
+.offers ul li a:hover {
+  color: #00669a;
+}
+.offers ul li a.offer {
+  width: 51px;
+  height: 58px;
   position: absolute;
   top: 0;
   right: 0;
   color: #FFF;
   text-align: right;
-  padding-right: 5px;
-  line-height: 2.5em;
-  background-image: url(../img/bg-offer-status.png) no-repeat 0 0;
+  padding-right: 4px;
+  line-height: 1.5em;
+  background: url(../img/bg-offer-status.png) no-repeat -1px -1px;
+  font-size: 1.4em;
 }
-#dashboard .offers ul li a.offer.valid {
+.offers ul li a.offer.valid {
   background-color: #0099e6;
 }
-#dashboard .offers ul li strong {
+.offers ul li a.offer.declined {
+  background-color: #f55253;
+}
+.offers ul li a.offer.waiting {
+  background-color: #474747;
+}
+.offers ul li strong {
   margin-bottom: 10px;
   display: block;
+  padding: 0 40px;
+}
+.offers ul li .timesince {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-style: italic;
+  padding-right: 10px;
+  padding-top: 7px;
+  color: #CCC;
 }
 .nb_notifications {
   margin-bottom: 10px;
@@ -2009,6 +2180,23 @@ li.as-result-item img {
 }
 .notifications li.unread {
   background: lightblue;
+}
+#notification_center h1 {
+  font-weight: 400;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+#notification_center .notifications {
+  margin-top: 10px;
+  padding: 5px;
+  background: #f6f6f6;
+}
+#notification_center .notifications li {
+  padding: 15px;
+}
+#notification_center .offers li {
+  height: auto;
+  padding: 15px 0 20px 0;
 }
 /* ==========================================================================
    Helper classes
