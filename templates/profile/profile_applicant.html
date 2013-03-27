@@ -173,7 +173,7 @@
 
         <section class="row" id="infos_profile">
 
-            <div class="fivecol offset1">
+            <div class="sixcol tab-formation">
                 {% if profile.education %}
                     <h1>Formation</h1>
                     {% for education in profile.education.all %}
@@ -190,7 +190,7 @@
                 {% endif %}
             </div>
 
-            <div class="fivecol">
+            <div class="sixcol last tab-experience">
             {% if profile.experience %}
                 <h1>Experiences</h1>
                 {% for experience in profile.experience.all %}
