@@ -72,7 +72,7 @@ def home(request):
 def get_my_self(request):
     app = ''
     try:
-        app = Applicant.objects.filter(user_id=request.user.id)[0]
+        app = Applicant.objects.get(user_id=request.user.id)
     except Applicant.DoesNotExist:
         app = ''
     return app
@@ -204,7 +204,10 @@ def search_offers(request):
 def get_project(request, slug):
     project = Project.objects.get(slug=slug)
 
-    following = Follow.objects.filter(follower__user_id=request.user.id, following__user_id=project.owner.user_id)
+    if request.user.id:
+        following = Follow.objects.filter(follower__user_id=request.user.id, following__user_id=project.owner.user_id)
+    else:
+        following = {}
 
     # get all tags for project
     categoriesList = CategoryTaggedItem.objects.filter(content_object=project.id)
