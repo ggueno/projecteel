@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="{% static "css/style.css" %}">
         <script src="{% static "js/vendor/modernizr-2.6.2.min.js" %}"></script>
     </head>
-    <body>
+    <body class="strap-0">
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
@@ -84,7 +84,40 @@
         <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.8.3.min.js" %}"><\/script>')</script>
         <script src="{% static "js/plugins.js" %}"></script>
         <script src="{% static "js/main.js" %}"></script>
-
+        <script type="text/javascript">
+        $(doc­u­ment).ready(func­tion($){
+            $('body').mouse­move(
+                    func­tion(e){
+                    /* Work out mouse position */
+                    var off­set = $(this).off­set();
+                    var xPos = e.pageX - off­set.left;
+                    var yPos = e.pageY - off­set.top;
+     
+                    /* Get per­cent­age positions */
+                    var mou­s­eX­Per­cent = Math.round(xPos / $(this).width() * 100);
+                    var mou­seY­Per­cent = Math.round(yPos / $(this).height() * 100);
+     
+                    /* Pos­i­tion Each Layer */
+                    $(this).each(
+                            func­tion(){
+                                    var diffX = $('#Par­al­lax').width() - $(this).width();
+                                    // var diffY = $('#Par­al­lax').height() - $(this).height();
+           
+                                    var myX = diffX * (mou­s­eX­Per­cent / 100);
+                                    // var myY = diffY * (mou­seY­Per­cent / 100);
+                                    var cssObj = {
+                                            'left': myX + 'px',
+                                            // 'top': myY + 'px'
+                                    }
+                                    $(this).anim­ate({'background-position':myX+' 160px'},{dur­a­tion: 50, queue: false, eas­ing: 'lin­ear'});
+     
+                            }
+                    );
+     
+                    }
+            );
+    });
+        </script>
 
 
     </body>

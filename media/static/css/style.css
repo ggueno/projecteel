@@ -3264,8 +3264,11 @@ a.edit-item:hover {
 /*
    L A N D I N G  P A G E
    ========================================================================== */
+.strap-0 {
+  background: url(../img/landscape_pattern2.png) repeat-x 0 160px #e5e5e5;
+}
 .strap-1 {
-  background: url(../img/landscape.png) repeat-x bottom, url(../img/landscape_pattern2.png) repeat-x 0 70%;
+  background: url(../img/landscape.png) repeat-x bottom;
   height: 450px;
 }
 .strap-1 #logo_l {
@@ -4466,6 +4469,14 @@ li.as-result-item img {
 .stats li .icon {
   margin-top: 10px;
 }
+.stats li.push {
+  background: none;
+  width: 90%;
+}
+.stats li.push a {
+  height: 25px;
+  line-height: 25px;
+}
 .offers .row {
   margin-top: 5px;
 }
@@ -4979,12 +4990,20 @@ img.project-content {
 .container-filter .search-form {
   margin: 6px 0;
 }
-#project-body .btn-edit-project {
-  width: 130px;
-  margin: 10px 20px auto auto;
+#project-body .project-controls {
+  text-align: right;
+  overflow: auto;
+  padding-right: 10px;
+}
+#project-body .btn-edit-project,
+#project-body .btn-delete-project {
+  width: auto;
+  margin: 10px 4px;
   height: 20px;
-  display: block;
-  line-height: 20px;
+  display: inline-block;
+  line-height: 1.8em;
+  padding: 5px 10px;
+  clear: both;
 }
 .dropdown .select {
   font-weight: 700;

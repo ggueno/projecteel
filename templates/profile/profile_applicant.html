@@ -412,7 +412,7 @@
         // }
         // );
     });
-    {% if not profile.first_visit %}
+    {% if not profile.first_visit and profile.user.id == request.user.id%}
     
     $(window).load(function() {
         $('#PTjoyride').joyride({

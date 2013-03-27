@@ -4,7 +4,7 @@
 {% load projects %}
     {% load hitcount_tags %}
 
-{% block title %} Project {{ profile.slug }} {% endblock %}
+{% block title %} {{ project.title }} - Projet par {{project.owner.user.first_name}} {{project.owner.user.last_name}} - Projecteel {% endblock %}
 {% block content %}
     <div class="row">
     {% if project %}
@@ -22,9 +22,9 @@
                 <ul class="stats threecol last">
                     <li><span>{{ project.views }}</span><i class="ico-eye-open"></i></li>
                     <li><span class="count-likes">{{project.likes.count}}</span><i class="icon push"></i></li>
-                    <li><span >{{project.comments.count}}</span><i class="ico-comment"></i></li>
+                    <!--<li><span >{{project.comments.count}}</span><i class="ico-comment"></i></li>-->
                     {% if project.owner.user.id != request.user.id %}
-                    <li>
+                    <li class="push">
                         {% if status == 'pushed' %}
                         <a href="/project/unlike/{{project.id}}" id="push" class="active PTbutton">Pushé</a>
                         {% else %}
@@ -37,14 +37,17 @@
 
             <div class="row" id="project-body">
                 {% if request.user.id == project.owner.user.id %}
-                    <a href="/project/edit/{{ project.id }}" class="PTbutton btn-edit-project">Editer le projet</a>
+                    <div class="project-controls">
+                        <a href="/project/edit/{{ project.id }}" class="PTbutton btn-edit-project"><i class="ico-edit"></i> Editer</a>
+                        <a href="/project/delete/{{ project.id }}" class="PTbutton btn-delete-project"><i class="ico-remove"></i> Supprimer</a>
+                    </div>
                 {% endif %}
 
                 <p class="project-content">{{ project.content }}</p>
 
                 {% for img in project.images.all %}
                     <img class="project-content" src="{{ img.image.url }}" alt="{{ img.slug }}">
-                    <h6 class="image-title">{{img.title}}</h6>
+                    <!--<h6 class="image-title">{{img.title}}</h6><--></-->
                     <p>{{img.description}}</p>
                 {% endfor %}
 
@@ -130,7 +133,7 @@
 
             {% if project.cadre %}
             <h4><i class="ico-group"></i> Réalisé dans le cadre</h4>
-            <p> {{ project.cadre }}</p>
+            <p> {{ project.get_cadre_display  }}</p>
             {% endif %}
 
             {% if project.state %}
@@ -207,6 +210,16 @@
 
             if ($("#btn-push").hasClass('pushed'))
                 $("#btn-push").text('PUSHED');
+
+            $('.btn-delete-project').on('click',function(){
+                var url = $(this).attr('href');
+                if (confirm("Êtes-vous sur de vouloir supprimer le projet ?")){ 
+                  document.location.href = url;
+               } 
+               else{ 
+                  return false;
+               }
+            });
 
 
 

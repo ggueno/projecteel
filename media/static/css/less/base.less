@@ -831,9 +831,11 @@ a.edit-item{
 /*
    L A N D I N G  P A G E
    ========================================================================== */
-
+.strap-0{
+    background: url(../img/landscape_pattern2.png) repeat-x 0 160px #e5e5e5;
+}
 .strap-1 {
-    background: url(../img/landscape.png) repeat-x bottom, url(../img/landscape_pattern2.png) repeat-x 0 70%;
+    background: url(../img/landscape.png) repeat-x bottom;
     height:450px;
     #logo_l {
         position: absolute;
@@ -1979,6 +1981,14 @@ li.as-result-item{
         }
         .icon{
             margin-top: 10px;
+        }
+        &.push{
+            background: none;
+            width: 90%;
+            a{
+                height: 25px;
+                line-height: 25px;
+            }
         }
     }
 }

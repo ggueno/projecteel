@@ -823,8 +823,11 @@ a.edit-item:hover {
 /*
    L A N D I N G  P A G E
    ========================================================================== */
+.strap-0 {
+  background: url(../img/landscape_pattern2.png) repeat-x 0 160px #e5e5e5;
+}
 .strap-1 {
-  background: url(../img/landscape.png) repeat-x bottom, url(../img/landscape_pattern2.png) repeat-x 0 70%;
+  background: url(../img/landscape.png) repeat-x bottom;
   height: 450px;
 }
 .strap-1 #logo_l {
@@ -2006,6 +2009,14 @@ li.as-result-item img {
 }
 .stats li .icon {
   margin-top: 10px;
+}
+.stats li.push {
+  background: none;
+  width: 90%;
+}
+.stats li.push a {
+  height: 25px;
+  line-height: 25px;
 }
 .offers .row {
   margin-top: 5px;

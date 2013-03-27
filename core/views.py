@@ -523,6 +523,20 @@ def edit_project(request, pk):
     else:
         return HttpResponseRedirect('/projects/')
 
+@login_required
+def delete_project(request, pk):
+    try:
+        applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+        project = Project.objects.get(id=pk, owner=applicant)
+        hitcount = HitCount.objects.filter(object_pk=project.id)
+        if project.owner == applicant:
+            project.delete()
+            hitcount.delete()
+    except Project.DoesNotExist:
+        pass
+    else:
+        return HttpResponseRedirect('/profile/')
+
 
 @login_required
 def remove_project(request, pk):
@@ -1605,7 +1619,13 @@ class ImageProjectCreateView(CreateView):
             self.object.title = f.name
         self.object.project = Project.objects.get(id=id_project)
         self.object.save()
-        data = [{'name': f.name, 'url': settings.MEDIA_URL + "upload/images/project/" + f.name.replace(" ", "_"), 'thumbnail_url': settings.MEDIA_URL + "upload/images/project/" + f.name.replace(" ", "_"), 'delete_url': reverse('upload-delete', args=[self.object.id]), 'delete_type': "DELETE"}]
+        data = [{
+            'name': f.name, 
+            'url': settings.MEDIA_URL + "upload/images/project/" + f.name.replace(" ", "_"), 
+            'thumbnail_url': settings.MEDIA_URL + "upload/images/project/" + f.name.replace(" ", "_"), 
+            'delete_url': reverse('upload-delete', args=[self.object.id]), 
+            'delete_type': "DELETE"
+            }]
         response = JSONResponse(data, {}, response_mimetype(self.request))
         response['Content-Disposition'] = 'inline; filename=files.json'
 

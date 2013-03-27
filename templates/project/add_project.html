@@ -37,7 +37,7 @@
                             <section id="etape1">
                                 <!-- Heading -->
                                 <div>
-                                    <label for="">{{form.title.label}}</label>
+                                    <label for="id_title">Titre du projet</label>
                                     {{ form.title }}
                                     {{ form.title.errors }}
                                 </div>
@@ -51,12 +51,12 @@
                                     <p class="annotation">(< 1Mo, > 300x250px)</p>
                                 </div>
                                 <div>
-                                    <label for="">{{form.categories.label}}</label>
+                                    <label for="id_categories">Catégorie</label>
                                     {{ form.categories }}
                                     {{ form.categories.errors }}
                                 </div>
                                 <div>
-                                    <label for="">{{form.content.label}}</label>
+                                    <label for="id_content">Contenu</label>
                                     {{ form.content }}
                                     {{ form.content.errors }}
                                 </div>
@@ -83,7 +83,7 @@
                                 <!-- Vidéo & Image -->
 
                                 <div>
-                                    <label for="">{{form.participant.label}}</label>
+                                    <label for="participant">Participants au projet</label>
                                     <input type="text" id="participant_input" />
                                 </div>
                                 <div>
@@ -92,17 +92,17 @@
                                     {{ form.cadre.errors }}
                                 </div>
                                 <div>
-                                    <label for="">{{form.state.label}}</label>
+                                    <label for="id_state">Etat du projet</label>
                                     {{ form.state }}
                                     {{ form.state.errors }}
                                 </div>
                                 <div>
-                                    <label for="">{{form.period.label}}</label>
+                                    <label for="id_period">Durée du projet</label>
                                     {{ form.period }}
                                     {{ form.period.errors }}
                                 </div>
                                 <div>
-                                    <label for="">{{form.location.label}}</label>
+                                    <label for="id_location">Localisation</label>
                                     {{ form.location }}
                                     {{ form.location.errors }}
                                 </div>
@@ -244,19 +244,19 @@
                         elem.hide();
                     },
                     resultClick: function(data){
-                       p.val(data.attributes.value)
+                        p.val(data.attributes.value)
                    },
 
                 });
 
                 var data = "{{ form.as_values_participant.value }}";
-                var datas = [{ 'value' : "1", 'name': 'ggueno', "avatar": "upload/images/avatar/0f747c7cf4f59dce5d5ccf7951c3c3a2.jpg"}];
+                // var datas = [{ 'value' : "1", 'name': 'ggueno', "avatar": "upload/images/avatar/0f747c7cf4f59dce5d5ccf7951c3c3a2.jpg"}];
 
                 $('#participant_input').autoSuggest('/taggit_autosuggest/list/participant/', {
                     asHtmlID: "participant",
                     startText: "Entrez le nom d'un participant",
                     emptyText: "Aucun résultat",
-                    preFill: datas,
+                    // preFill: ,
                     minChars: 3,
                     searchObjProps: "name",
                     selectedItemProp: "name",
@@ -269,6 +269,9 @@
                         if(data.avatar){
                             var avatar = new Image();
                             avatar.src = '/media/'+data.avatar;
+                            $(avatar).error(function() {
+                                $(this).attr('src','/static/img/empty_profile.png');
+                            });
                         }
                         elem.prepend(avatar);
                         elem.append(data.name);

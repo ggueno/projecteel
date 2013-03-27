@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     url(r'^project/add/$', views.add_project),
     url(r'^project/add/image/$', views.add_project_image),
     url(r'^project/edit/(?P<pk>\d+)$', views.edit_project),
+    url(r'^project/delete/(?P<pk>\d+)$', views.delete_project),
 
     url(r'^project/add/image/new/$', views.ImageProjectCreateView.as_view(), {}, 'upload-new'),
     url(r'^project/add/image/new/$', views.ImageProjectCreateView.as_view(), {}, 'upload-new'),
