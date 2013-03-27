@@ -1,10 +1,27 @@
 {% extends "layout/base.html" %}
 
-{% block title %}Activation complete{% endblock %}
+{% block title %}Registration complete{% endblock %}
 
+
+{% load staticfiles %}
 {% block content %}
-<h1>Félicitation!</h1>
-<p>Votre enregistrement est maintenant terminé. Vous pouvez dès à présent utiliser les services de Projecteel!</p>
-<p>Mais avant tout, pensez à compléter votre profil</p>
-<a href=""></a>
+<section class="row">
+    <div class="sleekbox">
+      <div class="content">
+        <h1 class="heading">Enregistrement Terminé !</h1>
+        <div class="row" >
+            <div class="sixcol illustration">
+                <img src="{% static "img/propulsez-vous.png" %}" title="propulsez-vous" />
+            </div>
+            <div class="sixcol last">
+            	<p> 
+            		Vous pouvez dès à présent utiliser les services de Projecteel !
+            		Cliquer sur se connecter pour pouvoir accéder à la connexion.	
+            	</p>
+            	<a href="/" class="PTbutton">SE CONNECTER</a>
+        	</div>
+        </div>
+      </div>
+  </div>
+</section>
 {% endblock %}

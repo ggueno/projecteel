@@ -35,7 +35,7 @@
             <div class="row">
                 <ul>
                     <li>
-                        <h1 class="heading heading-lp">Etudiants et jeunes diplômés</h1>
+                        <h1 class="heading heading-lp" id="register">Etudiants et jeunes diplômés</h1>
                         <p>Propulsez-vous vers le monde du travail.</p>
 
                         <img class="rocket" src="{% static "img/fusee.gif" %}" alt="rocket">
@@ -66,18 +66,18 @@
             </div>
         </section>
 
+        {% if companies %}
         <section class="strap-4">
             <div class="row">
                 <h1 class="heading heading-lp">Ils nous font confiance</h1>
-                {% if companies %}
-                    {% for company in companies|slice:":6" %}
+                    {% for company in companies %}
                         {% thumbnail company.avatar "140x140" as im %}
                             <img alt="{{ company.name }}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" id="">
                         {% endthumbnail %}
                     {% endfor %}
-                {% endif %}
             </div>
         </section>
+        {% endif %}
      
         
 
@@ -85,7 +85,12 @@
         <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.8.3.min.js" %}"><\/script>')</script>
         <script src="{% static "js/plugins.js" %}"></script>
         <script src="{% static "js/main.js" %}"></script>
+        <script>
+            $().ready(function(){
+                $("#id_username").focus();
+            });
 
+        </script>
 
 
     </body>

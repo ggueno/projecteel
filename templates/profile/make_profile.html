@@ -19,7 +19,6 @@
 
                 </div>
                 <div class="sixcol last">
-
                     <ul class="tabs">
                         <li><a href="#etape1"><i class="step-label">1</i>Etape 1</a></li>
                         <li><a href="#etape2"><i class="step-label">2</i>Etape 2</a></li>
@@ -34,28 +33,27 @@
 
                         <!-- TAB -->
                         <section id="etape1">
-                            <!--
+                            
                             {{ form_user.errors }}
-                            <div class="row">
-                                {{ form_user.as_p}}
-                            </div>
-                            -->
-                            <span class="annotation">Renseigner votre prénom et votre nom, ils seront diffusés sur votre profil.</span>
+
+                            <span class="annotation">Les champs indiqué par (*) sont obligatoires.<br/><br/>Renseigner votre prénom et votre nom, ils seront diffusés sur votre profil.</span>
                             <div>
-                                <label for="id_first_name">Prénom</label>
+                                <label for="id_first_name">Prénom (*)</label>
                                 {% if form_user.first_name.errors %}
                                 <p class="errors">{{ form_user.first_name.errors.as_text }}</p>
                                 {% endif %}
                                 {{ form_user.first_name }}
                             </div>
                             <div>
-                                <label for="id_last_name">Nom</label>
+                                <label for="id_last_name">Nom (*)</label>
                                 {% if form_user.last_name.errors %}
                                 <p class="errors">{{ form_user.last_name.errors.as_text }}</p>
                                 {% endif %}
                                 {{ form_user.last_name }}
                             </div>
-                            <div>
+
+                            {% if edit_title %}
+                           <!--  <div>
                                 <label for="id_name">Pseudo</label>
                                 <span class="annotation">Voici votre pseudonyme sur Projecteel. Vous pouvez utiliser votre vrai nom ou un pseudo plus personnel. Il sera utilisé dans l'URL de votre page profil.</span>
                                 {% if form_applicant.name.errors %}
@@ -63,7 +61,8 @@
                                 {% endif %}
                                 {{ form_applicant.name }}
                                 <span id="slug_validate"></span>
-                            </div>
+                            </div> -->
+                            {% endif %}
                             <div>
                                 <label for="">Votre avatar</label>
                                 <span class="annotation">Vous pouvez choisir une vraie photo de vous ou alors quelque chose vous représentant (JPG/GIF/PNG seulement).</span>
@@ -124,15 +123,11 @@
                         </section>
 
                         <section id="etape2">
-                            <!--
+                            
                             {{ form_applicant.errors }}
-
-                            <div class="row">
-                                {{ form_applicant.as_p }}
-                            </div>
-                            -->
+                            
                             <div>
-                                <label for="id_description">Description</label>
+                                <label for="id_description">Description (*)</label>
                                 <span class="annotation">Ecrivez ici une petite présentation de vous. Qu'est ce qui vous caractérise ? Quels sont vos rêves et vos espoirs ?</span>
                                 {% if form_applicant.description.errors %}
                                 <p class="errors">{{ form_applicant.description.errors.as_text }}</p>
@@ -148,7 +143,7 @@
                                 {{ form_applicant.url }}
                             </div>
                             <div>
-                                <label for="id_profession">Profession</label>
+                                <label for="id_profession">Profession (*)</label>
                                 <span class="annotation">Le metier qui vous caractérise.</span>
                                 {% if form_applicant.profession.errors %}
                                 <p class="errors">{{ form_applicant.profession.errors.as_text }}</p>

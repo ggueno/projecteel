@@ -47,17 +47,33 @@
                 <ul id="menu" class="sixcol">
                     <li><a class="{% active request "^/projects/" %}" href="/projects/">Projets</a></li>
                     <li><a class="{% active request "^/offers/" %}" href="/offers/">Offres</a></li>
+                    
+                    {% if myself %}
                     <li><a class="{% active request "^/profile/" %} profile" href="/profile/">
-                    {% thumbnail user_avatar "28x28" crop="center" as im %}
-                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="bar_avatar">
-                    {% endthumbnail %}
-                    {{ myself.first_name }}<br>
-                    {{ myself.last_name }}
+                    
+                        {% thumbnail user_avatar "28x28" crop="center" as im %}
+                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="bar_avatar">
+                        {% endthumbnail %}
+                        {{ myself.first_name }}<br>
+                        {{ myself.last_name }}
+                    
                     </a></li>
+                    {% else %}
+                        <li><a class="{% active request "^/profile/" %}" href="/profile/">
+                    
+                        Profil
+                    
+                    </a></li>
+                    {% endif %}
+
+
+
+                    {% if unread_notification %}
                     {% if unread_notifications > 0 %}
                         <li><a class="notifications unread" href="/dashboard/notifications/" alt="{{ unread_notifications }} notifications non lues">{{ unread_notifications }}</a></li>
                     {%else%}
                         <li><a class="notifications" alt="Pas de nouvelles notifications" href="/dashboard/notifications/">0</a></li>
+                    {% endif %}
                     {% endif %}
                 </ul>
             </div>
