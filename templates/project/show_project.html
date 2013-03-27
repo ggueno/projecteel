@@ -49,7 +49,6 @@
 
                 {% for img in project.images.all %}
                     <img class="project-content" src="{{ img.image.url }}" alt="{{ img.slug }}">
-                    <h6 class="image-title">{{img.title}}</h6>
                     <p>{{img.description}}</p>
                 {% endfor %}
 
@@ -134,22 +133,20 @@
 
 
             {% if project.owner.search_location %}
-            <p class="location"><i class="icon pin"></i> {{ project.owner.search_location }}</p>
+            <h4 class="location"><i class="icon pin"></i> {{ project.owner.search_location }}</h4>
             {% endif %}
 
             {% if project.period %}
-            <h4><i class="ico-time"></i> Durée</h4>
-            <p> {{ project.period }} mois</p>
+            <h4><i class="ico-time"></i> {{ project.period }} mois</h4>
+
             {% endif %}
 
             {% if project.cadre %}
-            <h4><i class="ico-group"></i> Réalisé dans le cadre</h4>
-            <p> {{ project.cadre }}</p>
+            <h4><i class="ico-group"></i> {{ project.cadre }} </h4>
             {% endif %}
 
             {% if project.state %}
-            <h4><i class="ico-tasks"></i>  Etat</h4>
-            <p> {{ project.get_state_display }}</p>
+            <h4><i class="ico-tasks"></i>  {{ project.get_state_display }} </h4>
             {% endif %}
 
             {% if skills %}
