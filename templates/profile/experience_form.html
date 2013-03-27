@@ -10,7 +10,18 @@
                             <input type="hidden" value="{{experience.pk}}" name="id">
                         {% endif %}
                         <div class="form-content">
-                            {{ formExperience.as_p }}
+                            <label for="id_company">Entreprise</label>
+                            {{ formExperience.company }}
+                            <label for="id_title">Intitulé du poste</label>
+                            {{ formExperience.title }}
+                            <label for="id_city">Localisation du poste</label>
+                            {{ formExperience.city }}
+                            <label for="id_start">Date de début</label>
+                            {{ formExperience.start }}
+                            <label for="id_end">Date de fin</label>
+                            {{ formExperience.end }}
+                            <label for="id_details">Détails</label>
+                            {{ formExperience.details }}
                         </div>
-                        <input type="submit" value="Submit" class="PTbutton alignRight">
+                        <input type="submit" value="Envoyer" class="PTbutton alignRight">
                     </form>

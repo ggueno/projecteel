@@ -236,6 +236,12 @@ img.project-content {
   font-weight: 700;
   color: #cdcdcd;
 }
+#add-new-project {
+  height: 295px;
+}
+#add-new-project h3 {
+  border-top: 0;
+}
 /* Formation */
 #infos_profile .tab-experience {
   background-color: white;

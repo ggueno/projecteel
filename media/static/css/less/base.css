@@ -438,6 +438,7 @@ a.alignCenter {
   text-align: center;
   background: #fff;
   padding: 0;
+  height: 295px;
   border-bottom: 2px solid transparent;
   -webkit-transition: border-color 0.25s ease;
   -moz-transition: border-color 0.25s ease;
@@ -823,12 +824,10 @@ a.edit-item:hover {
 /*
    L A N D I N G  P A G E
    ========================================================================== */
-.strap-0 {
-  background: url(../img/landscape_pattern2.png) repeat-x 0 160px #e5e5e5;
-}
 .strap-1 {
   background: url(../img/landscape.png) repeat-x bottom;
   height: 450px;
+  position: relative;
 }
 .strap-1 #logo_l {
   position: absolute;
@@ -836,16 +835,33 @@ a.edit-item:hover {
   margin-left: 30px;
 }
 .strap-1 .catcher {
-  font-size: 1.15em;
+  font-size: 1.25em;
   width: 40%;
+  font-style: italic;
+  color: #919191;
   margin-top: 120px;
+  margin-bottom: 10px;
   text-align: center;
   position: absolute;
   padding: 0 12%;
 }
+.strap-1 .catcher .PTbutton {
+  font-size: 1.1em;
+  height: 30px;
+  line-height: 30px;
+  text-transform: none;
+  font-style: normal;
+  width: 170px;
+  display: block;
+  margin: 10px auto;
+  background-color: #f55253;
+  border-bottom-color: #e84243;
+}
+.strap-1 .catcher .PTbutton:hover {
+  background-color: #f22223;
+}
 .strap-1 .box-connexion {
   background-color: #FFF;
-  height: 310px;
   position: absolute;
   top: 63px;
   right: 10%;
@@ -871,6 +887,84 @@ a.edit-item:hover {
 .strap-1 .box-connexion .form-connexion input[type=checkbox] {
   margin-right: 5px;
 }
+.strap-1 #planet1 {
+  position: absolute;
+  top: 47%;
+  left: 7%;
+  margin-top: 0px;
+  -webkit-animation: miniWave 3s ease-in-out infinite;
+}
+.strap-1 #mini_fusee {
+  position: absolute;
+  top: 56%;
+  left: 49%;
+  -webkit-animation: miniWave2 2s ease-in-out infinite;
+}
+.strap-1 #planet2 {
+  position: absolute;
+  top: 46%;
+  left: 60%;
+}
+.strap-1 #fusee_2 {
+  position: absolute;
+  top: 8%;
+  left: 84%;
+  z-index: 20;
+  -webkit-animation: wave 5s ease-in-out infinite;
+}
+@-webkit-keyframes "wave" {
+  0% {
+    top: 6%;
+  }
+  25% {
+    top: 8.5%;
+  }
+  50% {
+    top: 6%;
+  }
+  75% {
+    top: 10%%;
+  }
+  100% {
+    top: 6%;
+  }
+}
+@-webkit-keyframes "miniWave" {
+  0% {
+    margin-top: -6px;
+  }
+  50% {
+    margin-top: 0px;
+  }
+  100% {
+    margin-top: -6px;
+  }
+}
+@-webkit-keyframes "miniWave2" {
+  0% {
+    margin-top: -5px;
+  }
+  50% {
+    margin-top: 0px;
+  }
+  100% {
+    margin-top: -5px;
+  }
+}
+@-webkit-keyframes "miniWave3" {
+  0% {
+    margin-top: -10px;
+  }
+  30% {
+    margin-top: 0px;
+  }
+  70% {
+    margin-top: 0px;
+  }
+  100% {
+    margin-top: -10px;
+  }
+}
 .strap-2 {
   height: 430px;
   background-color: #FFF;
@@ -881,7 +975,7 @@ a.edit-item:hover {
 }
 .strap-2 li {
   float: left;
-  text-align: center;
+  text-align: left;
   width: 50%;
   position: relative;
 }
@@ -898,6 +992,41 @@ a.edit-item:hover {
   margin: 29px auto 0 -88px;
   position: absolute;
   left: 50%;
+}
+.strap-2 li ul {
+  margin-top: 50px;
+}
+.strap-2 li ul li {
+  font-size: 1.1em;
+  display: block;
+  float: none;
+  position: relative;
+  text-align: left;
+  padding-left: 65px;
+  margin: 30px 0;
+  width: auto;
+}
+.strap-2 li ul li i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #0099e6;
+  width: 45px;
+  height: 45px;
+  -webkit-border-radius: 22px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 22px;
+  -moz-background-clip: padding;
+  border-radius: 22px;
+  background-clip: padding-box;
+  color: #FFF;
+  line-height: 46px;
+  text-align: center;
+  font-size: 1.8em;
+}
+.strap-2 li ul li span {
+  display: block;
+  font-weight: 600;
 }
 .strap-2 .heading-lp {
   padding: 0;
@@ -1338,6 +1467,9 @@ header.menu #menu a.notifications.unread {
 #id_avatar {
   display: none;
 }
+#infos_profile {
+  min-height: 600px;
+}
 #infos_profile h1 {
   text-transform: uppercase;
   margin: 15px 0;
@@ -1364,6 +1496,7 @@ header.menu #menu a.notifications.unread {
   padding: 10px 20px;
   margin: 10px 0;
   position: relative;
+  overflow: auto;
 }
 #infos_profile .experience:hover a.delete-item,
 #infos_profile .education:hover a.delete-item,
@@ -1392,7 +1525,7 @@ header.menu #menu a.notifications.unread {
 #infos_profile #add-experience,
 #infos_profile #add-education {
   font-weight: 600;
-  margin: 15px 0;
+  margin: 15px;
   display: block;
 }
 #infos_profile #add-experience:hover,
@@ -1402,6 +1535,11 @@ header.menu #menu a.notifications.unread {
 #add-education-form,
 #add-experience-form {
   display: none;
+  padding: 20px;
+}
+.edit-form {
+  display: none;
+  padding: 20px;
 }
 .errorlist {
   color: #F00;
@@ -2061,6 +2199,9 @@ li.as-result-item img {
 .stats li.push a {
   height: 25px;
   line-height: 25px;
+  top: 0;
+  margin-top: 0;
+  display: block;
 }
 .offers .row {
   margin-top: 5px;
