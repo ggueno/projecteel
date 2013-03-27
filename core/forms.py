@@ -29,6 +29,7 @@ class ProjectForm(forms.ModelForm):
         widgets = {
             'skills': TagAutoSuggest(),
             'state': forms.RadioSelect(),
+            'categories' : forms.TextInput(),
         }
 
     def clean_as_values_participant(self):

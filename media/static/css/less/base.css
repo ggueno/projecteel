@@ -1613,6 +1613,8 @@ header.menu #menu a.notifications.unread {
   border: 1px solid #CCC;
   float: right;
   color: #0099e6;
+  margin-top: 5px;
+  margin-bottom: 50px;
 }
 .nextStep:hover {
   color: #0077b3;
@@ -1659,6 +1661,9 @@ ul.tabs li a .step-label {
   font-size: 12pt;
   font-style: normal;
   border-radius: 10em;
+}
+.add_project .sleekbox {
+  background: url(../img/DragAndDrop.png) no-repeat 64% 94% #ffffff;
 }
 .add_project .content {
   padding: 40px 60px;
@@ -2012,6 +2017,19 @@ li.as-result-item img {
 #dashboard h2 {
   font-weight: 400;
   margin: 20px 0;
+}
+#dashboard .sidebar {
+  background: #fcfcfc;
+  margin-top: 5px;
+}
+#dashboard .sidebar .PTbutton {
+  margin-top: 0;
+}
+#dashboard .sidebar h2 {
+  padding: 0px 5px;
+}
+#dashboard .sidebar .notifications {
+  padding: 0px 5px;
 }
 .stats {
   overflow: auto;

@@ -30,7 +30,7 @@
                             <li><a href="#etape2"><i class="step-label">2</i>Etape 2</a></li>
                         </ul>
 
-                        <form zqdtion="" class="PTform" method="post" id="add_project" action="" enctype="multipart/form-data">
+                        <form action="/project/add/" class="PTform" method="post" id="add_project" action="" enctype="multipart/form-data">
                             {% csrf_token %}
 
                             <!-- TAB -->
@@ -79,7 +79,7 @@
 
                                 <div class="footer">
                                     <div class="twocol">Etape 1 sur 2</div>
-                                    <button class="PTbutton next">Etape suivante</button>
+                                    <button class="nextStep next">Etape suivante</button>
                                 </div>
 
 
@@ -140,8 +140,11 @@
 
 
 
-
-
+                        <br><br><br>
+                        <div class="PTform">
+                            <label for="">Images du projet</label>
+                            <p class="annotation">Ajouter vos fichiers images ci dessous, en les selectionnant ou en les glissant depuis votre ordinateur. Une fois dans la liste, vous n'avez plus qu'à cliquer sur Envoyer.</p>
+                        </div>
                         <div id="multiupload">
                             <form id="fileupload" method="post" action="/project/add/image/new/" enctype="multipart/form-data">
                             {% csrf_token %}
@@ -295,6 +298,26 @@
                     }
                 });
 
+                var existingCategories = "{% for tag in data.categories %}{{tag.tag.name}},{%endfor%}";
+
+                $('#id_categories').autoSuggest('/taggit_autosuggest/list/categories', {
+                    asHtmlID: "categories",
+                    startText: "Entrez une catégorie",
+                    emptyText: "Aucun résultat",
+                    preFill: existingCategories,
+                    minChars: 3, 
+                    neverSubmit: true,
+                    retrieveLimit : 20,   
+                    // searchObjProps: "name",
+                    // selectedItemProp: "name",
+                    // selectedValuesProp: "value",
+                    neverTab: true,
+                    retrieveComplete: function(data){ return data; },
+                    resultClick: function(data){  },
+                    selectionAdded : function(data){ 
+                        return false;
+                    }
+                });
                 // container.append(list).hide();
                 // p.after(container);
 

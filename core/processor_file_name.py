@@ -5,7 +5,6 @@ def user(request):
     try:
         if hasattr(request, 'user'):
 
-            print request.user
             if request.user.id:
                 user = User.objects.get(pk=request.user.id)
     		
@@ -18,10 +17,10 @@ def user(request):
                       'unread_notifications': notifications.unread().count
                        }
             return {}
-        print "hasnoattr user"
+        
         return {}
     except Profile.DoesNotExist:
-        print "hasnoattr user"
+        
         return {}
         
     return {}

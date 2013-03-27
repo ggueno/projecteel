@@ -100,7 +100,9 @@
             <div class="applicant-mini">
                 <a href="/profile/{{ project.owner.slug }}">
                     {% thumbnail project.owner.avatar "80x80" crop="left" as im %}
-                    <img src="{{im.url}}" alt="{{project.owner.pseudo}}" id="profile_pic"/>
+                        <img src="{{im.url}}" alt="{{project.owner.pseudo}}" id="profile_pic"/>
+                    {% empty %}
+                        <img src="{{ STATIC_URL }}img/empty_profile.png" width="80" height="80" id="profile_pic"/>
                     {% endthumbnail %}
 
                     <h3>{{project.owner.user.first_name}} {{project.owner.user.last_name}}</h3>
@@ -118,9 +120,8 @@
             </div>
 
 
-
-             <div class="participants">
-                {% if project.participant %}
+            {% if project.participant.count > 0 %}
+                <div class="participants">
                     <span>avec</span>
                     {% for profile in project.participant.all %}
                         <a href="/profile/{{ profile.slug }}" data-tooltip="{{ profile.user.first_name}} {{profile.user.last_name}}" class="tooltip">
@@ -131,25 +132,25 @@
                             {% endthumbnail %}
                         </a>
                     {% endfor %}
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
 
 
-            {% if project.owner.search_location %}
-            <h4 class="location"><i class="icon pin"></i> {{ project.owner.search_location }}</h4>
+            {% if project.location %}
+            <h4 class="location"><i class="icon pin"></i> {{ project.location }}</h4>
             {% endif %}
 
             {% if project.period %}
-            <h4><i class="ico-time"></i> {{ project.period }} mois</h4>
+            <h4><i class="ico-time"></i>&nbsp;&nbsp; {{ project.period }} mois</h4>
 
             {% endif %}
 
             {% if project.cadre %}
-            <h4><i class="ico-group"></i> {{ project.cadre }} </h4>
+            <h4><i class="ico-group"></i>&nbsp; {{ project.get_cadre_display }} </h4>
             {% endif %}
 
             {% if project.state %}
-            <h4><i class="ico-tasks"></i>  {{ project.get_state_display }} </h4>
+            <h4><i class="ico-tasks"></i> &nbsp;{{ project.get_state_display }} </h4>
             {% endif %}
 
             {% if skills %}
@@ -164,6 +165,7 @@
 
             {% if tags %}
             <ul class="tags inline">
+                <i class="ico-tag"></i>
             {% for tag in tags %}
                 <li><a href="/projects/search/?tags[]={{tag.slug}}"> {{ tag.name }} </a></li>
             {% endfor %}
