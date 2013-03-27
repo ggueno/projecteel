@@ -49,7 +49,13 @@
                         {% endif %}
 
                         <ul class="fourcol last profile_stats">
-                            <li><span>{{stats.views.hits}}</span>vue{{stats.views.hits|pluralize}}</li>
+                            <li><span>
+                                {% if stats.views.hits == 0 %}
+                                        0
+                                    {%else%}
+                                        {{stats.views.hits}}
+                                    {%endif%}
+                                </span>vue{{stats.views.hits|pluralize}}</li>
                             <li>
                                 <span>
                                     {% if stats.pushs == 0 %}
@@ -125,14 +131,14 @@
                         {% endif %}
 
                     </ul>
-                </div>
-                {% if profile.avatar %}         
+                </div>       
+                <div class="profile_pic">
                     {% thumbnail profile.avatar "190x190" crop="center" as im %}
-                        <img alt="{{v1}}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="profile_pic">
+                        <img alt="{{v1}}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"/>
                     {% empty %}
-                        <img src="{{ STATIC_URL }}img/empty_profile.png" width="190" height="190" class="profile_pic"/>
+                        <img src="{{ STATIC_URL }}img/empty_profile.png" width="190" height="190"/>
                     {% endthumbnail %}
-               {% endif %}
+                </div>
             </div>
 
             <div class="row profile_menubar">
@@ -152,15 +158,20 @@
 
 
         <!-- TODO : Template Project -->
-        {% if projects %}
         <section class="row projects" id="projects">
-            {% for project in projects %}
-                {% project_mini project forloop.counter|divisibleby:"4" "threecol" %}
-            {% endfor %}
-
-
+            {% if projects %}
+                {% for project in projects %}
+                    {% project_mini project forloop.counter|divisibleby:"4" "threecol" %}
+                {% endfor %}
+            {% endif %}
+            <div class="thumb threecol" id="add-new-project">
+                <a href="/project/add/"><img src="{{ STATIC_URL }}img/default_project.jpg" alt=""></a>
+                <h3>
+                    <a href="/project/add/">Ajouter un projet</a>
+                </h3>
+            </div>
         </section>
-        {% endif %}
+        
 
         <section class="row" id="infos_profile">
         {% if profile.education %}
@@ -401,5 +412,48 @@
         // }
         // );
     });
+    {% if not profile.first_visit %}
+    
+    $(window).load(function() {
+        $('#PTjoyride').joyride({
+          autoStart : true,
+          // postStepCallback : function (index, tip) {
+              // if (index == 2) {
+              //   $(this).joyride('set_li', false, 1);
+              // }
+            // },
+            'tipLocation':'bottom',
+            'modal':true,
+            'expose': false,
+            'scroll'               : true,      // whether to scroll to tips
+            'scrollSpeed'          : 300,       // Page scrolling speed in milliseconds
+            'postRideCallback'  : function(){
+                $.post('/profile/has_visited/');
+            },
+        });
+    });
+    {% endif %}
 </script>
+    <ol id="PTjoyride">
+        <li>
+            <h4>Bienvenue</h4>
+            <p>Voici votre page de profil. Découvrez en quelques étapes les éléments clés de la page.</p>
+        </li>
+        <li data-class="settings">
+            <h4>Paramètres</h4>
+            <p>Cliquez-ici pour modifier les informations de votre profil, ajouter vos réseaux sociaux ou changer votre avatar.</p>
+        </li>
+        <li data-class="profile_stats">
+            <h4>Vos stats</h4>
+            <p>Retrouvez les informations clés de votre profil. Nombre total de vues de vos projets, vos pushs et vos relations.</p>
+        </li>
+        <li data-class="notifications">
+            <h4>Notifications</h4>
+            <p>Retrouvez ici les dernières activités de votre réseau, suceptibles de vous intéresser.</p>
+        </li>
+        <li data-id="add-new-project" data-button="Terminer" data-options="tipLocation:top; ">
+            <h4>Lancez-vous !</h4>
+            <p>Ajoutez un nouveau projet à votre profil</p>
+        </li>
+    </ol>
 {% endblock %}
