@@ -716,10 +716,9 @@ def create_applicant(request, action="new"):
                     social.save()
                     app.social_network.add(social)
                 app.save()
-            print app
             # return render(request, 'profile/make_profile.html')
             # return get_applicant(app.slug)
-            return HttpResponseRedirect(reverse(get_applicant, args=(app.slug,)))
+            return HttpResponseRedirect('/profile/')
         else:
             form_user = UserForm(request.POST, instance=user)
             form_social = {}

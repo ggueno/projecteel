@@ -3,9 +3,9 @@
 {% load thumbnail %}
 {% load projects %}
     {% load endless %}
-    {% lazy_paginate 9 projects %}
+    {% lazy_paginate 8 projects %}
     {% for project in projects %}
-        {% project_mini project forloop.counter|divisibleby:"4" "threecol" %}
+        {% project_mini project forloop.counter|divisibleby:"4" request.user_id "threecol" %}
     {% endfor %}
     {% show_more "Plus de projets" %}
 {% endif %}

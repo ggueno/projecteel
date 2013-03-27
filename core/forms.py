@@ -146,7 +146,7 @@ class CommentForm(forms.ModelForm):
 class ApplicantForm(forms.ModelForm):
     class Meta:
         model = Applicant
-        exclude = ('user', 'name', 'educations', 'experiences', 'bookmarks', 'cover_image', 'cover_image_top', 'avatar', 'available')
+        exclude = ('user', 'educations', 'experiences', 'bookmarks', 'cover_image', 'cover_image_top', 'avatar', 'available', 'first_visit')
         widgets = {
             # 'social_network': forms.TextInput(),
         }
