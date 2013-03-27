@@ -37,14 +37,14 @@
                             <section id="etape1">
                                 <!-- Heading -->
                                 <div>
-                                    <label for="id_title">Titre du projet</label>
+                                    <label for="id_title">Titre du projet (*)</label>
                                     <span class="annotation">Vos projets ont plus d'intérêt lorsqu'​ils ont des titres originaux.​</span>
                                     {{ form.title }}
                                     {{ form.title.errors }}
                                 </div>
 
                                 <div class="file-wrap">
-                                    <label>Vignette</label>
+                                    <label>Vignette (*)</label>
                                     <span class="annotation">Choississez une jolie vignette qui représentera au mieux votre beau projet !​</span>
                                    {{ form.thumbnail }}
                                     <input type="text" class="file-holder" autocomplete="off" disabled>
@@ -52,14 +52,14 @@
                                     <p class="annotation">(< 1Mo, > 300x250px)</p>
                                 </div>
                                 <div>
-                                    <label for="id_categories">Catégorie</label>
+                                    <label for="id_categories">Catégorie (*)</label>
                                     <span class="annotation">Ajoutez les catégories auxquelles se rapporte votre projet.</span>
                                     {{ form.categories }}
                                     {{ form.categories.errors }}
                                 </div>
                                 <div>
 
-                                    <label for="id_content">Contenu</label>
+                                    <label for="id_content">Contenu (*)</label>
                                     <span class="annotation"> Décrivez votre projet en quelques lignes. Abordez les éléments qui vous semblent pertinents. Par exemple : les raisons, les circonstances...</span>
 
                                     {{ form.content }}
@@ -216,6 +216,7 @@
         $(".next").on('click',function(e){
             e.preventDefault();
             $("ul.tabs a[href=#etape2]").click();
+            $("body").animate({scrollTop: $('body').offset().top}, 500,'easeInOutCubic');
         });
 
 //         window.onbeforeunload = function (e) {
@@ -323,6 +324,8 @@
 
 
             });
+
+    
         })(django.jQuery);
 
 

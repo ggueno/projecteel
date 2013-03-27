@@ -31,7 +31,7 @@
                         {% csrf_token %}
                             <div>
                                 <label for="">Intitulé de l'offre *</label>
-                                <p class="description">Eviter les termes "recherche", "recrute", la localisation ou le type de contrat qui seront renseignés ci-dessous.</p>
+                                <p class="annotation">Eviter les termes "recherche", "recrute", la localisation ou le type de contrat qui seront renseignés ci-dessous.</p>
                                 {{ form.title }}
                                 {{ form.title.errors }}
                             </div>
@@ -42,13 +42,13 @@
                             </div>
                             <div>
                                 <label for="">Début de l'offre</label>
-                                <p  class="description">Poste à pourvoir à une date précise ?</p>
+                                <p  class="annotation">Poste à pourvoir à une date précise ?</p>
                                 {{form.start}}
                                 {{ form.start.errors }}
                             </div>
                             <div>
                                 <label for="">Durée de la mission</label>
-                                <p class="description">Saisissez un nombre entier.</p>
+                                <p class="annotation">Saisissez un nombre entier.</p>
                                 {{form.duration}}
                                 <p class="comments">Exemple : 6 mois, ..</p>
                                 {{ form.duration.errors }}
@@ -59,20 +59,20 @@
                             </div>
                             <div>
                                 <label for="">Salaire</label>
-                                <p class="description">Saisissez un nombre entier (par mois et en euros).</p>
+                                <p class="annotation">Saisissez un nombre entier (par mois et en euros).</p>
                                 {{form.salary}}
                                 {{ form.salary.errors }}
                             </div>
                             <div>
                                 <label for="">Description du poste *</label>
-                                <p class="description">Fournissez un maximum d'informations comme le type de la mission, les compétences requises, ... 
+                                <p class="annotation">Fournissez un maximum d'informations comme le type de la mission, les compétences requises, ... 
                                     (Pas de HTML)</p>
                                 {{form.content}}
                                 {{ form.content.errors }}
                             </div>
                             <div>
                                 <label for="">Tags</label>
-                                <p class="description">Ajoutez des 5 tags maximums, pertinents pour rendre votre offre plus facile à trouver. Veuillez séparer vos tags par des virgules.</p>
+                                <p class="annotation">Ajoutez des 5 tags maximums, pertinents pour rendre votre offre plus facile à trouver. Veuillez séparer vos tags par des virgules.</p>
                                 {{ form.tags }}
                                 <p class="comments">Exemple : </p>
                                 <ul class="tags">
@@ -86,10 +86,6 @@
                                 <label for="">Référence interne</label>{{ form.reference }}
                                 {{ form.refenence.errors }}
                                 <p class="comments">Exemple : PHO7457</p>
-                            </div>
-                            <div>
-                                <label for="">Catégorie</label>{{ form.category }}
-                                {{ form.category.errors }}
                             </div>
                             {% if model == 'edit' %}
                                 <input class="PTbutton" type="submit" value="Publier mon offre">

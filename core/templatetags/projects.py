@@ -4,8 +4,8 @@ register = template.Library()
 
 
 @register.inclusion_tag('project/project_mini.html')
-def project_mini(project, last, nb_col='fourcol'):
-    return {'project': project, 'last': last, 'nb_col': nb_col}
+def project_mini(project, last, user_id, nb_col='fourcol'):
+    return {'project': project, 'last': last, 'nb_col': nb_col, 'user_id': user_id}
 
 
 @register.inclusion_tag('offer/offer_mini.html')

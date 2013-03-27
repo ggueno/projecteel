@@ -93,7 +93,7 @@
                 {% block content %}
                 {% if projects %}
                     {% for project in projects|slice:":4" %}
-                        {% project_mini project forloop.counter|divisibleby:"4" "threecol" %}
+                        {% project_mini project forloop.counter|divisibleby:"4" request.user.id "threecol" %}
                     {% endfor %}
                 {% endif %}
                 {% endblock %}                

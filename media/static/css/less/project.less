@@ -201,7 +201,7 @@ img.project-content{
     background-color: white;
     border-top: #cdcdcd 1px solid;
     border-bottom: #cdcdcd 1px solid;
-    margin: 2em 0;
+    margin: 2em 0 0 0;
 
     .row{
         overflow: visible;
@@ -249,6 +249,38 @@ img.project-content{
 
 }
 
+
+/* Sticky Menu */
+#menu-filter{
+    z-index: 3;
+}
+
+#menu-filter-sup{
+    z-index: 2;
+}
+
+.container-filter.sticky{
+    margin: 0;
+    padding: 0;
+}
+
+
+.container-filter-sup{
+    display: none;
+    background-color: #ccc;
+    width: 100%;
+
+    .filter-sup{
+        margin: 0 auto;
+        padding: 20px;
+    }
+}
+
+#project-body .btn-edit-project{
+    width: 130px;
+    margin: 10px 20px auto auto;
+}
+
 #project-body .project-controls{
     text-align: right;
     overflow: auto;
@@ -274,6 +306,13 @@ img.project-content{
     height: 295px;
     h3{
         border-top: 0;
+    }
+}
+
+.filter-details-button{
+    button{
+        float: right;
+        background-color: gray;
     }
 }
 

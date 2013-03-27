@@ -4280,9 +4280,12 @@ ul.tabs li a .step-label {
   background: #047dba;
   color: #FFF;
 }
+<<<<<<< HEAD
+=======
 .add_project .PTbutton {
   padding: 5px 10px 5px 13px;
 }
+>>>>>>> 7695e1251e9120e6a769b17dbfa95ca04bba3b33
 .add_project.edit .PTform .file-wrap input[type=file] {
   bottom: 28px;
   top: auto;
@@ -4352,34 +4355,33 @@ li.as-result-item img {
   display: block;
   float: none;
 }
-#list_offers .PTform {
+.list_offers .PTform {
   overflow: auto;
 }
-#list_offers .thumb-offer {
+.list_offers .thumb-offer {
   margin-bottom: 10px;
   height: 118px;
-  width: 100%;
 }
-#list_offers .thumb-offer p {
+.list_offers .thumb-offer p {
   padding: 0px;
 }
-#list_offers .thumb-offer a {
+.list_offers .thumb-offer a {
   -webkit-transition: color .15s ease;
   -moz-transition: color .15s ease;
   -o-transition: color .15s ease;
   -ms-transition: color .15s ease;
   transition: color .15s ease;
 }
-#list_offers .thumb-offer a:hover {
+.list_offers .thumb-offer a:hover {
   color: #0099e6;
 }
-#list_offers .thumb-offer a:hover {
+.list_offers .thumb-offer a:hover {
   color: #0099e6;
 }
-#list_offers .thumb-offer a:hover {
+.list_offers .thumb-offer a:hover {
   color: #0099e6;
 }
-#list_offers .thumb-offer .header-offer {
+.list_offers .thumb-offer .header-offer {
   text-align: center;
   width: 95%;
   height: 45px;
@@ -4388,34 +4390,34 @@ li.as-result-item img {
   border-bottom: 1px solid #d2d2d2;
   position: relative;
 }
-#list_offers .thumb-offer .header-offer .blackTitle {
+.list_offers .thumb-offer .header-offer .blackTitle {
   text-align: left;
   padding: 0px;
   width: 65%;
   position: absolute;
 }
-#list_offers .thumb-offer .header-offer .pic_company {
+.list_offers .thumb-offer .header-offer .pic_company {
   position: absolute;
   right: 0;
   top: -4px;
 }
-#list_offers .thumb-offer .content {
+.list_offers .thumb-offer .content {
   padding-top: 8px;
 }
-#list_offers .thumb-offer .content p {
+.list_offers .thumb-offer .content p {
   padding-bottom: 10px;
 }
-#list_offers .thumb-offer .content span {
+.list_offers .thumb-offer .content span {
   color: #0099e6;
   font-weight: 700;
 }
-#list_offers .thumb-offer .content .left {
+.list_offers .thumb-offer .content .left {
   float: left;
 }
-#list_offers .thumb-offer .content .left .tags-offer {
+.list_offers .thumb-offer .content .left .tags-offer {
   display: inline;
 }
-#list_offers .thumb-offer .content .left .tags-offer li {
+.list_offers .thumb-offer .content .left .tags-offer li {
   background: #c0c0c0;
   padding: 3px 8px;
   display: block;
@@ -4427,11 +4429,11 @@ li.as-result-item img {
   float: none;
   display: inline;
 }
-#list_offers .thumb-offer .content .right {
+.list_offers .thumb-offer .content .right {
   float: right;
   text-align: right;
 }
-#list_offers .thumb-offer .content .right .publish-date {
+.list_offers .thumb-offer .content .right .publish-date {
   font-style: italic;
 }
 .ui-datepicker {
@@ -4446,19 +4448,79 @@ li.as-result-item img {
 /*
    P O S T E D   O F F E R S
    ========================================================================== */
-.posted_offers .suggest_candidates {
+.posted_offers .thumb-offer {
+  background-color: #FFF;
+  height: auto;
+}
+.posted_offers .thumb-offer .content-description {
+  height: 91px;
+  padding: 20px;
+  line-height: 26px;
+}
+.posted_offers .thumb-offer .content-description .right {
+  float: right;
+  text-align: right;
+}
+.posted_offers .thumb-offer .content-description .left {
+  float: left;
+}
+.posted_offers .thumb-offer .candidates {
+  background-color: #f1f1f1;
+  width: 100%;
+}
+.posted_offers .thumb-offer .candidates .content {
+  height: auto;
+}
+.posted_offers .thumb-offer .candidates .content .applicant {
+  width: 50%;
+  float: left;
+  height: auto;
+  padding: 10px 0;
+  position: relative;
+}
+.posted_offers .thumb-offer .candidates .content .applicant .name-applicant {
+  font-weight: 600;
+}
+.posted_offers .thumb-offer .candidates .content .applicant .view-candidature {
+  position: absolute;
+  right: 12%;
+  top: 26%;
+}
+.posted_offers .thumb-offer .candidates .content .content-application {
+  background-color: #FFF;
+  border: 1px solid #E2E2E2;
+  clear: both;
+}
+.posted_offers .thumb-offer .candidates .content .content-application .content .PTbutton {
+  margin-left: 117px;
+}
+.posted_offers .thumb-offer .candidates .content .novacancy {
+  text-align: center;
+  margin-top: 18px;
+}
+.posted_offers .thumb-offer .button-vacancy {
+  width: 196px;
+  background-color: #f55253;
+  border-bottom-color: #e84243;
+  margin: 20px 0 20px 37%;
+}
+.posted_offers .thumb-offer .button-vacancy:hover {
+  background-color: #f22223;
+}
+.posted_offers .thumb-offer .button-novacancy {
+  background-color: #A0A0A0;
+  margin: 2% 37%;
+  text-align: center;
+  width: 206px;
+}
+.posted_offers .thumb-offer i {
+  margin-right: 5px;
+}
+.posted_offers .thumb-offer .suggest_candidates {
   float: right;
 }
-.posted_offers .left {
-  padding: 17px 20px;
-  width: 60%;
-  border-right: 1px solid #d2d2d2;
-}
-.posted_offers .left h3 {
-  padding: 0;
-}
-.posted_offers .right {
-  text-align: left;
+.posted_offers i {
+  opacity: 0.5;
 }
 /*
    D A S H B O A R D
@@ -4477,6 +4539,8 @@ li.as-result-item img {
   font-weight: 400;
   margin: 20px 0;
 }
+<<<<<<< HEAD
+=======
 #dashboard .sidebar {
   background: #fcfcfc;
   margin-top: 5px;
@@ -4490,6 +4554,7 @@ li.as-result-item img {
 #dashboard .sidebar .notifications {
   padding: 0px 5px;
 }
+>>>>>>> 7695e1251e9120e6a769b17dbfa95ca04bba3b33
 .stats {
   overflow: auto;
 }
@@ -4513,6 +4578,8 @@ li.as-result-item img {
 .stats li .icon {
   margin-top: 10px;
 }
+<<<<<<< HEAD
+=======
 .stats li.push {
   background: none;
   width: 90%;
@@ -4521,6 +4588,7 @@ li.as-result-item img {
   height: 25px;
   line-height: 25px;
 }
+>>>>>>> 7695e1251e9120e6a769b17dbfa95ca04bba3b33
 .offers .row {
   margin-top: 5px;
 }
@@ -5044,6 +5112,14 @@ img.project-content {
 .container-filter .search-form {
   margin: 6px 0;
 }
+<<<<<<< HEAD
+#project-body .btn-edit-project {
+  width: 130px;
+  margin: 10px 20px auto auto;
+  height: 20px;
+  display: block;
+  line-height: 20px;
+=======
 #project-body .project-controls {
   text-align: right;
   overflow: auto;
@@ -5058,6 +5134,7 @@ img.project-content {
   line-height: 1.8em;
   padding: 5px 10px;
   clear: both;
+>>>>>>> 7695e1251e9120e6a769b17dbfa95ca04bba3b33
 }
 .dropdown .select {
   font-weight: 700;

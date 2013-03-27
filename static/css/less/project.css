@@ -217,6 +217,14 @@ img.project-content {
 .container-filter .search-form {
   margin: 6px 0;
 }
+<<<<<<< HEAD
+#project-body .btn-edit-project {
+  width: 130px;
+  margin: 10px 20px auto auto;
+  height: 20px;
+  display: block;
+  line-height: 20px;
+=======
 #project-body .project-controls {
   text-align: right;
   overflow: auto;
@@ -231,6 +239,7 @@ img.project-content {
   line-height: 1.8em;
   padding: 5px 10px;
   clear: both;
+>>>>>>> 7695e1251e9120e6a769b17dbfa95ca04bba3b33
 }
 .dropdown .select {
   font-weight: 700;

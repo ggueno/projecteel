@@ -8,7 +8,7 @@
 {% block content %}
 	<section id="dashboard">
 		<section class="row">
-			<h1>Offres</h1>
+			<h1>Bonjour, {{profile.user.first_name}}</h1>
 		</section>
 		<section class="row">
 			<!-- Réseau -->
@@ -56,7 +56,7 @@
 					<h4 class="blacksub">Projets de mes relations <a href="/projects/">Voir plus</a></h4>
 					{% if projects %}
 					    {% for project in projects %}
-					        {% project_mini project forloop.counter|divisibleby:"3" %}
+					        {% project_mini project forloop.counter|divisibleby:"3" request.user.id %}
 					    {% endfor %}
 				    {% else %}
 				    	<p>Vos relations n'ont pas encore publié de projets</p>

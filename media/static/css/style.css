@@ -3631,7 +3631,7 @@ a.edit-item:hover {
    ========================================================================== */
 header.menu {
   background: #252525;
-  height: 51px;
+  height: 59px;
   width: 100%;
   overflow: auto;
   color: #FFFFFF;
@@ -3645,6 +3645,7 @@ header.menu #logo {
   height: 51px;
   display: block;
   float: left;
+  padding: 4px 0;
 }
 header.menu #menu {
   list-style-type: none;
@@ -3654,11 +3655,12 @@ header.menu #menu {
 header.menu #menu a {
   display: block;
   float: left;
-  padding: 15px 50px;
+  padding: 19px 50px;
   margin: 0;
+  font-weight: 600;
   text-transform: uppercase;
   text-align: center;
-  font-size: 1.1em;
+  font-size: 1.0em;
 }
 header.menu #menu a.active,
 header.menu #menu a:hover {
@@ -3674,7 +3676,7 @@ header.menu #menu a.profile {
   font-size: .9em;
   text-align: right;
   padding-right: 15px;
-  padding-top: 13px;
+  padding-top: 17px;
   height: 19px;
   padding-left: 30px;
   width: 120px;
@@ -4620,34 +4622,33 @@ li.as-result-item img {
   display: block;
   float: none;
 }
-#list_offers .PTform {
+.list_offers .PTform {
   overflow: auto;
 }
-#list_offers .thumb-offer {
+.list_offers .thumb-offer {
   margin-bottom: 10px;
   height: 118px;
-  width: 100%;
 }
-#list_offers .thumb-offer p {
+.list_offers .thumb-offer p {
   padding: 0px;
 }
-#list_offers .thumb-offer a {
+.list_offers .thumb-offer a {
   -webkit-transition: color .15s ease;
   -moz-transition: color .15s ease;
   -o-transition: color .15s ease;
   -ms-transition: color .15s ease;
   transition: color .15s ease;
 }
-#list_offers .thumb-offer a:hover {
+.list_offers .thumb-offer a:hover {
   color: #0099e6;
 }
-#list_offers .thumb-offer a:hover {
+.list_offers .thumb-offer a:hover {
   color: #0099e6;
 }
-#list_offers .thumb-offer a:hover {
+.list_offers .thumb-offer a:hover {
   color: #0099e6;
 }
-#list_offers .thumb-offer .header-offer {
+.list_offers .thumb-offer .header-offer {
   text-align: center;
   width: 95%;
   height: 45px;
@@ -4656,34 +4657,34 @@ li.as-result-item img {
   border-bottom: 1px solid #d2d2d2;
   position: relative;
 }
-#list_offers .thumb-offer .header-offer .blackTitle {
+.list_offers .thumb-offer .header-offer .blackTitle {
   text-align: left;
   padding: 0px;
   width: 65%;
   position: absolute;
 }
-#list_offers .thumb-offer .header-offer .pic_company {
+.list_offers .thumb-offer .header-offer .pic_company {
   position: absolute;
   right: 0;
   top: -4px;
 }
-#list_offers .thumb-offer .content {
+.list_offers .thumb-offer .content {
   padding-top: 8px;
 }
-#list_offers .thumb-offer .content p {
+.list_offers .thumb-offer .content p {
   padding-bottom: 10px;
 }
-#list_offers .thumb-offer .content span {
+.list_offers .thumb-offer .content span {
   color: #0099e6;
   font-weight: 700;
 }
-#list_offers .thumb-offer .content .left {
+.list_offers .thumb-offer .content .left {
   float: left;
 }
-#list_offers .thumb-offer .content .left .tags-offer {
+.list_offers .thumb-offer .content .left .tags-offer {
   display: inline;
 }
-#list_offers .thumb-offer .content .left .tags-offer li {
+.list_offers .thumb-offer .content .left .tags-offer li {
   background: #c0c0c0;
   padding: 3px 8px;
   display: block;
@@ -4695,11 +4696,11 @@ li.as-result-item img {
   float: none;
   display: inline;
 }
-#list_offers .thumb-offer .content .right {
+.list_offers .thumb-offer .content .right {
   float: right;
   text-align: right;
 }
-#list_offers .thumb-offer .content .right .publish-date {
+.list_offers .thumb-offer .content .right .publish-date {
   font-style: italic;
 }
 .ui-datepicker {
@@ -4714,19 +4715,79 @@ li.as-result-item img {
 /*
    P O S T E D   O F F E R S
    ========================================================================== */
-.posted_offers .suggest_candidates {
+.posted_offers .thumb-offer {
+  background-color: #FFF;
+  height: auto;
+}
+.posted_offers .thumb-offer .content-description {
+  height: 91px;
+  padding: 20px;
+  line-height: 26px;
+}
+.posted_offers .thumb-offer .content-description .right {
+  float: right;
+  text-align: right;
+}
+.posted_offers .thumb-offer .content-description .left {
+  float: left;
+}
+.posted_offers .thumb-offer .candidates {
+  background-color: #f1f1f1;
+  width: 100%;
+}
+.posted_offers .thumb-offer .candidates .content {
+  height: auto;
+}
+.posted_offers .thumb-offer .candidates .content .applicant {
+  width: 50%;
+  float: left;
+  height: auto;
+  padding: 10px 0;
+  position: relative;
+}
+.posted_offers .thumb-offer .candidates .content .applicant .name-applicant {
+  font-weight: 600;
+}
+.posted_offers .thumb-offer .candidates .content .applicant .view-candidature {
+  position: absolute;
+  right: 12%;
+  top: 26%;
+}
+.posted_offers .thumb-offer .candidates .content .content-application {
+  background-color: #FFF;
+  border: 1px solid #E2E2E2;
+  clear: both;
+}
+.posted_offers .thumb-offer .candidates .content .content-application .content .PTbutton {
+  margin-left: 117px;
+}
+.posted_offers .thumb-offer .candidates .content .novacancy {
+  text-align: center;
+  margin-top: 18px;
+}
+.posted_offers .thumb-offer .button-vacancy {
+  width: 196px;
+  background-color: #f55253;
+  border-bottom-color: #e84243;
+  margin: 20px 0 20px 37%;
+}
+.posted_offers .thumb-offer .button-vacancy:hover {
+  background-color: #f22223;
+}
+.posted_offers .thumb-offer .button-novacancy {
+  background-color: #A0A0A0;
+  margin: 2% 37%;
+  text-align: center;
+  width: 206px;
+}
+.posted_offers .thumb-offer i {
+  margin-right: 5px;
+}
+.posted_offers .thumb-offer .suggest_candidates {
   float: right;
 }
-.posted_offers .left {
-  padding: 17px 20px;
-  width: 60%;
-  border-right: 1px solid #d2d2d2;
-}
-.posted_offers .left h3 {
-  padding: 0;
-}
-.posted_offers .right {
-  text-align: left;
+.posted_offers i {
+  opacity: 0.5;
 }
 /*
    D A S H B O A R D
@@ -5090,6 +5151,32 @@ li.as-result-item img {
     page-break-after: avoid;
   }
 }
+/*  Form : Register */
+.annotation-ok {
+  color: green;
+}
+.annotation-error {
+  color: #f55253;
+}
+.PTform input[type=text].input-ok,
+.PTform input[type=password].input-ok {
+  border: 1px solid green;
+}
+.PTform input[type=text].input-error,
+.PTform input[type=password].input-error {
+  border: 1px solid #f55253;
+}
+/* Sticky Menu */
+#menu-filter {
+  z-index: 99;
+}
+.container-filter.sticky {
+  margin: 0;
+  padding: 0;
+}
+.container-filter {
+  margin-bottom: 0;
+}
 #project h4.subline {
   font-size: 14px;
   color: #787878;
@@ -5281,7 +5368,7 @@ img.project-content {
   background-color: white;
   border-top: #cdcdcd 1px solid;
   border-bottom: #cdcdcd 1px solid;
-  margin: 2em 0;
+  margin: 2em 0 0 0;
 }
 .container-filter .row {
   overflow: visible;
@@ -5315,6 +5402,30 @@ img.project-content {
 .container-filter .search-form {
   margin: 6px 0;
 }
+/* Sticky Menu */
+#menu-filter {
+  z-index: 3;
+}
+#menu-filter-sup {
+  z-index: 2;
+}
+.container-filter.sticky {
+  margin: 0;
+  padding: 0;
+}
+.container-filter-sup {
+  display: none;
+  background-color: #ccc;
+  width: 100%;
+}
+.container-filter-sup .filter-sup {
+  margin: 0 auto;
+  padding: 20px;
+}
+#project-body .btn-edit-project {
+  width: 130px;
+  margin: 10px 20px auto auto;
+}
 #project-body .project-controls {
   text-align: right;
   overflow: auto;
@@ -5339,6 +5450,10 @@ img.project-content {
 }
 #add-new-project h3 {
   border-top: 0;
+}
+.filter-details-button button {
+  float: right;
+  background-color: gray;
 }
 /* Formation */
 #infos_profile .tab-experience {

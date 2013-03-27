@@ -2,6 +2,7 @@
 @import "mixins.less";
 
 @PTblue : #0099e6;
+@red: #f55253;
 
 /*
  * HTML5 Boilerplate
@@ -1077,7 +1078,7 @@ a.edit-item{
 
 header.menu{
     background:#252525;
-    height:51px;
+    height: 59px;
     width: 100%;
     overflow:auto;
     color:#FFFFFF;
@@ -1092,6 +1093,7 @@ header.menu{
         height:51px;
         display: block;
         float: left;
+        padding: 4px 0;
     }
     #menu{
         list-style-type: none;
@@ -1100,11 +1102,12 @@ header.menu{
         a{
             display: block;
             float: left;
-            padding: 15px 50px;
+            padding: 19px 50px;
             margin: 0;
+            font-weight: 600;
             text-transform: uppercase;
             text-align: center;
-            font-size:1.1em;
+            font-size:1.0em;
             &.active, &:hover{
                 border-bottom: 4px solid @PTblue;
                 height: 17px;
@@ -1118,7 +1121,7 @@ header.menu{
                 font-size: .9em;
                 text-align: right;
                 padding-right: 15px;
-                padding-top: 13px;
+                padding-top: 17px;
                 height: 19px;
                 padding-left: 30px;
                 width: 120px;
@@ -2014,14 +2017,13 @@ li.as-result-item{
     }
 }
 
-#list_offers{
+.list_offers{
     .PTform{
         overflow: auto;
     }
     .thumb-offer{
         margin-bottom: 10px;
         height: 118px;
-        width: 100%;
         p{
             padding:0px;
         }
@@ -2099,21 +2101,83 @@ li.as-result-item{
 
 .posted_offers {
 
-    .suggest_candidates {
-        float:right;
-    }
-
-    .left {
-        padding: 17px 20px;
-        width:60%;
-        border-right:1px solid #d2d2d2;
-        h3 {
-            padding: 0;
+    .thumb-offer {
+        background-color: #FFF;
+        height: auto;
+        .content-description {
+            height: 91px;
+            padding: 20px;
+            line-height: 26px;
+            .right {
+                float:right;
+                text-align: right;
+            }
+            .left {
+                float:left;
+            }
+        }
+        .candidates {
+            background-color: #f1f1f1;
+            width: 100%;
+            .content {
+                height: auto;
+                .applicant {
+                    width: 50%;
+                    float: left;
+                    height: auto;
+                    padding: 10px 0;
+                    position:relative;
+                    .name-applicant {
+                        font-weight:600;
+                    }
+                    .view-candidature {
+                        position:absolute;
+                        right: 12%;
+                        top: 26%;
+                    }
+                }
+                .content-application {
+                    background-color: #FFF;
+                    border: 1px solid #E2E2E2;
+                    clear: both;
+                    .content {
+                        .PTbutton {
+                            margin-left: 117px;
+                        }
+                    }
+                }
+                .novacancy {
+                    text-align: center;
+                    margin-top: 18px;
+                }
+            }
+        }
+        .button-vacancy {
+            width:196px;
+            background-color: #f55253;
+            border-bottom-color: #e84243;
+            &:hover{
+                background-color: darken(#f55253,10%)
+            }
+            margin: 20px 0 20px 37%;
+        }
+        .button-novacancy {
+            background-color: #A0A0A0;
+            margin: 2% 37%;
+            text-align: center;
+            width: 206px;
+        }
+        i {
+            margin-right: 5px;
+        }
+        .suggest_candidates {
+            float:right;
         }
     }
-    .right {
-        text-align: left;
+    i {
+        opacity: 0.5;
     }
+
 }
 
 /*
@@ -2532,5 +2596,34 @@ li.as-result-item{
 
 
 
+/*  Form : Register */
+.annotation-ok{
+    color: green;
+}
+
+.annotation-error{
+    color: @red;
+}
 
 
+.PTform input[type=text].input-ok, .PTform input[type=password].input-ok{
+    border: 1px solid green;
+}
+
+.PTform input[type=text].input-error, .PTform input[type=password].input-error{
+    border: 1px solid @red;
+}
+
+/* Sticky Menu */
+#menu-filter{
+    z-index: 99;
+}
+
+.container-filter.sticky{
+    margin: 0;
+    padding: 0;
+}
+
+.container-filter{
+    margin-bottom: 0;
+}

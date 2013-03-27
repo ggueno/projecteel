@@ -50,7 +50,7 @@
 
                         <ul class="fourcol last profile_stats">
                             <li><span>
-                                {% if stats.views.hits == 0 %}
+                                {% if stats.views.hits == 0 or stats.views.hits == None %}
                                         0
                                     {%else%}
                                         {{stats.views.hits}}
@@ -96,7 +96,10 @@
                     <ul>
                         <li><i class="icon pin"></i> {{ profile.search_location }}</li>
                         <li><i class="icon job"></i> {{ profile.profession }}</li>
+                        
+                        {% if profile.url %}
                         <li class="last"><a href="{{ profile.url }}" target="_blank" title=""><i class="icon web"></i> {{ profile.url }}</a></li>
+                        {% endif %}
 
                         {% if profile.social_network %}
                         <div class="floatRight last">
@@ -159,7 +162,7 @@
         <section class="row projects" id="projects">
             {% if projects %}
                 {% for project in projects %}
-                    {% project_mini project forloop.counter|divisibleby:"4" "threecol" %}
+                    {% project_mini project forloop.counter|divisibleby:"4" request.user.id "threecol" %}
                 {% endfor %}
             {% endif %}
             {% if user.id == profile.user_id %}

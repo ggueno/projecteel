@@ -515,7 +515,8 @@ def edit_project(request, pk):
                 project_save = form.save(commit=False)
                 project_save.published = True
                 project_save.save()
-                print form
+                print request.POST
+                print form.cleaned_data
                 # project.save_m2m()
                 form.save_m2m()
                 slug = project.slug
@@ -715,10 +716,9 @@ def create_applicant(request, action="new"):
                     social.save()
                     app.social_network.add(social)
                 app.save()
-            print app
             # return render(request, 'profile/make_profile.html')
             # return get_applicant(app.slug)
-            return HttpResponseRedirect(reverse(get_applicant, args=(app.slug,)))
+            return HttpResponseRedirect('/profile/')
         else:
             form_user = UserForm(request.POST, instance=user)
             form_social = {}
@@ -961,10 +961,16 @@ def get_applications(request, slug):
 def posted_offers(request):
     company = Company.objects.filter(user_id=request.user.id)[0]
     offers = Offer.objects.filter(company=company)
-    applicantsOffer = ApplicantOffer.objects.all()
+    offers_all = Offer.objects.all()
+    applications = ApplicantOffer.objects.all()
+    #potentials = []
+    #for offer_posted in offers:
+    #    potentials.append(potentialApplicant(offer_posted.id))
+    #print potentials[0]
     context = {
         'offers': offers,
-        'applicants': applicantsOffer,
+        'applications': applications,
+        #'potentials' : potentials,
     }
     return render(request, 'offer/posted_offers.html', context)
 
@@ -974,6 +980,7 @@ def vacancy(request, state, pk):
     try:
         offer = Offer.objects.get(id=pk)
         myself = Company.objects.get(user_id=request.user.id)
+        print offer
         if state == 'add':
             Offer.objects.filter(id=pk).update(vacancy=True)
         else:
@@ -996,12 +1003,10 @@ def vacancy(request, state, pk):
 
 @login_required
 def statusApplication(request, model, pk, slug):
-    print "model", model
     application = ApplicantOffer.objects.get(id=pk)
     offer = application.offer
     applicant = Applicant.objects.filter(slug=slug)
-    print "application.state - ", application.state
-    if model == "read" and application.state is 'SAVE' and application.state is 'FAIL':
+    if model == "read" and application.state is 'FAIL' and application.state is 'SAVE':
         ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='READ')
     else:
         if model == "accept" and (ApplicantOffer.objects.filter(offer=offer).count > 1) and application.state is not 'FAIL':
@@ -1017,7 +1022,7 @@ def statusApplication(request, model, pk, slug):
         return response
     else:
         if result['state']:
-            return HttpResponseRedirect('/offer/applications/'+offer.slug)
+            return HttpResponseRedirect('/offer/posted_offers/')
         else:
             #404
             return HttpResponseNotFound('404.html')
@@ -1180,9 +1185,7 @@ def edit_offer(request, model=None, slug=None):
                     return get_offer(request, offer.slug)
             else:
                 form = OfferForm()
-        return render(request, 'offer/edit_offer.html', {'form': form, 'model': model})
-    else :
-        get_offer(request, model)
+    return render(request, 'offer/edit_offer.html', {'form': form, 'model': model})
 
 
 @login_required
