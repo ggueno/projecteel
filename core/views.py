@@ -515,7 +515,8 @@ def edit_project(request, pk):
                 project_save = form.save(commit=False)
                 project_save.published = True
                 project_save.save()
-                print form
+                print request.POST
+                print form.cleaned_data
                 # project.save_m2m()
                 form.save_m2m()
                 slug = project.slug

@@ -52,7 +52,7 @@
                                 </div>
                                 <div>
                                     <label for="id_categories">Catégorie</label>
-                                    {{ form.categories }}
+                                    {{ form.as_values_categories }}
                                 </div>
                                 <div>
                                     <label for="id_content">Contenu</label>
@@ -82,7 +82,7 @@
                                 </div>
                                 <div>
                                     <label for="participant">Participants au projet</label>
-                                    {{ form.participant }}
+                                    {{ form.as_values_participant }}
                                 </div>
                                 <div>
                                     <label for="">{{form.cadre.label}}</label>
@@ -270,7 +270,7 @@ $().ready(function(){
                 
                 var existingCategories = "{% for tag in data.categories %}{{tag.tag.name}},{%endfor%}";
 
-                $('#id_categories').autoSuggest('/taggit_autosuggest/list/categories', {
+                $('#id_as_values_categories').autoSuggest('/taggit_autosuggest/list/categories', {
                     asHtmlID: "categories",
                     startText: "Entrez une catégorie",
                     emptyText: "Aucun résultat",

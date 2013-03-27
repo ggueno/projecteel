@@ -14,6 +14,9 @@ urlpatterns = patterns('',
     url(r'^project/add/image/new/$', views.ImageProjectCreateView.as_view(), {}, 'upload-new'),
     url(r'^project/add/image/delete/(?P<pk>\d+)$', views.ImageProjectDeleteView.as_view(), {}, 'upload-delete'),
     url(r'^project/remove/(?P<pk>\d+)$', views.remove_project),
+    url(r'^project/like/(?P<pk>\d+)$', views.like),
+    url(r'^project/unlike/(?P<pk>\d+)$', views.unlike),
+    url(r'^project/(?P<slug>[^\.]+)/$', views.get_project, name="project_view"),
 
     url(r'^taggit_autosuggest/list/participant/$', views.get_participants),
     url(r'^taggit_autosuggest/list/location/$', views.get_locations),    
@@ -29,10 +32,6 @@ urlpatterns = patterns('',
     url(r'^notifications/mark_as_read/$', views.notifications_mark_as_read),
 
     url(r'^comment/delete/(?P<pk>\d+)$', views.delete_comment, {}, 'comment-delete'),
-
-    url(r'^project/(?P<slug>[^\.]+)/$', views.get_project, name="project_view"),
-    url(r'^project/like/(?P<pk>\d+)$', views.like),
-    url(r'^project/unlike/(?P<pk>\d+)$', views.unlike),
 
     url(r'^offers/$', views.offers_all),
     url(r'^offer/vacancy/(?P<state>[^\.]+)/(?P<pk>\d+)$', views.vacancy),
