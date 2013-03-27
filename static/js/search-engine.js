@@ -132,7 +132,6 @@ var searchEngine = {
     },
 
     sendSearch : function(){
-
         var datas = new Object();
         for(key in this.search_datas) {
             if(this.search_datas[key] != -1){
@@ -143,8 +142,6 @@ var searchEngine = {
                 }
             }
         }
-
-        console.log(datas);
 
         var that = this;
 

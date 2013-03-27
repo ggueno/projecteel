@@ -44,7 +44,7 @@ hr {
   padding: 0;
 }
 a {
-  outline: none;
+  outline: none !important;
 }
 /*
  * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
@@ -338,6 +338,14 @@ a.PTbutton {
 .ideal-wrap.alignRight {
   float: right;
 }
+a.alignCenter {
+  margin: 0 auto;
+  display: block;
+  width: 130px;
+  padding: 1px;
+  height: 25px;
+  line-height: 25px;
+}
 .tooltip {
   display: inline;
   position: relative;
@@ -476,7 +484,7 @@ a.PTbutton {
   float: left;
   width: 24%;
   padding: 5px 3% 5px 20%;
-  text-align: left;
+  text-align: right;
 }
 .thumb .project_infos .project_pushs {
   float: right;
@@ -501,8 +509,8 @@ a.PTbutton {
   height: 15px;
   width: 19px;
   margin: 0 5px 0 0;
-  display: block;
-  float: left;
+  display: inline-block;
+  vertical-align: top;
 }
 .label_pushs {
   background: url(../img/icon_social.png) no-repeat -21px 0px;
@@ -815,6 +823,9 @@ a.edit-item:hover {
 /*
    L A N D I N G  P A G E
    ========================================================================== */
+.strap-0 {
+  background: url(../img/landscape_pattern2.png) repeat-x 0 160px #e5e5e5;
+}
 .strap-1 {
   background: url(../img/landscape.png) repeat-x bottom;
   height: 450px;
@@ -1205,6 +1216,7 @@ header.menu #menu a.notifications.unread {
   width: 190px;
   height: 190px;
   z-index: 10;
+  overflow: hidden;
 }
 #edit_profile .profile_pic {
   position: absolute;
@@ -1329,9 +1341,23 @@ header.menu #menu a.notifications.unread {
 #infos_profile h1 {
   text-transform: uppercase;
   margin: 15px 0;
-  padding: 5px 0;
-  font-size: 1.4em;
-  border-bottom: 1px solid #d2d2d2;
+  padding: 5px 15px;
+  font-size: 1.3em;
+  font-weight: 400;
+}
+#infos_profile .tab-formation,
+#infos_profile .tab-experience {
+  background-color: white;
+}
+#infos_profile .formation-date {
+  float: left;
+  width: 28%;
+  margin-right: 6%;
+  text-align: right;
+  color: gray;
+}
+#infos_profile .formation-date span {
+  display: block;
 }
 #infos_profile .experience,
 #infos_profile .education {
@@ -1350,6 +1376,18 @@ header.menu #menu a.notifications.unread {
 #infos_profile .experience a.edit-item,
 #infos_profile .education a.edit-item {
   display: none;
+}
+#infos_profile .formation-content {
+  float: left;
+  width: 60%;
+}
+#infos_profile .formation-content h3 {
+  font-weight: 500;
+  color: #0099e6;
+}
+#infos_profile .formation-content h4 {
+  font-weight: 200;
+  text-transform: lowercase;
 }
 #infos_profile #add-experience,
 #infos_profile #add-education {
@@ -1551,7 +1589,7 @@ header.menu #menu a.notifications.unread {
 }
 .fileupload-buttonbar span.PTbutton {
   line-height: 2.6em;
-  padding: 3px 6px;
+  padding: 3px 12px 3px 14px;
   height: 31px;
   margin: 0;
   display: block;
@@ -1568,6 +1606,18 @@ header.menu #menu a.notifications.unread {
 }
 .fileupload-buttonbar .fileinput-button:hover span {
   background: #047dba;
+}
+.nextStep {
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid #CCC;
+  float: right;
+  color: #0099e6;
+  margin-top: 5px;
+  margin-bottom: 50px;
+}
+.nextStep:hover {
+  color: #0077b3;
 }
 /*
    A D D   N E W   P R O J E C T
@@ -1611,6 +1661,9 @@ ul.tabs li a .step-label {
   font-size: 12pt;
   font-style: normal;
   border-radius: 10em;
+}
+.add_project .sleekbox {
+  background: url(../img/DragAndDrop.png) no-repeat 64% 94% #ffffff;
 }
 .add_project .content {
   padding: 40px 60px;
@@ -1774,6 +1827,9 @@ ul.tabs li a .step-label {
   background: #047dba;
   color: #FFF;
 }
+.add_project .PTbutton {
+  padding: 5px 10px 5px 13px;
+}
 .add_project.edit .PTform .file-wrap input[type=file] {
   bottom: 28px;
   top: auto;
@@ -1788,6 +1844,9 @@ li.as-result-item img {
 /*
    L I S T   P R O J E C T S
    ========================================================================== */
+#projects {
+  min-height: 600px;
+}
 #projects .sixcol {
   margin: 0;
 }
@@ -1959,6 +2018,19 @@ li.as-result-item img {
   font-weight: 400;
   margin: 20px 0;
 }
+#dashboard .sidebar {
+  background: #fcfcfc;
+  margin-top: 5px;
+}
+#dashboard .sidebar .PTbutton {
+  margin-top: 0;
+}
+#dashboard .sidebar h2 {
+  padding: 0px 5px;
+}
+#dashboard .sidebar .notifications {
+  padding: 0px 5px;
+}
 .stats {
   overflow: auto;
 }
@@ -1981,6 +2053,14 @@ li.as-result-item img {
 }
 .stats li .icon {
   margin-top: 10px;
+}
+.stats li.push {
+  background: none;
+  width: 90%;
+}
+.stats li.push a {
+  height: 25px;
+  line-height: 25px;
 }
 .offers .row {
   margin-top: 5px;

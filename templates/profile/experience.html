@@ -1,19 +1,50 @@
                 <div class="experience">
-                    <span class="start"> {{ experience.start }} -</span>
-                    <span class="end"> {{ experience.end }} </span>
-                    <h3> {{ experience.title }} </h3>
-                    {% if experience.company_profile %}
-                        <h4> {{ experience.company_profile.name }} </h4>
-                    {% else %}
-                        <h4> {{ experience.company }} </h4>
-                    {% endif %}
+                    <div class="formation-date">
+                        <span class="start"> {{ experience.start }} -</span>
+                        <span class="end"> {{ experience.end }} </span>
+                    </div>
 
-                    <p> {{ experience.details }} </p>
-                    <p> {{ experience.city }} </p>
+                    <div class="formation-content">
+                        <h3> {{ experience.title }} </h3>
+                        {% if experience.company_profile %}
+                            <h4> {{ experience.company_profile.name }} </h4>
+                        {% else %}
+                            <h4> {{ experience.company }} </h4>
+                        {% endif %}
+
+                        <p> {{ experience.details }} </p>
+                        <p> {{ experience.city }} </p>
+                    </div>
                     {% if user.id == experience.owner.id %}
                             <a class="delete-item" href="/experience/delete/{{experience.id}}"><i class="ico-remove"></i></a>
                             <a class="edit-item" href="/experience/edit/{{experience.id}}"><i class="ico-pencil"></i></a>
                     {% endif %}
+                    <div class="row edit-form">
+                        <div class="sixcol"></div>
+                    </div>
+                </div>
+
+                <div class="education">
+                    <div class="formation-date">
+                        <span class="start"> {{ education.start }}</span>
+                        <span class="end"> {{ education.end }} </span>
+                    </div>
+                    <div class="formation-content">
+                        <h3> {{ education.title }} </h3>
+                        {% if education.school_profile %}
+                            <h4> {{ education.school_profile.name }} </h4>
+                        {% else %}
+                            <h4> {{ education.school }} </h4>
+                        {% endif %}
+
+                        <p> {{ education.description }} </p>
+                    
+
+                    {% if user.id == education.owner.id %}
+                            <a class="delete-item" href="/education/delete/{{education.id}}"><i class="ico-remove"></i></a>
+                            <a class="edit-item" href="/education/edit/{{education.id}}"><i class="ico-pencil"></i></a>
+                    {% endif %}
+
                     <div class="row edit-form">
                         <div class="sixcol"></div>
                     </div>

@@ -8,29 +8,38 @@
 {% block content %}
 	<section id="dashboard">
 		<section class="row">
-			<h1>Offres</h1>
+			<h1>Bonjour, {{profile.user.first_name}}</h1>
 		</section>
 		<section class="row">
 			<!-- Réseau -->
 			<div class="ninecol offers">
 				<section class="row">
 					<div class="sixcol">
-						<h4 class="blacksub">Candidatures</h4>
-						<ul>
-							<li>
-								<strong>Community manager</strong><a href="#">Carrefour</a>, Paris (75)
-								<a class="offer valid" alt="Retenue">
-									<i class="ico-ok"></i>
-								</a>
-							</li>
-							<li>
-								<strong>Community manager</strong><a href="#">Carrefour</a>, Paris (75)
-								<a class="offer declined" alt="Refusée"><i class="ico-ban-circle"></i></a>
-							</li>
-							<li><strong>Community manager de ouf zd qzla suba del vega coasta vega bravas izi life tékatééé</strong><a href="#">Carrefour</a>, Paris (75)
-								<a class="offer waiting" alt="En attente"><i class="ico-time"></i></a>
-							</li>	
-						</ul>
+						<h4 class="blacksub">Candidatures <a href="/dashboard/notifications/">Voir plus</a></h4>
+						{% if applications %}
+							<ul>
+								{% for app in applications %}
+								<li>
+									<strong>{{ app.offer.title }}</strong><a href="/profile/company/{{ app.offer.company.slug }}">{{ app.offer.company.name }}</a>, {{ app.offer.location }}
+									{% if app.state == 'POST' %}
+										<a class="offer waiting" alt="En attente">
+											<i class="ico-time"></i>
+										</a>
+									{% elif app.state == 'FAIL'%}
+										<a class="offer declined" alt="Refusée">
+											<i class="ico-ban-circle"></i>
+										</a>
+									{% elif app.state == 'SAVE'%}
+										<a class="offer valid" alt="Retenue">
+											<i class="ico-ok"></i>
+										</a>
+									{% endif %}
+								</li>
+								{% endfor %}
+							</ul>
+						{% else %}
+							<p>Vous n'avez pas encore envoyé de candidatures.</p>
+						{% endif %}
 					</div>
 					<div class="sixcol last">
 						<h4 class="blacksub">Offres suggérées <a href="/offers/">Voir plus</a></h4>
@@ -45,13 +54,17 @@
 				</section>
 				<section class="row projects">
 					<h4 class="blacksub">Projets de mes relations <a href="/projects/">Voir plus</a></h4>
-				    {% for project in projects %}
-				        {% project_mini project forloop.counter|divisibleby:"3" %}
-				    {% endfor %}
+					{% if projects %}
+					    {% for project in projects %}
+					        {% project_mini project forloop.counter|divisibleby:"3" request.user.id %}
+					    {% endfor %}
+				    {% else %}
+				    	<p>Vos relations n'ont pas encore publié de projets</p>
+			    	{% endif %}
 				</section>
 			</div>
 
-			<div class="threecol last">
+			<div class="threecol last sidebar">
 				<a href="/project/add/" class="PTbutton">Ajouter un projet</a>
 				<h2>Mes stats</h2>
 				<ul class="stats">
@@ -82,9 +95,13 @@
 					<span class="nb_notifications">
 						Vous avez <strong>{{ unread_nb|pprint }}</strong> notification{{ unread_nb|pluralize }} non-lue{{ unread_nb|pluralize }}.
 					</span>
-					{% for notice in notifications %}
-						{% include 'notifications/notice.html' %}
-					{% endfor %}
+					{% if notifications%}
+						{% for notice in notifications %}
+							{% include 'notifications/notice.html' %}
+						{% endfor %}
+					{% else %}
+					<p>Vous n'avez pas encore de notifications pour le moment.</p>
+					{% endif %}
 				</ul>
 			</div>
 			

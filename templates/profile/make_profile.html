@@ -19,7 +19,6 @@
 
                 </div>
                 <div class="sixcol last">
-
                     <ul class="tabs">
                         <li><a href="#etape1"><i class="step-label">1</i>Etape 1</a></li>
                         <li><a href="#etape2"><i class="step-label">2</i>Etape 2</a></li>
@@ -34,29 +33,28 @@
 
                         <!-- TAB -->
                         <section id="etape1">
-                            <!--
+                            
                             {{ form_user.errors }}
-                            <div class="row">
-                                {{ form_user.as_p}}
-                            </div>
-                            -->
-                            <span class="annotation">Renseigner votre prénom et votre nom, ils seront diffusés sur votre profil.</span>
+
+                            <span class="annotation">Les champs indiqué par (*) sont obligatoires.<br/><br/>Renseigner votre prénom et votre nom, ils seront diffusés sur votre profil.</span>
                             <div>
-                                <label for="id_first_name">Prénom</label>
+                                <label for="id_first_name">Prénom (*)</label>
                                 {% if form_user.first_name.errors %}
                                 <p class="errors">{{ form_user.first_name.errors.as_text }}</p>
                                 {% endif %}
                                 {{ form_user.first_name }}
                             </div>
                             <div>
-                                <label for="id_last_name">Nom</label>
+                                <label for="id_last_name">Nom (*)</label>
                                 {% if form_user.last_name.errors %}
                                 <p class="errors">{{ form_user.last_name.errors.as_text }}</p>
                                 {% endif %}
                                 {{ form_user.last_name }}
                             </div>
+
+                            {% if edit_title %}
                             <div>
-                                <label for="id_name">Pseudo</label>
+                                <label for="id_name">Pseudo (*)</label>
                                 <span class="annotation">Voici votre pseudonyme sur Projecteel. Vous pouvez utiliser votre vrai nom ou un pseudo plus personnel. Il sera utilisé dans l'URL de votre page profil.</span>
                                 {% if form_applicant.name.errors %}
                                 <p class="errors">{{ form_applicant.name.errors.as_text }}</p>
@@ -64,6 +62,7 @@
                                 {{ form_applicant.name }}
                                 <span id="slug_validate"></span>
                             </div>
+                            {% endif %}
                             <div>
                                 <label for="">Votre avatar</label>
                                 <span class="annotation">Vous pouvez choisir une vraie photo de vous ou alors quelque chose vous représentant (JPG/GIF/PNG seulement).</span>
@@ -118,21 +117,17 @@
 
                             <div class="footer">
                                 <div class="twocol">Etape 1 sur 2</div>
-                                <button class="PTbutton next">Etape suivante</button>
+                                <button class="nextStep next">Etape suivante &nbsp;<i class="ico-angle-right"></i></button>
                             </div>
 
                         </section>
 
                         <section id="etape2">
-                            <!--
+                            
                             {{ form_applicant.errors }}
-
-                            <div class="row">
-                                {{ form_applicant.as_p }}
-                            </div>
-                            -->
+                            
                             <div>
-                                <label for="id_description">Description</label>
+                                <label for="id_description">Description (*)</label>
                                 <span class="annotation">Ecrivez ici une petite présentation de vous. Qu'est ce qui vous caractérise ? Quels sont vos rêves et vos espoirs ?</span>
                                 {% if form_applicant.description.errors %}
                                 <p class="errors">{{ form_applicant.description.errors.as_text }}</p>
@@ -148,7 +143,7 @@
                                 {{ form_applicant.url }}
                             </div>
                             <div>
-                                <label for="id_profession">Profession</label>
+                                <label for="id_profession">Profession (*)</label>
                                 <span class="annotation">Le metier qui vous caractérise.</span>
                                 {% if form_applicant.profession.errors %}
                                 <p class="errors">{{ form_applicant.profession.errors.as_text }}</p>
@@ -165,7 +160,7 @@
                             </div>
                             <div class="footer">
                                 <div class="twocol">Etape 2 sur 2</div>
-                                <input type="submit" class="PTbutton" value="Valider">
+                                <input type="submit" class="PTbutton alignRight" value="Valider">
                             </div>
                         </section>
                     </form>
@@ -289,26 +284,39 @@
         });
 
 
-        $("#id_search_location").autoSuggest("/list/location", {
-            asHtmlID: "id_search_location__tagautosuggest",
-            startText: {% if form_applicant.search_location%}"{{ form_applicant.search_location.value }}"{%else%}"Tapez un lieu ici"{%endif%},
-            emptyText: "Aucun résultat",
-            limitText: "Vous ne pouvez plus ajouter de lieu",
-            preFill: "",
-            queryParam: 'q',
-            retrieveLimit: 20,
-            minChars: 1,
-            neverSubmit: false,
-            showResultList : true,
-            resultsHighlight : true,
-            selectionAdded: function(elem){
-                elem.hide();
-            },
-            resultClick: function(data){
-               $("#id_search_location__tagautosuggest").val(data.attributes.value)
-           },
+        // $("#id_search_location").autoSuggest("/list/location", {
+        //     asHtmlID: "id_search_location__tagautosuggest",
+        //     startText: {% if form_applicant.search_location%}"{{ form_applicant.search_location.value }}"{%else%}"Tapez un lieu ici"{%endif%},
+        //     emptyText: "",
+        //     limitText: "Vous ne pouvez plus ajouter de lieu",
+        //     preFill: "",
+        //     queryParam: 'q',
+        //     retrieveLimit: 20,
+        //     minChars: 1,
+        //     neverSubmit: false,
+        //     showResultList : true,
+        //     resultsHighlight : true,
+        //     selectionAdded: function(elem){
+        //         elem.hide();
+        //     },
+        //     resultClick: function(data){
+        //        $("#id_search_location__tagautosuggest").val(data.attributes.value)
+        //     },
 
-        });
+        // });
+
+        //jQ UI autocomplete wrapper Projecteel Style
+        var autocomp = function(selector, element){
+            selector.autocomplete({
+                source: "/list/" + element,
+                minLength: 1,
+                select: function( event, ui ) {
+                    selector.val( ui.item.value );
+                }
+            });
+        }
+
+        autocomp($("#id_search_location"), 'location');
 
         function buildBoundingBox(img){
             console.log(img);

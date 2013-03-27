@@ -5,11 +5,9 @@
 {% block title %} Projects {% endblock %}
 {% block content %}
 
-    <div class="container-filter">
-        <!--<h1 class="heading">Projects</h1>-->
+    <div class="container-filter" id="menu-filter">
 
-        <div class="row dropfilters">
-
+        <div class="row dropfilters" >
             <div class="inline threecol">
                 <form action="/projects/search/" class="search-form project-search PTform" method="get">
                     {% csrf_token %}
@@ -56,23 +54,50 @@
                     </ul>
                 </div>
             </div>
+
+            <div class="twocol filter-details-button last">
+                <button class="PTbutton" id="see-filter-sup">Plus de détails</button>
+            </div>
         </div>
     </div>
 
-    <div class="row wrapper" id="projects">
-        <div class="sorting threecol">
+    <div class="container-filter-sup" id="menu-filter-sup">
+        <div class="row filter-sup">
+            <div class="fourcol">
+                <h3>Tags</h3>
+                <ul class="tags inline">
+                {% for tag in tags %}
+                    <li><a href="/projects/search/?tags[]={{tag.slug}}"> {{ tag.name }} </a></li>
+                {% endfor %}
+                </ul>
+            </div>
 
+            <div class="fourcol">
+                <h3>Skills</h3>
+                <ul class="tags inline">
+                {% for tag in tags %}
+                    <li><a href="/projects/search/?tags[]={{tag.slug}}"> {{ tag.name }} </a></li>
+                {% endfor %}
+                </ul>
+            </div>
 
+            <div class="fourcol last">
+                <h3>Skills</h3>
+                <ul class="tags inline">
+                {% for tag in tags %}
+                    <li><a href="/projects/search/?tags[]={{tag.slug}}"> {{ tag.name }} </a></li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <div class="row wrapper" id="projects">
+       <!--  <div class="sorting threecol">
             <div class="sleekbox PTform">
-
                 <form action="" id="projectFilters">
                     <ul class="filters">
-                        <ul class="tags inline">
-                        {% for tag in tags %}
-                            <li><a href="/projects/search/?tags[]={{tag.slug}}"> {{ tag.name }} </a></li>
-                        {% endfor %}
-                        </ul>
-
+                        
                         <li class="tag">
                             <input class="search-field autocomplete" id="search-tags" type="text" name="keywords-sorting">
                         </li>
@@ -85,10 +110,9 @@
                     </ul>
                 </form>
             </div>
-        </div>
+        </div> -->
 
-        <div class="list-projects ninecol last">
-
+        <div class="list list-projects twelvecol last">
             <div id="list-content">{% include endless_part %}</div>
         </div>
     </div>
@@ -107,7 +131,39 @@
 
         $().ready(function(){
             searchEngine.init($('#list-content'));
+
+            var sticky_navigation_offset_top = $('#menu-filter').offset().top;
+     
+            // our function that decides weather the navigation bar should have "fixed" css position or not.
+            var sticky_navigation = function(){
+                var scroll_top = $(window).scrollTop(); // our current vertical position from the top
+                 
+                // if we've scrolled more than the navigation, change its position to fixed to stick to top,
+                // otherwise change it back to relative
+                if (scroll_top > sticky_navigation_offset_top) { 
+                    $('#menu-filter').addClass('sticky');
+                    $('#menu-filter').css({ 'position': 'fixed', 'top':0, 'left':0 });
+                    $('#menu-filter-sup').css({ 'position': 'fixed', 'top': $('#menu-filter').height(), 'left':0 });
+                } else {
+                    $('#menu-filter').removeClass('sticky');
+                    $('#menu-filter').css({ 'position': 'relative'});
+                    $('#menu-filter-sup').css({ 'position': 'relative', 'top':0, 'left':0  }); 
+                }   
+            };
+             
+            // run our function on load
+            sticky_navigation();
+             
+            // and run it again every time you scroll
+            $(window).scroll(function() {
+                 sticky_navigation();
+            });
+
+            $('#see-filter-sup').click(function(){
+                $('.container-filter-sup').slideToggle();
+            })
         });
+
 
     </script>
 {% endblock %}

@@ -30,23 +30,32 @@
                             <section id="etape1">
                                 <!-- Heading -->
                                 <div>
-                                    <label for="">{{form.title.label}}</label>
+                                    <label for="id_title">Titre du projet</label>
                                     {{ form.title }}
                                 </div>
                                 <div class="file-wrap">
                                     <label>Vignette</label>
-                                    <img src="/media/{{ data.thumbnail }}" width="300px"  alt="">
+                                    {{ form.thumbnail }}
+                                    <!--
+                                    
+                                    {% if data.thumbnail %}
+                                        <p class="annotation">Votre vignette actuelle</p>
+                                        <img src="/media/{{ data.thumbnail }}" width="300px"  alt="">
+                                    {% else %}
+                                        <p class="annotation">Vous n'avez pas encore ajouté de vignette.</p>
+                                    {% endif %}
+                                    <br><br>
                                     <input type="file" multiple value="{{ data.thumbnail }}" id="id_thumbnail">
                                     <input type="text" autocomplete="off" disabled value="{{ data.thumbnail }}" class="file-holder">
-                                    <button type="button"><i class="icon image"></i> Choisir</button>
+                                    <button type="button"><i class="icon image"></i> Choisir</button> -->
                                     <p class="annotation">(< 1Mo, > 300x250px)</p>
                                 </div>
                                 <div>
-                                    <label for="">{{form.categories.label}}</label>
-                                    {{ form.categories }}
+                                    <label for="id_categories">Catégorie</label>
+                                    {{ form.as_values_categories }}
                                 </div>
                                 <div>
-                                    <label for="">{{form.content.label}}</label>
+                                    <label for="id_content">Contenu</label>
                                     {{ form.content }}
                                 </div>
                                 <div>
@@ -72,23 +81,23 @@
                                     {{ form.images }}
                                 </div>
                                 <div>
-                                    <label for="">{{form.participant.label}}</label>
-                                    {{ form.participant }}
+                                    <label for="participant">Participants au projet</label>
+                                    {{ form.as_values_participant }}
                                 </div>
                                 <div>
                                     <label for="">{{form.cadre.label}}</label>
                                     {{ form.cadre }}
                                 </div>
                                 <div>
-                                    <label for="">{{form.state.label}}</label>
+                                    <label for="id_state">Etat du projet</label>
                                     {{ form.state }}
                                 </div>
                                 <div>
-                                    <label for="">{{form.period.label}}</label>
+                                    <label for="id_period">Durée du projet</label>
                                     {{ form.period }}
                                 </div>
                                 <div>
-                                    <label for="">{{form.location.label}}</label>
+                                    <label for="id_location">Localisation</label>
                                     {{ form.location }}
                                 </div>
 
@@ -233,13 +242,13 @@ $().ready(function(){
                 var p = $("#id_location");
 
                 var data = "{{ form.as_values_participant.value }}";
-                var datas = [{ 'value' : "1", 'name': 'ggueno', "avatar": "upload/images/avatar/0f747c7cf4f59dce5d5ccf7951c3c3a2.jpg"}];
+                // var datas = [{ 'value' : "1", 'name': 'ggueno', "avatar": "upload/images/avatar/0f747c7cf4f59dce5d5ccf7951c3c3a2.jpg"}];
 
                 $('#participant_input').autoSuggest('/taggit_autosuggest/list/participant/', {
                     asHtmlID: "participant",
                     startText: "Entrez le nom d'un participant",
                     emptyText: "Aucun résultat",
-                    preFill: datas,
+                    // preFill: datas,
                     minChars: 3,
                     searchObjProps: "name",
                     selectedItemProp: "name",
@@ -256,6 +265,27 @@ $().ready(function(){
                         elem.prepend(avatar);
                         elem.append(data.name);
                         return elem;
+                    }
+                });
+                
+                var existingCategories = "{% for tag in data.categories %}{{tag.tag.name}},{%endfor%}";
+
+                $('#id_as_values_categories').autoSuggest('/taggit_autosuggest/list/categories', {
+                    asHtmlID: "categories",
+                    startText: "Entrez une catégorie",
+                    emptyText: "Aucun résultat",
+                    preFill: existingCategories,
+                    minChars: 3, 
+                    neverSubmit: true,
+                    retrieveLimit : 20,   
+                    // searchObjProps: "name",
+                    // selectedItemProp: "name",
+                    // selectedValuesProp: "value",
+                    neverTab: true,
+                    retrieveComplete: function(data){ return data; },
+                    resultClick: function(data){  },
+                    selectionAdded : function(data){ 
+                        return false;
                     }
                 });
 
@@ -299,6 +329,8 @@ $().ready(function(){
 <script src="{{ STATIC_URL }}js/csrf.js"></script>
 <script type="text/javascript">
     $().ready(function(){
+        var filesList = 
+            [ {% for file in data.project_files %} '{{ file }}' , {% endfor %} ];
         $('#fileupload').fileupload('add', {files: filesList});
     });
 </script>

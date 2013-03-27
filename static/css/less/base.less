@@ -59,7 +59,7 @@ hr {
 }
 
 a{
-    outline:none;
+    outline:none !important;
 }
 /*
  * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
@@ -348,6 +348,15 @@ a.PTbutton{
     float:right;
 }
 
+a.alignCenter{
+    margin:0 auto;
+    display: block;
+    width: 130px;
+    padding: 1px;
+    height: 25px;
+    line-height: 25px;
+}
+
 .tooltip {
     display: inline;
     position: relative;
@@ -493,7 +502,7 @@ a.PTbutton{
             float:left;
             width:24%;
             padding:5px 3% 5px 20%;
-            text-align:left;
+            text-align:right;
 
         }
         .project_pushs{
@@ -521,11 +530,11 @@ a.PTbutton{
 
 .label_views{
     background: url(../img/icon_social.png) no-repeat 0 -2px;
-    height:15px;
-    width:19px;
-    margin:0 5px 0 0;
-    display:block;
-    float:left;
+    height: 15px;
+    width: 19px;
+    margin: 0 5px 0 0;
+    display: inline-block;
+    vertical-align: top;
 }
 .label_pushs{
     background: url(../img/icon_social.png) no-repeat -21px 0px;
@@ -822,7 +831,9 @@ a.edit-item{
 /*
    L A N D I N G  P A G E
    ========================================================================== */
-
+.strap-0{
+    background: url(../img/landscape_pattern2.png) repeat-x 0 160px #e5e5e5;
+}
 .strap-1 {
     background: url(../img/landscape.png) repeat-x bottom;
     height:450px;
@@ -1205,6 +1216,7 @@ header.menu{
     width:190px;
     height: 190px;
     z-index: 10;
+    overflow: hidden;
 }
 
 #edit_profile{
@@ -1337,10 +1349,27 @@ header.menu{
     h1{
         text-transform: uppercase;
         margin: 15px 0;
-        padding: 5px 0;
-        font-size: 1.4em;
-        border-bottom:1px solid #d2d2d2;
+        padding: 5px 15px;
+        font-size: 1.3em;
+        font-weight: 400;
     }
+
+    .tab-formation, .tab-experience{
+        background-color: white;
+
+    }
+
+    .formation-date{
+        float: left;
+        width: 28%;
+        margin-right: 6%;
+        text-align: right;
+        span{
+            display: block;
+        }
+        color: gray;
+    }
+
     .experience, .education{
         padding: 10px 20px;
         margin: 10px 0;
@@ -1355,6 +1384,22 @@ header.menu{
             display: none;
         }
     }
+
+
+    .formation-content{
+        float: left;
+        width: 60%;
+        h3{
+            font-weight: 500;
+            color: @PTblue;
+        }
+
+        h4{
+            font-weight: 200;
+            text-transform: lowercase;
+        }
+    }
+
     #add-experience, #add-education{
         font-weight: 600;
         margin: 15px 0;
@@ -1524,7 +1569,7 @@ header.menu{
     }
     span.PTbutton{
         line-height: 2.6em;
-        padding: 3px 6px;
+        padding: 3px 12px 3px 14px;
         height: 31px;
         margin: 0;
         display: block;
@@ -1539,6 +1584,19 @@ header.menu{
         span{
             background:#047dba;
         }
+    }
+}
+
+.nextStep{
+    padding: 5px 12px;
+    background: transparent;
+    border: 1px solid #CCC;
+    float: right;
+    color: @PTblue;
+    margin-top: 5px;
+    margin-bottom: 50px;
+    &:hover{
+        color:darken(@PTblue, 10%);
     }
 }
 
@@ -1588,6 +1646,9 @@ ul.tabs{
     }
 
 .add_project{
+    .sleekbox{
+        background: url(../img/DragAndDrop.png) no-repeat 64% 94% #FFF;    
+    }
     .content{
         padding: 40px 60px;
     }
@@ -1716,6 +1777,16 @@ ul.tabs{
             color:#FFF;
         }
     }
+    .PTbutton{
+        padding: 5px 10px 5px 13px;
+    }
+}
+
+.add_project.edit{
+    .PTform .file-wrap input[type=file]{
+        bottom: 28px;
+        top: auto;
+    }
 }
 
 .add_project.edit{
@@ -1739,6 +1810,7 @@ li.as-result-item{
    ========================================================================== */
 
 #projects{
+    min-height: 600px;
     .sixcol{
         margin: 0;
     }
@@ -1895,6 +1967,7 @@ li.as-result-item{
 
 .posted_offers {
 
+<<<<<<< HEAD
     .thumb-offer {
         background-color: #FFF;
         height: auto;
@@ -1966,6 +2039,18 @@ li.as-result-item{
         }
         .suggest_candidates {
             float:right;
+=======
+    .suggest_candidates {
+        float:right;
+    }
+
+    .left {
+        padding: 17px 20px;
+        width:60%;
+        border-right:1px solid #d2d2d2;
+        h3 {
+            padding: 0;
+>>>>>>> 7695e1251e9120e6a769b17dbfa95ca04bba3b33
         }
     }
     i {
@@ -1993,6 +2078,22 @@ li.as-result-item{
         font-weight: 400;
         margin: 20px 0;
     }
+<<<<<<< HEAD
+=======
+    .sidebar{
+        background: #fcfcfc;
+        margin-top: 5px;
+        .PTbutton{
+            margin-top: 0;
+        }
+        h2{
+            padding:0px 5px;
+        }
+        .notifications{
+            padding: 0px 5px;
+        }
+    }
+>>>>>>> 7695e1251e9120e6a769b17dbfa95ca04bba3b33
 }
 
 .stats{
@@ -2015,6 +2116,17 @@ li.as-result-item{
         }
         .icon{
             margin-top: 10px;
+<<<<<<< HEAD
+=======
+        }
+        &.push{
+            background: none;
+            width: 90%;
+            a{
+                height: 25px;
+                line-height: 25px;
+            }
+>>>>>>> 7695e1251e9120e6a769b17dbfa95ca04bba3b33
         }
     }
 }

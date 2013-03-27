@@ -159,5 +159,8 @@ var searchEngine = {
                     $(that.container).html(result);
                 },
         });
+
+        
+        $("html, body").animate({ scrollTop: 0 }, "slow");
     }
 }

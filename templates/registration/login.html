@@ -1,30 +1,46 @@
+{% extends "layout/base.html" %}
+
+{% block title %}Registration complete{% endblock %}
+
+
+{% load staticfiles %}
 {% block content %}
+<section class="row">
+    <div class="sleekbox">
+      <div class="content">
+        <div class="row" >
+            <div class="sixcol illustration">
+                <img src="{% static "img/propulsez-vous.png" %}" title="propulsez-vous" />
+            </div>
+            <div class="sixcol last">
+            	<form class="PTform form-connexion" method="post" action="/accounts/login/?next=/profile/">
+					{% csrf_token %}	
+				    <h1 class="heading heading-lp">Connexion</h1>
 
-<form class="PTform form-connexion" method="post" action="/accounts/login/">
-	{% csrf_token %}	
-
-    <h1 class="heading heading-lp">Connexion</h1>
-
-
-    <label for="id_username">Email</label>
-	{{ form.username }}
-    {% if form.username.errors %} 
-    	<span class="error">{{ form.username.errors|join:", " }}</span>
-    {% endif %}
+				    <label for="id_username">Email</label>
+					{{ form.username }}
+				    {% if form.username.errors %} 
+				    	<span class="error">{{ form.username.errors|join:", " }}</span>
+				    {% endif %}
 
 
-	<label for="id_password">Mot de passe</label>
-	{{ form.password }}
+					<label for="id_password">Mot de passe</label>
+					{{ form.password }}
 
-	{% if form.password.errors %} 
-		<span class="error">{{ form.password.errors|join:", " }}</span>
-	{% endif %}
+					{% if form.password.errors %} 
+						<span class="error">{{ form.password.errors|join:", " }}</span>
+					{% endif %}
 
-	<input class="PTbutton button-landingPage" type="submit" name="" value="Se connecter">  
+					<input class="PTbutton button-landingPage" type="submit" name="" value="Se connecter">  
 
-	<input type="checkbox" name="" value="">Rester connecté
-	<p><a href="#">Mot de passe oublié</a></p>
+					<input type="checkbox" name="" value="">Rester connecté
+					<p><a href="#">Mot de passe oublié</a> - <a href="#register">S'inscrire</a></p>
+					<p></p>
 
-</form>
-
+				</form>
+        	</div>
+        </div>
+      </div>
+  </div>
+</section>
 {% endblock %}

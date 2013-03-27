@@ -46,7 +46,7 @@ class Address(models.Model):
 
 
 class Profile(models.Model):
-    slug = AutoSlugField(populate_from=lambda instance: u'%s' % (instance.name), unique=True, always_update=True)
+    slug = AutoSlugField(populate_from=lambda instance: u'%s-%s' % (instance.user.first_name, instance.user.last_name), unique=True, always_update=True)
     user = models.ForeignKey(User, blank=True, null=True)
     date_signin = models.DateField(auto_now=True, auto_now_add=True)
     name = models.CharField(max_length=150)
@@ -55,6 +55,7 @@ class Profile(models.Model):
     cover_image_top = models.IntegerField(blank=True, null=True, default=0)
     description = models.TextField(blank=False, null=False)
     url = models.URLField(blank=True, null=True)
+    first_visit = models.BooleanField(default=False)
 
     # def save(self, *args, **kwargs):
     #     if not self.id:
@@ -378,7 +379,7 @@ class Project(models.Model):
     content = models.TextField()
     #TO DO : Multiple list
     period = models.IntegerField(blank=True, null=True, choices=PROJECT_DURATION)
-    state = models.CharField(blank=True, max_length=2, choices=PROJECT_STATE, default='')
+    state = models.CharField(max_length=2, choices=PROJECT_STATE, default='IP')
     cadre = models.CharField(blank=True, max_length=100, choices=PROJECT_CADRE, default='')
     location = models.CharField(blank=True, max_length=100)
     categories = TaggableManager(verbose_name="Category", through=CategoryTaggedItem, blank=True)

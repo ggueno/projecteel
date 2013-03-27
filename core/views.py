@@ -28,26 +28,26 @@ from PIL import Image
 
 def home(request):    
     try:
-        user = User.objects.get(id=request.user.id)
+        applicant = Applicant.objects.get(user_id=request.user.id)
         return HttpResponseRedirect('/dashboard/')
+    except Applicant.DoesNotExist:
+        print "ApplicantDoesNotExist"
+
+    try:
+        user = User.objects.get(id=request.user.id)
+        return HttpResponseRedirect('/profile/')
     except User.DoesNotExist:
-        print "test"
+        print "UserDoesNotExist"
 
-
-
-    
-    form = AuthenticationForm(request.POST)
-    # if form.is_valid():
-    #     return HttpResponseRedirect('/profile/')
-    # else:
-    #     print form.errors
 
     projects = Project.objects.annotate(num=Count('likes')).order_by('-num')
-    companies = Company.objects.annotate(num=Count('followers')).order_by('-num')
+    companies = Company.objects.all().annotate(num=Count('followers')).order_by('-num')[:5]
+
+    form = AuthenticationForm(request.POST)
 
     context = {
         'projects': projects,
-        'companies': companies, 
+        'companies': companies,
         'form': form
     }
     return render_to_response('index.html', context, context_instance=RequestContext(request))
@@ -72,7 +72,7 @@ def home(request):
 def get_my_self(request):
     app = ''
     try:
-        app = Applicant.objects.filter(user_id=request.user.id)[0]
+        app = Applicant.objects.get(user_id=request.user.id)
     except Applicant.DoesNotExist:
         app = ''
     return app
@@ -204,7 +204,10 @@ def search_offers(request):
 def get_project(request, slug):
     project = Project.objects.get(slug=slug)
 
-    following = Follow.objects.filter(follower__user_id=request.user.id, following__user_id=project.owner.user_id)
+    if request.user.id:
+        following = Follow.objects.filter(follower__user_id=request.user.id, following__user_id=project.owner.user_id)
+    else:
+        following = {}
 
     # get all tags for project
     categoriesList = CategoryTaggedItem.objects.filter(content_object=project.id)
@@ -504,21 +507,48 @@ def edit_project(request, pk):
     if project.owner == applicant:
         project = Project.objects.get(id=pk)
         if request.method == 'POST':
-            form = ProjectForm(request.POST)
+            form = ProjectForm(request.POST, request.FILES, instance=project)
             if form.is_valid():
-                form = ProjectForm(request.POST, request.FILES, instance=project)
-                form.save()
+                embed = request.POST.getlist('embed')
+                for embed in embed:
+                    EmbedContent.objects.create(title=project.title, content=embed, project=project)
+                project_save = form.save(commit=False)
+                project_save.published = True
+                project_save.save()
+                print request.POST
+                print form.cleaned_data
+                # project.save_m2m()
+                form.save_m2m()
                 slug = project.slug
-                return HttpResponseRedirect('/projects/')
+                return HttpResponseRedirect('/project/'+project_save.slug)
         else:
             form = ProjectForm(instance=project)
+            files = ImageProject.objects.filter(project=project)
+            categories = CategoryTaggedItem.objects.filter(content_object=project.id)
             context = {
-                'thumbnail' : project.thumbnail
+                'thumbnail' : project.thumbnail,
+                'project_files' : files,
+                'categories' : categories
             }
+            print categories
             return render(request, 'project/edit_project.html', {'form': form, 'data' : context })
 
     else:
         return HttpResponseRedirect('/projects/')
+
+@login_required
+def delete_project(request, pk):
+    try:
+        applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+        project = Project.objects.get(id=pk, owner=applicant)
+        hitcount = HitCount.objects.filter(object_pk=project.id)
+        if project.owner == applicant:
+            project.delete()
+            hitcount.delete()
+    except Project.DoesNotExist:
+        pass
+    else:
+        return HttpResponseRedirect('/profile/')
 
 
 @login_required
@@ -686,10 +716,30 @@ def create_applicant(request, action="new"):
                     social.save()
                     app.social_network.add(social)
                 app.save()
-            print app
             # return render(request, 'profile/make_profile.html')
             # return get_applicant(app.slug)
-            return HttpResponseRedirect(reverse(get_applicant, args=(app.slug,)))
+            return HttpResponseRedirect('/profile/')
+        else:
+            form_user = UserForm(request.POST, instance=user)
+            form_social = {}
+            form_avatar = AvatarForm(request.POST)
+            if action != 'new':
+                form_social = SocialNetworkForm(request.POST)
+                form_applicant = ApplicantForm(request.POST, instance=applicant)
+                data = {
+                            'form_user': form_user,
+                            'form_applicant': form_applicant,
+                            'form_social': form_social,
+                            'edit_title': True,
+                            'avatar' : applicant.avatar,
+                            'form_avatar' : form_avatar,
+                            'social_networks' : applicant.social_network
+                            #'social_networks' : SocialNetworkProfile.objects.all(object_id=request.user.id)
+                        }
+            else:
+                form_applicant = ApplicantForm(request.POST)
+                data = { 'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social}
+            return render(request, 'profile/make_profile.html', data)
     else:
         form_user = UserForm(instance=user)
         form_social = {}
@@ -709,8 +759,14 @@ def create_applicant(request, action="new"):
                     }
         else:
             form_applicant = ApplicantForm()
-            data = { 'form_user': form_user, 'form_applicant': form_applicant, "form_social": form_social}
-    return render(request, 'profile/make_profile.html', data)
+            data = {
+                        'form_user': form_user,
+                        'form_applicant': form_applicant,
+                        'form_social': form_social,
+                        'edit_title': False,
+                        'form_avatar' : form_avatar,
+                    }
+        return render(request, 'profile/make_profile.html', data)
 
 
 @login_required
@@ -1317,13 +1373,12 @@ def delete_experience(request, pk):
 @login_required
 def get_applicant(request, slug):
     # myself = get_my_self(request)
-    print slug
     try:
         profile = Applicant.objects.get(slug=slug)
     except Applicant.DoesNotExist:
         return HttpResponseRedirect("/")
 
-    projects = Project.objects.filter(Q(owner=profile, published=True) | Q(participant__in=[profile], published=True))
+    projects = Project.objects.filter(Q(owner=profile, published=True) | Q(participant__in=[profile], published=True)).distinct()
     following = Follow.objects.filter(follower__user_id=request.user.id, following__user_id=profile.user_id)
     followingNb = Follow.objects.filter(following__id=profile.id).count()
     followersNb = Follow.objects.filter(follower__id=profile.id).count()
@@ -1521,6 +1576,8 @@ def show_dashboard(request):
 
     projects = Project.objects.filter(published=True, owner__in=following)[:3]
 
+    applications = ApplicantOffer.objects.filter(applicant=profile)[:3]
+
     context = {
         'profile': profile,
         'stats': {'pushs': pushs, 'tags': tags, 'views': views, 'comments' : comments },
@@ -1528,21 +1585,23 @@ def show_dashboard(request):
         'notifications' : notifications[:7],
         'unread_nb' : int(0+unread.count()),
         'pushs': Project.objects.push_user(profile.user_id),
-        'projects' : projects
+        'projects' : projects,
+        'applications' : applications
     }
     return render_to_response('notifications/dashboard.html', context, context_instance=RequestContext(request))
 
 
 @login_required
 def show_notifications(request):
-    print request.user.id
+    # print request.user.id
     user = User.objects.get(pk=request.user.id)
     profile = Applicant.objects.get(user_id=request.user.id) 
     following = Follow.objects.filter(follower__user_id=user.id).values('following_id')
     # print following
-    notifications2 = Notification.objects.filter(actor_object_id__in=following).extra({'timestamp' : "date(timestamp)"}).values('timestamp').annotate(created_count=Count('id'))
+    # notifications2 = Notification.objects.filter(actor_object_id__in=following).extra({'timestamp' : "date(timestamp)"}).values('timestamp').annotate(created_count=Count('id'))
     notifications = Notification.objects.filter(actor_object_id__in=following)
-    # print notifications2.values()
+    applications = ApplicantOffer.objects.filter(applicant=profile)
+
     unread = notifications.unread()
 
     # for key,group in itertools.groupby(notifications, key=lambda x: x[1][:11]):
@@ -1556,6 +1615,7 @@ def show_notifications(request):
         'profile': profile,
         'notifications' : notifications[:15],
         'unread_nb' : int(0+unread.count()),
+        'applications' : applications
     }
     return render_to_response('notifications/list.html', context, context_instance=RequestContext(request))
 
@@ -1570,6 +1630,16 @@ def notifications_mark_as_read(request):
     response = JSONResponse(True, {}, response_mimetype(request))
     response['Content-Disposition'] = 'inline; filename=files.json'
     return response
+
+
+@login_required
+def has_visited(request):
+    myself = Profile.objects.get(user_id=request.user.id)
+    myself.first_visit = True
+    myself.save()
+    response = JSONResponse(True, {}, response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response  
 
 
 class ImageProjectCreateView(CreateView):
@@ -1592,7 +1662,13 @@ class ImageProjectCreateView(CreateView):
             self.object.title = f.name
         self.object.project = Project.objects.get(id=id_project)
         self.object.save()
-        data = [{'name': f.name, 'url': settings.MEDIA_URL + "upload/images/project/" + f.name.replace(" ", "_"), 'thumbnail_url': settings.MEDIA_URL + "upload/images/project/" + f.name.replace(" ", "_"), 'delete_url': reverse('upload-delete', args=[self.object.id]), 'delete_type': "DELETE"}]
+        data = [{
+            'name': f.name, 
+            'url': settings.MEDIA_URL + "upload/images/project/" + f.name.replace(" ", "_"), 
+            'thumbnail_url': settings.MEDIA_URL + "upload/images/project/" + f.name.replace(" ", "_"), 
+            'delete_url': reverse('upload-delete', args=[self.object.id]), 
+            'delete_type': "DELETE"
+            }]
         response = JSONResponse(data, {}, response_mimetype(self.request))
         response['Content-Disposition'] = 'inline; filename=files.json'
 

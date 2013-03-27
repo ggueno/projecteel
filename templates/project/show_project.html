@@ -4,7 +4,7 @@
 {% load projects %}
     {% load hitcount_tags %}
 
-{% block title %} Project {{ profile.slug }} {% endblock %}
+{% block title %} {{ project.title }} - Projet par {{project.owner.user.first_name}} {{project.owner.user.last_name}} - Projecteel {% endblock %}
 {% block content %}
     <div class="row">
     {% if project %}
@@ -21,30 +21,37 @@
 
                 <ul class="stats threecol last">
                     <li><span>{{ project.views }}</span><i class="ico-eye-open"></i></li>
+                   
                     <li><span class="count-likes">{{project.likes.count}}</span><i class="icon push"></i></li>
+                    
                     <li><span >{{project.comments.count}}</span><i class="ico-comment"></i></li>
-                    {% if project.owner.user.id != request.user.id %}
-                    <li>
-                        {% if status == 'pushed' %}
-                        <a href="/project/unlike/{{project.id}}" id="push" class="active PTbutton">Pushé</a>
-                        {% else %}
-                        <a href="/project/like/{{project.id}}" id="push" class="unactive PTbutton">Push</a>
+                    {% if user %}
+                        {% if project.owner.user.id != request.user.id %}
+                        <li class="push">
+                            {% if status == 'pushed' %}
+                            <a href="/project/unlike/{{project.id}}" id="push" class="active PTbutton">Pushé</a>
+                            {% else %}
+                            <a href="/project/like/{{project.id}}" id="push" class="unactive PTbutton">Push</a>
+                            {% endif %}
+                        </li>
                         {% endif %}
-                    </li>
                     {% endif %}
                 </ul>
             </div>
 
+
             <div class="row" id="project-body">
                 {% if request.user.id == project.owner.user.id %}
-                    <a href="/project/edit/{{ project.id }}" class="PTbutton btn-edit-project">Editer le projet</a>
+                    <div class="project-controls">
+                        <a href="/project/edit/{{ project.id }}" class="PTbutton btn-edit-project"><i class="ico-edit"></i> Editer</a>
+                        <a href="/project/delete/{{ project.id }}" class="PTbutton btn-delete-project"><i class="ico-remove"></i> Supprimer</a>
+                    </div>
                 {% endif %}
 
                 <p class="project-content">{{ project.content }}</p>
 
                 {% for img in project.images.all %}
                     <img class="project-content" src="{{ img.image.url }}" alt="{{ img.slug }}">
-                    <h6 class="image-title">{{img.title}}</h6>
                     <p>{{img.description}}</p>
                 {% endfor %}
 
@@ -52,16 +59,23 @@
                     <p>{{embed.content|safe}}</p>
                 {% endfor %}
 
+
             <div class="projectComments">
+                
                 <h3 class="postComment">Poster un commentaire</h3>
+                {% if user %}
                 <form class="comment_form" action="/project/comment/new/" method="post">
                     {% csrf_token %}
                     {{ comment_form.content }}
                     <input type="hidden" name="project_id" value="{{ project.id }}">
                     <input type="submit" class="PTbutton">
                 </form>
+                {% else %}
+                    <p>Pour pouvoir poster une commentaire vous devez vous <a href="/accounts/register/">s'inscrire.</a></p>
+                    <a class="PTbutton" href="/accounts/register/">Inscription</a>
+                {% endif %}
 
-                <h3 class="numberComments">{% if comments%}<span id="numberComments">{{ comments|length }}</span> commentaires{%else%}Pas de commentaire{%endif%}</h3>
+                <h3 class="numberComments">{% if comments %}<span id="numberComments">{{ comments|length }}</span> commentaires{%else%}Pas de commentaire{%endif%}</h3>
                 <ul class="commentList">
                 {% for comment in comments %}
                     {% comment_template comment user.id %}
@@ -86,25 +100,28 @@
             <div class="applicant-mini">
                 <a href="/profile/{{ project.owner.slug }}">
                     {% thumbnail project.owner.avatar "80x80" crop="left" as im %}
-                    <img src="{{im.url}}" alt="{{project.owner.pseudo}}" id="profile_pic"/>
+                        <img src="{{im.url}}" alt="{{project.owner.pseudo}}" id="profile_pic"/>
+                    {% empty %}
+                        <img src="{{ STATIC_URL }}img/empty_profile.png" width="80" height="80" id="profile_pic"/>
                     {% endthumbnail %}
 
                     <h3>{{project.owner.user.first_name}} {{project.owner.user.last_name}}</h3>
                     <span class="profession">{{project.owner.profession}}</span>
                     {% if request.user.id != project.owner.user.id %}
-                        {% if following %}
-                             <a class="PTbutton active follow" href="/profile/unfollow/{{project.owner.id}}/"><i class="ico-ok-sign"></i> Suivi</a>
-                        {%else%}
-                             <a class="PTbutton unactive follow" href="/profile/follow/{{project.owner.id}}/"><i class="ico-plus-sign"> </i> Suivre</a>
+                        {% if user %}
+                            {% if following %}
+                                 <a class="PTbutton active follow" href="/profile/unfollow/{{project.owner.id}}/"><i class="ico-ok-sign"></i> Suivi</a>
+                            {%else%}
+                                 <a class="PTbutton unactive follow" href="/profile/follow/{{project.owner.id}}/"><i class="ico-plus-sign"> </i> Suivre</a>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 </a>
             </div>
 
 
-
-             <div class="participants">
-                {% if project.participant %}
+            {% if project.participant.count > 0 %}
+                <div class="participants">
                     <span>avec</span>
                     {% for profile in project.participant.all %}
                         <a href="/profile/{{ profile.slug }}" data-tooltip="{{ profile.user.first_name}} {{profile.user.last_name}}" class="tooltip">
@@ -115,27 +132,25 @@
                             {% endthumbnail %}
                         </a>
                     {% endfor %}
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
 
 
-            {% if project.owner.search_location %}
-            <p class="location"><i class="icon pin"></i> {{ project.owner.search_location }}</p>
+            {% if project.location %}
+            <h4 class="location"><i class="icon pin"></i> {{ project.location }}</h4>
             {% endif %}
 
             {% if project.period %}
-            <h4><i class="ico-time"></i> Durée</h4>
-            <p> {{ project.period }} mois</p>
+            <h4><i class="ico-time"></i>&nbsp;&nbsp; {{ project.period }} mois</h4>
+
             {% endif %}
 
             {% if project.cadre %}
-            <h4><i class="ico-group"></i> Réalisé dans le cadre</h4>
-            <p> {{ project.cadre }}</p>
+            <h4><i class="ico-group"></i>&nbsp; {{ project.get_cadre_display }} </h4>
             {% endif %}
 
             {% if project.state %}
-            <h4><i class="ico-tasks"></i>  Etat</h4>
-            <p> {{ project.get_state_display }}</p>
+            <h4><i class="ico-tasks"></i> &nbsp;{{ project.get_state_display }} </h4>
             {% endif %}
 
             {% if skills %}
@@ -150,6 +165,7 @@
 
             {% if tags %}
             <ul class="tags inline">
+                <i class="ico-tag"></i>
             {% for tag in tags %}
                 <li><a href="/projects/search/?tags[]={{tag.slug}}"> {{ tag.name }} </a></li>
             {% endfor %}
@@ -207,6 +223,16 @@
 
             if ($("#btn-push").hasClass('pushed'))
                 $("#btn-push").text('PUSHED');
+
+            $('.btn-delete-project').on('click',function(){
+                var url = $(this).attr('href');
+                if (confirm("Êtes-vous sur de vouloir supprimer le projet ?")){ 
+                  document.location.href = url;
+               } 
+               else{ 
+                  return false;
+               }
+            });
 
 
 
