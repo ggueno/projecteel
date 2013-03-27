@@ -11,21 +11,30 @@
 
 		<div class="fourcol offers">
 			<h1>Vos candidatures</h1>	
-			<ul>
-				<li>
-					<strong>Community manager</strong><a href="#">Carrefour</a>, Paris (75)
-					<a class="offer valid" alt="Retenue">
-						<i class="ico-ok"></i>
-					</a>
-				</li>
-				<li>
-					<strong>Community manager</strong><a href="#">Carrefour</a>, Paris (75)
-					<a class="offer declined" alt="Refusée"><i class="ico-ban-circle"></i></a>
-				</li>
-				<li><strong>Community manager de ouf zd qzla suba del vega coasta vega bravas izi life tékatééé</strong><a href="#">Carrefour</a>, Paris (75)
-					<a class="offer waiting" alt="En attente"><i class="ico-time"></i></a>
-				</li>	
-			</ul>
+			{% if applications %}
+				<ul>
+					{% for app in applications %}
+					<li>
+						<strong>{{ app.offer.title }}</strong><a href="/profile/company/{{ app.offer.company.slug }}">{{ app.offer.company.name }}</a>, {{ app.offer.location }}
+						{% if app.state == 'POST' %}
+							<a class="offer waiting" alt="En attente">
+								<i class="ico-time"></i>
+							</a>
+						{% elif app.state == 'FAIL'%}
+							<a class="offer declined" alt="Refusée">
+								<i class="ico-ban-circle"></i>
+							</a>
+						{% elif app.state == 'SAVE'%}
+							<a class="offer valid" alt="Retenue">
+								<i class="ico-ok"></i>
+							</a>
+						{% endif %}
+					</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<p>Vous n'avez pas encore envoyé de candidatures. <br><br><a href="/offers/" class="PTbutton alignCenter">Voir les offres</a></p>
+			{% endif %}
 		</div>
 
 		<div class="sevencol last">
@@ -38,7 +47,7 @@
 						{% include 'notifications/notice.html' %}
 					{% endfor %}
 				{% else %}
-					<p>Vous n'avez aucune notifications pour l'instant.</p>
+					<p>Vous n'avez pas encore de notifications pour le moment.</p>
 				{% endif %}
 			</ul>
 		</div>

@@ -44,7 +44,7 @@ hr {
   padding: 0;
 }
 a {
-  outline: none;
+  outline: none !important;
 }
 /*
  * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
@@ -338,6 +338,14 @@ a.PTbutton {
 .ideal-wrap.alignRight {
   float: right;
 }
+a.alignCenter {
+  margin: 0 auto;
+  display: block;
+  width: 130px;
+  padding: 1px;
+  height: 25px;
+  line-height: 25px;
+}
 .tooltip {
   display: inline;
   position: relative;
@@ -476,7 +484,7 @@ a.PTbutton {
   float: left;
   width: 24%;
   padding: 5px 3% 5px 20%;
-  text-align: left;
+  text-align: right;
 }
 .thumb .project_infos .project_pushs {
   float: right;
@@ -501,8 +509,8 @@ a.PTbutton {
   height: 15px;
   width: 19px;
   margin: 0 5px 0 0;
-  display: block;
-  float: left;
+  display: inline-block;
+  vertical-align: top;
 }
 .label_pushs {
   background: url(../img/icon_social.png) no-repeat -21px 0px;
@@ -816,7 +824,7 @@ a.edit-item:hover {
    L A N D I N G  P A G E
    ========================================================================== */
 .strap-1 {
-  background: url(../img/landscape.png) repeat-x bottom;
+  background: url(../img/landscape.png) repeat-x bottom, url(../img/landscape_pattern2.png) repeat-x 0 70%;
   height: 450px;
 }
 .strap-1 #logo_l {
@@ -1205,6 +1213,7 @@ header.menu #menu a.notifications.unread {
   width: 190px;
   height: 190px;
   z-index: 10;
+  overflow: hidden;
 }
 #edit_profile .profile_pic {
   position: absolute;
@@ -1551,7 +1560,7 @@ header.menu #menu a.notifications.unread {
 }
 .fileupload-buttonbar span.PTbutton {
   line-height: 2.6em;
-  padding: 3px 6px;
+  padding: 3px 12px 3px 14px;
   height: 31px;
   margin: 0;
   display: block;
@@ -1568,6 +1577,16 @@ header.menu #menu a.notifications.unread {
 }
 .fileupload-buttonbar .fileinput-button:hover span {
   background: #047dba;
+}
+.nextStep {
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid #CCC;
+  float: right;
+  color: #0099e6;
+}
+.nextStep:hover {
+  color: #0077b3;
 }
 /*
    A D D   N E W   P R O J E C T
@@ -1774,6 +1793,9 @@ ul.tabs li a .step-label {
   background: #047dba;
   color: #FFF;
 }
+.add_project .PTbutton {
+  padding: 5px 10px 5px 13px;
+}
 .add_project.edit .PTform .file-wrap input[type=file] {
   bottom: 28px;
   top: auto;
@@ -1788,6 +1810,9 @@ li.as-result-item img {
 /*
    L I S T   P R O J E C T S
    ========================================================================== */
+#projects {
+  min-height: 600px;
+}
 #projects .sixcol {
   margin: 0;
 }

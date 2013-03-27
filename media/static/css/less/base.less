@@ -59,7 +59,7 @@ hr {
 }
 
 a{
-    outline:none;
+    outline:none !important;
 }
 /*
  * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
@@ -348,6 +348,15 @@ a.PTbutton{
     float:right;
 }
 
+a.alignCenter{
+    margin:0 auto;
+    display: block;
+    width: 130px;
+    padding: 1px;
+    height: 25px;
+    line-height: 25px;
+}
+
 .tooltip {
     display: inline;
     position: relative;
@@ -493,7 +502,7 @@ a.PTbutton{
             float:left;
             width:24%;
             padding:5px 3% 5px 20%;
-            text-align:left;
+            text-align:right;
 
         }
         .project_pushs{
@@ -521,11 +530,11 @@ a.PTbutton{
 
 .label_views{
     background: url(../img/icon_social.png) no-repeat 0 -2px;
-    height:15px;
-    width:19px;
-    margin:0 5px 0 0;
-    display:block;
-    float:left;
+    height: 15px;
+    width: 19px;
+    margin: 0 5px 0 0;
+    display: inline-block;
+    vertical-align: top;
 }
 .label_pushs{
     background: url(../img/icon_social.png) no-repeat -21px 0px;
@@ -824,7 +833,7 @@ a.edit-item{
    ========================================================================== */
 
 .strap-1 {
-    background: url(../img/landscape.png) repeat-x bottom;
+    background: url(../img/landscape.png) repeat-x bottom, url(../img/landscape_pattern2.png) repeat-x 0 70%;
     height:450px;
     #logo_l {
         position: absolute;
@@ -1205,6 +1214,7 @@ header.menu{
     width:190px;
     height: 190px;
     z-index: 10;
+    overflow: hidden;
 }
 
 #edit_profile{
@@ -1524,7 +1534,7 @@ header.menu{
     }
     span.PTbutton{
         line-height: 2.6em;
-        padding: 3px 6px;
+        padding: 3px 12px 3px 14px;
         height: 31px;
         margin: 0;
         display: block;
@@ -1539,6 +1549,17 @@ header.menu{
         span{
             background:#047dba;
         }
+    }
+}
+
+.nextStep{
+    padding: 5px 12px;
+    background: transparent;
+    border: 1px solid #CCC;
+    float: right;
+    color: @PTblue;
+    &:hover{
+        color:darken(@PTblue, 10%);
     }
 }
 
@@ -1716,6 +1737,9 @@ ul.tabs{
             color:#FFF;
         }
     }
+    .PTbutton{
+        padding: 5px 10px 5px 13px;
+    }
 }
 
 .add_project.edit{
@@ -1739,6 +1763,7 @@ li.as-result-item{
    ========================================================================== */
 
 #projects{
+    min-height: 600px;
     .sixcol{
         margin: 0;
     }

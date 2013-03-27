@@ -55,6 +55,7 @@ class Profile(models.Model):
     cover_image_top = models.IntegerField(blank=True, null=True, default=0)
     description = models.TextField(blank=False, null=False)
     url = models.URLField(blank=True, null=True)
+    first_visit = models.BooleanField(default=False)
 
     # def save(self, *args, **kwargs):
     #     if not self.id:
