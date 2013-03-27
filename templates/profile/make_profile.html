@@ -15,9 +15,39 @@
                 <h1 class="heading">Création de profil</h1>
             {% endif %}
             <div class="row" id="edit_profile">
-                <div class="sixcol">
+                <div class="fivecol illustration global_explanation">
+                    {% if edit_title %}
+                        <h3 class="projecteel_infos">Pourquoi mettre à jour votre profil ?</h3>
+
+                        <h4 class="projecteel_infos">Ajouter des <span class="projecteel_infos">projets</span></h4>
+                        <p class="projecteel_infos">La mise à jour de votre profil, vous permet de continuer à poster vos projets personnels avec de bonnes informations.</p>
+
+                        <h4 class="projecteel_infos">Postuler à des <span class="projecteel_infos">offres</span></h4>
+                        <p class="projecteel_infos">Grâce à votre profil mis à jour. Vous continuerez de postuler avec des informations exactes aux offres d’emploi ou de stage qui seront publiées sur Projecteel.</p>
+
+                        <h4 class="projecteel_infos">Profiter du <span class="projecteel_infos">réseau</span></h4>
+                        <p class="projecteel_infos">Votre profil vous assurera une visibilité efficace sur le réseau si toutes les informations qui le composent sont correctes. Ainsi vous ne raterez aucune opportunité.</p>
+
+                        <img src="{% static "img/propulsez-vous.png" %}" title="propulsez-vous" />
+                    {% else %}
+                        <h3 class="projecteel_infos">Pourquoi créer un profil ?</h3>
+
+                        <h4 class="projecteel_infos">Ajouter des <span class="projecteel_infos">projets</span></h4>
+                        <p class="projecteel_infos">La création d’un profil vous permet de poster vos projets personnels sur Projecteel.</p>
+
+                        <h4 class="projecteel_infos">Postuler à des <span class="projecteel_infos">offres</span></h4>
+                        <p class="projecteel_infos">Ensuite, grâce à votre profil vous pourrez postuler aux offres d’emploi ou de stage qui seront publiées par les entreprises partenaires.</p>
+
+                        <h4 class="projecteel_infos">Profiter du <span class="projecteel_infos">réseau</span></h4>
+                        <p class="projecteel_infos">Votre profil vous assure une meilleure visibilité sur le réseau. Il vous ouvre les portes vers plus d’opportunités et vous offrent un meilleur référencement lorsqu’une entreprise effectue des recherches.</p>
+
+                        <img src="{% static "img/propulsez-vous.png" %}" title="propulsez-vous" />
+                    {% endif %}
+
+
 
                 </div>
+
                 <div class="sixcol last">
                     <ul class="tabs">
                         <li><a href="#etape1"><i class="step-label">1</i>Etape 1</a></li>
@@ -33,7 +63,7 @@
 
                         <!-- TAB -->
                         <section id="etape1">
-                            
+
                             {{ form_user.errors }}
 
                             <span class="annotation">Les champs indiqué par (*) sont obligatoires.<br/><br/>Renseigner votre prénom et votre nom, ils seront diffusés sur votre profil.</span>
@@ -123,9 +153,9 @@
                         </section>
 
                         <section id="etape2">
-                            
+
                             {{ form_applicant.errors }}
-                            
+
                             <div>
                                 <label for="id_description">Description (*)</label>
                                 <span class="annotation">Ecrivez ici une petite présentation de vous. Qu'est ce qui vous caractérise ? Quels sont vos rêves et vos espoirs ?</span>
@@ -144,7 +174,7 @@
                             </div>
                             <div>
                                 <label for="id_profession">Profession (*)</label>
-                                <span class="annotation">Le metier qui vous caractérise.</span>
+                                <span class="annotation">Le metier qui vous caractérise, par exemple : Développeur.</span>
                                 {% if form_applicant.profession.errors %}
                                 <p class="errors">{{ form_applicant.profession.errors.as_text }}</p>
                                 {% endif %}

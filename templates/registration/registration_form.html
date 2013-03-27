@@ -9,8 +9,25 @@
     <div class="sleekbox">
       <div class="content">
         <div class="row" >
-            <div class="sixcol illustration">
+            <div class="fivecol illustration">
+
+
+                <h3 class="projecteel_infos">Projecteel, vos projets <span class="projecteel_infos">autrement</span></h3>
+                <p class="projecteel_infos">Votre compte Projecteel vous permet de publier, partager et référencer vos projets. Vous choisissez les contenus que vous mettez en ligne et bénéficiez des commentaires d’autres utilisateurs de Projecteel.</p>
+
                 <img src="{% static "img/propulsez-vous.png" %}" title="propulsez-vous" />
+                <br/><br/><br/>
+
+                <h3 class="projecteel_infos">Découvrez d’autres <span class="projecteel_infos">créations<span></h3>
+                <p class="projecteel_infos">La création d’un profil Projecteel vous permet de découvrir de nouveau projets. Vous pouvez aussi vous abonner pour suivre les actualités d’autres personnes sur le réseau.</p>
+
+                <img src="{% static "img/propulsez-vous.png" %}" title="propulsez-vous" />
+                <br/><br/><br/><br/>
+
+                <h3 class="projecteel_infos">De nouveaux échanges avec les <span class="projecteel_infos">entreprises</span></h3>
+                <p class="projecteel_infos">Grâce aux projets que vous publiez, Projecteel vous met en relation avec des entreprises susceptibles de vous intéresser. Vous pouvez aussi recevoir des offres de stage ou d’emploi correspondants à vos domaines de compétence.</p>
+
+
             </div>
             <div class="sixcol last">
 
@@ -40,7 +57,7 @@
 
                   <span class="annotation checkEmail"></span>
                 </div>
-                
+
                 <div>
                   <label for="id_password1">Mot de passe (*)</label>
                   <span class="annotation">Prenez un mot de passe (plus 8 caractères) facile à retenir pour vous mais difficile à deviner pour les autres. Par exemple : guENO75cl.</span>
@@ -132,9 +149,9 @@
               //$(".strenghtPassword").removeClass();
               $(".strenghtPassword").addClass('passwordStrength-'+state);
               if($(this).val().length < 8){
-                $(".strenghtPassword").html("Le mot de passe doit faire plus de 8 caractères  "); 
+                $(".strenghtPassword").html("Le mot de passe doit faire plus de 8 caractères  ");
               }else{
-                $(".strenghtPassword").html(strength[state]); 
+                $(".strenghtPassword").html(strength[state]);
               }
 
               var passwordVal = $("#id_password1").val();
@@ -149,7 +166,7 @@
                 $(".checkPassword").addClass('passwordCheckOk');
                 $(".checkPassword").html("Les deux mot de passe sont bien les mêmes");
               }
-              
+
             });
 
             $("#id_password2").change(function(){
@@ -173,7 +190,7 @@
                 $(".checkEmail").addClass('emailCheckError');
                 $(".checkEmail").html("Ceci n'est pas un email valide");
               }else{
-                
+
                 $(".checkEmail").addClass('emailCheckOk');
                 $(".checkEmail").html("Email Valide");
               }
@@ -182,6 +199,5 @@
 
     </script>
 {% endblock %}
- 
 
-    
+
