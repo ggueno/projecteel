@@ -91,6 +91,7 @@
                         </ul>
                     </div>
                 </div>
+
                 <div class="profile_secondbar">
                     <ul>
                         <li><i class="icon pin"></i> {{ profile.search_location }}</li>
@@ -98,9 +99,6 @@
                         <li class="last"><a href="{{ profile.url }}" target="_blank" title=""><i class="icon web"></i> {{ profile.url }}</a></li>
 
                         {% if profile.social_network %}
-
-
-
                         <div class="floatRight last">
 
                             {% if profile.social_network.all.count > 3  %}
@@ -174,34 +172,39 @@
         
 
         <section class="row" id="infos_profile">
-        {% if profile.education %}
-            <h1>Formation</h1>
-            {% for education in profile.education.all %}
-                {% include "profile/education.html" %}
-            {% endfor %}
-            {% if user.id == profile.user_id %}
-            <a href="#" id="add-education"><i class="ico-plus-sign"></i>  Ajouter une formation</a>
-            <div id="add-education-form" class="row">
-                <div class="sixcol">
-                    {% include "profile/education_form.html" %}
-                </div>
-            </div>
-            {% endif %}
-        {% endif %}
 
-        {% if profile.experience %}
-            <h1>Experiences</h1>
-            {% for experience in profile.experience.all %}
-                {% include "profile/experience.html" %}
-            {% endfor %}
-            {% if user.id == profile.user_id %}
-            <a href="#" id="add-experience"><i class="ico-plus-sign"></i>  Ajouter une formation</a>
-            <div id="add-experience-form" class="row">
-                <div class="sixcol">
-                    {% include "profile/experience_form.html" %}
-                </div>
+            <div class="sixcol tab-formation">
+                {% if profile.education %}
+                    <h1>Formation</h1>
+                    {% for education in profile.education.all %}
+                        {% include "profile/education.html" %}
+                    {% endfor %}
+                    {% if user.id == profile.user_id %}
+                    <a href="#" id="add-education"><i class="ico-plus-sign"></i>  Ajouter une formation</a>
+                    <div id="add-education-form" class="row">
+                        <div class="sixcol">
+                            {% include "profile/education_form.html" %}
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endif %}
             </div>
+
+            <div class="sixcol last tab-experience">
+            {% if profile.experience %}
+                <h1>Experiences</h1>
+                {% for experience in profile.experience.all %}
+                    {% include "profile/experience.html" %}
+                {% endfor %}
+                {% if user.id == profile.user_id %}
+                <a href="#" id="add-experience"><i class="ico-plus-sign"></i>  Ajouter une formation</a>
+                <div id="add-experience-form" class="row">
+                    <div class="sixcol">
+                        {% include "profile/experience_form.html" %}
+                    </div>
+                </div>
             {% endif %}
+            </div>
         {% endif %}
         </section>
 

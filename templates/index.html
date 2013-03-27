@@ -27,7 +27,30 @@
             <img id="logo_l" src="{% static "img/logo_l.png" %}" alt="logo">
             <p class="catcher">Projecteel met en relation les étudiants et les jeunes diplômés avec les entreprises par leurs projets et leurs réalisations.</p>
             <div class="box-connexion threecol">
-                {% include "registration/login.html" %}
+                <form class="PTform form-connexion" method="post" action="/accounts/login/?next=/profile/">
+                    {% csrf_token %}    
+                    <h1 class="heading heading-lp">Connexion</h1>
+
+                    <label for="id_username">Email</label>
+                    {{ form.username }}
+                    {% if form.username.errors %} 
+                        <span class="error">{{ form.username.errors|join:", " }}</span>
+                    {% endif %}
+
+
+                    <label for="id_password">Mot de passe</label>
+                    {{ form.password }}
+
+                    {% if form.password.errors %} 
+                        <span class="error">{{ form.password.errors|join:", " }}</span>
+                    {% endif %}
+
+                    <input class="PTbutton button-landingPage" type="submit" name="" value="Se connecter">  
+
+                    <input type="checkbox" name="" value="">Rester connecté
+                    <p><a href="#">Mot de passe oublié</a> - <a href="#register">S'inscrire</a></p>
+                    <p></p>
+                </form>
             </div>
         </section>
 

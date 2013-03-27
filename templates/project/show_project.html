@@ -21,19 +21,24 @@
 
                 <ul class="stats threecol last">
                     <li><span>{{ project.views }}</span><i class="ico-eye-open"></i></li>
+                   
                     <li><span class="count-likes">{{project.likes.count}}</span><i class="icon push"></i></li>
+                    
                     <li><span >{{project.comments.count}}</span><i class="ico-comment"></i></li>
-                    {% if project.owner.user.id != request.user.id %}
-                    <li>
-                        {% if status == 'pushed' %}
-                        <a href="/project/unlike/{{project.id}}" id="push" class="active PTbutton">Pushé</a>
-                        {% else %}
-                        <a href="/project/like/{{project.id}}" id="push" class="unactive PTbutton">Push</a>
+                    {% if user %}
+                        {% if project.owner.user.id != request.user.id %}
+                        <li>
+                            {% if status == 'pushed' %}
+                            <a href="/project/unlike/{{project.id}}" id="push" class="active PTbutton">Pushé</a>
+                            {% else %}
+                            <a href="/project/like/{{project.id}}" id="push" class="unactive PTbutton">Push</a>
+                            {% endif %}
+                        </li>
                         {% endif %}
-                    </li>
                     {% endif %}
                 </ul>
             </div>
+
 
             <div class="row" id="project-body">
                 {% if request.user.id == project.owner.user.id %}
@@ -51,16 +56,23 @@
                     <p>{{embed.content|safe}}</p>
                 {% endfor %}
 
+
             <div class="projectComments">
+                
                 <h3 class="postComment">Poster un commentaire</h3>
+                {% if user %}
                 <form class="comment_form" action="/project/comment/new/" method="post">
                     {% csrf_token %}
                     {{ comment_form.content }}
                     <input type="hidden" name="project_id" value="{{ project.id }}">
                     <input type="submit" class="PTbutton">
                 </form>
+                {% else %}
+                    <p>Pour pouvoir poster une commentaire vous devez vous <a href="/accounts/register/">s'inscrire.</a></p>
+                    <a class="PTbutton" href="/accounts/register/">Inscription</a>
+                {% endif %}
 
-                <h3 class="numberComments">{% if comments%}<span id="numberComments">{{ comments|length }}</span> commentaires{%else%}Pas de commentaire{%endif%}</h3>
+                <h3 class="numberComments">{% if comments %}<span id="numberComments">{{ comments|length }}</span> commentaires{%else%}Pas de commentaire{%endif%}</h3>
                 <ul class="commentList">
                 {% for comment in comments %}
                     {% comment_template comment user.id %}
@@ -91,10 +103,12 @@
                     <h3>{{project.owner.user.first_name}} {{project.owner.user.last_name}}</h3>
                     <span class="profession">{{project.owner.profession}}</span>
                     {% if request.user.id != project.owner.user.id %}
-                        {% if following %}
-                             <a class="PTbutton active follow" href="/profile/unfollow/{{project.owner.id}}/"><i class="ico-ok-sign"></i> Suivi</a>
-                        {%else%}
-                             <a class="PTbutton unactive follow" href="/profile/follow/{{project.owner.id}}/"><i class="ico-plus-sign"> </i> Suivre</a>
+                        {% if user %}
+                            {% if following %}
+                                 <a class="PTbutton active follow" href="/profile/unfollow/{{project.owner.id}}/"><i class="ico-ok-sign"></i> Suivi</a>
+                            {%else%}
+                                 <a class="PTbutton unactive follow" href="/profile/follow/{{project.owner.id}}/"><i class="ico-plus-sign"> </i> Suivre</a>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 </a>
