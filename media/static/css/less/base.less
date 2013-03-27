@@ -1349,10 +1349,27 @@ header.menu{
     h1{
         text-transform: uppercase;
         margin: 15px 0;
-        padding: 5px 0;
-        font-size: 1.4em;
-        border-bottom:1px solid #d2d2d2;
+        padding: 5px 15px;
+        font-size: 1.3em;
+        font-weight: 400;
     }
+
+    .tab-formation, .tab-experience{
+        background-color: white;
+
+    }
+
+    .formation-date{
+        float: left;
+        width: 28%;
+        margin-right: 6%;
+        text-align: right;
+        span{
+            display: block;
+        }
+        color: gray;
+    }
+
     .experience, .education{
         padding: 10px 20px;
         margin: 10px 0;
@@ -1367,6 +1384,22 @@ header.menu{
             display: none;
         }
     }
+
+
+    .formation-content{
+        float: left;
+        width: 60%;
+        h3{
+            font-weight: 500;
+            color: @PTblue;
+        }
+
+        h4{
+            font-weight: 200;
+            text-transform: lowercase;
+        }
+    }
+
     #add-experience, #add-education{
         font-weight: 600;
         margin: 15px 0;

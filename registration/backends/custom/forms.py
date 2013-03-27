@@ -81,15 +81,27 @@ class Email(forms.EmailField):
 
 
 class UserRegistrationForm(forms.Form):
+    min_password_length = 8
+
     password1 = forms.CharField(widget=forms.PasswordInput(), label="Password")
     password2 = forms.CharField(widget=forms.PasswordInput(), label="Repeat your password")
     email = Email()
-    USER_CATEGORY = [('ecole', 'Ecole'),
-                        ('entreprise', 'Entreprise'),
-                        ('etudiant', 'Etudiant')]
+    USER_CATEGORY = [
+                        ('entreprise', 'une entreprise'),
+                        ('etudiant', 'un etudiant ou jeune diplome')]
     user_category = forms.ChoiceField(required=True, widget=forms.RadioSelect(), choices=USER_CATEGORY)
 
+    def clean_password1(self):
+        password1 = self.cleaned_data.get('password1', '')
+        if len(password1) < self.min_password_length:
+            raise forms.ValidationError("Le mot de passe doit avoir au moins %i caracteres" % self.min_password_length)
+        else:
+            return password1
+
     def clean_password(self):
+        print "clean_password"
+        if len(self.data['password1']) < 8:
+            raise ValidationError('Password too short')
         if self.data['password1'] != self.data['password2']:
             raise forms.ValidationError('Passwords are not the same')
         return self.data['password1']

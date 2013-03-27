@@ -3788,9 +3788,23 @@ header.menu #menu a.notifications.unread {
 #infos_profile h1 {
   text-transform: uppercase;
   margin: 15px 0;
-  padding: 5px 0;
-  font-size: 1.4em;
-  border-bottom: 1px solid #d2d2d2;
+  padding: 5px 15px;
+  font-size: 1.3em;
+  font-weight: 400;
+}
+#infos_profile .tab-formation,
+#infos_profile .tab-experience {
+  background-color: white;
+}
+#infos_profile .formation-date {
+  float: left;
+  width: 28%;
+  margin-right: 6%;
+  text-align: right;
+  color: gray;
+}
+#infos_profile .formation-date span {
+  display: block;
 }
 #infos_profile .experience,
 #infos_profile .education {
@@ -3809,6 +3823,18 @@ header.menu #menu a.notifications.unread {
 #infos_profile .experience a.edit-item,
 #infos_profile .education a.edit-item {
   display: none;
+}
+#infos_profile .formation-content {
+  float: left;
+  width: 60%;
+}
+#infos_profile .formation-content h3 {
+  font-weight: 500;
+  color: #0099e6;
+}
+#infos_profile .formation-content h4 {
+  font-weight: 200;
+  text-transform: lowercase;
 }
 #infos_profile #add-experience,
 #infos_profile #add-education {
@@ -5008,4 +5034,8 @@ img.project-content {
 .dropdown .select {
   font-weight: 700;
   color: #cdcdcd;
+}
+/* Formation */
+#infos_profile .tab-experience {
+  background-color: white;
 }

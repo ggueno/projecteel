@@ -226,3 +226,7 @@ img.project-content {
   font-weight: 700;
   color: #cdcdcd;
 }
+/* Formation */
+#infos_profile .tab-experience {
+  background-color: white;
+}

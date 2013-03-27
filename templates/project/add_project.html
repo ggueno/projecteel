@@ -38,13 +38,14 @@
                                 <!-- Heading -->
                                 <div>
                                     <label for="id_title">Titre du projet</label>
+                                    <span class="annotation">Vos projets ont plus d'intérêt lorsqu'​ils ont des titres originaux.​</span>
                                     {{ form.title }}
                                     {{ form.title.errors }}
                                 </div>
 
                                 <div class="file-wrap">
                                     <label>Vignette</label>
-
+                                    <span class="annotation">Choississez une jolie vignette qui représentera au mieux votre beau projet !​</span>
                                    {{ form.thumbnail }}
                                     <input type="text" class="file-holder" autocomplete="off" disabled>
                                     <button type="button"><i class="icon image"></i> Choisir</button>
@@ -52,16 +53,21 @@
                                 </div>
                                 <div>
                                     <label for="id_categories">Catégorie</label>
+                                    <span class="annotation">Ajoutez les catégories auxquelles se rapporte votre projet.</span>
                                     {{ form.categories }}
                                     {{ form.categories.errors }}
                                 </div>
                                 <div>
+
                                     <label for="id_content">Contenu</label>
+                                    <span class="annotation"> Décrivez votre projet en quelques lignes. Abordez les éléments qui vous semblent pertinents. Par exemple : les raisons, les circonstances...</span>
+
                                     {{ form.content }}
                                     {{ form.content.errors }}
                                 </div>
                                 <div>
                                     <label for="">Médias</label>
+                                    <span class="annotation">Ajoutez les médias qui mettront le mieux en valeur votre projet.</span>
                                     <label class="sublabel">par URL</label>
                                     <hr class="sublabel"/>
                                     <div class="embeds">
@@ -83,31 +89,41 @@
                                 <!-- Vidéo & Image -->
 
                                 <div>
+
                                     <label for="participant">Participants au projet</label>
+                                    <span class="annotation">Précisez ici les personnes ayant participées au projet.</span>
                                     <input type="text" id="participant_input" />
                                 </div>
                                 <div>
                                     <label for="">{{form.cadre.label}}</label>
+                                    <span class="annotation">Dans quelles circonstances avez-vous réalisé ce projet ?</span>
                                     {{ form.cadre }}
                                     {{ form.cadre.errors }}
                                 </div>
                                 <div>
+
                                     <label for="id_state">Etat du projet</label>
+                                    <span class="annotation">Précisez l'état d'avancement de votre projet.</span>
+
                                     {{ form.state }}
                                     {{ form.state.errors }}
                                 </div>
                                 <div>
                                     <label for="id_period">Durée du projet</label>
+                                    <span class="annotation">La durée de réalisation de votre projet.</span>
+
                                     {{ form.period }}
                                     {{ form.period.errors }}
                                 </div>
                                 <div>
                                     <label for="id_location">Localisation</label>
+                                    <span class="annotation">Où le projet a-t-il été réalisé ?</span>
                                     {{ form.location }}
                                     {{ form.location.errors }}
                                 </div>
                                 <div>
                                     <label for="">{{form.tags.label}}</label>
+                                    <span class="annotation">Des mots-clés pertinents rendront votre projet plus facile à trouver (veuillez séparer vos mots-clés par des virgules).</span>
                                     {{ form.tags }}
                                     {{ form.tags.errors }}
                                 </div>

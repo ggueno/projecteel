@@ -8,12 +8,14 @@
 <section class="row">
     <div class="sleekbox">
       <div class="content">
-        <h1 class="heading">Inscription</h1>
         <div class="row" >
             <div class="sixcol illustration">
                 <img src="{% static "img/propulsez-vous.png" %}" title="propulsez-vous" />
             </div>
             <div class="sixcol last">
+
+              <h1 class="heading">Créer un compte Projecteel</h1>
+             <span class="annotation">Les champs indiqués par (*) sont obligatoires.</span>
               {% if form.errors %}
               <p class="errors">Merci de corriger les erreurs ci-dessous: {{ form.non_field_errors }}</p>
               {% endif %}
@@ -21,35 +23,43 @@
               <form method="post" action="" class="wide PTform">
             	{% csrf_token %}
                 <div>
-                  <label for="id_email">Email</label>
-                  <span class="annotation">Votre adresse email personnelle.</span>
-                  {% if form.email.errors %}
-                    <p class="errors">{{ form.email.errors.as_text }}</p>
-                  {% endif %}
-                  {{ form.email }}
-                </div>
-                <div>
-                  <label for="id_user_category">Categorie</label>
+                  <label for="id_user_category">Vous êtes :</label>
                   {% if form.user_category.errors %}
                     <p class="errors">{{ form.user_category.errors.as_text }}</p>
                   {% endif %}
                   {{ form.user_category }}
                 </div>
+
                 <div>
-                  <label for="id_password1">Mot de passe</label>
-                  <span class="annotation">Prenez un mot de passe (plus 8 caractères étant l'idéal) facile à retenir pour vous mais difficile à deviner pour les autres. Par exemple : guENO75cl.</span>
+                  <label for="id_email">Email (*)</label>
+                  <span class="annotation">Votre adresse email personnelle.</span>
+                  {% if form.email.errors %}
+                    <p class="errors">{{ form.email.errors.as_text }}</p>
+                  {% endif %}
+                  {{ form.email }}
+
+                  <span class="annotation checkEmail"></span>
+                </div>
+                
+                <div>
+                  <label for="id_password1">Mot de passe (*)</label>
+                  <span class="annotation">Prenez un mot de passe (plus 8 caractères) facile à retenir pour vous mais difficile à deviner pour les autres. Par exemple : guENO75cl.</span>
+
+
                   {% if form.password1.errors %}
                     <p class="errors">{{ form.password1.errors.as_text }}</p>
                   {% endif %}
                   {{ form.password1 }}
+                  <span class="annotation strenghtPassword"></span>
                 </div>
                 <div>
-                  <label for="id_password2">Confirmation de mot de passe</label>
+                  <label for="id_password2">Confirmation de mot de passe (*)</label>
                   <span class="annotation">Le même mot de passe que précédemment.</span>
                   {% if form.password2.errors %}
                     <p class="errors">{{ form.password2.errors.as_text }}</p>
                   {% endif %}
                   {{ form.password2 }}
+                  <span class="annotation checkPassword"></span>
                 </div>
                 <div class="submit"><input type="submit" value="Inscription" class="PTbutton"></div>
               </form>
@@ -72,3 +82,106 @@
       </div>
   </div>
 </section>
+
+
+{% block js %}
+    <script>
+    function isValidEmailAddress(emailAddress) {
+        var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+        return pattern.test(emailAddress);
+    };
+
+      function checkPassword(password)
+        {
+          var strength = new Array();
+          var score = 1;
+
+          if (password.length < 1)
+            return strength[0];
+
+          if (password.length < 4)
+            return strength[1];
+
+          if (password.length >= 8)
+            score++;
+          if (password.length >= 10)
+            score++;
+          if (password.match(/\d+/))
+            score++;
+          if (password.match(/[a-z]/) &&
+            password.match(/[A-Z]/))
+            score++;
+          if (password.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,£,(,)]/))
+            score++;
+
+          return score;
+        }
+
+        var strength = new Array();
+        strength[0] = "Nul";
+        strength[1] = "Très Faible";
+        strength[2] = "Faible";
+        strength[3] = "Moyen";
+        strength[4] = "Fort";
+        strength[5] = "Très fort";
+
+        $().ready(function(){
+
+            $("#id_password1").change(function(){
+              var state = checkPassword($(this).val());
+              //$(".strenghtPassword").removeClass();
+              $(".strenghtPassword").addClass('passwordStrength-'+state);
+              if($(this).val().length < 8){
+                $(".strenghtPassword").html("Le mot de passe doit faire plus de 8 caractères  "); 
+              }else{
+                $(".strenghtPassword").html(strength[state]); 
+              }
+
+              var passwordVal = $("#id_password1").val();
+              var checkVal = $("#id_password2").val();
+              $(".checkPassword").removeClass('passwordCheckError');
+              $(".checkPassword").removeClass('passwordCheckOk');
+
+              if(checkVal != passwordVal){
+                $(".checkPassword").addClass('passwordCheckError');
+                $(".checkPassword").html("Les deux mot de passe ne correspondent pas");
+              }else{
+                $(".checkPassword").addClass('passwordCheckOk');
+                $(".checkPassword").html("Les deux mot de passe sont bien les mêmes");
+              }
+              
+            });
+
+            $("#id_password2").change(function(){
+              var passwordVal = $("#id_password1").val();
+              var checkVal = $("#id_password2").val();
+              $(".checkPassword").removeClass('passwordCheckError');
+              $(".checkPassword").removeClass('passwordCheckOk');
+
+              if(checkVal != passwordVal){
+                $(".checkPassword").addClass('passwordCheckError');
+                $(".checkPassword").html("Les deux mot de passe ne correspondent pas");
+              }else{
+                $(".checkPassword").addClass('passwordCheckOk');
+                $(".checkPassword").html("Les deux mot de passe sont bien les mêmes");
+              }
+            });
+
+            $("#id_email").change(function(){
+              email = false;
+              if( !isValidEmailAddress( $(this).val() ) ){
+                $(".checkEmail").addClass('emailCheckError');
+                $(".checkEmail").html("Ceci n'est pas un email valide");
+              }else{
+                
+                $(".checkEmail").addClass('emailCheckOk');
+                $(".checkEmail").html("Email Valide");
+              }
+            })
+        });
+
+    </script>
+{% endblock %}
+ 
+
+    

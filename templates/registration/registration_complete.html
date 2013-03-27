@@ -2,7 +2,22 @@
 
 {% block title %}Registration complete{% endblock %}
 
+
+{% load staticfiles %}
 {% block content %}
-<h1>Check your email</h1>
-<p>An activation link has been sent to the email address you supplied, along with instructions for activating your account.</p>
+<section class="row">
+    <div class="sleekbox">
+      <div class="content">
+        <h1 class="heading">Check tes mails !</h1>
+        <div class="row" >
+            <div class="sixcol illustration">
+                <img src="{% static "img/propulsez-vous.png" %}" title="propulsez-vous" />
+            </div>
+            <div class="sixcol last">
+            	<p> Un e-mail d'activation vous a été envoyé sur votre adresse, suivez les instructions contenus dans celui-ci pour activer votre compte.</p>
+        	</div>
+        </div>
+      </div>
+  </div>
+</section>
 {% endblock %}
