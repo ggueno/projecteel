@@ -129,52 +129,71 @@
 
             $("#id_password1").change(function(){
               var state = checkPassword($(this).val());
-              //$(".strenghtPassword").removeClass();
-              $(".strenghtPassword").addClass('passwordStrength-'+state);
+              $(".strenghtPassword").removeClass('annotation-error annotation-ok');
+              $(this).removeClass("input-error input-ok");
+
               if($(this).val().length < 8){
+                $(this).addClass("input-error");
+                $(".strenghtPassword").addClass('annotation-error passwordStrength-'+state);
                 $(".strenghtPassword").html("Le mot de passe doit faire plus de 8 caractères  "); 
               }else{
+                $(this).addClass("input-ok");
+                $(".strenghtPassword").addClass('annotation-ok passwordStrength-'+state);
                 $(".strenghtPassword").html(strength[state]); 
               }
 
               var passwordVal = $("#id_password1").val();
               var checkVal = $("#id_password2").val();
-              $(".checkPassword").removeClass('passwordCheckError');
-              $(".checkPassword").removeClass('passwordCheckOk');
 
-              if(checkVal != passwordVal){
-                $(".checkPassword").addClass('passwordCheckError');
-                $(".checkPassword").html("Les deux mot de passe ne correspondent pas");
-              }else{
-                $(".checkPassword").addClass('passwordCheckOk');
-                $(".checkPassword").html("Les deux mot de passe sont bien les mêmes");
+              if(checkVal){
+                $(this).removeClass("input-error input-ok");
+                $(".checkPassword").removeClass('passwordCheckError annotation-error');
+                $(".checkPassword").removeClass('passwordCheckOk annotation-ok');
+
+                if(checkVal != passwordVal){
+                  $(this).addClass("input-error");
+                  $(".checkPassword").addClass('passwordCheckError annotation-error');
+                  $(".checkPassword").html("Les deux mot de passe ne correspondent pas");
+                }else{
+                  $(this).addClass("input-ok");
+                  $(".checkPassword").addClass('passwordCheckOk annotation-ok');
+                  $(".checkPassword").html("Les deux mot de passe sont bien les mêmes");
+                }
               }
               
             });
 
             $("#id_password2").change(function(){
+              $(this).removeClass("input-error input-ok");
               var passwordVal = $("#id_password1").val();
               var checkVal = $("#id_password2").val();
-              $(".checkPassword").removeClass('passwordCheckError');
-              $(".checkPassword").removeClass('passwordCheckOk');
+
+              $(this).removeClass("input-error input-ok");
+              $(".checkPassword").removeClass('passwordCheckError annotation-error' );
+              $(".checkPassword").removeClass('passwordCheckOk annotation-ok');
 
               if(checkVal != passwordVal){
-                $(".checkPassword").addClass('passwordCheckError');
+                $(this).addClass("input-error");
+                $(".checkPassword").addClass('passwordCheckError annotation-error');
                 $(".checkPassword").html("Les deux mot de passe ne correspondent pas");
               }else{
-                $(".checkPassword").addClass('passwordCheckOk');
+                $(this).addClass("input-ok");
+                $(".checkPassword").addClass('passwordCheckOk annotation-ok');
                 $(".checkPassword").html("Les deux mot de passe sont bien les mêmes");
               }
             });
 
             $("#id_email").change(function(){
               email = false;
+              $(this).removeClass("input-error input-ok");
+              $(".checkEmail").removeClass("emailCheckError annotation-error emailCheckOk annotation-ok");
               if( !isValidEmailAddress( $(this).val() ) ){
-                $(".checkEmail").addClass('emailCheckError');
+                $(this).addClass("input-error");
+                $(".checkEmail").addClass('emailCheckError annotation-error');
                 $(".checkEmail").html("Ceci n'est pas un email valide");
               }else{
-                
-                $(".checkEmail").addClass('emailCheckOk');
+                $(this).addClass("input-ok");
+                $(".checkEmail").addClass('emailCheckOk annotation-ok');
                 $(".checkEmail").html("Email Valide");
               }
             })

@@ -3369,7 +3369,7 @@ a.edit-item:hover {
    ========================================================================== */
 header.menu {
   background: #252525;
-  height: 51px;
+  height: 59px;
   width: 100%;
   overflow: auto;
   color: #FFFFFF;
@@ -3383,6 +3383,7 @@ header.menu #logo {
   height: 51px;
   display: block;
   float: left;
+  padding: 4px 0;
 }
 header.menu #menu {
   list-style-type: none;
@@ -3392,11 +3393,12 @@ header.menu #menu {
 header.menu #menu a {
   display: block;
   float: left;
-  padding: 15px 50px;
+  padding: 19px 50px;
   margin: 0;
+  font-weight: 600;
   text-transform: uppercase;
   text-align: center;
-  font-size: 1.1em;
+  font-size: 1.0em;
 }
 header.menu #menu a.active,
 header.menu #menu a:hover {
@@ -3412,7 +3414,7 @@ header.menu #menu a.profile {
   font-size: .9em;
   text-align: right;
   padding-right: 15px;
-  padding-top: 13px;
+  padding-top: 17px;
   height: 19px;
   padding-left: 30px;
   width: 120px;
@@ -4789,6 +4791,21 @@ li.as-result-item img {
   h3 {
     page-break-after: avoid;
   }
+}
+/*  Form : Register */
+.annotation-ok {
+  color: green;
+}
+.annotation-error {
+  color: #f55253;
+}
+.PTform input[type=text].input-ok,
+.PTform input[type=password].input-ok {
+  border: 1px solid green;
+}
+.PTform input[type=text].input-error,
+.PTform input[type=password].input-error {
+  border: 1px solid #f55253;
 }
 #project h4.subline {
   font-size: 14px;
