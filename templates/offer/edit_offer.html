@@ -10,7 +10,7 @@
 </head>
 
 <a href="/offer/posted_offers">Voir toutes mes offres postées</a>
-    
+
     <section class="row add_project">
         <div class="sleekbox">
             <div class="content">
@@ -31,26 +31,29 @@
                         {% csrf_token %}
                             <div>
                                 <label for="">Intitulé de l'offre *</label>
-                                <p class="annotation">Eviter les termes "recherche", "recrute", la localisation ou le type de contrat qui seront renseignés ci-dessous.</p>
+                                <span class="annotation">Eviter les termes "recherche", "recrute", la localisation ou le type de contrat qui seront renseignés ci-dessous.</span>
                                 {{ form.title }}
                                 {{ form.title.errors }}
                             </div>
                             <div>
-                                <label for="">Location *</label>{{form.location}}
+                                <label for="">Location *</label>
+                                <span class="annotation">Exemple : Paris, Paris(75), ...</span>
+                                {{form.location}}
                                 {{ form.location.errors }}
-                                <p class="comments">Exemple : Paris, Paris(75), ...</p>
                             </div>
                             <div>
                                 <label for="">Début de l'offre</label>
-                                <p  class="annotation">Poste à pourvoir à une date précise ?</p>
+                                <span class="annotation">Poste à pourvoir à une date précise ?</span>
+
                                 {{form.start}}
                                 {{ form.start.errors }}
                             </div>
                             <div>
                                 <label for="">Durée de la mission</label>
-                                <p class="annotation">Saisissez un nombre entier.</p>
+                                <span class="annotation">Saisissez un nombre entier, par exemple : 6 mois.</span>
+
+
                                 {{form.duration}}
-                                <p class="comments">Exemple : 6 mois, ..</p>
                                 {{ form.duration.errors }}
                             </div>
                             <div>
@@ -59,20 +62,22 @@
                             </div>
                             <div>
                                 <label for="">Salaire</label>
-                                <p class="annotation">Saisissez un nombre entier (par mois et en euros).</p>
+                                <span class="annotation">Saisissez un nombre entier (par mois et en euros).</span>
+
                                 {{form.salary}}
                                 {{ form.salary.errors }}
                             </div>
                             <div>
                                 <label for="">Description du poste *</label>
-                                <p class="annotation">Fournissez un maximum d'informations comme le type de la mission, les compétences requises, ... 
-                                    (Pas de HTML)</p>
+                                <span class="annotation">Fournissez un maximum d'informations comme le type de la mission, les compétences requises, ...
+                                    (Pas de HTML)</span>
                                 {{form.content}}
                                 {{ form.content.errors }}
                             </div>
                             <div>
                                 <label for="">Tags</label>
-                                <p class="annotation">Ajoutez des 5 tags maximums, pertinents pour rendre votre offre plus facile à trouver. Veuillez séparer vos tags par des virgules.</p>
+                                <span class="annotation">Ajoutez des 5 tags maximums, pertinents pour rendre votre offre plus facile à trouver. Veuillez séparer vos tags par des virgules.</span>
+
                                 {{ form.tags }}
                                 <p class="comments">Exemple : </p>
                                 <ul class="tags">
@@ -84,8 +89,8 @@
                             </div>
                             <div>
                                 <label for="">Référence interne</label>{{ form.reference }}
+                                <span class="annotation">Exemple : PHO7457.</span>
                                 {{ form.refenence.errors }}
-                                <p class="comments">Exemple : PHO7457</p>
                             </div>
                             {% if model == 'edit' %}
                                 <input class="PTbutton" type="submit" value="Publier mon offre">

@@ -67,7 +67,7 @@
                 <h3>Tags</h3>
                 <ul class="tags inline">
                 {% for tag in tags %}
-                    <li><a href="/projects/search/?tags[]={{tag.slug}}"> {{ tag.name }} </a></li>
+                    <li><a class="search-field search-tag" data-tag="{{tag.slug}}" data-type="tags" href="#"> {{ tag.name }} </a></li>
                 {% endfor %}
                 </ul>
             </div>
@@ -75,17 +75,8 @@
             <div class="fourcol">
                 <h3>Skills</h3>
                 <ul class="tags inline">
-                {% for tag in tags %}
-                    <li><a href="/projects/search/?tags[]={{tag.slug}}"> {{ tag.name }} </a></li>
-                {% endfor %}
-                </ul>
-            </div>
-
-            <div class="fourcol last">
-                <h3>Skills</h3>
-                <ul class="tags inline">
-                {% for tag in tags %}
-                    <li><a href="/projects/search/?tags[]={{tag.slug}}"> {{ tag.name }} </a></li>
+                {% for tag in skills %}
+                    <li><a class="search-field search-tag" data-tag="{{tag.slug}}" data-type="skills" href="#"> {{ tag.name }} </a></li>
                 {% endfor %}
                 </ul>
             </div>
@@ -93,25 +84,6 @@
     </div>
 
   <div class="row wrapper" id="projects">
-       <!--  <div class="sorting threecol">
-            <div class="sleekbox PTform">
-                <form action="" id="projectFilters">
-                    <ul class="filters">
-                        
-                        <li class="tag">
-                            <input class="search-field autocomplete" id="search-tags" type="text" name="keywords-sorting">
-                        </li>
-                        <li class="region">
-                            <input class="search-field autocomplete" id="search-location" type="text" name="location">
-                        </li>
-                        <li class="tag">
-                            <input class="search-field autocomplete" type="text" id="search-skills" >
-                        </li>
-                    </ul>
-                </form>
-            </div>
-        </div> -->
-
         <div class="list list-projects twelvecol last">
             <div id="list-content">{% include endless_part %}</div>
         </div>
@@ -133,27 +105,27 @@
             searchEngine.init($('#list-content'));
 
             var sticky_navigation_offset_top = $('#menu-filter').offset().top;
-     
+
             // our function that decides weather the navigation bar should have "fixed" css position or not.
             var sticky_navigation = function(){
                 var scroll_top = $(window).scrollTop(); // our current vertical position from the top
-                 
+
                 // if we've scrolled more than the navigation, change its position to fixed to stick to top,
                 // otherwise change it back to relative
-                if (scroll_top > sticky_navigation_offset_top) { 
+                if (scroll_top > sticky_navigation_offset_top) {
                     $('#menu-filter').addClass('sticky');
                     $('#menu-filter').css({ 'position': 'fixed', 'top':0, 'left':0 });
                     $('#menu-filter-sup').css({ 'position': 'fixed', 'top': $('#menu-filter').height(), 'left':0 });
                 } else {
                     $('#menu-filter').removeClass('sticky');
                     $('#menu-filter').css({ 'position': 'relative'});
-                    $('#menu-filter-sup').css({ 'position': 'relative', 'top':0, 'left':0  }); 
-                }   
+                    $('#menu-filter-sup').css({ 'position': 'relative', 'top':0, 'left':0  });
+                }
             };
-             
+
             // run our function on load
             sticky_navigation();
-             
+
             // and run it again every time you scroll
             $(window).scroll(function() {
                  sticky_navigation();

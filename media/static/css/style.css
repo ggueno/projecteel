@@ -5245,6 +5245,10 @@ footer a:hover {
 .container-filter {
   margin-bottom: 0;
 }
+.tags li.tag-select {
+  background-color: #0099e6;
+  color: white;
+}
 #project h4.subline {
   font-size: 14px;
   color: #787878;
@@ -5487,7 +5491,6 @@ img.project-content {
   width: 100%;
 }
 .container-filter-sup .filter-sup {
-  margin: 0 auto;
   padding: 20px;
 }
 #project-body .btn-edit-project {

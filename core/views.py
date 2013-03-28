@@ -26,7 +26,7 @@ import difflib
 from PIL import Image
 
 
-def home(request):    
+def home(request):
     try:
         applicant = Applicant.objects.get(user_id=request.user.id)
         return HttpResponseRedirect('/dashboard/')
@@ -85,7 +85,8 @@ def projects(request, projects):
         'projects': projects,
         'categories': CategoryTag.objects.all(),
         'endless_part': endless_part,
-        'tags': Project.tags.most_common()
+        'tags': Project.tags.most_common(),
+        'skills': Project.skills.most_common(),
     }
     if request.is_ajax():
         template = endless_part
@@ -154,11 +155,11 @@ def search_projects2(request):
             filtre = request.GET['filter']
             if filtre == 'pushs':
                 filtre = 'likes'
-            projects_list = Project.objects.annotate(num=Count(filtre)).filter(**q).order_by('-num')
+            projects_list = Project.objects.annotate(num=Count(filtre)).filter(**q).order_by('-num').distinct()
         elif 'filter' in request.GET and request.GET['filter'] in ['views']:
-            projects_list = Project.objects.filter(**q).order_by('hits')
+            projects_list = Project.objects.filter(**q).order_by('hits').distinct()
         else:
-            projects_list = Project.objects.filter(**q).order_by('-publish_date')
+            projects_list = Project.objects.filter(**q).order_by('-publish_date').distinct()
 
         return projects(request, projects_list)
 
@@ -238,7 +239,7 @@ def get_project(request, slug):
         else:
             push = "pushed"
         context['status'] = push
-   
+
     return render(request, 'project/show_project.html', context)
 
 
@@ -654,7 +655,7 @@ def make_profil(request):
     form = {}
     user = User.objects.get(id=request.user.id)
 
-    if request.method == 'POST':    
+    if request.method == 'POST':
         print 'make'
         form = ProfileForm(request.POST)
         if form.is_valid():
@@ -1595,7 +1596,7 @@ def show_dashboard(request):
 def show_notifications(request):
     # print request.user.id
     user = User.objects.get(pk=request.user.id)
-    profile = Applicant.objects.get(user_id=request.user.id) 
+    profile = Applicant.objects.get(user_id=request.user.id)
     following = Follow.objects.filter(follower__user_id=user.id).values('following_id')
     # print following
     # notifications2 = Notification.objects.filter(actor_object_id__in=following).extra({'timestamp' : "date(timestamp)"}).values('timestamp').annotate(created_count=Count('id'))
@@ -1639,7 +1640,7 @@ def has_visited(request):
     myself.save()
     response = JSONResponse(True, {}, response_mimetype(request))
     response['Content-Disposition'] = 'inline; filename=files.json'
-    return response  
+    return response
 
 
 class ImageProjectCreateView(CreateView):
@@ -1663,10 +1664,10 @@ class ImageProjectCreateView(CreateView):
         self.object.project = Project.objects.get(id=id_project)
         self.object.save()
         data = [{
-            'name': f.name, 
-            'url': settings.MEDIA_URL + "upload/images/project/" + f.name.replace(" ", "_"), 
-            'thumbnail_url': settings.MEDIA_URL + "upload/images/project/" + f.name.replace(" ", "_"), 
-            'delete_url': reverse('upload-delete', args=[self.object.id]), 
+            'name': f.name,
+            'url': settings.MEDIA_URL + "upload/images/project/" + f.name.replace(" ", "_"),
+            'thumbnail_url': settings.MEDIA_URL + "upload/images/project/" + f.name.replace(" ", "_"),
+            'delete_url': reverse('upload-delete', args=[self.object.id]),
             'delete_type': "DELETE"
             }]
         response = JSONResponse(data, {}, response_mimetype(self.request))
