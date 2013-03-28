@@ -890,24 +890,30 @@ def offers_all(request):
 
 def get_offer(request, slug):
     offer = Offer.objects.get(slug=slug)
-    applicant = Applicant.objects.filter(user_id=request.user.id)[0]
-    status = {}
-    if ApplicantOffer.objects.filter(offer=offer).filter(applicant=applicant).count() == 0:
-        status['apply'] =  "nonapplied"
-    else:
-        status['apply'] = "applied"
 
-    if applicant.bookmarks.filter(id=offer.id):
-        status['bookmark'] = True
-    else:
-        status['bookmark'] = False
+    applicant = {}
+    status = {}
+    try:
+        applicant = Applicant.objects.get(user_id=request.user.id)
+        if ApplicantOffer.objects.filter(offer=offer).filter(applicant=applicant).count() == 0:
+            status['apply'] =  "nonapplied"
+        else:
+            status['apply'] = "applied"
+        if applicant.bookmarks.filter(id=offer.id):
+            status['bookmark'] = True
+        else:
+            status['bookmark'] = False
+    except Applicant.DoesNotExist:
+        applicant = {}
+
+
     #TODO : delete slug from view and template
     return render(request, 'offer/show_offer.html', {'offer': offer, 'apply_form': ApplyForm(),'slug': slug, 'user': applicant, 'status': status})
 
 
 @login_required
 def apply_offer(request):
-    applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+    applicant = Applicant.objects.get(user_id=request.user.id)
 
     try:
         if request.method == 'POST':
