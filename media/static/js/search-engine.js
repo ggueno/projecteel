@@ -10,6 +10,7 @@ var searchEngine = {
         this.container = container;
         this.search_datas['tags'] = new Array();
         this.search_datas['skills'] = new Array();
+        this.search_datas['contract'] = new Array();
 
         //foreach search-field
         var that = this;
@@ -68,6 +69,23 @@ var searchEngine = {
                     // $(this).html(title);
 
                     return true;
+                });
+            }else if($(this).hasClass('search-checkbox')){
+                $(this).find('input[type=checkbox]').each(function(index){
+                    var tag = $(this).attr('value');
+                    that.addToSearch(title, tag, false);
+                });
+
+                $(this).find('input[type=checkbox]').click(function(){
+                    var tag = $(this).attr('value');
+
+                    if($(this).is(':checked')){
+                        console.log("checked");
+                        that.addToSearch(title, tag, false);
+                    }else{
+                        console.log("unchecked");
+                        that.removeFromSearch(title, tag, false);
+                    }
                 });
             }
 

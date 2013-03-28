@@ -179,6 +179,9 @@ def search_offers(request):
         if 'tags[]' in request.GET:
             q["tags__name__in"] = request.GET.getlist('tags[]')
 
+        if 'contract[]' in request.GET:
+            q["contract__in"] = request.GET.getlist('contract[]')
+
         if 'categories' in request.GET:
             if request.GET['categories'] != 'all':
                 q['categories__slug__in'] = [request.GET['categories']]

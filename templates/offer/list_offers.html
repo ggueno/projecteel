@@ -18,7 +18,7 @@
                 </form>
             </div>
 
-            <div class="twocol">
+            <!-- <div class="threecol">
                 <div class="dropdown search-field dropdown-search" id="search-categories">
                     <a class="dropdown-toggle" data-toggle="dropdown" data-value="all" href="#">Toutes les catégories</a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -28,30 +28,8 @@
                         {% endfor %}
                     </ul>
                 </div>
-            </div>
-            <div class="twocol">
-                <div class="dropdown search-field dropdown-search" id="search-filter">
-                    <a class="dropdown-toggle" data-toggle="dropdown" data-value="pushs" href="#">Les plus pushés</a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                        <li><a href="#" title="" class="select" data-value="pushs">Les plus pushés</a></li>
-                        <li><a href="#" title="" data-value="comments">Les plus commentés</a></li>
-                        <li><a href="#" title="" data-value="recents">Les plus récents</a></li>
-                        <li><a href="#" title="" data-value="views">Les plus vus</a></li>
-                    </ul>
-                </div>
-            </div>
+            </div> -->
 
-            <div class="twocol">
-                <div class="dropdown search-field dropdown-search" id="search-when">
-                    <a class="dropdown-toggle" data-toggle="dropdown" data-value="0" href="#">Toujours</a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                        <li><a href="#" title="" data-value="1">Aujourd'hui</a></li>
-                        <li><a href="#" title="" data-value="7">Cette semaine</a></li>
-                        <li><a href="#" title="" data-value="30">Ce mois</a></li>
-                        <li><a href="#" title="" class="select" data-value="0">Toujours</a></li>
-                    </ul>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -60,21 +38,18 @@
         <!--<h1 class="heading">Offers</h1>-->
         <div class="threecol">
             <div class="sleekbox filters">
-                <h4>Affiner ma recherche</h4>
                 <form action="" class="PTform" id="projectFilters">
                     <ul class="filters">
 
-                        <li class="categories">
-                            <div class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Catégories</a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                    {% for categorie in categories %}
-                                    <li><a href="#" title="" data-value="{{categorie.slug}}">{{categorie.name}}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
+                        <li class="type">
+                            <h5> Type de Contrat </h5>
+                            <ul class="checkbox-list search-field search-checkbox" id="search-contract">
+                                <li><input checked type="checkbox" class="search-contract" name="contract" value="CDI">CDI</li>
+                                <li><input checked type="checkbox" class="search-contract" name="contract" value="CDD">CDD</li>
+                                <li><input checked type="checkbox" class="search-contract" name="contract" value="INTERN">Stage</li>
+                                <li><input checked type="checkbox" class="search-contract" name="contract" value="APPRENTICE">Apprentissage</li>
+                            </ul>
                         </li>
-
 
                         <li class="tag">
                             <span class="ideal-field">
@@ -85,14 +60,6 @@
                         <li class="region">
                                    <span  class="ideal-field">
                               <input class="search-field autocomplete" id="search-location" type="text" name="location" placeholder="location">
-                          </span>
-                        </li>
-
-
-                        <li class="duration">
-                            <span  class="ideal-field">
-                                <input class="search-field range" type="text" id="search-durationmin" placeholder="durée min">
-                                <input class="search-field range" type="text" id="search-durationmax" placeholder="durée max">
                           </span>
                         </li>
                     </ul>
