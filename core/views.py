@@ -1002,34 +1002,6 @@ def vacancy(request, state, pk):
 
 
 @login_required
-def statusApplication(request, model, pk, slug):
-    application = ApplicantOffer.objects.get(id=pk)
-    offer = application.offer
-    applicant = Applicant.objects.filter(slug=slug)
-    if model == "read" and application.state is 'SAVE' and application.state is 'FAIL':
-        ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='READ')
-    else:
-        if model == "accept" and (ApplicantOffer.objects.filter(offer=offer).count > 1) and application.state is not 'FAIL':
-            ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='SAVE')
-        else:
-            if model == "decline" and application.state is not 'SAVE':
-                ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='FAIL')
-    result = {'state': True }
-
-    if request.is_ajax():
-        response = JSONResponse(result, {}, response_mimetype(request))
-        response['Content-Disposition'] = 'inline; filename=files.json'
-        return response
-    else:
-        if result['state']:
-            return HttpResponseRedirect('/offer/posted_offers/')
-        else:
-            #404
-            return HttpResponseNotFound('404.html')
-
-
-
-@login_required
 def get_applications(request, slug):
     try:
         company = Company.objects.filter(user_id=request.user.id)[0]
@@ -1186,6 +1158,33 @@ def edit_offer(request, model=None, slug=None):
             else:
                 form = OfferForm()
     return render(request, 'offer/edit_offer.html', {'form': form, 'model': model})
+
+
+@login_required
+def statusApplication(request, model, pk, slug):
+    application = ApplicantOffer.objects.get(id=pk)
+    offer = application.offer
+    applicant = Applicant.objects.filter(slug=slug)
+    if model == "read" and application.state is 'SAVE' and application.state is 'FAIL':
+        ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='READ')
+    else:
+        if model == "accept" and (ApplicantOffer.objects.filter(offer=offer).count > 1) and application.state is not 'FAIL':
+            ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='SAVE')
+        else:
+            if model == "decline" and application.state is not 'SAVE':
+                ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='FAIL')
+    result = {'state': True }
+
+    if request.is_ajax():
+        response = JSONResponse(result, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+        return response
+    else:
+        if result['state']:
+            return HttpResponseRedirect('/offer/posted_offers/')
+        else:
+            #404
+            return HttpResponseNotFound('404.html')
 
 
 @login_required

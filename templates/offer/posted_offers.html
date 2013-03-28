@@ -83,12 +83,14 @@
                                     <div class="content">
                                         <p>{{ application.content }}</p>
 
-                                        {% if application.state == 'SAVE' %}
-                                            <p>Vous avez retenue ce candidat,contactez-le :<span>{{ application.applicant.user.email }}</span></p>
-                                        {% else %}
-                                            <a class="PTbutton reserve" href="/offer/statusApplication/accept/{{application.id}}/{{application.applicant.slug}}/"><i class="ico-ok"></i>Retenir cette candidature</a>
-                                        {% endif %}
-                                        <a class="PTbutton button-vacancy" href="/offer/statusApplication/decline/{{application.id}}/{{application.applicant.slug}}/"><i class="ico-ban-circle"></i>Refuser cette candidature</a>
+                                        <div class="button-application">
+                                            {% if application.state == 'SAVE' %}
+                                                <p>Vous avez retenue ce candidat,contactez-le :<span>{{ application.applicant.user.email }}</span></p>
+                                            {% else %}
+                                                <a class="PTbutton reserve" href="/offer/statusApplication/accept/{{application.id}}/{{application.applicant.slug}}/"><i class="ico-ok"></i>Retenir cette candidature</a>
+                                            {% endif %}
+                                            <a class="PTbutton button-vacancy" href="/offer/statusApplication/decline/{{application.id}}/{{application.applicant.slug}}/"><i class="ico-ban-circle"></i>Refuser cette candidature</a>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -102,7 +104,7 @@
 
             </div><!-- end div candidates -->
 
-            <a href="/offer/vacancy/add/{{offer.id}}/" class="PTbutton button-vacancy" id="vacancy"><i class="ico-trash"></i>Déclarer pourvue</a>
+            <a class="PTbutton button-vacancy" href="/offer/vacancy/add/{{offer.id}}/" id="vacancy"><i class="ico-trash"></i>Déclarer pourvue</a>
 
             {% else %}
 
@@ -182,8 +184,8 @@
 
         $('.reserve').click(function() {
             $.post($(this).attr('href'),function(data){
-
-                //<p>Vous avez retenue ce candidat,contactez-le :<span>{{ application.applicant.user.email }}</span></p>
+                $('.reserve').remove();
+                $('.button-application').innerHTML = "<p>Vous avez retenue ce candidat,contactez-le :<span>{{ application.applicant.user.email }}</span></p>";
             });
             return false;
         });
