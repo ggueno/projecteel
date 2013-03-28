@@ -46,7 +46,7 @@ class Address(models.Model):
 
 
 class Profile(models.Model):
-    slug = AutoSlugField(populate_from=lambda instance: u'%s-%s' % (instance.user.first_name, instance.user.last_name), unique=True, always_update=True)
+    slug = AutoSlugField(populate_from=lambda instance: u'%s' % (instance.name), unique=True, always_update=True)
     user = models.ForeignKey(User, blank=True, null=True)
     date_signin = models.DateField(auto_now=True, auto_now_add=True)
     name = models.CharField(max_length=150)

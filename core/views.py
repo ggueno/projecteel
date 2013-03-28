@@ -890,24 +890,30 @@ def offers_all(request):
 
 def get_offer(request, slug):
     offer = Offer.objects.get(slug=slug)
-    applicant = Applicant.objects.filter(user_id=request.user.id)[0]
-    status = {}
-    if ApplicantOffer.objects.filter(offer=offer).filter(applicant=applicant).count() == 0:
-        status['apply'] =  "nonapplied"
-    else:
-        status['apply'] = "applied"
 
-    if applicant.bookmarks.filter(id=offer.id):
-        status['bookmark'] = True
-    else:
-        status['bookmark'] = False
+    applicant = {}
+    status = {}
+    try:
+        applicant = Applicant.objects.get(user_id=request.user.id)
+        if ApplicantOffer.objects.filter(offer=offer).filter(applicant=applicant).count() == 0:
+            status['apply'] =  "nonapplied"
+        else:
+            status['apply'] = "applied"
+        if applicant.bookmarks.filter(id=offer.id):
+            status['bookmark'] = True
+        else:
+            status['bookmark'] = False
+    except Applicant.DoesNotExist:
+        applicant = {}
+
+
     #TODO : delete slug from view and template
     return render(request, 'offer/show_offer.html', {'offer': offer, 'apply_form': ApplyForm(),'slug': slug, 'user': applicant, 'status': status})
 
 
 @login_required
 def apply_offer(request):
-    applicant = Applicant.objects.filter(user_id=request.user.id)[0]
+    applicant = Applicant.objects.get(user_id=request.user.id)
 
     try:
         if request.method == 'POST':
@@ -967,14 +973,22 @@ def posted_offers(request):
     offers = Offer.objects.filter(company=company)
     offers_all = Offer.objects.all()
     applications = ApplicantOffer.objects.all()
-    #potentials = []
-    #for offer_posted in offers:
-    #    potentials.append(potentialApplicant(offer_posted.id))
-    #print potentials[0]
+    # potentials = potentialApplicant(o)
+
+    potentials = {}
+    for offer_posted in offers:
+        potentialApp = potentialApplicant(offer_posted.id)
+        potentials[offer_posted.id] = {}
+        potentials[offer_posted.id] = Applicant.objects.filter(id__in=potentialApp)
+
+    print potentials
+
+    
+
     context = {
         'offers': offers,
         'applications': applications,
-        #'potentials' : potentials,
+        'potentials' : potentials,
     }
     return render(request, 'offer/posted_offers.html', context)
 
@@ -1072,7 +1086,10 @@ def potentialApplicant(pk):
     applicant = []
     poids = {}
     for key in poids_like.keys():
-        poids[key] = poids_like[key]/poids_like[max(poids_like)] + poids_dispo[key]*0.5 + poids_job[key]
+        pp = poids_like[max(poids_like)]
+        if pp == 0:
+            pp = 1
+        poids[key] = poids_like[key]/pp + poids_dispo[key]*0.5 + poids_job[key]
 
     for key, value in sorted(poids.iteritems(), key=lambda (k,v): (v,k)):
         applicant.extend("%d" % key)
