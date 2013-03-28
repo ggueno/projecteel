@@ -125,25 +125,7 @@
         <section class="threecol last suggest_candidates">
             <h4>Candidats suggérés :</h4>
 
-            {% if potentials %}
-
-                {% for potential in potentials|slice:":6" %}
-
-                    <div class="potential-applicant" id="applicant{{potential.id}}">
-
-                        <a class="remove-candidate" id="{{potential.id}}" href="#"><i class="ico-remove"></i></a>
-                        {% thumbnail potential.avatar "50x50" crop="left" as im %}
-                            <a href="/profile/{{ potential.slug }}" data-tooltip="{{ potential.user}}" class="tooltip">
-                            <img src="{{im.url}}" alt="{{ potential.name }}"/>
-                            </a>
-                        {% endthumbnail %}
-                        <p>{{ potential.name }}</p>
-
-                    </div>
-
-                {% endfor %}      
-
-            {% endif %}
+            
 
         </section>
 

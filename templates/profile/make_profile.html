@@ -74,6 +74,7 @@
                                 {% endif %}
                                 {{ form_user.first_name }}
                             </div>
+                            
                             <div>
                                 <label for="id_last_name">Nom (*)</label>
                                 {% if form_user.last_name.errors %}
@@ -91,7 +92,7 @@
                                 {{ form_applicant.name }}
                                 <span id="slug_validate"></span>
                             </div>
-                            
+
                             <div>
                                 <label for="">Votre avatar</label>
                                 <span class="annotation">Vous pouvez choisir une vraie photo de vous ou alors quelque chose vous représentant (JPG/GIF/PNG seulement).</span>
