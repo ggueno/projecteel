@@ -2400,6 +2400,74 @@ li.as-result-item img {
   height: auto;
   padding: 15px 0 20px 0;
 }
+p.projecteel_infos,
+h3.projecteel_infos,
+h4.projecteel_infos {
+  text-align: left;
+  font-weight: 500;
+}
+h3.projecteel_infos {
+  padding-bottom: 5px;
+}
+h4.projecteel_infos {
+  font-size: 1.0em;
+}
+span.projecteel_infos {
+  color: #0099E6;
+  font-weight: bold;
+}
+p.projecteel_infos {
+  padding-top: 0;
+  color: #929292;
+}
+.global_explanation {
+  opacity: 0.4;
+}
+.global_explanation:hover {
+  opacity: 1;
+}
+/* F O O T E R */
+footer {
+  padding: 40px 0;
+  background: #d4d4d4;
+  margin-top: 30px;
+}
+footer h4 {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+footer ul li {
+  font-size: 1.1em;
+  padding: 5px 0;
+}
+footer ul li span {
+  font-weight: 800;
+  font-size: 1.2em;
+}
+footer .last_projects img {
+  margin-right: 5px;
+}
+footer a:hover {
+  color: #0099e6;
+}
+.subfooter {
+  background: #e5e5e5;
+  border-top: 1px solid #b9b9b9;
+  color: #919191;
+  font-size: 1.1em;
+  padding: 15px 0;
+}
+.subfooter img {
+  margin-right: 10px;
+}
+.subfooter ul {
+  width: auto;
+  float: right;
+}
+.subfooter ul li {
+  display: inline-block;
+}
 /* ==========================================================================
    Helper classes
    ========================================================================== */
