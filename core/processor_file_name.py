@@ -3,8 +3,8 @@ from notifications.models import Notification
 
 def user(request):
     try:
-        footer_projects = Project.objects.all().order_by('-publish_date')
-        offers = Offer.objects.all()[:3]
+        footer_projects = Project.objects.filter(published=True).order_by('-publish_date')[:3]
+        offers = Offer.objects.all().order_by('-publish_date')[:3]
         if hasattr(request, 'user'):
 
             if request.user.id:
@@ -17,7 +17,7 @@ def user(request):
                 return {    'myself': user,
                             'user_avatar': myself.avatar,
                             'unread_notifications': notifications.unread().count,
-                            'projects' : footer_projects,
+                            'footer_projects' : footer_projects,
                             'offers' : offers
                        }
             return {}

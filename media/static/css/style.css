@@ -2514,7 +2514,7 @@ body {
   top: -25%;
 }
 .modal.fade.in {
-  top: 10%;
+  top: 4%;
 }
 .modal-header {
   padding: 9px 15px;
@@ -3455,6 +3455,9 @@ a.edit-item:hover {
 .strap-1 .box-connexion .form-connexion a {
   color: #777;
 }
+.strap-1 .box-connexion .form-connexion a:hover {
+  color: #0099e6;
+}
 .strap-1 .box-connexion .form-connexion input[type=checkbox] {
   margin-right: 5px;
 }
@@ -4119,6 +4122,14 @@ header.menu #menu a.notifications.unread {
 .edit-form {
   display: none;
   padding: 20px;
+}
+.PTform div.half {
+  width: 36%;
+  margin: 0 2% 10px 0;
+  float: left;
+}
+.form-content .row {
+  margin: 5px 0;
 }
 .errorlist {
   color: #F00;
@@ -5484,6 +5495,7 @@ img.project-content {
 }
 #menu-filter-sup {
   z-index: 2;
+  overflow: hidden;
 }
 .container-filter.sticky {
   margin: 0;
@@ -5529,6 +5541,12 @@ img.project-content {
 .filter-details-button button {
   float: right;
   background-color: gray;
+}
+.filter-details-button button i {
+  font-size: 1.3em;
+  font-weight: 400;
+  margin-left: 5px;
+  vertical-align: middle;
 }
 /* Formation */
 #infos_profile .tab-experience {

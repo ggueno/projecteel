@@ -223,6 +223,7 @@ img.project-content {
 }
 #menu-filter-sup {
   z-index: 2;
+  overflow: hidden;
 }
 .container-filter.sticky {
   margin: 0;
@@ -234,7 +235,6 @@ img.project-content {
   width: 100%;
 }
 .container-filter-sup .filter-sup {
-  margin: 0 auto;
   padding: 20px;
 }
 #project-body .btn-edit-project {
@@ -269,6 +269,12 @@ img.project-content {
 .filter-details-button button {
   float: right;
   background-color: gray;
+}
+.filter-details-button button i {
+  font-size: 1.3em;
+  font-weight: 400;
+  margin-left: 5px;
+  vertical-align: middle;
 }
 /* Formation */
 #infos_profile .tab-experience {

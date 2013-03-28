@@ -16,10 +16,16 @@
                             {{ formExperience.title }}
                             <label for="id_city">Localisation du poste</label>
                             {{ formExperience.city }}
-                            <label for="id_start">Date de début</label>
-                            {{ formExperience.start }}
-                            <label for="id_end">Date de fin</label>
-                            {{ formExperience.end }}
+                            <div class="row">
+                                <div class="half">
+                                    <label for="id_start">Date de début</label>
+                                    {{ formExperience.start }}
+                                </div>
+                                <div class="half">
+                                    <label for="id_end">Date de fin</label>
+                                    {{ formExperience.end }}
+                                </div>
+                            </div>
                             <label for="id_details">Détails</label>
                             {{ formExperience.details }}
                         </div>

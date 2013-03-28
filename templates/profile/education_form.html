@@ -12,10 +12,17 @@
                         <div class="form-content">
                             <label for="id_school">Établissement</label>
                             {{ formEducation.school }}
-                            <label for="id_start">Date de début</label>
-                            {{ formEducation.start }}
-                            <label for="id_end">Date de fin</label>
-                            {{ formEducation.end }}
+                            <div class="row">
+                                <div class="half">
+                                    <label for="id_start">Date de début</label>
+                                    {{ formEducation.start }}
+                                </div>
+                                <div class="half">
+                                    <label for="id_end">Date de fin</label>
+                                    {{ formEducation.end }}
+                                </div>
+                            </div>
+                            
                             <label for="id_title">Intitulé de la formation / Titre</label>
                             {{ formEducation.title }}
                             <label for="id_description">Description</label>
