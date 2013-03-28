@@ -4762,8 +4762,19 @@ li.as-result-item img {
   border: 1px solid #E2E2E2;
   clear: both;
 }
+.posted_offers .thumb-offer .candidates .content .content-application .content {
+  margin: 0 auto;
+}
 .posted_offers .thumb-offer .candidates .content .content-application .content .PTbutton {
-  margin-left: 117px;
+  margin-left: 16%;
+}
+.posted_offers .thumb-offer .candidates .content .content-application .content .speech-save {
+  float: left;
+  line-height: 20px;
+  margin-left: 45px;
+  margin-top: 27px;
+  text-align: center;
+  width: 291px;
 }
 .posted_offers .thumb-offer .candidates .content .novacancy {
   text-align: center;
@@ -4783,6 +4794,10 @@ li.as-result-item img {
   margin: 2% 37%;
   text-align: center;
   width: 206px;
+  border-bottom-color: #E2E2E2;
+}
+.posted_offers .thumb-offer .button-novacancy:hover {
+  background-color: #c9c9c9;
 }
 .posted_offers .thumb-offer i {
   margin-right: 5px;
