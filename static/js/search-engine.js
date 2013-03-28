@@ -8,13 +8,19 @@ var searchEngine = {
         this.search_url = $(".search-form").attr('action');
         this.search_datas = new Array();
         this.container = container;
+        this.search_datas['tags'] = new Array();
+        this.search_datas['skills'] = new Array();
+        this.search_datas['contract'] = new Array();
 
         //foreach search-field
         var that = this;
 
         // Parcourir le DOM pour trouver des champs
         $('.search-field').each(function(index){
-            var title = $(this).attr('id').replace('search-','');
+            var attr = $(this).attr('id');
+            if (typeof attr !== 'undefined' && attr !== false) {
+                var title = $(this).attr('id')  .replace('search-','');
+            }
             if( $(this).hasClass('autocomplete') ){
 
                 $(this).autoSuggest("/list/"+title+"/",
@@ -64,6 +70,23 @@ var searchEngine = {
 
                     return true;
                 });
+            }else if($(this).hasClass('search-checkbox')){
+                $(this).find('input[type=checkbox]').each(function(index){
+                    var tag = $(this).attr('value');
+                    that.addToSearch(title, tag, false);
+                });
+
+                $(this).find('input[type=checkbox]').click(function(){
+                    var tag = $(this).attr('value');
+
+                    if($(this).is(':checked')){
+                        console.log("checked");
+                        that.addToSearch(title, tag, false);
+                    }else{
+                        console.log("unchecked");
+                        that.removeFromSearch(title, tag, false);
+                    }
+                });
             }
 
             else if( $(this).is('input') ){
@@ -78,6 +101,22 @@ var searchEngine = {
 
 
                 that.search_datas[title] = new Array();
+            }else if($(this).hasClass('search-tag')){
+
+
+                $(this).click(function(){
+                    var title_tag = $(this).data('type');
+                    var tag = $(this).data('tag');
+
+                    if($(this).parent().hasClass('tag-select')){
+                        $(this).parent().removeClass('tag-select');
+                        that.removeFromSearch(title_tag, tag, false);
+                    }else{
+                        $(this).parent().addClass('tag-select');
+                        that.addToSearch(title_tag, tag, false);
+                    }
+                    return false;
+                });
             }
         });
 
@@ -124,14 +163,21 @@ var searchEngine = {
 
     removeFromSearch : function(type, val, unique){
         if(unique){
-            this.search_datas[type].splice(val);
-        }else{
             this.search_datas[type] = new Array();
+        }else{
+            for(var i = 0; i<this.search_datas[type].length; i++) {
+                if(this.search_datas[type][i]==val){
+                    this.search_datas[type].splice(i,1);
+                    break;
+                }
+
+            }
         }
         this.sendSearch();
     },
 
     sendSearch : function(){
+
         var datas = new Object();
         for(key in this.search_datas) {
             if(this.search_datas[key] != -1){
@@ -142,6 +188,8 @@ var searchEngine = {
                 }
             }
         }
+
+        console.log(datas);
 
         var that = this;
 
@@ -156,5 +204,8 @@ var searchEngine = {
                     $(that.container).html(result);
                 },
         });
+
+
+        $("html, body").animate({ scrollTop: 0 }, "slow");
     }
 }

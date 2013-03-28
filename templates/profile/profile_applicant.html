@@ -132,7 +132,7 @@
                         {% endif %}
 
                     </ul>
-                </div>       
+                </div>
                 <div class="profile_pic">
                     {% thumbnail profile.avatar "190x190" crop="center" as im %}
                         <img alt="{{v1}}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"/>
@@ -165,14 +165,16 @@
                     {% project_mini project forloop.counter|divisibleby:"4" request.user.id "threecol" %}
                 {% endfor %}
             {% endif %}
-            <div class="thumb threecol" id="add-new-project">
-                <a href="/project/add/"><img src="{{ STATIC_URL }}img/default_project.jpg" alt=""></a>
-                <h3>
-                    <a href="/project/add/">Ajouter un projet</a>
-                </h3>
-            </div>
+            {% if user.id == profile.user_id %}
+                <div class="thumb threecol {% if projects.count|add:"1"|divisibleby:"4"%}last{% endif %}" id="add-new-project">
+                    <a href="/project/add/"><img src="{{ STATIC_URL }}img/ajouter_projet.jpg" alt=""></a>
+                    <h3>
+                        <a href="/project/add/">Ajouter un projet</a>
+                    </h3>
+                </div>
+            {% endif %}
         </section>
-        
+
 
         <section class="row" id="infos_profile">
 
@@ -183,11 +185,10 @@
                         {% include "profile/education.html" %}
                     {% endfor %}
                     {% if user.id == profile.user_id %}
-                    <a href="#" id="add-education"><i class="ico-plus-sign"></i>  Ajouter une formation</a>
-                    <div id="add-education-form" class="row">
-                        <div class="sixcol">
-                            {% include "profile/education_form.html" %}
-                        </div>
+                    <a href="#add-education-form" role="button" data-toggle="modal" id="add-education"><i class="ico-plus-sign"></i>  Ajouter une formation</a>
+                    <div id="add-education-form" class="modal hide fade" role="dialog">
+                        <h3>Ajouter une formation</h3>
+                        {% include "profile/education_form.html" %}
                     </div>
                     {% endif %}
                 {% endif %}
@@ -200,11 +201,10 @@
                     {% include "profile/experience.html" %}
                 {% endfor %}
                 {% if user.id == profile.user_id %}
-                <a href="#" id="add-experience"><i class="ico-plus-sign"></i>  Ajouter une formation</a>
-                <div id="add-experience-form" class="row">
-                    <div class="sixcol">
-                        {% include "profile/experience_form.html" %}
-                    </div>
+                 <a href="#add-experience-form" role="button" data-toggle="modal" id="add-experience"><i class="ico-plus-sign"></i>  Ajouter une experience</a>
+                <div id="add-experience-form" class="modal hide fade" role="dialog">
+                    <h3>Ajouter une expérience</h3>
+                    {% include "profile/experience_form.html" %}
                 </div>
             {% endif %}
             </div>
@@ -242,7 +242,7 @@
         $("#infos_profile").on('click','a.edit-item',function(e){
             var parent = $(this).parent();
             $.post($(this).attr('href'),function(data){
-                parent.find(".edit-form .sixcol").append(data);
+                parent.find(".edit-form").append(data);
                 initDatePicker();
                 if(parent.hasClass('education')){
                     autocomp($("#id_school"), 'school');
@@ -252,11 +252,12 @@
                     autocompCity();
                 }
             });
-            return false;
+            e.preventDefault();
         });
 
         $("#add-education").click(function(e){
-            $("#add-education-form").slideToggle();
+            // $("#add-education-form").modal('show')
+            // $("#add-education-form").slideToggle();
             e.preventDefault();
         });
 
@@ -322,7 +323,9 @@
                         $(this).remove();
                     });
                     cur.clearForm();
-                    cur.parents('#add-education-form, #add-experience-form').slideToggle();
+                    // cur.parents('#add-education-form, #add-experience-form').slideToggle();
+                    $("#add-education-form").modal('hide');
+                    $("#add-experience-form").modal('hide');
                 }else if(data[0]==false){
                     console.log("FALSE");
                     form = data[1];
@@ -335,6 +338,8 @@
             e.preventDefault();
             var data = $(this).serialize();
             var cur = $(this);
+            $(".education .modal").modal('hide');
+            $(".experience .modal").modal('hide');
             $.post($(this).attr("action"),data).done(function(data){
 
                 if(data[0]==true){
@@ -419,7 +424,7 @@
         // );
     });
     {% if not profile.first_visit and profile.user.id == request.user.id%}
-    
+
     $(window).load(function() {
         $('#PTjoyride').joyride({
           autoStart : true,

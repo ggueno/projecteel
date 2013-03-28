@@ -21,19 +21,21 @@
 
                 <ul class="stats threecol last">
                     <li><span>{{ project.views }}</span><i class="ico-eye-open"></i></li>
-                   
+
                     <li><span class="count-likes">{{project.likes.count}}</span><i class="icon push"></i></li>
-                    
-                    <li><span >{{project.comments.count}}</span><i class="ico-comment"></i></li>
+
+
                     {% if user %}
                         {% if project.owner.user.id != request.user.id %}
-                        <li class="push">
-                            {% if status == 'pushed' %}
-                            <a href="/project/unlike/{{project.id}}" id="push" class="active PTbutton">Pushé</a>
-                            {% else %}
-                            <a href="/project/like/{{project.id}}" id="push" class="unactive PTbutton">Push</a>
-                            {% endif %}
-                        </li>
+                            <li class="push">
+                                {% if status == 'pushed' %}
+                                <a href="/project/unlike/{{project.id}}" id="push" class="active PTbutton">Pushé</a>
+                                {% else %}
+                                <a href="/project/like/{{project.id}}" id="push" class="unactive PTbutton">Push</a>
+                                {% endif %}
+                            </li>
+                        {% else %}
+                            <li><span >{{project.comments.count}}</span><i class="ico-comment"></i></li>
                         {% endif %}
                     {% endif %}
                 </ul>
@@ -61,7 +63,7 @@
 
 
             <div class="projectComments">
-                
+
                 <h3 class="postComment">Poster un commentaire</h3>
                 {% if user %}
                 <form class="comment_form" action="/project/comment/new/" method="post">
@@ -226,10 +228,10 @@
 
             $('.btn-delete-project').on('click',function(){
                 var url = $(this).attr('href');
-                if (confirm("Êtes-vous sur de vouloir supprimer le projet ?")){ 
+                if (confirm("Êtes-vous sur de vouloir supprimer le projet ?")){
                   document.location.href = url;
-               } 
-               else{ 
+               }
+               else{
                   return false;
                }
             });

@@ -104,7 +104,7 @@
 
             </div><!-- end div candidates -->
 
-            <a class="PTbutton button-vacancy" href="/offer/vacancy/add/{{offer.id}}/" id="vacancy"><i class="ico-trash"></i>Déclarer pourvue</a>
+            <a class="PTbutton button-vacancy unactive" href="/offer/vacancy/add/{{offer.id}}/" id="vacancy"><i class="ico-trash"></i>Déclarer pourvue</a>
 
             {% else %}
 
@@ -114,7 +114,7 @@
                 </div>
 
             </div>
-                <a class="PTbutton button-novacancy" href="/offer/vacancy/unadd/{{offer.id}}/" id="vacancy">Déclarer disponible</a>
+                <a class="PTbutton button-novacancy active" href="/offer/vacancy/unadd/{{offer.id}}/" id="vacancy">Déclarer disponible</a>
 
             {% endif %}
 
@@ -167,12 +167,12 @@
             var id = '#application'+this.id;
             var ico_id = this.id;
             if ($(id).is(":visible")) {
-                $(id).hide();
+                $(id).slideToggle();
                 $('#i'+ico_id).removeClass('ico-chevron-down');
                 $('#i'+ico_id).addClass('ico-chevron-right');
             } else {
                 $.post($(this).attr('href'),function(data){
-                    $(id).show();       
+                    $(id).slideToggle();       
                     $('#i'+ico_id).removeClass('ico-chevron-right');
                     $('#i'+ico_id).addClass('ico-chevron-down');
                 });

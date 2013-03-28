@@ -1,4 +1,4 @@
-                <div class="education">
+                <div class="education" id="edu-{{education.pk}}" data-id="{{education.pk}}">
                     <div class="formation-date">
                         <span class="start"> {{ education.start }}</span>
                         <span class="end"> {{ education.end }} </span>
@@ -10,16 +10,15 @@
                         {% else %}
                             <h4> {{ education.school }} </h4>
                         {% endif %}
-
                         <p> {{ education.description }} </p>
                     </div>
 
                     {% if user.id == education.owner.id %}
                             <a class="delete-item" href="/education/delete/{{education.id}}"><i class="ico-remove"></i></a>
-                            <a class="edit-item" href="/education/edit/{{education.id}}"><i class="ico-pencil"></i></a>
+                            <a class="edit-item" href="/education/edit/{{education.id}}" role="button" data-target="#edu-edit-{{education.pk}}" data-toggle="modal"><i class="ico-pencil"></i></a>
                     {% endif %}
 
-                    <div class="row edit-form">
-                        <div class="sixcol"></div>
+                    <div class="modal edit-form hide" role="dialog" id="edu-edit-{{education.pk}}">
+                        <h3>Modifier la formation</h3>
                     </div>
                 </div>
