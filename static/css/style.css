@@ -3245,6 +3245,9 @@ a.edit-item:hover {
 .illustration {
   text-align: center;
 }
+.illustration img {
+  float: left;
+}
 .lastProjects {
   list-style-type: none;
   overflow: auto;
