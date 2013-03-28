@@ -592,12 +592,12 @@ figure img {
   /* --- Gridpak variables ---*/
   /*
           Add your semantic classnames in alongside their corresponding spans here. e.g.
-
+  
           .span_3,
           .my_semantic_class_name {
               ...
           }
-
+  
           */
   .onecol,
   .span_1 {
@@ -5098,7 +5098,7 @@ li.as-result-item img {
     background: transparent !important;
     color: #000 !important;
     /* Black prints faster: h5bp.com/s */
-
+  
     box-shadow: none !important;
     text-shadow: none !important;
   }
@@ -5128,7 +5128,7 @@ li.as-result-item img {
   thead {
     display: table-header-group;
     /* h5bp.com/t */
-
+  
   }
   tr,
   img {
@@ -5176,6 +5176,10 @@ li.as-result-item img {
 }
 .container-filter {
   margin-bottom: 0;
+}
+.tags li.tag-select {
+  background-color: #0099e6;
+  color: white;
 }
 #project h4.subline {
   font-size: 14px;
@@ -5419,7 +5423,6 @@ img.project-content {
   width: 100%;
 }
 .container-filter-sup .filter-sup {
-  margin: 0 auto;
   padding: 20px;
 }
 #project-body .btn-edit-project {
