@@ -22,24 +22,24 @@ def make_custom_datefield(f,**kwargs):
 
 class ProjectForm(forms.ModelForm):
     as_values_participant = forms.fields.CharField(required=False, widget=forms.TextInput())
-    as_values_categories = forms.fields.CharField(required=False, widget=forms.TextInput())
+    # as_values_categories = forms.fields.CharField(required=False, widget=forms.TextInput())
 
     class Meta:
         model = Project
-        exclude = ('slug', 'categories', 'publish_date', 'like', 'view', 'published', 'images', 'owner', 'participant')
+        exclude = ('slug', 'publish_date', 'like', 'view', 'published', 'images', 'owner', 'participant')
         widgets = {
             'skills': TagAutoSuggest(),
             'state': forms.RadioSelect(),
         }
 
-    def clean_as_values_categories(self):
-        data = self.cleaned_data
-        categories_list = data.get('as_values_categories', None)
-        # raise forms.ValidationError('%s does not exist' % self.cleaned_data)
-        if categories_list is not None:
-            categories_list = categories_list.split(',')
+    # def clean_as_values_categories(self):
+    #     data = self.cleaned_data
+    #     categories_list = data.get('as_values_categories', None)
+    #     # raise forms.ValidationError('%s does not exist' % self.cleaned_data)
+    #     if categories_list is not None:
+    #         categories_list = categories_list.split(',')
 
-        return categories_list
+    #     return categories_list
 
     def clean_as_values_participant(self):
         data = self.cleaned_data
@@ -60,7 +60,7 @@ class ProjectForm(forms.ModelForm):
         mminstance = super(ProjectForm, self).save(commit=commit)
         data = self.cleaned_data
         participant_list = data.get('as_values_participant', None)
-        categories_list = data.get('as_values_categories', None)
+        # categories_list = data.get('as_values_categories', None)
 
         if participant_list is not None:
             for participant_name in participant_list:
@@ -68,10 +68,10 @@ class ProjectForm(forms.ModelForm):
                     participant = Applicant.objects.get(id=int(participant_name))
                     mminstance.participant.add(participant)
 
-        if categories_list is not None:
-            for category_name in categories_list:
-                Category
-                mminstance.categories.add(category_name)
+        # if categories_list is not None:
+        #     for category_name in categories_list:
+        #         Category
+        #         mminstance.categories.add(category_name)
 
 
         # mminstance.save()

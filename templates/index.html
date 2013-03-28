@@ -113,6 +113,65 @@
             </div>
         </section>
         {% endif %}
+
+        <footer>
+            <section class="row" id="footer">
+                <div class="threecol">
+                    <h4>Projecteel en chiffres</h4>
+                    <ul>
+                        <li><span>1750</span> membres</li>
+                        <li><span>2358</span> projets</li>
+                        <li><span>82</span> entreprises</li>
+                        <li><span>410</span> offres d'emploi</li>
+                    </ul>
+                </div>
+                <div class="fourcol last_projects">
+                    <h4>Derniers projets</h4>
+                    {% if footer_projects%}
+                        {% for project in footer_projects%}
+                            <a href="/project/{{ project.slug }}" title="">
+                                {% thumbnail project.thumbnail "60x60" crop="center" as im %}
+                                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                {% empty %}
+                                    <img src="{{ STATIC_URL }}img/default_project_mini.jpg" width="60" height="60"/>
+                                {% endthumbnail %}
+                            </a>
+                        {% endfor %}
+                    {% endif%}
+                </div>
+                <div class="threecol">
+                    <h4>Dernières offres</h4>
+                    <ul>
+                        {% if offers %}
+                            {% for offer in offers %}
+                                <li><a href="/offer/get/{{ offer.slug }}" title="">{{ offer.title }}</a></li>
+                            {% endfor %}
+                        {% endif%}
+                    </ul>
+                </div>
+                <div class="twocol last">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="ico-envelope-alt"></i> Contact</li>
+                        <li><i class="ico-facebook-sign"></i> Facebook</li>
+                        <li><i class="ico-twitter-sign"></i> Twitter</li>
+                    </ul>
+                    {% if user.is_authenticated %}
+                        <a href="/accounts/logout/" class="nextStep" id="logout"><i class="ico-off"></i> Déconnexion</a>
+                    {% endif %}
+                </div>
+            </section>
+        </footer>
+        <section class="subfooter">
+            <div class="row">
+                <img src="{{ STATIC_URL }}img/mini-logo.png" alt=""> &copy; 2013
+                <ul>
+                    <li>Mentions légales |</li>
+                    <li>Centre d'aide |</li>
+                    <li>CGU</li>
+                </ul>
+            </div>
+        </section>
      
         
 
