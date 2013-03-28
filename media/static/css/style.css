@@ -4358,7 +4358,7 @@ li.as-result-item img {
   overflow: auto;
 }
 .list_offers .thumb-offer {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   height: 118px;
 }
 .list_offers .thumb-offer p {
@@ -4402,9 +4402,7 @@ li.as-result-item img {
 }
 .list_offers .thumb-offer .content {
   padding-top: 8px;
-}
-.list_offers .thumb-offer .content p {
-  padding-bottom: 10px;
+  line-height: 27px;
 }
 .list_offers .thumb-offer .content span {
   color: #0099e6;
@@ -4447,6 +4445,12 @@ li.as-result-item img {
 /*
    P O S T E D   O F F E R S
    ========================================================================== */
+.posted_offers .nb_offers {
+  margin-bottom: 20px;
+}
+.posted_offers .nb_offers span {
+  font-weight: 700;
+}
 .posted_offers .thumb-offer {
   background-color: #FFF;
   height: auto;
@@ -4454,7 +4458,7 @@ li.as-result-item img {
 .posted_offers .thumb-offer .content-description {
   height: 91px;
   padding: 20px;
-  line-height: 26px;
+  line-height: 30px;
 }
 .posted_offers .thumb-offer .content-description .right {
   float: right;

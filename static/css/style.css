@@ -3372,7 +3372,7 @@ a.edit-item:hover {
    ========================================================================== */
 header.menu {
   background: #252525;
-  height: 51px;
+  height: 59px;
   width: 100%;
   overflow: auto;
   color: #FFFFFF;
@@ -3386,6 +3386,7 @@ header.menu #logo {
   height: 51px;
   display: block;
   float: left;
+  padding: 4px 0;
 }
 header.menu #menu {
   list-style-type: none;
@@ -3395,11 +3396,12 @@ header.menu #menu {
 header.menu #menu a {
   display: block;
   float: left;
-  padding: 15px 50px;
+  padding: 19px 50px;
   margin: 0;
+  font-weight: 600;
   text-transform: uppercase;
   text-align: center;
-  font-size: 1.1em;
+  font-size: 1.0em;
 }
 header.menu #menu a.active,
 header.menu #menu a:hover {
@@ -3415,7 +3417,7 @@ header.menu #menu a.profile {
   font-size: .9em;
   text-align: right;
   padding-right: 15px;
-  padding-top: 13px;
+  padding-top: 17px;
   height: 19px;
   padding-left: 30px;
   width: 120px;
@@ -4280,12 +4282,9 @@ ul.tabs li a .step-label {
   background: #047dba;
   color: #FFF;
 }
-<<<<<<< HEAD
-=======
 .add_project .PTbutton {
   padding: 5px 10px 5px 13px;
 }
->>>>>>> 7695e1251e9120e6a769b17dbfa95ca04bba3b33
 .add_project.edit .PTform .file-wrap input[type=file] {
   bottom: 28px;
   top: auto;
@@ -4359,7 +4358,7 @@ li.as-result-item img {
   overflow: auto;
 }
 .list_offers .thumb-offer {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   height: 118px;
 }
 .list_offers .thumb-offer p {
@@ -4403,9 +4402,7 @@ li.as-result-item img {
 }
 .list_offers .thumb-offer .content {
   padding-top: 8px;
-}
-.list_offers .thumb-offer .content p {
-  padding-bottom: 10px;
+  line-height: 27px;
 }
 .list_offers .thumb-offer .content span {
   color: #0099e6;
@@ -4448,6 +4445,12 @@ li.as-result-item img {
 /*
    P O S T E D   O F F E R S
    ========================================================================== */
+.posted_offers .nb_offers {
+  margin-bottom: 20px;
+}
+.posted_offers .nb_offers span {
+  font-weight: 700;
+}
 .posted_offers .thumb-offer {
   background-color: #FFF;
   height: auto;
@@ -4455,7 +4458,7 @@ li.as-result-item img {
 .posted_offers .thumb-offer .content-description {
   height: 91px;
   padding: 20px;
-  line-height: 26px;
+  line-height: 30px;
 }
 .posted_offers .thumb-offer .content-description .right {
   float: right;
@@ -4539,8 +4542,6 @@ li.as-result-item img {
   font-weight: 400;
   margin: 20px 0;
 }
-<<<<<<< HEAD
-=======
 #dashboard .sidebar {
   background: #fcfcfc;
   margin-top: 5px;
@@ -4554,7 +4555,6 @@ li.as-result-item img {
 #dashboard .sidebar .notifications {
   padding: 0px 5px;
 }
->>>>>>> 7695e1251e9120e6a769b17dbfa95ca04bba3b33
 .stats {
   overflow: auto;
 }
@@ -4578,8 +4578,6 @@ li.as-result-item img {
 .stats li .icon {
   margin-top: 10px;
 }
-<<<<<<< HEAD
-=======
 .stats li.push {
   background: none;
   width: 90%;
@@ -4588,7 +4586,6 @@ li.as-result-item img {
   height: 25px;
   line-height: 25px;
 }
->>>>>>> 7695e1251e9120e6a769b17dbfa95ca04bba3b33
 .offers .row {
   margin-top: 5px;
 }
@@ -4887,6 +4884,32 @@ li.as-result-item img {
     page-break-after: avoid;
   }
 }
+/*  Form : Register */
+.annotation-ok {
+  color: green;
+}
+.annotation-error {
+  color: #f55253;
+}
+.PTform input[type=text].input-ok,
+.PTform input[type=password].input-ok {
+  border: 1px solid green;
+}
+.PTform input[type=text].input-error,
+.PTform input[type=password].input-error {
+  border: 1px solid #f55253;
+}
+/* Sticky Menu */
+#menu-filter {
+  z-index: 99;
+}
+.container-filter.sticky {
+  margin: 0;
+  padding: 0;
+}
+.container-filter {
+  margin-bottom: 0;
+}
 #project h4.subline {
   font-size: 14px;
   color: #787878;
@@ -5078,7 +5101,7 @@ img.project-content {
   background-color: white;
   border-top: #cdcdcd 1px solid;
   border-bottom: #cdcdcd 1px solid;
-  margin: 2em 0;
+  margin: 2em 0 0 0;
 }
 .container-filter .row {
   overflow: visible;
@@ -5112,14 +5135,30 @@ img.project-content {
 .container-filter .search-form {
   margin: 6px 0;
 }
-<<<<<<< HEAD
+/* Sticky Menu */
+#menu-filter {
+  z-index: 3;
+}
+#menu-filter-sup {
+  z-index: 2;
+}
+.container-filter.sticky {
+  margin: 0;
+  padding: 0;
+}
+.container-filter-sup {
+  display: none;
+  background-color: #ccc;
+  width: 100%;
+}
+.container-filter-sup .filter-sup {
+  margin: 0 auto;
+  padding: 20px;
+}
 #project-body .btn-edit-project {
   width: 130px;
   margin: 10px 20px auto auto;
-  height: 20px;
-  display: block;
-  line-height: 20px;
-=======
+}
 #project-body .project-controls {
   text-align: right;
   overflow: auto;
@@ -5134,11 +5173,14 @@ img.project-content {
   line-height: 1.8em;
   padding: 5px 10px;
   clear: both;
->>>>>>> 7695e1251e9120e6a769b17dbfa95ca04bba3b33
 }
 .dropdown .select {
   font-weight: 700;
   color: #cdcdcd;
+}
+.filter-details-button button {
+  float: right;
+  background-color: gray;
 }
 /* Formation */
 #infos_profile .tab-experience {

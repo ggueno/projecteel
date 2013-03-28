@@ -1006,7 +1006,7 @@ def statusApplication(request, model, pk, slug):
     application = ApplicantOffer.objects.get(id=pk)
     offer = application.offer
     applicant = Applicant.objects.filter(slug=slug)
-    if model == "read" and application.state is 'FAIL' and application.state is 'SAVE':
+    if model == "read" and application.state is 'SAVE' and application.state is 'FAIL':
         ApplicantOffer.objects.filter(applicant=applicant, id=pk).update(state='READ')
     else:
         if model == "accept" and (ApplicantOffer.objects.filter(offer=offer).count > 1) and application.state is not 'FAIL':
