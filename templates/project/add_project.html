@@ -30,21 +30,21 @@
                             <li><a href="#etape2"><i class="step-label">2</i>Etape 2</a></li>
                         </ul>
 
-                        <form zqdtion="" class="PTform" method="post" id="add_project" action="" enctype="multipart/form-data">
+                        <form action="/project/add/" class="PTform" method="post" id="add_project" action="" enctype="multipart/form-data">
                             {% csrf_token %}
 
                             <!-- TAB -->
                             <section id="etape1">
                                 <!-- Heading -->
                                 <div>
-                                    <label for="">{{form.title.label}}</label>
+                                    <label for="id_title">Titre du projet (*)</label>
                                     <span class="annotation">Vos projets ont plus d'intérêt lorsqu'​ils ont des titres originaux.​</span>
                                     {{ form.title }}
                                     {{ form.title.errors }}
                                 </div>
 
                                 <div class="file-wrap">
-                                    <label>Vignette</label>
+                                    <label>Vignette (*)</label>
                                     <span class="annotation">Choississez une jolie vignette qui représentera au mieux votre beau projet !​</span>
                                    {{ form.thumbnail }}
                                     <input type="text" class="file-holder" autocomplete="off" disabled>
@@ -52,14 +52,16 @@
                                     <p class="annotation">(< 1Mo, > 300x250px)</p>
                                 </div>
                                 <div>
-                                    <label for="">{{form.categories.label}}</label>
+                                    <label for="id_categories">Catégorie (*)</label>
                                     <span class="annotation">Ajoutez les catégories auxquelles se rapporte votre projet.</span>
                                     {{ form.categories }}
                                     {{ form.categories.errors }}
                                 </div>
                                 <div>
-                                    <label for="">{{form.content.label}}</label>
+
+                                    <label for="id_content">Contenu (*)</label>
                                     <span class="annotation"> Décrivez votre projet en quelques lignes. Abordez les éléments qui vous semblent pertinents. Par exemple : les raisons, les circonstances...</span>
+
                                     {{ form.content }}
                                     {{ form.content.errors }}
                                 </div>
@@ -77,7 +79,7 @@
 
                                 <div class="footer">
                                     <div class="twocol">Etape 1 sur 2</div>
-                                    <button class="PTbutton next">Etape suivante</button>
+                                    <button class="nextStep next">Etape suivante</button>
                                 </div>
 
 
@@ -87,8 +89,9 @@
                                 <!-- Vidéo & Image -->
 
                                 <div>
+
+                                    <label for="participant">Participants au projet</label>
                                     <span class="annotation">Précisez ici les personnes ayant participées au projet.</span>
-                                    <label for="">{{form.participant.label}}</label>
                                     <input type="text" id="participant_input" />
                                 </div>
                                 <div>
@@ -98,19 +101,22 @@
                                     {{ form.cadre.errors }}
                                 </div>
                                 <div>
-                                    <label for="">{{form.state.label}}</label>
+
+                                    <label for="id_state">Etat du projet</label>
                                     <span class="annotation">Précisez l'état d'avancement de votre projet.</span>
+
                                     {{ form.state }}
                                     {{ form.state.errors }}
                                 </div>
                                 <div>
-                                    <label for="">{{form.period.label}}</label>
+                                    <label for="id_period">Durée du projet</label>
                                     <span class="annotation">La durée de réalisation de votre projet.</span>
+
                                     {{ form.period }}
                                     {{ form.period.errors }}
                                 </div>
                                 <div>
-                                    <label for="">{{form.location.label}}</label>
+                                    <label for="id_location">Localisation</label>
                                     <span class="annotation">Où le projet a-t-il été réalisé ?</span>
                                     {{ form.location }}
                                     {{ form.location.errors }}
@@ -134,8 +140,11 @@
 
 
 
-
-
+                        <br><br><br>
+                        <div class="PTform">
+                            <label for="">Images du projet</label>
+                            <p class="annotation">Ajouter vos fichiers images ci dessous, en les selectionnant ou en les glissant depuis votre ordinateur. Une fois dans la liste, vous n'avez plus qu'à cliquer sur Envoyer.</p>
+                        </div>
                         <div id="multiupload">
                             <form id="fileupload" method="post" action="/project/add/image/new/" enctype="multipart/form-data">
                             {% csrf_token %}
@@ -207,6 +216,7 @@
         $(".next").on('click',function(e){
             e.preventDefault();
             $("ul.tabs a[href=#etape2]").click();
+            $("body").animate({scrollTop: $('body').offset().top}, 500,'easeInOutCubic');
         });
 
 //         window.onbeforeunload = function (e) {
@@ -254,19 +264,19 @@
                         elem.hide();
                     },
                     resultClick: function(data){
-                       p.val(data.attributes.value)
+                        p.val(data.attributes.value)
                    },
 
                 });
 
                 var data = "{{ form.as_values_participant.value }}";
-                var datas = [{ 'value' : "1", 'name': 'ggueno', "avatar": "upload/images/avatar/0f747c7cf4f59dce5d5ccf7951c3c3a2.jpg"}];
+                // var datas = [{ 'value' : "1", 'name': 'ggueno', "avatar": "upload/images/avatar/0f747c7cf4f59dce5d5ccf7951c3c3a2.jpg"}];
 
                 $('#participant_input').autoSuggest('/taggit_autosuggest/list/participant/', {
                     asHtmlID: "participant",
                     startText: "Entrez le nom d'un participant",
                     emptyText: "Aucun résultat",
-                    preFill: datas,
+                    // preFill: ,
                     minChars: 3,
                     searchObjProps: "name",
                     selectedItemProp: "name",
@@ -279,6 +289,9 @@
                         if(data.avatar){
                             var avatar = new Image();
                             avatar.src = '/media/'+data.avatar;
+                            $(avatar).error(function() {
+                                $(this).attr('src','/static/img/empty_profile.png');
+                            });
                         }
                         elem.prepend(avatar);
                         elem.append(data.name);
@@ -286,11 +299,33 @@
                     }
                 });
 
+                var existingCategories = "{% for tag in data.categories %}{{tag.tag.name}},{%endfor%}";
+
+                $('#id_categories').autoSuggest('/taggit_autosuggest/list/categories', {
+                    asHtmlID: "categories",
+                    startText: "Entrez une catégorie",
+                    emptyText: "Aucun résultat",
+                    preFill: existingCategories,
+                    minChars: 3, 
+                    neverSubmit: true,
+                    retrieveLimit : 20,   
+                    // searchObjProps: "name",
+                    // selectedItemProp: "name",
+                    // selectedValuesProp: "value",
+                    neverTab: true,
+                    retrieveComplete: function(data){ return data; },
+                    resultClick: function(data){  },
+                    selectionAdded : function(data){ 
+                        return false;
+                    }
+                });
                 // container.append(list).hide();
                 // p.after(container);
 
 
             });
+
+    
         })(django.jQuery);
 
 

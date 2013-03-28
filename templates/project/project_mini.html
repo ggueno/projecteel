@@ -17,6 +17,8 @@
                 <a href="{{ project.get_absolute_url }}">{{ project.title|slice:":23" }}</a>
             </h3>
         </a>
+        {% if project.owner.user.id == user_id %}
         <a href="/project/edit/{{ project.id }}" class="edit-project"><i class="ico-edit"></i></a>
+        {% endif %}
     </div>
 {% endif %}

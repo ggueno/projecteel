@@ -15,93 +15,135 @@
 			<p>{{ offers.count }} offre postée</p>
 		{% endif %}
 
-    <section class="ninecol" id="list_offers">
-        {% for offer in offers %}
+    {% for offer in offers %}
 
-            <h3>{{ offer.title }}</h3>
-            <p class="publish-date">{{ offer.publish_date }}</p>
-            <span>{{ offer.contract }}</span>
-            {% if offer.tags %}
-                <ul class="tags-offer">
-                {% for tag in offer.tags.all %}
-                    <li><a href="/offers/search/?tags[]={{tag.slug}}">{{ tag.name }}</a></li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-            
-            <div class="candidates">
-                {% if applicants %}
+    <div class="list_offers">
 
-                    <p>Candidats:</p>
+        <section class="thumb-offer ninecol">
 
-                    {% for applicant in applicants %}
+            <div class="content content-description">
 
-                        
-
-                    {% endfor %}
-
-                {% endif %}
-            </div>
-
-        {% endfor %}
-    </section>
-
-    <section class="threecol last suggest_candidates">
-        <h4>Candidats suggérés :</h4>
-        
-    </section>
-
-    
-    <!--
-
-    <div class="twelvecol last posted_offers" id="list_offers">
-
-        <div class="sleekbox header thumb-offer">
-            <div class="content">
                 <div class="left">
-                    <h3><a href="/offer/applications/{{offer.slug}}">{{ offer.title }}</a></h3>
-                    <p class="publish-date">{{ offer.publish_date }}</p>
-                    <span>{{ offer.contract }}</span>
+                    <h3><a href="/offer/get/{{ offer.slug }}">{{ offer.title }}</a></h3>
+                    <p>{{ offer.location }}</p>
                     {% if offer.tags %}
                         <ul class="tags-offer">
-                            {% for tag in offer.tags.all %}
-                                <li><a href="/offers/search/?tags[]={{tag.slug}}">{{ tag.name }}</a></li>
-                            {% endfor %}
+                            <li>Photoshop</li>
+                            <li>HTML</li>
+                            <li>ruby on rails</li>
+                        {% for tag in offer.tags.all %}
+                            <li><a href="/offers/search/?tags[]={{tag.slug}}">{{ tag.name }}</a></li>
+                        {% endfor %}
                         </ul>
                     {% endif %}
-
-                    <div class="actions-offers">
-                        {% if offer.vacancy %}
-                            <a href="/offer/vacancy/unadd/{{offer.id}}" id="vacancy" class="active PTbutton">Pourvue</a>
-                        {% else %}
-                            <a href="/offer/vacancy/add/{{offer.id}}" id="vacancy" class="unactive PTbutton">A pourvoir</a>
-                             on ne peut pas editer et supprimer une offre pourvue 
-                            <a class="PTbuttton" href="/offer/edit/{{ offer.slug }}">Editer</a>
-                            <a class="PTbuttton" href="/offer/delete/{{ offer.slug }}">Supprimer</a>
-                        {% endif %}
-                    </div>
-
                 </div>
+
                 <div class="right">
-                    <h3>Etudiants ayant postulés</h3>
-                    {% if applicants %}
-                        {% for applicantoffer in applicants %} 
-                            {% if applicantoffer.offer == offer %}
-                            {% thumbnail applicantoffer.applicant.avatar "50x50" crop="left" as im %}
-                                <a href="/profile/{{ applicantoffer.applicant.slug }}" data-tooltip="{{ applicantoffer.applicant.user}}" class="tooltip">
-                                <img src="{{ im.url }}" alt="{{ applicantoffer.applicant.name }}"/>
-                                </a>
-                            {% endthumbnail %}
+                    <a class="mini" href="/offer/edit/{{ offer.slug }}">
+                        <i class="ico-cog"></i>
+                    </a>
+                    <p class="publish-date">{{ offer.publish_date }}</p>
+                    <span>{{ offer.contract }}</span>
+                </div>
+                    
+            </div> <!-- end div content-description -->
+
+            <div class="candidates">
+
+                <div class="content">
+
+                {% if offer.vacancy == 0 %}
+                    {% if applications %}
+
+                        <p>Candidats:</p>
+
+                        {% for application in applications %}
+
+                            {% if application.offer == offer %}
+
+                                <div class="applicant">
+
+                                    {% thumbnail application.applicant.avatar "50x50" crop="left" as im %}
+                                        <a href="/profile/{{ application.applicant.slug }}" data-tooltip="{{ application.applicant.user}}" class="tooltip">
+                                        <img src="{{im.url}}" alt="{{ application.applicant.name }}"/>
+                                        </a>
+                                    {% endthumbnail %}
+
+                                    <p class="name-applicant">{{application.applicant.name}}</p>
+                                    <p class="publish-date">{{ offer.publish_date }}</p>
+
+                                    <a class="PTbutton mini view-candidature" href="/offer/statusApplication/read/{{application.id}}/{{application.applicant.slug}}/" id="{{application.id}}"><i class="ico-chevron-right"></i></a>
+
+                                </div> <!-- end div applicant -->
+                                            
+                                <div class="content-application" id="application{{application.id}}">
+                                    <div class="content">
+                                        <p>{{ application.content }}</p>
+
+                                        {% if application.state == 'SAVE' %}
+                                            {{ application.applicant.user.email }}
+                                        {% else %}
+                                            <a class="PTbutton" href="/offer/statusApplication/accept/{{application.id}}/{{application.applicant.slug}}/"><i class="ico-ok"></i>Retenir cette candidature</a>
+                                        {% endif %}
+                                        <a class="PTbutton button-vacancy" href="/offer/statusApplication/decline/{{application.id}}/{{application.applicant.slug}}/"><i class="ico-ban-circle"></i>Refuser cette candidature</a>
+                                    </div>
+                                </div>
+
                             {% endif %}
+
                         {% endfor %}
+                        <div class="clearfix"></div>
+
                     {% endif %}
                 </div>
-            </div>
-            
-        </div> -->
-        
-    </div>
 
+            </div><!-- end div candidates -->
+
+            <a href="/offer/vacancy/add/{{offer.id}}/" class="PTbutton button-vacancy" id="vacancy"><i class="ico-trash"></i>Déclarer pourvue</a>
+
+            {% else %}
+
+                <div class="novacancy">
+                    <p>Vous avez déclaré cette offre pourvue.</p>
+                </div>
+                </div>
+
+            </div>
+                <a class="PTbutton button-novacancy" href="/offer/vacancy/unadd/{{offer.id}}/" id="vacancy">Déclarer disponible</a>
+
+            {% endif %}
+
+        </section> <!-- end section thumb nine col -->
+
+        <section class="threecol last suggest_candidates">
+            <h4>Candidats suggérés :</h4>
+
+            {% if potentials %}
+
+                {% for potential in potentials|slice:":6" %}
+
+                    <div class="potential-applicant" id="applicant{{potential.id}}">
+
+                        <a class="remove-candidate" id="{{potential.id}}" href="#"><i class="ico-remove"></i></a>
+                        {% thumbnail potential.avatar "50x50" crop="left" as im %}
+                            <a href="/profile/{{ potential.slug }}" data-tooltip="{{ potential.user}}" class="tooltip">
+                            <img src="{{im.url}}" alt="{{ potential.name }}"/>
+                            </a>
+                        {% endthumbnail %}
+                        <p>{{ potential.name }}</p>
+
+                    </div>
+
+                {% endfor %}      
+
+            {% endif %}
+
+        </section>
+
+    </div> <!-- end posted_offer row -->
+
+    {% endfor %}
+    
     {% endif %}
 </div>
 
@@ -113,7 +155,57 @@
 
     $(document).ready(function(){
 
-        onoff_button('#vacancy', 'add', "Pourvue", "A pourvoir");
+        onoff_button('#vacancy', 'add', "Déclarer pourvue", "Déclarer disponible");
+
+
+        $('.content-application').hide();
+        $('.view-candidature').click(function() {
+            var id = '#application'+this.id;
+            if ($(id).is(":visible")) {
+                $(id).hide();
+                $('.view-candidature i').removeClass('ico-chevron-down')
+                $('.view-candidature i').addClass('ico-chevron-right')
+            } else {
+                $.post($(this).attr('href'),function(data){
+                    $('.view-candidature i').removeClass('ico-chevron-right');
+                    $('.view-candidature i').addClass('ico-chevron-down');
+                    $(id).show();
+                });
+            }
+            return false;
+        });
+
+        $('.remove-candidate').click(function() {
+            var id = '#applicant'+this.id;
+            $(id).hide();
+            return false;
+        });
+
+        /*$('#vacancy').click(function(){
+            $.post($(this).attr('href'),function(data){
+
+            });
+
+            /*var button = this;
+            $.post($(this).attr('href'),function(data){
+                if(data==true || data.state == true)
+                    if($(button).hasClass('unactive')){
+                        var link = $(button).attr('href').replace(name,'un'+name);
+                        $(button).attr('href',link);
+                        $(button).removeClass('unactive');
+                        $(button).addClass('active');
+                        $(button).html(active);
+                        //TODO : Add Unfollow hover
+                    }else{
+                        var link = $(button).attr('href').replace('un'+name,name);
+                        $(button).attr('href',link);
+                        $(button).addClass('unactive');
+                        $(button).removeClass('active');
+                        $(button).html(unactive);
+                    }
+            });
+            return false;
+        });*/
 
     });
 </script>

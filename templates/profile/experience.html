@@ -1,4 +1,4 @@
-                <div class="experience">
+                <div class="experience" id="exp-{{experience.pk}}">
                     <div class="formation-date">
                         <span class="start"> {{ experience.start }} -</span>
                         <span class="end"> {{ experience.end }} </span>
@@ -17,35 +17,9 @@
                     </div>
                     {% if user.id == experience.owner.id %}
                             <a class="delete-item" href="/experience/delete/{{experience.id}}"><i class="ico-remove"></i></a>
-                            <a class="edit-item" href="/experience/edit/{{experience.id}}"><i class="ico-pencil"></i></a>
+                            <a class="edit-item" href="/experience/edit/{{experience.id}}" role="button" data-target="#exp-edit-{{experience.pk}}" data-toggle="modal"><i class="ico-pencil"></i></a>
                     {% endif %}
-                    <div class="row edit-form">
-                        <div class="sixcol"></div>
-                    </div>
-                </div>
-
-                <div class="education">
-                    <div class="formation-date">
-                        <span class="start"> {{ education.start }}</span>
-                        <span class="end"> {{ education.end }} </span>
-                    </div>
-                    <div class="formation-content">
-                        <h3> {{ education.title }} </h3>
-                        {% if education.school_profile %}
-                            <h4> {{ education.school_profile.name }} </h4>
-                        {% else %}
-                            <h4> {{ education.school }} </h4>
-                        {% endif %}
-
-                        <p> {{ education.description }} </p>
-                    
-
-                    {% if user.id == education.owner.id %}
-                            <a class="delete-item" href="/education/delete/{{education.id}}"><i class="ico-remove"></i></a>
-                            <a class="edit-item" href="/education/edit/{{education.id}}"><i class="ico-pencil"></i></a>
-                    {% endif %}
-
-                    <div class="row edit-form">
-                        <div class="sixcol"></div>
+                    <div class="modal edit-form hide" role="dialog" id="exp-edit-{{experience.pk}}">
+                        <h3>Modifier la formation</h3>
                     </div>
                 </div>

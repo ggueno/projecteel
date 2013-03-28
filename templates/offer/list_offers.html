@@ -2,6 +2,59 @@
 
 {% block title %} Offres {% endblock %}
 {% block content %}
+    <div class="container-filter">
+        <!--<h1 class="heading">Projects</h1>-->
+
+        <div class="row dropfilters">
+            <div class="inline threecol">
+                <form action="/offers/search/" class="search-form offers-search PTform" method="get">
+                    {% csrf_token %}
+                    <div class="tencol se">
+                        <input class="search-field" id="search-query" type="text" name="query" placeholder="Rechercher une offre...">
+                    </div>
+                    <div class="twocol last">
+                        <button type="submit" class="PTbutton"><i class="ico-search ico-white"></i></button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="twocol">
+                <div class="dropdown search-field dropdown-search" id="search-categories">
+                    <a class="dropdown-toggle" data-toggle="dropdown" data-value="all" href="#">Toutes les catégories</a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li><a id="" href="#" title="" data-value="all" class="select">Toutes les catégories</a></li>
+                        {% for categorie in categories %}
+                        <li><a id="" href="#" title="" data-value="{{categorie.slug}}">{{categorie.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="twocol">
+                <div class="dropdown search-field dropdown-search" id="search-filter">
+                    <a class="dropdown-toggle" data-toggle="dropdown" data-value="pushs" href="#">Les plus pushés</a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li><a href="#" title="" class="select" data-value="pushs">Les plus pushés</a></li>
+                        <li><a href="#" title="" data-value="comments">Les plus commentés</a></li>
+                        <li><a href="#" title="" data-value="recents">Les plus récents</a></li>
+                        <li><a href="#" title="" data-value="views">Les plus vus</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="twocol">
+                <div class="dropdown search-field dropdown-search" id="search-when">
+                    <a class="dropdown-toggle" data-toggle="dropdown" data-value="0" href="#">Toujours</a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li><a href="#" title="" data-value="1">Aujourd'hui</a></li>
+                        <li><a href="#" title="" data-value="7">Cette semaine</a></li>
+                        <li><a href="#" title="" data-value="30">Ce mois</a></li>
+                        <li><a href="#" title="" class="select" data-value="0">Toujours</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="row wrapper" id="offers">
         <!--<h1 class="heading">Offers</h1>-->
@@ -46,16 +99,7 @@
                 </form>
             </div>
         </div>
-        <div class="ninecol last" id="list_offers">
-            <div class="PTform inline">
-                    <form action="/offers/search/" class="search-form offers-search" method="get">
-                    {% csrf_token %}
-                    <div class="elevencol">
-                        <input class="search-field" id="search-query" type="text" name="query" placeholder="Rechercher une offre...">
-                    </div>
-                    <input type="submit" class="PTbutton onecol">
-                </form>
-            </div>
+        <div class="ninecol last list_offers">
             <div id="list-content">{% include endless_part %}</div>
         </div>
     </div>

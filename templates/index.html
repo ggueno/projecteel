@@ -18,14 +18,20 @@
         <link rel="stylesheet" href="{% static "css/style.css" %}">
         <script src="{% static "js/vendor/modernizr-2.6.2.min.js" %}"></script>
     </head>
-    <body>
+    <body class="strap-0">
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
 
         <section class="strap-1">
             <img id="logo_l" src="{% static "img/logo_l.png" %}" alt="logo">
-            <p class="catcher">Projecteel met en relation les étudiants et les jeunes diplômés avec les entreprises par leurs projets et leurs réalisations.</p>
+            <p class="catcher">Les étudiants démontrent leur talent par leurs projets.
+                <a class="PTbutton button-landingPage" href="/accounts/register/">Je m'incris</a>
+            </p>
+            <img src="{% static "img/planet1.png" %}" alt="" id="planet1">
+            <img src="{% static "img/mini_fusee.png" %}" alt="" id="mini_fusee">
+            <img src="{% static "img/planet2.png" %}" alt="" id="planet2">
+            <img src="{% static "img/fusee_2.gif" %}" alt="" id="fusee_2">
             <div class="box-connexion threecol">
                 <form class="PTform form-connexion" method="post" action="/accounts/login/?next=/profile/">
                     {% csrf_token %}    
@@ -61,15 +67,21 @@
                         <h1 class="heading heading-lp" id="register">Etudiants et jeunes diplômés</h1>
                         <p>Propulsez-vous vers le monde du travail.</p>
 
-                        <img class="rocket" src="{% static "img/fusee.gif" %}" alt="rocket">
-                        <a class="PTbutton button-landingPage"  href="/accounts/register/">Je m'incris</a>
-                        </li>
+                        <ul>
+                            <li><i class="ico-folder-close"></i><span>J'ajoute mes projets</span> en 2 étapes</li>
+                            <li><i class="ico-list"></i><span>Je consulte les offres</span> proposées automatiquement selon mes projets</li>
+                            <li><i class="ico-ok"></i><span>Je postule</span> aux offres qui m'intéressent</li>
+                        </ul>
+                    </li>
                     <li>
                         <h1 class="heading heading-lp">Entreprises</h1>
                         <p>Terminé les piles de CV, Projecteel vous propose des candidats selon votre profil.</p>
 
-                        <img class="desk" src="{% static "img/desk.gif" %}" alt="desk">
-                        <a class="PTbutton button-landingPage"  href="/accounts/register/">Je m'incris</a>
+                        <ul>
+                            <li><i class="ico-edit"></i><span>J'ajoute mes offres</span> en 2 étapes</li>
+                            <li><i class="ico-list"></i><span>Je consulte les candidats</span> suggérés automatiquement selon mes attentes</li>
+                            <li><i class="ico-ok"></i><span>Je choisis</span> selon mes critères</li>
+                        </ul>
                     </li>
                 </ul>
             </div> 
@@ -81,7 +93,7 @@
                 {% block content %}
                 {% if projects %}
                     {% for project in projects|slice:":4" %}
-                        {% project_mini project forloop.counter|divisibleby:"4" "threecol" %}
+                        {% project_mini project forloop.counter|divisibleby:"4" request.user.id "threecol" %}
                     {% endfor %}
                 {% endif %}
                 {% endblock %}                
@@ -108,10 +120,43 @@
         <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.8.3.min.js" %}"><\/script>')</script>
         <script src="{% static "js/plugins.js" %}"></script>
         <script src="{% static "js/main.js" %}"></script>
-        <script>
-            $().ready(function(){
+        <script type="text/javascript">
+            $(function() {
+                // $('body').mouse­move(
+                //         func­tion(e){
+                //         /* Work out mouse position */
+                //         var off­set = $(this).off­set();
+                //         var xPos = e.pageX - off­set.left;
+                //         var yPos = e.pageY - off­set.top;
+         
+                //         /* Get per­cent­age positions */
+                //         var mou­s­eX­Per­cent = Math.round(xPos / $(this).width() * 100);
+                //         var mou­seY­Per­cent = Math.round(yPos / $(this).height() * 100);
+         
+                //         /* Pos­i­tion Each Layer */
+                //         $(this).each(
+                //                 func­tion(){
+                //                         var diffX = $('#Par­al­lax').width() - $(this).width();
+                //                         // var diffY = $('#Par­al­lax').height() - $(this).height();
+               
+                //                         var myX = diffX * (mou­s­eX­Per­cent / 100);
+                //                         // var myY = diffY * (mou­seY­Per­cent / 100);
+                //                         var cssObj = {
+                //                                 'left': myX + 'px',
+                //                                 // 'top': myY + 'px'
+                //                         }
+                //                         $(this).anim­ate({'background-position':myX+' 160px'},{dur­a­tion: 50, queue: false, eas­ing: 'lin­ear'});
+         
+                //                 }
+                //         );
+         
+                //         }
+                // );
                 $("#id_username").focus();
             });
+
+
+
 
         </script>
 

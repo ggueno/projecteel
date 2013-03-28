@@ -2,6 +2,7 @@
 @import "mixins.less";
 
 @PTblue : #0099e6;
+@red: #f55253;
 
 /*
  * HTML5 Boilerplate
@@ -456,6 +457,7 @@ a.alignCenter{
     text-align:center;
     background: #fff;
     padding:0;
+    height: 295px;
     border-bottom:2px solid transparent;
     -webkit-transition: border-color .25s ease;
        -moz-transition: border-color .25s ease;
@@ -831,26 +833,44 @@ a.edit-item{
 /*
    L A N D I N G  P A G E
    ========================================================================== */
-
 .strap-1 {
-    background: url(../img/landscape.png) repeat-x bottom, url(../img/landscape_pattern2.png) repeat-x 0 70%;
+    background: url(../img/landscape.png) repeat-x bottom;
     height:450px;
+    position: relative;
     #logo_l {
         position: absolute;
         margin-top:22px;
         margin-left:30px;
     }
     .catcher {
-        font-size:1.15em;
+        font-size:1.25em;
         width: 40%;
+        font-style: italic;
+        color: #919191;
         margin-top: 120px;
+        margin-bottom: 10px;
         text-align: center;
         position: absolute;
         padding: 0 12%;
+        .PTbutton{
+            font-size: 1.1em;
+            height: 30px;
+            line-height: 30px;
+            text-transform: none;
+            font-style: normal;
+            width: 170px;
+            display: block;
+            margin: 10px auto;
+            background-color: #f55253;
+            border-bottom-color: #e84243;
+            &:hover{
+                background-color: darken(#f55253,10%)
+            }
+        }
     }
     .box-connexion {
         background-color:#FFF;
-        height: 310px;
+        // height: 310px;
         position: absolute;
         top: 63px;
         right: 10%;
@@ -876,6 +896,89 @@ a.edit-item{
             }
         }
     }
+    #planet1{
+        position: absolute;
+        top: 47%;
+        left:7%;
+        margin-top: 0px;
+        -webkit-animation: miniWave 3s ease-in-out infinite;
+    }
+    #mini_fusee{
+        position: absolute;
+        top: 56%;
+        left:49%;
+        -webkit-animation: miniWave2 2s ease-in-out infinite;
+    }
+    #planet2{
+        position: absolute;
+        top: 46%;
+        left:60%;
+        // -webkit-animation: miniWave3 4s ease-in-out infinite;
+    }
+    #fusee_2{
+        position: absolute;
+        top: 8%;
+        left:84%;
+        z-index: 20;
+        -webkit-animation: wave 5s ease-in-out infinite;
+    }
+}
+
+@-webkit-keyframes "wave"{
+    0% {
+        top: 6%;
+    }
+    25%{
+        top: 8.5%;
+    }
+    50% {
+        top: 6%;
+    }
+    75%{
+        top: 10%%;
+    }
+    100%{
+        top: 6%;
+    }
+}
+
+@-webkit-keyframes "miniWave" {
+     0% {
+       margin-top: -6px;
+     }
+     50% {
+       margin-top: 0px;
+     }
+     100% {
+       margin-top: -6px;
+     }
+}
+
+@-webkit-keyframes "miniWave2" {
+     0% {
+       margin-top: -5px;
+     }
+     50% {
+       margin-top: 0px;
+     }
+     100% {
+       margin-top: -5px;
+     }
+}
+
+@-webkit-keyframes "miniWave3" {
+     0% {
+       margin-top: -10px;
+     }
+     30% {
+       margin-top: 0px;
+     }
+     70% {
+       margin-top: 0px;
+     }
+     100% {
+       margin-top: -10px;
+     }
 }
 
 .strap-2 {
@@ -887,7 +990,7 @@ a.edit-item{
     }
     li {
         float:left;
-        text-align: center;
+        text-align: left;
         width: 50%;
         position: relative;
         .rocket {
@@ -903,6 +1006,36 @@ a.edit-item{
             margin: 29px auto 0 -88px;
             position: absolute;
             left: 50%;
+        }
+        ul{
+            margin-top: 50px;
+            li{
+                font-size: 1.1em;
+                display: block;
+                float: none;
+                position: relative;
+                text-align: left;
+                padding-left: 65px;
+                margin: 30px 0;
+                width: auto;
+                i{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    background: @PTblue;
+                    width: 45px;
+                    height: 45px;
+                    .border-radius(22px);
+                    color: #FFF;
+                    line-height: 46px;
+                    text-align: center;
+                    font-size: 1.8em;
+                }
+                span{
+                    display: block;
+                    font-weight: 600;
+                }
+            }
         }
     }
     .heading-lp {
@@ -945,7 +1078,7 @@ a.edit-item{
 
 header.menu{
     background:#252525;
-    height:51px;
+    height: 59px;
     width: 100%;
     overflow:auto;
     color:#FFFFFF;
@@ -960,6 +1093,7 @@ header.menu{
         height:51px;
         display: block;
         float: left;
+        padding: 4px 0;
     }
     #menu{
         list-style-type: none;
@@ -968,11 +1102,12 @@ header.menu{
         a{
             display: block;
             float: left;
-            padding: 15px 50px;
+            padding: 19px 50px;
             margin: 0;
+            font-weight: 600;
             text-transform: uppercase;
             text-align: center;
-            font-size:1.1em;
+            font-size:1.0em;
             &.active, &:hover{
                 border-bottom: 4px solid @PTblue;
                 height: 17px;
@@ -986,7 +1121,7 @@ header.menu{
                 font-size: .9em;
                 text-align: right;
                 padding-right: 15px;
-                padding-top: 13px;
+                padding-top: 17px;
                 height: 19px;
                 padding-left: 30px;
                 width: 120px;
@@ -1344,6 +1479,7 @@ header.menu{
 }
 
 #infos_profile{
+    min-height: 600px;
     h1{
         text-transform: uppercase;
         margin: 15px 0;
@@ -1372,6 +1508,7 @@ header.menu{
         padding: 10px 20px;
         margin: 10px 0;
         position: relative;
+        overflow: auto;
         &:hover{
             // background: #CCC;
             a.delete-item, a.edit-item{
@@ -1400,7 +1537,7 @@ header.menu{
 
     #add-experience, #add-education{
         font-weight: 600;
-        margin: 15px 0;
+        margin: 15px;
         display: block;
         &:hover{
             color: @PTblue;
@@ -1410,6 +1547,12 @@ header.menu{
 
 #add-education-form, #add-experience-form{
     display: none;
+    padding: 20px;
+}
+
+.edit-form{
+    display: none;
+    padding: 20px;
 }
 
 .errorlist{
@@ -1591,6 +1734,8 @@ header.menu{
     border: 1px solid #CCC;
     float: right;
     color: @PTblue;
+    margin-top: 5px;
+    margin-bottom: 50px;
     &:hover{
         color:darken(@PTblue, 10%);
     }
@@ -1642,6 +1787,9 @@ ul.tabs{
     }
 
 .add_project{
+    .sleekbox{
+        background: url(../img/DragAndDrop.png) no-repeat 64% 94% #FFF;
+    }
     .content{
         padding: 40px 60px;
     }
@@ -1869,14 +2017,13 @@ li.as-result-item{
     }
 }
 
-#list_offers{
+.list_offers{
     .PTform{
         overflow: auto;
     }
     .thumb-offer{
         margin-bottom: 10px;
         height: 118px;
-        width: 100%;
         p{
             padding:0px;
         }
@@ -1954,21 +2101,83 @@ li.as-result-item{
 
 .posted_offers {
 
-    .suggest_candidates {
-        float:right;
-    }
-
-    .left {
-        padding: 17px 20px;
-        width:60%;
-        border-right:1px solid #d2d2d2;
-        h3 {
-            padding: 0;
+    .thumb-offer {
+        background-color: #FFF;
+        height: auto;
+        .content-description {
+            height: 91px;
+            padding: 20px;
+            line-height: 26px;
+            .right {
+                float:right;
+                text-align: right;
+            }
+            .left {
+                float:left;
+            }
+        }
+        .candidates {
+            background-color: #f1f1f1;
+            width: 100%;
+            .content {
+                height: auto;
+                .applicant {
+                    width: 50%;
+                    float: left;
+                    height: auto;
+                    padding: 10px 0;
+                    position:relative;
+                    .name-applicant {
+                        font-weight:600;
+                    }
+                    .view-candidature {
+                        position:absolute;
+                        right: 12%;
+                        top: 26%;
+                    }
+                }
+                .content-application {
+                    background-color: #FFF;
+                    border: 1px solid #E2E2E2;
+                    clear: both;
+                    .content {
+                        .PTbutton {
+                            margin-left: 117px;
+                        }
+                    }
+                }
+                .novacancy {
+                    text-align: center;
+                    margin-top: 18px;
+                }
+            }
+        }
+        .button-vacancy {
+            width:196px;
+            background-color: #f55253;
+            border-bottom-color: #e84243;
+            &:hover{
+                background-color: darken(#f55253,10%)
+            }
+            margin: 20px 0 20px 37%;
+        }
+        .button-novacancy {
+            background-color: #A0A0A0;
+            margin: 2% 37%;
+            text-align: center;
+            width: 206px;
+        }
+        i {
+            margin-right: 5px;
+        }
+        .suggest_candidates {
+            float:right;
         }
     }
-    .right {
-        text-align: left;
+    i {
+        opacity: 0.5;
     }
+
 }
 
 /*
@@ -1989,6 +2198,19 @@ li.as-result-item{
     h2{
         font-weight: 400;
         margin: 20px 0;
+    }
+    .sidebar{
+        background: #fcfcfc;
+        margin-top: 5px;
+        .PTbutton{
+            margin-top: 0;
+        }
+        h2{
+            padding:0px 5px;
+        }
+        .notifications{
+            padding: 0px 5px;
+        }
     }
 }
 
@@ -2012,6 +2234,18 @@ li.as-result-item{
         }
         .icon{
             margin-top: 10px;
+        }
+        &.push{
+            background: none;
+            width: 90%;
+
+            a{
+                height: 25px;
+                line-height: 25px;
+                top: 0;
+                margin-top: 0;
+                display: block;
+            }
         }
     }
 }
@@ -2362,5 +2596,34 @@ li.as-result-item{
 
 
 
+/*  Form : Register */
+.annotation-ok{
+    color: green;
+}
+
+.annotation-error{
+    color: @red;
+}
 
 
+.PTform input[type=text].input-ok, .PTform input[type=password].input-ok{
+    border: 1px solid green;
+}
+
+.PTform input[type=text].input-error, .PTform input[type=password].input-error{
+    border: 1px solid @red;
+}
+
+/* Sticky Menu */
+#menu-filter{
+    z-index: 99;
+}
+
+.container-filter.sticky{
+    margin: 0;
+    padding: 0;
+}
+
+.container-filter{
+    margin-bottom: 0;
+}
