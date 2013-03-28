@@ -66,7 +66,7 @@
                                         </a>
                                     {% endthumbnail %}
 
-                                    <p class="name-applicant">{{application.applicant.name}}</p>
+                                    <p class="name-applicant"><a href="/profile/{{ application.applicant.slug }}">{{application.applicant.name}}</a></p>
                                     <p class="publish-date">{{ offer.publish_date }}</p>
 
                                     <a class="PTbutton mini view-candidature" href="/offer/statusApplication/read/{{application.id}}/{{application.applicant.slug}}/" id="{{application.id}}"><i id="i{{application.id}}" class="ico-chevron-right"></i></a>
@@ -85,11 +85,13 @@
 
                                         <div class="button-application">
                                             {% if application.state == 'SAVE' %}
-                                                <p>Vous avez retenue ce candidat,contactez-le :<span>{{ application.applicant.user.email }}</span></p>
+                                                <div class="speech-save">
+                                                    <p>Vous avez retenue ce candidat,contactez-le dès maintenant <span>{{ application.applicant.user.email }}</span></p>
+                                                </div>
                                             {% else %}
                                                 <a class="PTbutton reserve" href="/offer/statusApplication/accept/{{application.id}}/{{application.applicant.slug}}/"><i class="ico-ok"></i>Retenir cette candidature</a>
                                             {% endif %}
-                                            <a class="PTbutton button-vacancy" href="/offer/statusApplication/decline/{{application.id}}/{{application.applicant.slug}}/"><i class="ico-ban-circle"></i>Refuser cette candidature</a>
+                                            <a class="PTbutton button-vacancy decline" id="{{application.id}}" href="/offer/statusApplication/decline/{{application.id}}/{{application.applicant.slug}}/"><i class="ico-ban-circle"></i>Refuser cette candidature</a>
                                         </div>
                                     </div>
                                 </div>
@@ -123,25 +125,7 @@
         <section class="threecol last suggest_candidates">
             <h4>Candidats suggérés :</h4>
 
-            {% if potentials %}
-
-                {% for potential in potentials|slice:":6" %}
-
-                    <div class="potential-applicant" id="applicant{{potential.id}}">
-
-                        <a class="remove-candidate" id="{{potential.id}}" href="#"><i class="ico-remove"></i></a>
-                        {% thumbnail potential.avatar "50x50" crop="left" as im %}
-                            <a href="/profile/{{ potential.slug }}" data-tooltip="{{ potential.user}}" class="tooltip">
-                            <img src="{{im.url}}" alt="{{ potential.name }}"/>
-                            </a>
-                        {% endthumbnail %}
-                        <p>{{ potential.name }}</p>
-
-                    </div>
-
-                {% endfor %}      
-
-            {% endif %}
+            
 
         </section>
 
@@ -160,7 +144,7 @@
 
     $(document).ready(function(){
 
-        onoff_button('#vacancy', 'add', "Déclarer pourvue", "Déclarer disponible");
+        //onoff_button('#vacancy', 'add', "Déclarer pourvue", "Déclarer disponible");
 
         $('.content-application').hide();
         $('.view-candidature').click(function() {
@@ -184,8 +168,7 @@
 
         $('.reserve').click(function() {
             $.post($(this).attr('href'),function(data){
-                $('.reserve').remove();
-                $('.button-application').innerHTML = "<p>Vous avez retenue ce candidat,contactez-le :<span>{{ application.applicant.user.email }}</span></p>";
+                $('.reserve').replaceWith("<div class=\"speech-save\"><p>Vous avez retenue ce candidat,contactez-le dès maintenant <span>{{ application.applicant.user.email }}</span></p></div>");
             });
             return false;
         });
@@ -196,32 +179,6 @@
             $(id).hide();
             return false;
         });
-
-        /*$('#vacancy').click(function(){
-            $.post($(this).attr('href'),function(data){
-
-            });
-
-            /*var button = this;
-            $.post($(this).attr('href'),function(data){
-                if(data==true || data.state == true)
-                    if($(button).hasClass('unactive')){
-                        var link = $(button).attr('href').replace(name,'un'+name);
-                        $(button).attr('href',link);
-                        $(button).removeClass('unactive');
-                        $(button).addClass('active');
-                        $(button).html(active);
-                        //TODO : Add Unfollow hover
-                    }else{
-                        var link = $(button).attr('href').replace('un'+name,name);
-                        $(button).attr('href',link);
-                        $(button).addClass('unactive');
-                        $(button).removeClass('active');
-                        $(button).html(unactive);
-                    }
-            });
-            return false;
-        });*/
 
     });
 </script>
