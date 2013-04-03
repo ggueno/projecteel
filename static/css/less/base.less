@@ -149,6 +149,20 @@ textarea {
     float:right;
 }
 
+#logout{
+    background: #F55253;
+    margin-right: 50px;
+    margin-top: 30px;
+    color: #FFF;
+    -webkit-transition: background .25s ease;
+       -moz-transition: background .25s ease;
+        -ms-transition: background .25s ease;
+         -o-transition: background .25s ease;
+            transition: background .25s ease;
+    &:hover{
+        background: darken(#F55253,10%);
+    }
+}
 
 #dropdown-social-network{
 
@@ -767,7 +781,7 @@ a.edit-item{
         border-top: 1px solid #e6e6e6;
         li{
             display: block;
-            // padding: 0;
+            padding:10px; 
             border-bottom: 1px solid #e6e6e6;
             &:focus,&:hover{
                 ::-webkit-input-placeholder {
@@ -801,6 +815,10 @@ a.edit-item{
                 &:hover,&:focus{
                     background-color: @PTblue;
                     color:#FFF;
+                }
+                &[type=checkbox]{
+                    width: 30px;
+                    display: inline;
                 }
 
             }
@@ -890,6 +908,9 @@ a.edit-item{
             }
             a {
                 color: #777;
+                &:hover{
+                    color: @PTblue;
+                }
             }
             input[type=checkbox] {
                 margin-right: 5px;
@@ -1554,6 +1575,16 @@ header.menu{
     display: none;
     padding: 20px;
 }
+.PTform div.half{
+    width: 36%;
+    // margin-right: 2%;
+    margin:0 2% 10px 0;
+    float: left;
+}
+
+.form-content .row{
+    margin:5px 0;
+}
 
 .errorlist{
     color: #F00;
@@ -2018,6 +2049,7 @@ li.as-result-item{
 }
 
 .list_offers{
+    min-height: 700px;
     .PTform{
         overflow: auto;
     }
@@ -2041,7 +2073,7 @@ li.as-result-item{
             .blackTitle{
                 text-align:left;
                 padding: 0px;
-                width:65%;
+                width:85%;
                 position:absolute;
             }
             .pic_company {

@@ -38,8 +38,8 @@ $(function () {
                                     '<div class="cancel"><button class="PTbutton cancel">Cancel</button></div>' +
                                     '<div class="progress"><div class="bar" style="width:0%;"></div></div>' +
                                 '</li>');
-                    row.find('.name').text(file.name.substring(0,25)+'...');
-                    row.find('.size').text(o.formatFileSize(file.size));
+                    // ow.find('.name').text(file.name.substring(0,25)+'...');
+                    // row.find('.size').text(o.formatFileSize(file.size));
 
                     if (file.error) {
                         row.find('.error').text(

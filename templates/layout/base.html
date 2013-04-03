@@ -46,7 +46,11 @@
                 <a href="/" id="logo"></a>
                 <ul id="menu" class="sixcol">
                     <li><a class="{% active request "^/projects/" %}" href="/projects/">Projets</a></li>
-                    <li><a class="{% active request "^/offers/" %}" href="/offers/">Offres</a></li>
+                    {% if gueno  %}   
+                        <li><a class="{% active request "^/offer/posted_offers/" %}" href="/offer/posted_offers/">Offres</a></li>
+                    {% else %}
+                        <li><a class="{% active request "^/offers/" %}" href="/offers/">Offres</a></li>
+                    {% endif %}
 
                     {% if myself %}
                     <li><a class="{% active request "^/profile/" %} profile" href="/profile/">

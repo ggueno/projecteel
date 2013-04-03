@@ -3340,6 +3340,7 @@ a.edit-item:hover {
 }
 .sleekbox ul.filters li {
   display: block;
+  padding: 10px;
   border-bottom: 1px solid #e6e6e6;
 }
 .sleekbox ul.filters li:focus ::-webkit-input-placeholder,
@@ -3383,6 +3384,10 @@ a.edit-item:hover {
 .sleekbox ul.filters li input:focus {
   background-color: #0099e6;
   color: #FFF;
+}
+.sleekbox ul.filters li input[type=checkbox] {
+  width: 30px;
+  display: inline;
 }
 .sleekbox ul.filters ul.tags {
   padding: 10px 0;
@@ -4647,6 +4652,9 @@ li.as-result-item img {
   display: block;
   float: none;
 }
+.list_offers {
+  min-height: 700px;
+}
 .list_offers .PTform {
   overflow: auto;
 }
@@ -4685,7 +4693,7 @@ li.as-result-item img {
 .list_offers .thumb-offer .header-offer .blackTitle {
   text-align: left;
   padding: 0px;
-  width: 65%;
+  width: 85%;
   position: absolute;
 }
 .list_offers .thumb-offer .header-offer .pic_company {

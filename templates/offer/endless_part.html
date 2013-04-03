@@ -2,7 +2,7 @@
     {% load staticfiles %}
     {% load offers %}
     {% load endless %}
-    {% lazy_paginate 3 offers %}
+    {% lazy_paginate 9 offers %}
     {% for offer in offers %}
         {% offer_mini offer %}
     {% endfor %}

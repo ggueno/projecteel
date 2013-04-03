@@ -123,6 +123,20 @@ textarea {
 .last {
   float: right;
 }
+#logout {
+  background: #F55253;
+  margin-right: 50px;
+  margin-top: 30px;
+  color: #FFF;
+  -webkit-transition: background .25s ease;
+  -moz-transition: background .25s ease;
+  -ms-transition: background .25s ease;
+  -o-transition: background .25s ease;
+  transition: background .25s ease;
+}
+#logout:hover {
+  background: #f22223;
+}
 #dropdown-social-network {
   padding-top: 1em;
 }
@@ -755,6 +769,7 @@ a.edit-item:hover {
 }
 .sleekbox ul.filters li {
   display: block;
+  padding: 10px;
   border-bottom: 1px solid #e6e6e6;
 }
 .sleekbox ul.filters li:focus ::-webkit-input-placeholder,
@@ -798,6 +813,10 @@ a.edit-item:hover {
 .sleekbox ul.filters li input:focus {
   background-color: #0099e6;
   color: #FFF;
+}
+.sleekbox ul.filters li input[type=checkbox] {
+  width: 30px;
+  display: inline;
 }
 .sleekbox ul.filters ul.tags {
   padding: 10px 0;
@@ -883,6 +902,9 @@ a.edit-item:hover {
 }
 .strap-1 .box-connexion .form-connexion a {
   color: #777;
+}
+.strap-1 .box-connexion .form-connexion a:hover {
+  color: #0099e6;
 }
 .strap-1 .box-connexion .form-connexion input[type=checkbox] {
   margin-right: 5px;
@@ -1543,6 +1565,14 @@ header.menu #menu a.notifications.unread {
   display: none;
   padding: 20px;
 }
+.PTform div.half {
+  width: 36%;
+  margin: 0 2% 10px 0;
+  float: left;
+}
+.form-content .row {
+  margin: 5px 0;
+}
 .errorlist {
   color: #F00;
 }
@@ -2039,11 +2069,14 @@ li.as-result-item img {
   display: block;
   float: none;
 }
+.list_offers {
+  min-height: 700px;
+}
 .list_offers .PTform {
   overflow: auto;
 }
 .list_offers .thumb-offer {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   height: 118px;
 }
 .list_offers .thumb-offer p {
@@ -2071,7 +2104,7 @@ li.as-result-item img {
 .list_offers .thumb-offer .header-offer .blackTitle {
   text-align: left;
   padding: 0px;
-  width: 65%;
+  width: 85%;
   position: absolute;
 }
 .list_offers .thumb-offer .header-offer .pic_company {
@@ -2081,9 +2114,7 @@ li.as-result-item img {
 }
 .list_offers .thumb-offer .content {
   padding-top: 8px;
-}
-.list_offers .thumb-offer .content p {
-  padding-bottom: 10px;
+  line-height: 27px;
 }
 .list_offers .thumb-offer .content span {
   color: #0099e6;
@@ -2126,6 +2157,12 @@ li.as-result-item img {
 /*
    P O S T E D   O F F E R S
    ========================================================================== */
+.posted_offers .nb_offers {
+  margin-bottom: 20px;
+}
+.posted_offers .nb_offers span {
+  font-weight: 700;
+}
 .posted_offers .thumb-offer {
   background-color: #FFF;
   height: auto;
@@ -2133,7 +2170,7 @@ li.as-result-item img {
 .posted_offers .thumb-offer .content-description {
   height: 91px;
   padding: 20px;
-  line-height: 26px;
+  line-height: 30px;
 }
 .posted_offers .thumb-offer .content-description .right {
   float: right;
@@ -2169,8 +2206,19 @@ li.as-result-item img {
   border: 1px solid #E2E2E2;
   clear: both;
 }
+.posted_offers .thumb-offer .candidates .content .content-application .content {
+  margin: 0 auto;
+}
 .posted_offers .thumb-offer .candidates .content .content-application .content .PTbutton {
-  margin-left: 117px;
+  margin-left: 16%;
+}
+.posted_offers .thumb-offer .candidates .content .content-application .content .speech-save {
+  float: left;
+  line-height: 20px;
+  margin-left: 45px;
+  margin-top: 27px;
+  text-align: center;
+  width: 291px;
 }
 .posted_offers .thumb-offer .candidates .content .novacancy {
   text-align: center;
@@ -2190,6 +2238,10 @@ li.as-result-item img {
   margin: 2% 37%;
   text-align: center;
   width: 206px;
+  border-bottom-color: #E2E2E2;
+}
+.posted_offers .thumb-offer .button-novacancy:hover {
+  background-color: #c9c9c9;
 }
 .posted_offers .thumb-offer i {
   margin-right: 5px;
@@ -2655,4 +2707,8 @@ footer a:hover {
 }
 .container-filter {
   margin-bottom: 0;
+}
+.tags li.tag-select {
+  background-color: #0099e6;
+  color: white;
 }

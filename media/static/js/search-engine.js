@@ -3,6 +3,7 @@ var searchEngine = {
     search_url : "",
     search_datas : "",
     container : "",
+    // projet : true
 
     init : function(container){
         this.search_url = $(".search-form").attr('action');
@@ -11,6 +12,7 @@ var searchEngine = {
         this.search_datas['tags'] = new Array();
         this.search_datas['skills'] = new Array();
         this.search_datas['contract'] = new Array();
+        // this.projet = isProject;
 
         //foreach search-field
         var that = this;
@@ -206,6 +208,7 @@ var searchEngine = {
         });
 
 
-        $("html, body").animate({ scrollTop: 0 }, "slow");
+        // if(!this.projet)
+        //     $("html, body").animate({ scrollTop: 0 }, "slow");
     }
 }

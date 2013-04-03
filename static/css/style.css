@@ -2514,7 +2514,7 @@ body {
   top: -25%;
 }
 .modal.fade.in {
-  top: 10%;
+  top: 4%;
 }
 .modal-header {
   padding: 9px 15px;
@@ -2687,6 +2687,20 @@ textarea {
 }
 .last {
   float: right;
+}
+#logout {
+  background: #F55253;
+  margin-right: 50px;
+  margin-top: 30px;
+  color: #FFF;
+  -webkit-transition: background .25s ease;
+  -moz-transition: background .25s ease;
+  -ms-transition: background .25s ease;
+  -o-transition: background .25s ease;
+  transition: background .25s ease;
+}
+#logout:hover {
+  background: #f22223;
 }
 #dropdown-social-network {
   padding-top: 1em;
@@ -3326,6 +3340,7 @@ a.edit-item:hover {
 }
 .sleekbox ul.filters li {
   display: block;
+  padding: 10px;
   border-bottom: 1px solid #e6e6e6;
 }
 .sleekbox ul.filters li:focus ::-webkit-input-placeholder,
@@ -3369,6 +3384,10 @@ a.edit-item:hover {
 .sleekbox ul.filters li input:focus {
   background-color: #0099e6;
   color: #FFF;
+}
+.sleekbox ul.filters li input[type=checkbox] {
+  width: 30px;
+  display: inline;
 }
 .sleekbox ul.filters ul.tags {
   padding: 10px 0;
@@ -3454,6 +3473,9 @@ a.edit-item:hover {
 }
 .strap-1 .box-connexion .form-connexion a {
   color: #777;
+}
+.strap-1 .box-connexion .form-connexion a:hover {
+  color: #0099e6;
 }
 .strap-1 .box-connexion .form-connexion input[type=checkbox] {
   margin-right: 5px;
@@ -4120,6 +4142,14 @@ header.menu #menu a.notifications.unread {
   display: none;
   padding: 20px;
 }
+.PTform div.half {
+  width: 36%;
+  margin: 0 2% 10px 0;
+  float: left;
+}
+.form-content .row {
+  margin: 5px 0;
+}
 .errorlist {
   color: #F00;
 }
@@ -4622,6 +4652,9 @@ li.as-result-item img {
   display: block;
   float: none;
 }
+.list_offers {
+  min-height: 700px;
+}
 .list_offers .PTform {
   overflow: auto;
 }
@@ -4660,7 +4693,7 @@ li.as-result-item img {
 .list_offers .thumb-offer .header-offer .blackTitle {
   text-align: left;
   padding: 0px;
-  width: 65%;
+  width: 85%;
   position: absolute;
 }
 .list_offers .thumb-offer .header-offer .pic_company {
@@ -5499,6 +5532,7 @@ img.project-content {
 }
 #menu-filter-sup {
   z-index: 2;
+  overflow: hidden;
 }
 .container-filter.sticky {
   margin: 0;
@@ -5544,6 +5578,12 @@ img.project-content {
 .filter-details-button button {
   float: right;
   background-color: gray;
+}
+.filter-details-button button i {
+  font-size: 1.3em;
+  font-weight: 400;
+  margin-left: 5px;
+  vertical-align: middle;
 }
 /* Formation */
 #infos_profile .tab-experience {

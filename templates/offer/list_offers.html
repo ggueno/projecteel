@@ -81,12 +81,12 @@
     <script src="{{ STATIC_URL }}js/search-engine.js"></script>
     <script>
         $.endlessPaginate({
-            paginateOnScroll: true,
-            paginateOnScrollMargin: 30
+            paginateOnScroll: false,
+            paginateOnScrollMargin: 10
         });
 
         $().ready(function(){
-            searchEngine.init($('#list-content'));
+            searchEngine.init($('#list-content'),false);
         });
     </script>
 {% endblock %}

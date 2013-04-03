@@ -127,7 +127,12 @@
                                     {{ form.tags }}
                                     {{ form.tags.errors }}
                                 </div>
-
+                                <div>
+                                    <label for="">Compétence</label>
+                                    <span class="annotation">Les compétences impliquées dans le projet.</span>
+                                    {{ form.skills }}
+                                    {{ form.skills.errors }}
+                                </div>
                                 <div class="footer">
                                     <div class="twocol">Etape 2 sur 2</div>
                                     <input type="hidden" name="project_id" value="{{ project_id }}" >

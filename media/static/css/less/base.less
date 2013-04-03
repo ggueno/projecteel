@@ -781,7 +781,7 @@ a.edit-item{
         border-top: 1px solid #e6e6e6;
         li{
             display: block;
-            // padding: 0;
+            padding:10px; 
             border-bottom: 1px solid #e6e6e6;
             &:focus,&:hover{
                 ::-webkit-input-placeholder {
@@ -815,6 +815,10 @@ a.edit-item{
                 &:hover,&:focus{
                     background-color: @PTblue;
                     color:#FFF;
+                }
+                &[type=checkbox]{
+                    width: 30px;
+                    display: inline;
                 }
 
             }
@@ -2045,6 +2049,7 @@ li.as-result-item{
 }
 
 .list_offers{
+    min-height: 700px;
     .PTform{
         overflow: auto;
     }
@@ -2068,7 +2073,7 @@ li.as-result-item{
             .blackTitle{
                 text-align:left;
                 padding: 0px;
-                width:65%;
+                width:85%;
                 position:absolute;
             }
             .pic_company {
